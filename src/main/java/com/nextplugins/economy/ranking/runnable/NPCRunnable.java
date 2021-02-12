@@ -80,7 +80,7 @@ public final class NPCRunnable implements Runnable {
             }
 
             NPC npc = npcRegistry.createNPC(EntityType.PLAYER, "");
-            npc.data().set("player-skin-name", owner);
+            npc.data().set("player-skin-name", Bukkit.getOfflinePlayer(owner).getName());
             npc.setProtected(true);
             npc.spawn(location);
 

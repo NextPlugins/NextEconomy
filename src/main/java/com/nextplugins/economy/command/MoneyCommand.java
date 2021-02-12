@@ -291,6 +291,7 @@ public final class MoneyCommand {
 
         if (position <= 0) {
             player.sendMessage(MessageValue.get(MessageValue::wrongPosition));
+            return;
         }
 
         int limit = RankingConfiguration.get(RankingConfiguration::rankingLimit);
@@ -304,6 +305,7 @@ public final class MoneyCommand {
 
         if (locationManager.getLocationMap().containsKey(position)) {
             player.sendMessage(MessageValue.get(MessageValue::positionAlreadyDefined));
+            return;
         }
 
         locationManager.getLocationMap().put(position, player.getLocation());
@@ -318,9 +320,9 @@ public final class MoneyCommand {
     }
 
     @Command(
-            name = "cash.npc.remove",
+            name = "money.npc.remove",
             aliases = {"npc.remover"},
-            usage = "/cash npc remove {posição}",
+            usage = "/money npc remove {posição}",
             description = "Utilize para remover uma localização de spawn de NPC de certa posição.",
             permission = "nexteconomy.command.npc.remove",
             target = CommandTarget.PLAYER,
@@ -331,6 +333,7 @@ public final class MoneyCommand {
 
         if (position <= 0) {
             player.sendMessage(MessageValue.get(MessageValue::wrongPosition));
+            return;
         }
 
         int limit = RankingConfiguration.get(RankingConfiguration::rankingLimit);
@@ -344,6 +347,7 @@ public final class MoneyCommand {
 
         if (!locationManager.getLocationMap().containsKey(position)) {
             player.sendMessage(MessageValue.get(MessageValue::positionNotYetDefined));
+            return;
         }
 
         List<String> locations = plugin.getNpcConfiguration().getStringList("npc.locations");
