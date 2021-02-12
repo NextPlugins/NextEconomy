@@ -20,7 +20,7 @@ public final class AccountStorage {
         accountDAO.createTable();
     }
 
-    public Account getByName(UUID owner) {
+    public Account getAccount(UUID owner) {
 
         Account account = accounts.getOrDefault(owner, null);
         if (account == null) {
