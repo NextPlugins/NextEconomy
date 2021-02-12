@@ -5,6 +5,7 @@ import com.henryfabio.sqlprovider.executor.SQLExecutor;
 import com.nextplugins.economy.configuration.registry.ConfigurationRegistry;
 import com.nextplugins.economy.dao.AccountDAO;
 import com.nextplugins.economy.listener.registry.ListenerRegistry;
+import com.nextplugins.economy.metric.MetricProvider;
 import com.nextplugins.economy.sql.SQLProvider;
 import com.nextplugins.economy.storage.AccountStorage;
 import com.nextplugins.economy.task.registry.TaskRegistry;
@@ -36,6 +37,7 @@ public final class NextEconomy extends JavaPlugin {
                 ListenerRegistry.of(this).register();
                 ConfigurationRegistry.of(this).register();
                 TaskRegistry.of(this).register();
+                MetricProvider.of(this).setup();
 
                 getLogger().info("Plugin inicializado com sucesso!");
             } catch (Throwable t) {
