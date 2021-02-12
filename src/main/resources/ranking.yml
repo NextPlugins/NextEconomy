@@ -8,7 +8,7 @@ ranking:
         - ''
         - ' &a&lMONEY TOP &8&l➡ &fJogadores mais ricos'
         - ''
-      body: ' &f$positionº&8 -&6 $player &7(&2$&f $amount&7)'
+      body: ' &f$positionº&8 -&a $player &7(&2$&f $amount&7)'
       footer:
         - ''
         - ' &7Atualiza automaticamente.'

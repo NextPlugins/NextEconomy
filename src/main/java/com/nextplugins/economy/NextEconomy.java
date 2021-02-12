@@ -1,5 +1,6 @@
 package com.nextplugins.economy;
 
+import com.henryfabio.minecraft.inventoryapi.manager.InventoryManager;
 import com.henryfabio.sqlprovider.connector.SQLConnector;
 import com.henryfabio.sqlprovider.executor.SQLExecutor;
 import com.nextplugins.economy.command.registry.CommandRegistry;
@@ -7,6 +8,7 @@ import com.nextplugins.economy.configuration.registry.ConfigurationRegistry;
 import com.nextplugins.economy.dao.AccountDAO;
 import com.nextplugins.economy.listener.registry.ListenerRegistry;
 import com.nextplugins.economy.metric.MetricProvider;
+import com.nextplugins.economy.placeholder.registry.PlaceholderRegistry;
 import com.nextplugins.economy.sql.SQLProvider;
 import com.nextplugins.economy.storage.AccountStorage;
 import com.nextplugins.economy.storage.RankingStorage;
@@ -39,11 +41,14 @@ public final class NextEconomy extends JavaPlugin {
                 rankingStorage = new RankingStorage();
 
                 accountStorage.init();
+                InventoryManager.enable(this);
 
                 ConfigurationRegistry.of(this).register();
                 ListenerRegistry.of(this).register();
                 CommandRegistry.of(this).register();
                 TaskRegistry.of(this).register();
+                PlaceholderRegistry.of(this).register();
+
                 MetricProvider.of(this).setup();
 
                 getLogger().info("Plugin inicializado com sucesso!");
