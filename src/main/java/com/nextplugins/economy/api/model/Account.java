@@ -3,11 +3,13 @@ package com.nextplugins.economy.api.model;
 import lombok.Builder;
 import lombok.Data;
 
+import java.util.UUID;
+
 @Data
 @Builder
 public class Account {
 
-    private String owner;
+    private UUID owner;
     private double balance;
 
     public synchronized void depositAmount(double amount) {

@@ -6,6 +6,7 @@ import com.nextplugins.economy.dao.adapter.AccountAdapter;
 import lombok.RequiredArgsConstructor;
 
 import java.util.Set;
+import java.util.UUID;
 
 @RequiredArgsConstructor
 public final class AccountDAO {
@@ -16,16 +17,16 @@ public final class AccountDAO {
 
     public void createTable() {
         sqlExecutor.updateQuery("CREATE TABLE IF NOT EXISTS " + TABLE + "(" +
-                "owner VARCHAR(16) NOT NULL PRIMARY KEY," +
+                "owner CHAR(36) NOT NULL PRIMARY KEY," +
                 "balance DOUBLE NOT NULL" +
                 ");"
         );
     }
 
-    public Account selectOne(String owner) {
+    public Account selectOne(UUID owner) {
         return sqlExecutor.resultOneQuery(
                 "SELECT * FROM " + TABLE + " WHERE owner = ?",
-                statement -> statement.set(1, owner),
+                statement -> statement.set(1, owner.toString()),
                 AccountAdapter.class
         );
     }
@@ -52,7 +53,7 @@ public final class AccountDAO {
         sqlExecutor.updateQuery(
                 "INSERT INTO " + TABLE + " VALUES(?,?);",
                 statement -> {
-                    statement.set(1, account.getOwner());
+                    statement.set(1, account.getOwner().toString());
                     statement.set(2, account.getBalance());
                 }
         );
@@ -63,14 +64,14 @@ public final class AccountDAO {
                 "UPDATE " + TABLE + " SET balance = ? WHERE owner = ?",
                 statement -> {
                     statement.set(1, account.getBalance());
-                    statement.set(2, account.getOwner());
+                    statement.set(2, account.getOwner().toString());
                 }
         );
     }
 
     public void deleteOne(Account account) {
         sqlExecutor.updateQuery(
-                "DELETE FROM " + TABLE + " WHERE owner = '" + account.getOwner() + "'"
+                "DELETE FROM " + TABLE + " WHERE owner = '" + account.getOwner().toString() + "'"
         );
     }
 
