@@ -1,9 +1,12 @@
 package com.nextplugins.economy.command;
 
+import com.nextplugins.economy.NextEconomy;
 import com.nextplugins.economy.api.model.Account;
 import com.nextplugins.economy.configuration.MessageValue;
 import com.nextplugins.economy.configuration.RankingConfiguration;
 import com.nextplugins.economy.inventory.RankingInventory;
+import com.nextplugins.economy.ranking.manager.LocationManager;
+import com.nextplugins.economy.ranking.util.LocationUtil;
 import com.nextplugins.economy.storage.AccountStorage;
 import com.nextplugins.economy.storage.RankingStorage;
 import com.nextplugins.economy.util.ColorUtil;
@@ -25,8 +28,11 @@ import java.util.concurrent.atomic.AtomicInteger;
 @RequiredArgsConstructor
 public final class MoneyCommand {
 
+    private final NextEconomy plugin;
     private final AccountStorage accountStorage;
     private final RankingStorage rankingStorage;
+
+    private final LocationManager locationManager = plugin.getLocationManager();
 
     @Command(
             name = "money",
@@ -270,6 +276,84 @@ public final class MoneyCommand {
         Player player = context.getSender();
 
         ColorUtil.colored(MessageValue.get(MessageValue::npcHelp)).forEach(player::sendMessage);
+    }
+
+    @Command(
+            name = "money.npc.add",
+            aliases = {"npc.adicionar"},
+            usage = "/money npc add {posição}",
+            description = "Utilize para definir uma localização de spawn de NPC de certa posição.",
+            permission = "nexteconomy.command.npc.add",
+            target = CommandTarget.PLAYER,
+            async = true
+    )
+    public void npcAddCommand(Context<Player> context, int position) throws Exception {
+        Player player = context.getSender();
+
+        if (position <= 0) {
+            player.sendMessage(MessageValue.get(MessageValue::wrongPosition));
+        }
+
+        int limit = RankingConfiguration.get(RankingConfiguration::rankingLimit);
+
+        if (position > limit) {
+            player.sendMessage(MessageValue.get(MessageValue::positionReachedLimit)
+                    .replace("$limit", String.valueOf(limit))
+            );
+            return;
+        }
+
+        if (locationManager.getLocationMap().containsKey(position)) {
+            player.sendMessage(MessageValue.get(MessageValue::positionAlreadyDefined));
+        }
+
+        locationManager.getLocationMap().put(position, player.getLocation());
+
+        List<String> locations = plugin.getNpcConfiguration().getStringList("npc.locations");
+        locations.add(position + " " + LocationUtil.byLocationNoBlock(player.getLocation()));
+
+        plugin.getNpcConfiguration().set("npc.locations", locations);
+        plugin.getNpcConfiguration().save(plugin.getNpcFile());
+
+        player.sendMessage(MessageValue.get(MessageValue::positionSuccessfulCreated).replace("$position", String.valueOf(position)));
+    }
+
+    @Command(
+            name = "cash.npc.remove",
+            aliases = {"npc.remover"},
+            usage = "/cash npc remove {posição}",
+            description = "Utilize para remover uma localização de spawn de NPC de certa posição.",
+            permission = "nexteconomy.command.npc.remove",
+            target = CommandTarget.PLAYER,
+            async = true
+    )
+    public void npcRemoveCommand(Context<Player> context, int position) throws Exception {
+        Player player = context.getSender();
+
+        if (position <= 0) {
+            player.sendMessage(MessageValue.get(MessageValue::wrongPosition));
+        }
+
+        int limit = RankingConfiguration.get(RankingConfiguration::rankingLimit);
+
+        if (position > limit) {
+            player.sendMessage(MessageValue.get(MessageValue::positionReachedLimit)
+                    .replace("$limit", String.valueOf(limit))
+            );
+            return;
+        }
+
+        if (!locationManager.getLocationMap().containsKey(position)) {
+            player.sendMessage(MessageValue.get(MessageValue::positionNotYetDefined));
+        }
+
+        List<String> locations = plugin.getNpcConfiguration().getStringList("npc.locations");
+        locations.remove(position + " " + LocationUtil.byLocationNoBlock(locationManager.getLocation(position)));
+
+        plugin.getNpcConfiguration().set("npc.locations", locations);
+        plugin.getNpcConfiguration().save(plugin.getNpcFile());
+
+        player.sendMessage(MessageValue.get(MessageValue::positionSuccessfulRemoved).replace("$position", String.valueOf(position)));
     }
 
 }
