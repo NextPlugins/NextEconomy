@@ -2,6 +2,8 @@ package com.nextplugins.economy.task.registry;
 
 import com.nextplugins.economy.NextEconomy;
 import com.nextplugins.economy.configuration.GeneralConfiguration;
+import com.nextplugins.economy.configuration.RankingConfiguration;
+import com.nextplugins.economy.task.AccountRankingTask;
 import com.nextplugins.economy.task.AccountSaveTask;
 import lombok.Data;
 import org.bukkit.scheduler.BukkitScheduler;
@@ -24,6 +26,17 @@ public final class TaskRegistry {
                 new AccountSaveTask(plugin.getAccountStorage(), plugin.getAccountDAO()),
                 0,
                 accountSaveDelay * 20L
+        );
+
+        // ranking update
+
+        int accountRankingUpdateDelay = RankingConfiguration.get(RankingConfiguration::updateDelay);
+
+        scheduler.runTaskTimerAsynchronously(
+                plugin,
+                new AccountRankingTask(plugin.getAccountDAO(), plugin.getRankingStorage()),
+                0,
+                accountRankingUpdateDelay * 20L
         );
 
     }
