@@ -11,7 +11,7 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public final class AccountDAO {
 
-    private final String TABLE = "cash_accounts";
+    private final String TABLE = "economy_data";
 
     private final SQLExecutor sqlExecutor;
 

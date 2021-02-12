@@ -33,6 +33,7 @@ public final class NextEconomy extends JavaPlugin {
 
                 accountDAO = new AccountDAO(sqlExecutor);
                 accountStorage = new AccountStorage(accountDAO);
+                accountStorage.init();
 
                 ListenerRegistry.of(this).register();
                 ConfigurationRegistry.of(this).register();
