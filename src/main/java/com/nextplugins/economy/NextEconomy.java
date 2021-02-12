@@ -2,12 +2,14 @@ package com.nextplugins.economy;
 
 import com.henryfabio.sqlprovider.connector.SQLConnector;
 import com.henryfabio.sqlprovider.executor.SQLExecutor;
+import com.nextplugins.economy.command.registry.CommandRegistry;
 import com.nextplugins.economy.configuration.registry.ConfigurationRegistry;
 import com.nextplugins.economy.dao.AccountDAO;
 import com.nextplugins.economy.listener.registry.ListenerRegistry;
 import com.nextplugins.economy.metric.MetricProvider;
 import com.nextplugins.economy.sql.SQLProvider;
 import com.nextplugins.economy.storage.AccountStorage;
+import com.nextplugins.economy.storage.RankingStorage;
 import com.nextplugins.economy.task.registry.TaskRegistry;
 import lombok.Getter;
 import me.bristermitten.pdm.PluginDependencyManager;
@@ -22,6 +24,7 @@ public final class NextEconomy extends JavaPlugin {
 
     private AccountDAO accountDAO;
     private AccountStorage accountStorage;
+    private RankingStorage rankingStorage;
 
     @Override
     public void onEnable() {
@@ -33,10 +36,13 @@ public final class NextEconomy extends JavaPlugin {
 
                 accountDAO = new AccountDAO(sqlExecutor);
                 accountStorage = new AccountStorage(accountDAO);
+                rankingStorage = new RankingStorage();
+
                 accountStorage.init();
 
-                ListenerRegistry.of(this).register();
                 ConfigurationRegistry.of(this).register();
+                ListenerRegistry.of(this).register();
+                CommandRegistry.of(this).register();
                 TaskRegistry.of(this).register();
                 MetricProvider.of(this).setup();
 
