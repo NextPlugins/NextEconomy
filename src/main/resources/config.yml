@@ -1,0 +1,30 @@
+#      _   _           _     _____  _             _                #
+#     | \ | |         | |   |  __ \| |           (_)               #
+#     |  \| | _____  _| |_  | |__) | |_   _  __ _ _ _ __  ___      #
+#     | . ` |/ _ \ \/ / __| |  ___/| | | | |/ _` | | '_ \/ __|     #
+#     | |\  |  __/>  <| |_  | |    | | |_| | (_| | | | | \__ \     #
+#     |_| \_|\___/_/\_\\__| |_|    |_|\__,_|\__, |_|_| |_|___/     #
+#                                           __/ |                  #
+#                                          |___/                   #
+#                       Servidor de Suporte                        #
+#                      discord.gg/JtTN7E6A2q                       #
+
+database:
+  type: 'sqlite' # Opções válidas: 'sqlite' e 'mysql'
+  mysql:
+    address: 'localhost:3306'
+    username: 'root'
+    password: ''
+    database: 'test'
+  sqlite:
+    file: 'database/database.db'
+
+plugin:
+  configuration:
+    # opções válidas: 'DECIMAL' e 'LETTER'
+    format-type: 'DECIMAL' # letter = 1K, 1M etc... decimal = 1.000,00, 1.000.000,00 etc...
+    # delay de salvamento das contas online (em segundos)
+    save-delay: 300
+    # Ative ou desative o uso do bStats (apenas serve para coletar algumas informações sobre o uso do plugin,
+    # como quantidade de pessoas usando, servidores e etc...)
+    use-bStats: true
