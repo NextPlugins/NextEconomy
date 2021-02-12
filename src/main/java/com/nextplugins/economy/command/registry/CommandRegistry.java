@@ -19,8 +19,10 @@ public final class CommandRegistry {
 
             bukkitFrame.registerCommands(
                     new MoneyCommand(
+                            plugin,
                             plugin.getAccountStorage(),
-                            plugin.getRankingStorage()
+                            plugin.getRankingStorage(),
+                            plugin.getLocationManager()
                     )
             );
 

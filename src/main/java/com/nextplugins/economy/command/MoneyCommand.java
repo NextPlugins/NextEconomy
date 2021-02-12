@@ -31,8 +31,7 @@ public final class MoneyCommand {
     private final NextEconomy plugin;
     private final AccountStorage accountStorage;
     private final RankingStorage rankingStorage;
-
-    private final LocationManager locationManager = plugin.getLocationManager();
+    private final LocationManager locationManager;
 
     @Command(
             name = "money",
