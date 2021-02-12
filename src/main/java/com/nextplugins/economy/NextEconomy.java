@@ -17,6 +17,7 @@ import com.nextplugins.economy.sql.SQLProvider;
 import com.nextplugins.economy.storage.AccountStorage;
 import com.nextplugins.economy.storage.RankingStorage;
 import com.nextplugins.economy.task.registry.TaskRegistry;
+import com.nextplugins.economy.vault.registry.VaultHookRegistry;
 import lombok.Getter;
 import me.bristermitten.pdm.PluginDependencyManager;
 import net.citizensnpcs.api.npc.NPC;
@@ -74,6 +75,8 @@ public final class NextEconomy extends JavaPlugin {
                 NPCRankingRegistry.of(this).register();
 
                 MetricProvider.of(this).setup();
+
+                VaultHookRegistry.of(this).register();
 
                 getLogger().info("Plugin inicializado com sucesso!");
             } catch (Throwable t) {

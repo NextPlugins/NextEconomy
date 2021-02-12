@@ -7,6 +7,7 @@ import com.nextplugins.economy.storage.AccountStorage;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
 import java.util.Optional;
@@ -67,6 +68,12 @@ public final class NextEconomyAPI {
     public Optional<Account> findAccountByPlayer(Player player) {
         return allAccounts().stream()
                 .filter(account -> account.getOwner().equals(player.getUniqueId()))
+                .findFirst();
+    }
+
+    public Optional<Account> findAccountByName(String name) {
+        return allAccounts().stream()
+                .filter(account -> Bukkit.getOfflinePlayer(account.getOwner()).getName().equals(name))
                 .findFirst();
     }
 
