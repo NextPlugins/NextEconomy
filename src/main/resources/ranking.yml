@@ -1,0 +1,30 @@
+ranking:
+  update-delay: 900 # delay de update do ranking (em segundos)
+  limit: 10 # limite de contas que serão puxadas da database
+  model:
+    type: 'CHAT' # tipo do ranking, tipos válidos: 'CHAT' e 'INVENTORY'
+    chat:
+      header:
+        - ''
+        - ' &a&lMONEY TOP &8&l➡ &fJogadores mais ricos'
+        - ''
+      body: ' &f$positionº&8 -&a $player &7(&2$&f $amount&7)'
+      footer:
+        - ''
+        - ' &7Atualiza automaticamente.'
+        - ''
+    inventory:
+      title: 'Ranking - Money'
+      head-display-name: '&f$positionº&8 - &e$player '
+      head-lore:
+        - ''
+        - ' &7Quantia: &7(&2$&f $amount&7)'
+        - ''
+  npc:
+    hologram:
+      # altura do holograma, em blocos (começando do chão)
+      height: 3
+      lines:
+        - '&f$positionº'
+        - '&a$player'
+        - '&7(&2$&f $amount&7)'
