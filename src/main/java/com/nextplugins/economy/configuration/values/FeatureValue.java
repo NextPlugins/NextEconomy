@@ -1,4 +1,4 @@
-package com.nextplugins.economy.configuration;
+package com.nextplugins.economy.configuration.values;
 
 import com.henryfabio.minecraft.configinjector.common.annotations.ConfigField;
 import com.henryfabio.minecraft.configinjector.common.annotations.ConfigFile;
@@ -18,17 +18,16 @@ import java.util.function.Function;
 @ConfigSection("plugin")
 @ConfigFile("config.yml")
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
-public final class GeneralConfiguration implements ConfigurationInjectable {
+public final class FeatureValue implements ConfigurationInjectable {
 
-    @Getter private static final GeneralConfiguration instance = new GeneralConfiguration();
+    @Getter private static final FeatureValue instance = new FeatureValue();
 
     // configuration
 
     @ConfigField("configuration.format-type") private String formatType;
     @ConfigField("configuration.save-delay") private int saveDelay;
-    @ConfigField("configuration.use-bStats") private boolean useBStats;
 
-    public static <T> T get(Function<GeneralConfiguration, T> function) {
+    public static <T> T get(Function<FeatureValue, T> function) {
         return function.apply(instance);
     }
 

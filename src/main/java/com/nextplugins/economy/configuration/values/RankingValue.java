@@ -1,4 +1,4 @@
-package com.nextplugins.economy.configuration;
+package com.nextplugins.economy.configuration.values;
 
 import com.henryfabio.minecraft.configinjector.common.annotations.ConfigField;
 import com.henryfabio.minecraft.configinjector.common.annotations.ConfigFile;
@@ -19,9 +19,9 @@ import java.util.function.Function;
 @ConfigSection("ranking")
 @ConfigFile("ranking.yml")
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
-public final class RankingConfiguration implements ConfigurationInjectable {
+public final class RankingValue implements ConfigurationInjectable {
 
-    @Getter private static final RankingConfiguration instance = new RankingConfiguration();
+    @Getter private static final RankingValue instance = new RankingValue();
 
     // ranking
 
@@ -50,7 +50,7 @@ public final class RankingConfiguration implements ConfigurationInjectable {
     @ConfigField("npc.hologram.lines") private List<String> hologramLines;
     @ConfigField("npc.locations") private List<String> npcLocations;
 
-    public static <T> T get(Function<RankingConfiguration, T> function) {
+    public static <T> T get(Function<RankingValue, T> function) {
         return function.apply(instance);
     }
 

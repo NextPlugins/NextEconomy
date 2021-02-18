@@ -4,6 +4,7 @@ import com.nextplugins.economy.api.event.EconomyEvent;
 import com.nextplugins.economy.api.model.Account;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.Getter;
 
 import java.time.Instant;
 import java.util.Set;
@@ -14,5 +15,6 @@ public final class EconomyRankingUpdateEvent extends EconomyEvent {
 
     private final Set<Account> accountList;
     private final Instant updateInstant;
+    private final boolean async;
 
 }

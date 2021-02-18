@@ -1,7 +1,7 @@
 package com.nextplugins.economy.ranking;
 
 import com.nextplugins.economy.NextEconomy;
-import com.nextplugins.economy.configuration.RankingConfiguration;
+import com.nextplugins.economy.configuration.values.RankingValue;
 import com.nextplugins.economy.ranking.loader.LocationLoader;
 import com.nextplugins.economy.ranking.runnable.NPCRunnable;
 import lombok.Data;
@@ -34,7 +34,7 @@ public class NPCRankingRegistry {
 
         new LocationLoader(plugin, plugin.getLocationManager()).loadLocations();
 
-        int updateDelay = RankingConfiguration.get(RankingConfiguration::updateDelay);
+        int updateDelay = RankingValue.get(RankingValue::updateDelay);
 
         BukkitScheduler scheduler = Bukkit.getScheduler();
 

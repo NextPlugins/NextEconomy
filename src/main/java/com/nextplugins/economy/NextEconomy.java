@@ -22,6 +22,7 @@ import lombok.Getter;
 import me.bristermitten.pdm.PluginDependencyManager;
 import net.citizensnpcs.api.npc.NPC;
 import org.bukkit.Bukkit;
+import org.bukkit.configuration.Configuration;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -41,17 +42,22 @@ public final class NextEconomy extends JavaPlugin {
     private LocationManager locationManager;
 
     private File npcFile;
-    private FileConfiguration npcConfiguration;
+    private FileConfiguration npcConfig;
 
     @Override
-    public void onEnable() {
+    public void onLoad() {
+
         saveDefaultConfig();
 
         npcFile = new File(getDataFolder(), "npcs.yml");
-        if (!npcFile.exists()) {
-            saveResource("npcs.yml", false);
-        }
-        npcConfiguration = YamlConfiguration.loadConfiguration(npcFile);
+        if (!npcFile.exists()) saveResource("npcs.yml", false);
+
+        npcConfig = YamlConfiguration.loadConfiguration(npcFile);
+
+    }
+
+    @Override
+    public void onEnable() {
 
         PluginDependencyManager.of(this).loadAllDependencies().thenRun(() -> {
             try {
@@ -89,12 +95,10 @@ public final class NextEconomy extends JavaPlugin {
 
     @Override
     public void onDisable() {
-        for (NPC npc : NPCRunnable.NPC) {
-            npc.destroy();
-        }
-        for (Hologram hologram : NPCRunnable.HOLOGRAM) {
-            hologram.delete();
-        }
+
+        if (!NPCRunnable.NPC.isEmpty()) NPCRunnable.NPC.forEach(NPC::destroy);
+        if (!NPCRunnable.HOLOGRAM.isEmpty()) NPCRunnable.HOLOGRAM.forEach(Hologram::delete);
+
     }
 
     public static NextEconomy getInstance() {

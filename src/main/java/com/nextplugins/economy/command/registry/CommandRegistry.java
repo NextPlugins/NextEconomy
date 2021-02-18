@@ -2,7 +2,7 @@ package com.nextplugins.economy.command.registry;
 
 import com.nextplugins.economy.NextEconomy;
 import com.nextplugins.economy.command.MoneyCommand;
-import com.nextplugins.economy.configuration.MessageValue;
+import com.nextplugins.economy.configuration.values.MessageValue;
 import lombok.Data;
 import me.saiintbrisson.bukkit.command.BukkitFrame;
 import me.saiintbrisson.minecraft.command.message.MessageHolder;

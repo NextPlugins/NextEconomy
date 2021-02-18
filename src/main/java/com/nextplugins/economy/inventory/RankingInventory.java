@@ -8,7 +8,7 @@ import com.henryfabio.minecraft.inventoryapi.viewer.configuration.border.Border;
 import com.henryfabio.minecraft.inventoryapi.viewer.configuration.impl.ViewerConfigurationImpl;
 import com.henryfabio.minecraft.inventoryapi.viewer.impl.paged.PagedViewer;
 import com.nextplugins.economy.NextEconomy;
-import com.nextplugins.economy.configuration.RankingConfiguration;
+import com.nextplugins.economy.configuration.values.RankingValue;
 import com.nextplugins.economy.storage.RankingStorage;
 import com.nextplugins.economy.util.ItemBuilder;
 import com.nextplugins.economy.util.NumberFormat;
@@ -24,7 +24,7 @@ public final class RankingInventory extends PagedInventory {
     public RankingInventory() {
         super(
                 "nextcash.ranking.inventory",
-                RankingConfiguration.get(RankingConfiguration::inventoryModelTitle),
+                RankingValue.get(RankingValue::inventoryModelTitle),
                 4 * 9
         );
     }
@@ -41,8 +41,8 @@ public final class RankingInventory extends PagedInventory {
     protected List<InventoryItemSupplier> createPageItems(PagedViewer viewer) {
         List<InventoryItemSupplier> items = Lists.newLinkedList();
 
-        String headDisplayName = RankingConfiguration.get(RankingConfiguration::inventoryModelHeadDisplayName);
-        List<String> headLore = RankingConfiguration.get(RankingConfiguration::inventoryModelHeadLore);
+        String headDisplayName = RankingValue.get(RankingValue::inventoryModelHeadDisplayName);
+        List<String> headLore = RankingValue.get(RankingValue::inventoryModelHeadLore);
 
         AtomicInteger position = new AtomicInteger(1);
 

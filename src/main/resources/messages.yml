@@ -1,4 +1,7 @@
 messages:
+  currency:
+    one: 'coin'
+    more: 'coins'
   requests:
     invalid-target: '&cO jogador solicitado não encontra-se online ou é inexistente.'
   convert:

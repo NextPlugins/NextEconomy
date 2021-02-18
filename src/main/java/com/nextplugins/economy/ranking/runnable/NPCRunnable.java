@@ -4,7 +4,7 @@ import com.gmail.filoghost.holographicdisplays.api.Hologram;
 import com.gmail.filoghost.holographicdisplays.api.HologramsAPI;
 import com.google.common.collect.Lists;
 import com.nextplugins.economy.NextEconomy;
-import com.nextplugins.economy.configuration.RankingConfiguration;
+import com.nextplugins.economy.configuration.values.RankingValue;
 import com.nextplugins.economy.ranking.manager.LocationManager;
 import com.nextplugins.economy.storage.RankingStorage;
 import com.nextplugins.economy.util.NumberFormat;
@@ -42,13 +42,8 @@ public final class NPCRunnable implements Runnable {
 
         if (rankingAccounts.size() <= 0) return;
 
-        for (NPC npc : NPC) {
-            npc.destroy();
-        }
-
-        for (Hologram hologram : HOLOGRAM) {
-            hologram.delete();
-        }
+        NPC.forEach(net.citizensnpcs.api.npc.NPC::destroy);
+        HOLOGRAM.forEach(Hologram::delete);
 
         NPCRegistry npcRegistry = CitizensAPI.getNPCRegistry();
 
@@ -59,8 +54,8 @@ public final class NPCRunnable implements Runnable {
             if (!locationManager.getLocationMap().containsKey(position.get())) return;
 
             Location location = locationManager.getLocation(position.get());
-            List<String> hologramLines = RankingConfiguration.get(RankingConfiguration::hologramLines);
-            int hologramHeight = RankingConfiguration.get(RankingConfiguration::hologramHeight);
+            List<String> hologramLines = RankingValue.get(RankingValue::hologramLines);
+            int hologramHeight = RankingValue.get(RankingValue::hologramHeight);
 
             if (!hologramLines.isEmpty()) {
                 Location hologramLocation = location.clone().add(0, hologramHeight, 0);

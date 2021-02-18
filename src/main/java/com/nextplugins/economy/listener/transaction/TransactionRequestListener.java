@@ -3,7 +3,7 @@ package com.nextplugins.economy.listener.transaction;
 import com.nextplugins.economy.NextEconomy;
 import com.nextplugins.economy.api.event.transaction.TransactionRequestEvent;
 import com.nextplugins.economy.api.model.Account;
-import com.nextplugins.economy.configuration.MessageValue;
+import com.nextplugins.economy.configuration.values.MessageValue;
 import com.nextplugins.economy.storage.AccountStorage;
 import com.nextplugins.economy.util.NumberFormat;
 import org.bukkit.entity.Player;

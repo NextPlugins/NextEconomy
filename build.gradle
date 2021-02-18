@@ -30,7 +30,9 @@ repositories {
 }
 
 dependencies {
+
     compileOnly 'org.spigotmc:spigot-api:1.12.2-R0.1-SNAPSHOT'
+
     compileOnly 'com.github.PlaceholderAPI:PlaceholderAPI:2.10.9'
     compileOnly 'com.gmail.filoghost.holographicdisplays:holographicdisplays-api:2.4.0'
     compileOnly 'net.citizensnpcs:citizens:2.0.27-SNAPSHOT'
@@ -44,16 +46,18 @@ dependencies {
     pdm 'com.github.NextPlugins:data-converter:experimental-0.0.1'
     pdm 'com.github.SaiintBrisson:command-framework:1.1.0'
 
-    compileOnly 'org.projectlombok:lombok:1.18.16'
-    annotationProcessor 'org.projectlombok:lombok:1.18.16'
+    def lombok = 'org.projectlombok:lombok:1.18.16'
+    compileOnly lombok
+    annotationProcessor lombok
+
 }
 
 bukkit {
     main = 'com.nextplugins.economy.NextEconomy'
     authors = ['Henry_Fabio', 'Eike', 'Gabriel Santos', 'Yuhtin']
     website = 'https://github.com/NextPlugins'
-    depend = ['Vault']
     version = "${project.version}"
+    depend = ['Vault']
     softDepend = ['Citizens', 'HolographicDisplays', 'PlaceholderAPI']
 }
 

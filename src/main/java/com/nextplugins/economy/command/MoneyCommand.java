@@ -6,8 +6,8 @@ import com.nextplugins.economy.api.event.operations.MoneySetEvent;
 import com.nextplugins.economy.api.event.operations.MoneyWithdrawEvent;
 import com.nextplugins.economy.api.event.transaction.TransactionRequestEvent;
 import com.nextplugins.economy.api.model.Account;
-import com.nextplugins.economy.configuration.MessageValue;
-import com.nextplugins.economy.configuration.RankingConfiguration;
+import com.nextplugins.economy.configuration.values.MessageValue;
+import com.nextplugins.economy.configuration.values.RankingValue;
 import com.nextplugins.economy.inventory.RankingInventory;
 import com.nextplugins.economy.ranking.NPCRankingRegistry;
 import com.nextplugins.economy.ranking.manager.LocationManager;
@@ -26,6 +26,7 @@ import org.bukkit.ChatColor;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 
+import java.io.IOException;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.UUID;
@@ -198,14 +199,14 @@ public final class MoneyCommand {
     public void moneyTopCommand(Context<Player> context) {
         Player player = context.getSender();
 
-        String rankingType = RankingConfiguration.get(RankingConfiguration::rankingType);
+        String rankingType = RankingValue.get(RankingValue::rankingType);
 
         LinkedHashMap<UUID, Double> rankingAccounts = rankingStorage.getRankingAccounts();
 
         if (rankingType.equalsIgnoreCase("CHAT")) {
-            List<String> header = RankingConfiguration.get(RankingConfiguration::chatModelHeader);
-            String body = RankingConfiguration.get(RankingConfiguration::chatModelBody);
-            List<String> footer = RankingConfiguration.get(RankingConfiguration::chatModelFooter);
+            List<String> header = RankingValue.get(RankingValue::chatModelHeader);
+            String body = RankingValue.get(RankingValue::chatModelBody);
+            List<String> footer = RankingValue.get(RankingValue::chatModelFooter);
 
             header.forEach(player::sendMessage);
 
@@ -250,7 +251,7 @@ public final class MoneyCommand {
             target = CommandTarget.PLAYER,
             async = true
     )
-    public void npcAddCommand(Context<Player> context, int position) throws Exception {
+    public void npcAddCommand(Context<Player> context, int position) throws IOException {
         Player player = context.getSender();
 
         if (!NPCRankingRegistry.isEnabled) {
@@ -263,7 +264,7 @@ public final class MoneyCommand {
             return;
         }
 
-        int limit = RankingConfiguration.get(RankingConfiguration::rankingLimit);
+        int limit = RankingValue.get(RankingValue::rankingLimit);
 
         if (position > limit) {
             player.sendMessage(MessageValue.get(MessageValue::positionReachedLimit)
@@ -279,11 +280,11 @@ public final class MoneyCommand {
 
         locationManager.getLocationMap().put(position, player.getLocation());
 
-        List<String> locations = plugin.getNpcConfiguration().getStringList("npc.locations");
+        List<String> locations = plugin.getNpcConfig().getStringList("npc.locations");
         locations.add(position + " " + LocationUtil.byLocationNoBlock(player.getLocation()));
 
-        plugin.getNpcConfiguration().set("npc.locations", locations);
-        plugin.getNpcConfiguration().save(plugin.getNpcFile());
+        plugin.getNpcConfig().set("npc.locations", locations);
+        plugin.getNpcConfig().save(plugin.getNpcFile());
 
         player.sendMessage(MessageValue.get(MessageValue::positionSuccessfulCreated).replace("$position", String.valueOf(position)));
     }
@@ -310,7 +311,7 @@ public final class MoneyCommand {
             return;
         }
 
-        int limit = RankingConfiguration.get(RankingConfiguration::rankingLimit);
+        int limit = RankingValue.get(RankingValue::rankingLimit);
 
         if (position > limit) {
             player.sendMessage(MessageValue.get(MessageValue::positionReachedLimit)
@@ -324,11 +325,11 @@ public final class MoneyCommand {
             return;
         }
 
-        List<String> locations = plugin.getNpcConfiguration().getStringList("npc.locations");
+        List<String> locations = plugin.getNpcConfig().getStringList("npc.locations");
         locations.remove(position + " " + LocationUtil.byLocationNoBlock(locationManager.getLocation(position)));
 
-        plugin.getNpcConfiguration().set("npc.locations", locations);
-        plugin.getNpcConfiguration().save(plugin.getNpcFile());
+        plugin.getNpcConfig().set("npc.locations", locations);
+        plugin.getNpcConfig().save(plugin.getNpcFile());
 
         player.sendMessage(MessageValue.get(MessageValue::positionSuccessfulRemoved).replace("$position", String.valueOf(position)));
     }

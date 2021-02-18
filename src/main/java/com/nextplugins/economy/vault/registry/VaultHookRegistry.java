@@ -13,7 +13,13 @@ public final class VaultHookRegistry {
     private final NextEconomy plugin;
 
     public void register() {
-        Bukkit.getServer().getServicesManager().register(Economy.class, new VaultExpansionHook(), plugin, ServicePriority.Highest);
+        Bukkit.getServer().getServicesManager()
+                .register(
+                        Economy.class,
+                        new VaultExpansionHook(),
+                        plugin,
+                        ServicePriority.Highest
+                );
     }
 
 }

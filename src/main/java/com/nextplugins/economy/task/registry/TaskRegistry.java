@@ -1,8 +1,8 @@
 package com.nextplugins.economy.task.registry;
 
 import com.nextplugins.economy.NextEconomy;
-import com.nextplugins.economy.configuration.GeneralConfiguration;
-import com.nextplugins.economy.configuration.RankingConfiguration;
+import com.nextplugins.economy.configuration.values.FeatureValue;
+import com.nextplugins.economy.configuration.values.RankingValue;
 import com.nextplugins.economy.task.AccountRankingTask;
 import com.nextplugins.economy.task.AccountSaveTask;
 import lombok.Data;
@@ -19,7 +19,7 @@ public final class TaskRegistry {
 
         // account save
 
-        int accountSaveDelay = GeneralConfiguration.get(GeneralConfiguration::saveDelay);
+        int accountSaveDelay = FeatureValue.get(FeatureValue::saveDelay);
 
         scheduler.runTaskTimerAsynchronously(
                 plugin,
@@ -30,7 +30,7 @@ public final class TaskRegistry {
 
         // ranking update
 
-        int accountRankingUpdateDelay = RankingConfiguration.get(RankingConfiguration::updateDelay);
+        int accountRankingUpdateDelay = RankingValue.get(RankingValue::updateDelay);
 
         scheduler.runTaskTimerAsynchronously(
                 plugin,

@@ -25,6 +25,3 @@ plugin:
     format-type: 'DECIMAL' # letter = 1K, 1M etc... decimal = 1.000,00, 1.000.000,00 etc...
     # delay de salvamento das contas online (em segundos)
     save-delay: 300
-    # Ative ou desative o uso do bStats (apenas serve para coletar algumas informações sobre o uso do plugin,
-    # como quantidade de pessoas usando, servidores e etc...)
-    use-bStats: true

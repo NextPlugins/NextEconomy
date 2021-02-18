@@ -22,11 +22,13 @@ public final class AccountRankingTask implements Runnable {
         Set<Account> accounts = accountDAO.selectAll("ORDER BY balance DESC LIMIT 10");
 
         if (!accounts.isEmpty()) {
+
             rankingStorage.getRankingAccounts().clear();
             accounts.forEach(rankingStorage::addAccount);
 
-            EconomyRankingUpdateEvent rankingUpdateEvent = new EconomyRankingUpdateEvent(accounts, Instant.now());
+            EconomyRankingUpdateEvent rankingUpdateEvent = new EconomyRankingUpdateEvent(accounts, Instant.now(), true);
             Bukkit.getPluginManager().callEvent(rankingUpdateEvent);
+
         }
 
     }

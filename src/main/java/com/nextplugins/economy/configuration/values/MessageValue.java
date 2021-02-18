@@ -1,4 +1,4 @@
-package com.nextplugins.economy.configuration;
+package com.nextplugins.economy.configuration.values;
 
 import com.henryfabio.minecraft.configinjector.common.annotations.ConfigField;
 import com.henryfabio.minecraft.configinjector.common.annotations.ConfigFile;
@@ -22,6 +22,11 @@ import java.util.function.Function;
 public final class MessageValue implements ConfigurationInjectable {
 
     @Getter private static final MessageValue instance = new MessageValue();
+
+    // currency
+
+    @ConfigField("currency.one") private String coinCurrency;
+    @ConfigField("currency.more") private String coinsCurrency;
 
     // requests
 
