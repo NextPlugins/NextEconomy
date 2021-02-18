@@ -19,7 +19,7 @@ Um sistema simples e completo de uma economia principal para servidores de Minec
 
 ## Download
 
-Você pode encontrar o plugin pronto para baixar [**aqui**](https://github.com/NextPlugins/NextCash/releases), ou se você quiser, pode optar por clonar o repositório e dar build no plugin com suas alterações.
+Você pode encontrar o plugin pronto para baixar [**aqui**](https://github.com/NextPlugins/NextEconomy/releases), ou se você quiser, pode optar por clonar o repositório e dar build no plugin com suas alterações.
 
 ## Configuração
 
