@@ -1,6 +1,6 @@
 # NextEconomy
 
-Um sistema simples e completo de uma economia principal para servidores de Minecraft, quase que 100% configurável, com pódio em chat/menu e NPCs, suporte ao PlaceholderAPI, informações salvas em banco de dados SQL e com uma robusta [API](https://github.com/NextPlugins/NextEconomy/tree/main/src/main/java/com/nextplugins/economy/api) (em breve uma Wiki) para desenvolvedores. Prints in-game (em breve).
+Um sistema simples e completo de uma economia principal para servidores de Minecraft, quase que 100% configurável, com pódio em chat/menu e NPCs, suporte ao PlaceholderAPI, informações salvas em banco de dados SQL e com uma robusta [API](https://github.com/NextPlugins/NextEconomy/tree/main/src/main/java/com/nextplugins/economy/api) ([WIKI](https://docs.eikefs.xyz/)) para desenvolvedores. [Prints in-game](https://imgur.com/gallery/RHlD6dA).
 
 ## Comandos
 |Comando         |Descrição                      |Permissão                    |
