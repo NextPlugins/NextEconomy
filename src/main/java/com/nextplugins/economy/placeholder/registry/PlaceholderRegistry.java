@@ -16,7 +16,11 @@ public final class PlaceholderRegistry {
 
     public void register() {
         if (!MANAGER.isPluginEnabled(PLACEHOLDERS_API)) {
-            plugin.getLogger().info("Não foi encontrado o PlaceholderAPI, portanto, não será utilizado.");
+            plugin.getLogger().warning(
+                    String.format("Dependência não encontrada (%s). A placeholder não poderá ser usada.",
+                            PLACEHOLDERS_API
+                    )
+            );
             return;
         }
 

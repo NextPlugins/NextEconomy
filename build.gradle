@@ -52,7 +52,8 @@ bukkit {
     main = 'com.nextplugins.economy.NextEconomy'
     authors = ['Henry_Fabio', 'Eike', 'Gabriel Santos', 'Yuhtin']
     website = 'https://github.com/NextPlugins'
-    depend = ['Citizens', 'HolographicDisplays', 'PlaceholderAPI']
+    depend = ['Vault']
+    softDepend = ['Citizens', 'HolographicDisplays', 'PlaceholderAPI']
 }
 
 shadowJar {
