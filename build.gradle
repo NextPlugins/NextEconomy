@@ -53,6 +53,7 @@ bukkit {
     authors = ['Henry_Fabio', 'Eike', 'Gabriel Santos', 'Yuhtin']
     website = 'https://github.com/NextPlugins'
     depend = ['Vault']
+    version = "${project.version}"
     softDepend = ['Citizens', 'HolographicDisplays', 'PlaceholderAPI']
 }
 
