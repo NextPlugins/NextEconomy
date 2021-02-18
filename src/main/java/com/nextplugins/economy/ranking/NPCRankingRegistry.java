@@ -18,6 +18,8 @@ public class NPCRankingRegistry {
     protected final String CITIZENS = "Citizens";
     protected final String HOLOGRAPHIC_DISPLAYS = "HolographicDisplays";
 
+    public static boolean isEnabled;
+
     public void register() {
         if (!MANAGER.isPluginEnabled(CITIZENS) || !MANAGER.isPluginEnabled(HOLOGRAPHIC_DISPLAYS)) {
             plugin.getLogger().warning(
@@ -26,6 +28,7 @@ public class NPCRankingRegistry {
                             HOLOGRAPHIC_DISPLAYS
                     )
             );
+            isEnabled = false;
             return;
         }
 
@@ -41,6 +44,8 @@ public class NPCRankingRegistry {
                 15,
                 updateDelay * 20L
         );
+
+        isEnabled = true;
     }
 
 }

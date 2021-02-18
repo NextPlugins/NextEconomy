@@ -1,10 +1,15 @@
 package com.nextplugins.economy.command;
 
 import com.nextplugins.economy.NextEconomy;
+import com.nextplugins.economy.api.event.operations.MoneyDepositEvent;
+import com.nextplugins.economy.api.event.operations.MoneySetEvent;
+import com.nextplugins.economy.api.event.operations.MoneyWithdrawEvent;
+import com.nextplugins.economy.api.event.transaction.TransactionRequestEvent;
 import com.nextplugins.economy.api.model.Account;
 import com.nextplugins.economy.configuration.MessageValue;
 import com.nextplugins.economy.configuration.RankingConfiguration;
 import com.nextplugins.economy.inventory.RankingInventory;
+import com.nextplugins.economy.ranking.NPCRankingRegistry;
 import com.nextplugins.economy.ranking.manager.LocationManager;
 import com.nextplugins.economy.ranking.util.LocationUtil;
 import com.nextplugins.economy.storage.AccountStorage;
@@ -17,6 +22,7 @@ import me.saiintbrisson.minecraft.command.annotation.Optional;
 import me.saiintbrisson.minecraft.command.command.Context;
 import me.saiintbrisson.minecraft.command.target.CommandTarget;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 
@@ -72,32 +78,8 @@ public final class MoneyCommand {
         Player player = context.getSender();
 
         if (target != null) {
-            if (target.equals(player)) {
-                player.sendMessage(MessageValue.get(MessageValue::isYourself));
-                return;
-            }
-
-            Account account = accountStorage.getAccount(player.getUniqueId());
-            Account targetAccount = accountStorage.getAccount(target.getUniqueId());
-
-            if (account.hasAmount(amount)) {
-                targetAccount.depositAmount(amount);
-                account.withdrawAmount(amount);
-
-                player.sendMessage(
-                        MessageValue.get(MessageValue::paid).replace("$player", target.getName())
-                                .replace("$amount", NumberFormat.format(amount))
-                );
-
-                if (target.isOnline()) {
-                    target.getPlayer().sendMessage(
-                            MessageValue.get(MessageValue::received).replace("$player", player.getName())
-                                    .replace("$amount", NumberFormat.format(amount))
-                    );
-                }
-            } else {
-                player.sendMessage(MessageValue.get(MessageValue::insufficientAmount));
-            }
+            TransactionRequestEvent transactionRequestEvent = new TransactionRequestEvent(player, target.getPlayer(), amount);
+            Bukkit.getPluginManager().callEvent(transactionRequestEvent);
         } else {
             player.sendMessage(MessageValue.get(MessageValue::invalidTarget));
         }
@@ -133,14 +115,8 @@ public final class MoneyCommand {
         Player player = context.getSender();
 
         if (target != null) {
-            Account targetAccount = accountStorage.getAccount(target.getUniqueId());
-
-            targetAccount.setBalance(amount);
-
-            player.sendMessage(MessageValue.get(MessageValue::setAmount)
-                    .replace("$player", Bukkit.getOfflinePlayer(targetAccount.getOwner()).getName())
-                    .replace("$amount", NumberFormat.format(targetAccount.getBalance()))
-            );
+            MoneySetEvent moneySetEvent = new MoneySetEvent(player, target.getPlayer(), amount);
+            Bukkit.getPluginManager().callEvent(moneySetEvent);
         } else {
             player.sendMessage(MessageValue.get(MessageValue::invalidTarget));
         }
@@ -159,14 +135,8 @@ public final class MoneyCommand {
         Player player = context.getSender();
 
         if (target != null) {
-            Account targetAccount = accountStorage.getAccount(target.getUniqueId());
-
-            targetAccount.depositAmount(amount);
-
-            player.sendMessage(MessageValue.get(MessageValue::addAmount)
-                    .replace("$player", Bukkit.getOfflinePlayer(targetAccount.getOwner()).getName())
-                    .replace("$amount", NumberFormat.format(targetAccount.getBalance()))
-            );
+            MoneyDepositEvent moneyDepositEvent = new MoneyDepositEvent(player, target.getPlayer(), amount);
+            Bukkit.getPluginManager().callEvent(moneyDepositEvent);
         } else {
             player.sendMessage(MessageValue.get(MessageValue::invalidTarget));
         }
@@ -185,14 +155,8 @@ public final class MoneyCommand {
         Player player = context.getSender();
 
         if (target != null) {
-            Account targetAccount = accountStorage.getAccount(target.getUniqueId());
-
-            targetAccount.withdrawAmount(amount);
-
-            player.sendMessage(MessageValue.get(MessageValue::removeAmount)
-                    .replace("$player", Bukkit.getOfflinePlayer(targetAccount.getOwner()).getName())
-                    .replace("$amount", NumberFormat.format(targetAccount.getBalance()))
-            );
+            MoneyWithdrawEvent moneyWithdrawEvent = new MoneyWithdrawEvent(player, target.getPlayer(), amount);
+            Bukkit.getPluginManager().callEvent(moneyWithdrawEvent);
         } else {
             player.sendMessage(MessageValue.get(MessageValue::invalidTarget));
         }
@@ -289,6 +253,11 @@ public final class MoneyCommand {
     public void npcAddCommand(Context<Player> context, int position) throws Exception {
         Player player = context.getSender();
 
+        if (!NPCRankingRegistry.isEnabled) {
+            player.sendMessage(ChatColor.RED + "O ranking em NPC foi desabilitado por falta de dependências.");
+            return;
+        }
+
         if (position <= 0) {
             player.sendMessage(MessageValue.get(MessageValue::wrongPosition));
             return;
@@ -330,6 +299,11 @@ public final class MoneyCommand {
     )
     public void npcRemoveCommand(Context<Player> context, int position) throws Exception {
         Player player = context.getSender();
+
+        if (!NPCRankingRegistry.isEnabled) {
+            player.sendMessage(ChatColor.RED + "O ranking em NPC foi desabilitado por falta de dependências.");
+            return;
+        }
 
         if (position <= 0) {
             player.sendMessage(MessageValue.get(MessageValue::wrongPosition));

@@ -3,6 +3,10 @@ package com.nextplugins.economy.listener.registry;
 import com.nextplugins.economy.NextEconomy;
 import com.nextplugins.economy.listener.UserConnectListener;
 import com.nextplugins.economy.listener.UserDisconnectListener;
+import com.nextplugins.economy.listener.operation.MoneyDepositListener;
+import com.nextplugins.economy.listener.operation.MoneySetListener;
+import com.nextplugins.economy.listener.operation.MoneyWithdrawListener;
+import com.nextplugins.economy.listener.transaction.TransactionRequestListener;
 import lombok.Data;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.PluginManager;
@@ -25,6 +29,28 @@ public final class ListenerRegistry {
             );
             pluginManager.registerEvents(
                     new UserDisconnectListener(plugin.getAccountStorage()),
+                    plugin
+            );
+
+            // operations
+
+            pluginManager.registerEvents(
+                    new MoneyDepositListener(),
+                    plugin
+            );
+            pluginManager.registerEvents(
+                    new MoneySetListener(),
+                    plugin
+            );
+            pluginManager.registerEvents(
+                    new MoneyWithdrawListener(),
+                    plugin
+            );
+
+            // transactions
+
+            pluginManager.registerEvents(
+                    new TransactionRequestListener(),
                     plugin
             );
 
