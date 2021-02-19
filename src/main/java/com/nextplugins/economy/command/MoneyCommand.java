@@ -27,9 +27,7 @@ import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 
 import java.io.IOException;
-import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.UUID;
 import java.util.concurrent.atomic.AtomicInteger;
 
 @RequiredArgsConstructor
@@ -57,12 +55,16 @@ public final class MoneyCommand {
                     .replace("$amount", NumberFormat.format(balance))
             );
         } else {
-            double targetBalance = accountStorage.getAccount(target.getUniqueId()).getBalance();
+            if (target.hasPlayedBefore()) {
+                double targetBalance = accountStorage.getAccount(target.getUniqueId()).getBalance();
 
-            player.sendMessage(MessageValue.get(MessageValue::seeOtherBalance)
-                    .replace("$player", target.getName())
-                    .replace("$amount", NumberFormat.format(targetBalance))
-            );
+                player.sendMessage(MessageValue.get(MessageValue::seeOtherBalance)
+                        .replace("$player", target.getName())
+                        .replace("$amount", NumberFormat.format(targetBalance))
+                );
+            } else {
+                player.sendMessage(MessageValue.get(MessageValue::invalidTarget));
+            }
         }
 
     }
@@ -78,7 +80,7 @@ public final class MoneyCommand {
     public void moneyPayCommand(Context<Player> context, OfflinePlayer target, double amount) {
         Player player = context.getSender();
 
-        if (target != null) {
+        if (target != null && target.isOnline()) {
             TransactionRequestEvent transactionRequestEvent = new TransactionRequestEvent(player, target.getPlayer(), amount);
             Bukkit.getPluginManager().callEvent(transactionRequestEvent);
         } else {
@@ -115,7 +117,7 @@ public final class MoneyCommand {
     public void moneySetCommand(Context<Player> context, OfflinePlayer target, double amount) {
         Player player = context.getSender();
 
-        if (target != null) {
+        if (target != null && target.isOnline()) {
             MoneySetEvent moneySetEvent = new MoneySetEvent(player, target.getPlayer(), amount);
             Bukkit.getPluginManager().callEvent(moneySetEvent);
         } else {
@@ -135,7 +137,7 @@ public final class MoneyCommand {
     public void moneyAddCommand(Context<Player> context, OfflinePlayer target, double amount) {
         Player player = context.getSender();
 
-        if (target != null) {
+        if (target != null && target.isOnline()) {
             MoneyDepositEvent moneyDepositEvent = new MoneyDepositEvent(player, target.getPlayer(), amount);
             Bukkit.getPluginManager().callEvent(moneyDepositEvent);
         } else {
@@ -155,7 +157,7 @@ public final class MoneyCommand {
     public void moneyRemoveCommand(Context<Player> context, OfflinePlayer target, double amount) {
         Player player = context.getSender();
 
-        if (target != null) {
+        if (target != null && target.isOnline()) {
             MoneyWithdrawEvent moneyWithdrawEvent = new MoneyWithdrawEvent(player, target.getPlayer(), amount);
             Bukkit.getPluginManager().callEvent(moneyWithdrawEvent);
         } else {
@@ -175,7 +177,7 @@ public final class MoneyCommand {
     public void moneyResetCommand(Context<Player> context, OfflinePlayer target) {
         Player player = context.getSender();
 
-        if (target != null) {
+        if (target != null && target.isOnline()) {
             Account targetAccount = accountStorage.getAccount(target.getUniqueId());
 
             targetAccount.setBalance(0);
@@ -201,9 +203,9 @@ public final class MoneyCommand {
 
         String rankingType = RankingValue.get(RankingValue::rankingType);
 
-        LinkedHashMap<UUID, Double> rankingAccounts = rankingStorage.getRankingAccounts();
-
         if (rankingType.equalsIgnoreCase("CHAT")) {
+            List<Account> accounts = rankingStorage.getRankingAccounts();
+
             List<String> header = RankingValue.get(RankingValue::chatModelHeader);
             String body = RankingValue.get(RankingValue::chatModelBody);
             List<String> footer = RankingValue.get(RankingValue::chatModelFooter);
@@ -212,11 +214,22 @@ public final class MoneyCommand {
 
             AtomicInteger position = new AtomicInteger(1);
 
-            rankingAccounts.forEach((owner, balance) -> player.sendMessage(body
-                    .replace("$position", String.valueOf(position.getAndIncrement()))
-                    .replace("$player", Bukkit.getOfflinePlayer(owner).getName())
-                    .replace("$amount", NumberFormat.format(balance))
-            ));
+            String tag = RankingValue.get(RankingValue::tycoonTagValue);
+
+            for (Account account : accounts) {
+                String name = Bukkit.getOfflinePlayer(account.getOwner()).getName();
+                String balance = NumberFormat.format(account.getBalance());
+
+                player.sendMessage(body
+                        .replace("$position", String.valueOf(position.get()))
+                        .replace("$player", position.get() == 1
+                                ? tag + ChatColor.GREEN + " " + name
+                                : name
+                        )
+                        .replace("$amount", balance)
+                );
+                position.getAndIncrement();
+            }
 
             footer.forEach(player::sendMessage);
         } else if (rankingType.equalsIgnoreCase("INVENTORY")) {

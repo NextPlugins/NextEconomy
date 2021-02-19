@@ -8,6 +8,7 @@ import com.henryfabio.minecraft.inventoryapi.viewer.configuration.border.Border;
 import com.henryfabio.minecraft.inventoryapi.viewer.configuration.impl.ViewerConfigurationImpl;
 import com.henryfabio.minecraft.inventoryapi.viewer.impl.paged.PagedViewer;
 import com.nextplugins.economy.NextEconomy;
+import com.nextplugins.economy.api.model.Account;
 import com.nextplugins.economy.configuration.values.RankingValue;
 import com.nextplugins.economy.storage.RankingStorage;
 import com.nextplugins.economy.util.ItemBuilder;
@@ -46,28 +47,28 @@ public final class RankingInventory extends PagedInventory {
 
         AtomicInteger position = new AtomicInteger(1);
 
-        rankingStorage.getRankingAccounts().forEach((owner, balance) -> {
-            String replacedDisplayName = headDisplayName.replace("$player", Bukkit.getOfflinePlayer(owner).getName())
-                    .replace("$amount", NumberFormat.format(balance))
+        for (Account account : rankingStorage.getRankingAccounts()) {
+            String replacedDisplayName = headDisplayName.replace("$player", Bukkit.getOfflinePlayer(account.getOwner()).getName())
+                    .replace("$amount", NumberFormat.format(account.getBalance()))
                     .replace("$position", String.valueOf(position.getAndIncrement()));
 
             List<String> replacedLore = Lists.newArrayList();
 
             for (String lore : headLore) {
                 replacedLore.add(
-                        lore.replace("$player", Bukkit.getOfflinePlayer(owner).getName())
-                                .replace("$amount", NumberFormat.format(balance))
+                        lore.replace("$player", Bukkit.getOfflinePlayer(account.getOwner()).getName())
+                                .replace("$amount", NumberFormat.format(account.getBalance()))
                                 .replace("$position", String.valueOf(position.getAndIncrement()))
                 );
             }
 
             items.add(() -> InventoryItem.of(
-                    new ItemBuilder(Bukkit.getOfflinePlayer(owner).getName())
+                    new ItemBuilder(Bukkit.getOfflinePlayer(account.getOwner()).getName())
                             .name(replacedDisplayName)
                             .setLore(replacedLore)
                             .wrap()
             ));
-        });
+        }
 
         return items;
     }

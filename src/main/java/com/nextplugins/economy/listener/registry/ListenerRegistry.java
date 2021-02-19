@@ -1,8 +1,11 @@
 package com.nextplugins.economy.listener.registry;
 
 import com.nextplugins.economy.NextEconomy;
+import com.nextplugins.economy.configuration.values.FeatureValue;
+import com.nextplugins.economy.configuration.values.RankingValue;
 import com.nextplugins.economy.listener.UserConnectListener;
 import com.nextplugins.economy.listener.UserDisconnectListener;
+import com.nextplugins.economy.listener.chat.TycoonTagRegister;
 import com.nextplugins.economy.listener.operation.MoneyDepositListener;
 import com.nextplugins.economy.listener.operation.MoneySetListener;
 import com.nextplugins.economy.listener.operation.MoneyWithdrawListener;
@@ -53,6 +56,15 @@ public final class ListenerRegistry {
                     new TransactionRequestListener(),
                     plugin
             );
+
+            // tycoon tag
+
+            if (RankingValue.get(RankingValue::useTycoonTag)) {
+                pluginManager.registerEvents(
+                        new TycoonTagRegister(),
+                        plugin
+                );
+            }
 
             logger.info("Listeners registrados com sucesso!");
         } catch (Throwable t) {
