@@ -55,12 +55,16 @@ public final class MoneyCommand {
                     .replace("$amount", NumberFormat.format(balance))
             );
         } else {
-            double targetBalance = accountStorage.getAccount(target.getUniqueId()).getBalance();
+            if (target.hasPlayedBefore()) {
+                double targetBalance = accountStorage.getAccount(target.getUniqueId()).getBalance();
 
-            player.sendMessage(MessageValue.get(MessageValue::seeOtherBalance)
-                    .replace("$player", target.getName())
-                    .replace("$amount", NumberFormat.format(targetBalance))
-            );
+                player.sendMessage(MessageValue.get(MessageValue::seeOtherBalance)
+                        .replace("$player", target.getName())
+                        .replace("$amount", NumberFormat.format(targetBalance))
+                );
+            } else {
+                player.sendMessage(MessageValue.get(MessageValue::invalidTarget));
+            }
         }
 
     }
