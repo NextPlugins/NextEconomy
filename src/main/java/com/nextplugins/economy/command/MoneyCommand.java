@@ -27,9 +27,7 @@ import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 
 import java.io.IOException;
-import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.UUID;
 import java.util.concurrent.atomic.AtomicInteger;
 
 @RequiredArgsConstructor
@@ -201,9 +199,9 @@ public final class MoneyCommand {
 
         String rankingType = RankingValue.get(RankingValue::rankingType);
 
-        LinkedHashMap<UUID, Double> rankingAccounts = rankingStorage.getRankingAccounts();
-
         if (rankingType.equalsIgnoreCase("CHAT")) {
+            List<Account> accounts = rankingStorage.getRankingAccounts();
+
             List<String> header = RankingValue.get(RankingValue::chatModelHeader);
             String body = RankingValue.get(RankingValue::chatModelBody);
             List<String> footer = RankingValue.get(RankingValue::chatModelFooter);
@@ -212,11 +210,13 @@ public final class MoneyCommand {
 
             AtomicInteger position = new AtomicInteger(1);
 
-            rankingAccounts.forEach((owner, balance) -> player.sendMessage(body
-                    .replace("$position", String.valueOf(position.getAndIncrement()))
-                    .replace("$player", Bukkit.getOfflinePlayer(owner).getName())
-                    .replace("$amount", NumberFormat.format(balance))
-            ));
+            for (Account account : accounts) {
+                player.sendMessage(body
+                        .replace("$position", String.valueOf(position.getAndIncrement()))
+                        .replace("$player", Bukkit.getOfflinePlayer(account.getOwner()).getName())
+                        .replace("$amount", NumberFormat.format(account.getBalance()))
+                );
+            }
 
             footer.forEach(player::sendMessage);
         } else if (rankingType.equalsIgnoreCase("INVENTORY")) {

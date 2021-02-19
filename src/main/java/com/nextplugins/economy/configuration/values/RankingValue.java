@@ -50,6 +50,11 @@ public final class RankingValue implements ConfigurationInjectable {
     @ConfigField("npc.hologram.lines") private List<String> hologramLines;
     @ConfigField("npc.locations") private List<String> npcLocations;
 
+    // tycoon
+
+    @ConfigField("tycoon.tag.use") private boolean useTycoonTag;
+    @ConfigField("tycoon.tag.value") private String tycoonTagValue;
+
     public static <T> T get(Function<RankingValue, T> function) {
         return function.apply(instance);
     }

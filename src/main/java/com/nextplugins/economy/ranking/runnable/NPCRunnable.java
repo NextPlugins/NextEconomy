@@ -4,6 +4,7 @@ import com.gmail.filoghost.holographicdisplays.api.Hologram;
 import com.gmail.filoghost.holographicdisplays.api.HologramsAPI;
 import com.google.common.collect.Lists;
 import com.nextplugins.economy.NextEconomy;
+import com.nextplugins.economy.api.model.Account;
 import com.nextplugins.economy.configuration.values.RankingValue;
 import com.nextplugins.economy.ranking.manager.LocationManager;
 import com.nextplugins.economy.storage.RankingStorage;
@@ -16,9 +17,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.EntityType;
 
-import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.UUID;
 import java.util.concurrent.atomic.AtomicInteger;
 
 @RequiredArgsConstructor
@@ -38,9 +37,9 @@ public final class NPCRunnable implements Runnable {
 
     @Override
     public void run() {
-        LinkedHashMap<UUID, Double> rankingAccounts = rankingStorage.getRankingAccounts();
+        List<Account> accounts = rankingStorage.getRankingAccounts();
 
-        if (rankingAccounts.size() <= 0) return;
+        if (accounts.size() <= 0) return;
 
         NPC.forEach(net.citizensnpcs.api.npc.NPC::destroy);
         HOLOGRAM.forEach(Hologram::delete);
@@ -49,8 +48,7 @@ public final class NPCRunnable implements Runnable {
 
         AtomicInteger position = new AtomicInteger(1);
 
-        rankingAccounts.forEach((owner, balance) -> {
-
+        for (Account account : accounts) {
             if (!locationManager.getLocationMap().containsKey(position.get())) return;
 
             Location location = locationManager.getLocation(position.get());
@@ -65,8 +63,8 @@ public final class NPCRunnable implements Runnable {
                     String replacedLine = hologramLines.get(i);
 
                     replacedLine = replacedLine.replace("$position", String.valueOf(position.get()));
-                    replacedLine = replacedLine.replace("$player", Bukkit.getOfflinePlayer(owner).getName());
-                    replacedLine = replacedLine.replace("$amount", NumberFormat.format(balance));
+                    replacedLine = replacedLine.replace("$player", Bukkit.getOfflinePlayer(account.getOwner()).getName());
+                    replacedLine = replacedLine.replace("$amount", NumberFormat.format(account.getBalance()));
 
                     hologram.insertTextLine(i, replacedLine);
                 }
@@ -75,14 +73,13 @@ public final class NPCRunnable implements Runnable {
             }
 
             NPC npc = npcRegistry.createNPC(EntityType.PLAYER, "");
-            npc.data().set("player-skin-name", Bukkit.getOfflinePlayer(owner).getName());
+            npc.data().set("player-skin-name", Bukkit.getOfflinePlayer(account.getOwner()).getName());
             npc.setProtected(true);
             npc.spawn(location);
 
             NPC.add(npc);
             position.getAndIncrement();
-
-        });
+        }
 
     }
 
