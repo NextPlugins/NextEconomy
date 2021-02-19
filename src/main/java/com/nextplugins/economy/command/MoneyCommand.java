@@ -80,7 +80,7 @@ public final class MoneyCommand {
     public void moneyPayCommand(Context<Player> context, OfflinePlayer target, double amount) {
         Player player = context.getSender();
 
-        if (target != null) {
+        if (target != null && target.isOnline()) {
             TransactionRequestEvent transactionRequestEvent = new TransactionRequestEvent(player, target.getPlayer(), amount);
             Bukkit.getPluginManager().callEvent(transactionRequestEvent);
         } else {
@@ -117,7 +117,7 @@ public final class MoneyCommand {
     public void moneySetCommand(Context<Player> context, OfflinePlayer target, double amount) {
         Player player = context.getSender();
 
-        if (target != null) {
+        if (target != null && target.isOnline()) {
             MoneySetEvent moneySetEvent = new MoneySetEvent(player, target.getPlayer(), amount);
             Bukkit.getPluginManager().callEvent(moneySetEvent);
         } else {
@@ -137,7 +137,7 @@ public final class MoneyCommand {
     public void moneyAddCommand(Context<Player> context, OfflinePlayer target, double amount) {
         Player player = context.getSender();
 
-        if (target != null) {
+        if (target != null && target.isOnline()) {
             MoneyDepositEvent moneyDepositEvent = new MoneyDepositEvent(player, target.getPlayer(), amount);
             Bukkit.getPluginManager().callEvent(moneyDepositEvent);
         } else {
@@ -157,7 +157,7 @@ public final class MoneyCommand {
     public void moneyRemoveCommand(Context<Player> context, OfflinePlayer target, double amount) {
         Player player = context.getSender();
 
-        if (target != null) {
+        if (target != null && target.isOnline()) {
             MoneyWithdrawEvent moneyWithdrawEvent = new MoneyWithdrawEvent(player, target.getPlayer(), amount);
             Bukkit.getPluginManager().callEvent(moneyWithdrawEvent);
         } else {
@@ -177,7 +177,7 @@ public final class MoneyCommand {
     public void moneyResetCommand(Context<Player> context, OfflinePlayer target) {
         Player player = context.getSender();
 
-        if (target != null) {
+        if (target != null && target.isOnline()) {
             Account targetAccount = accountStorage.getAccount(target.getUniqueId());
 
             targetAccount.setBalance(0);
@@ -214,12 +214,21 @@ public final class MoneyCommand {
 
             AtomicInteger position = new AtomicInteger(1);
 
+            String tag = RankingValue.get(RankingValue::tycoonTagValue);
+
             for (Account account : accounts) {
+                String name = Bukkit.getOfflinePlayer(account.getOwner()).getName();
+                String balance = NumberFormat.format(account.getBalance());
+
                 player.sendMessage(body
-                        .replace("$position", String.valueOf(position.getAndIncrement()))
-                        .replace("$player", Bukkit.getOfflinePlayer(account.getOwner()).getName())
-                        .replace("$amount", NumberFormat.format(account.getBalance()))
+                        .replace("$position", String.valueOf(position.get()))
+                        .replace("$player", position.get() == 1
+                                ? tag + ChatColor.GREEN + " " + name
+                                : name
+                        )
+                        .replace("$amount", balance)
                 );
+                position.getAndIncrement();
             }
 
             footer.forEach(player::sendMessage);
