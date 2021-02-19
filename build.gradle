@@ -57,8 +57,8 @@ bukkit {
     authors = ['Henry_Fabio', 'Eike', 'Gabriel Santos', 'Yuhtin']
     website = 'https://github.com/NextPlugins'
     version = "${project.version}"
-    depend = ['Vault']
-    softDepend = ['Citizens', 'HolographicDisplays', 'PlaceholderAPI']
+    softDepend = ['Citizens', 'HolographicDisplays', 'PlaceholderAPI', 'Vault']
+    load = 'STARTUP'
 }
 
 shadowJar {
