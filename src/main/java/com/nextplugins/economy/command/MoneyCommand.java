@@ -24,6 +24,7 @@ import me.saiintbrisson.minecraft.command.target.CommandTarget;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.OfflinePlayer;
+import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import java.io.IOException;
@@ -42,11 +43,15 @@ public final class MoneyCommand {
             name = "money",
             usage = "/money <jogador>",
             description = "Utilize para ver a sua quantia de Cash, ou a de outro jogador.",
-            target = CommandTarget.PLAYER,
             async = true
     )
-    public void moneyCommand(Context<Player> context, @Optional OfflinePlayer target) {
-        Player player = context.getSender();
+    public void moneyCommand(Context<CommandSender> context, @Optional OfflinePlayer target) {
+        if (!(context.getSender() instanceof Player)) {
+            context.getSender().sendMessage(MessageValue.get(MessageValue::incorrectTarget));
+            return;
+        }
+
+        Player player = (Player) context.getSender();
 
         if (target == null) {
             double balance = accountStorage.getAccount(player.getUniqueId()).getBalance();
@@ -75,6 +80,8 @@ public final class MoneyCommand {
             usage = "/money enviar {jogador} {quantia}",
             description = "Utilize para enviar uma quantia da sua conta para outra.",
             permission = "nexteconomy.command.pay",
+
+            target = CommandTarget.PLAYER,
             async = true
     )
     public void moneyPayCommand(Context<Player> context, OfflinePlayer target, double amount) {
@@ -96,13 +103,13 @@ public final class MoneyCommand {
             permission = "nexteconomy.command.help",
             async = true
     )
-    public void moneyHelpCommand(Context<Player> context) {
-        Player player = context.getSender();
+    public void moneyHelpCommand(Context<CommandSender> context) {
+        CommandSender sender = context.getSender();
 
-        if (player.hasPermission("nexteconomy.command.help.staff")) {
-            ColorUtil.colored(MessageValue.get(MessageValue::helpCommandStaff)).forEach(player::sendMessage);
+        if (sender.hasPermission("nexteconomy.command.help.staff")) {
+            ColorUtil.colored(MessageValue.get(MessageValue::helpCommandStaff)).forEach(sender::sendMessage);
         } else {
-            ColorUtil.colored(MessageValue.get(MessageValue::helpCommand)).forEach(player::sendMessage);
+            ColorUtil.colored(MessageValue.get(MessageValue::helpCommand)).forEach(sender::sendMessage);
         }
     }
 
@@ -114,14 +121,14 @@ public final class MoneyCommand {
             permission = "nexteconomy.command.set",
             async = true
     )
-    public void moneySetCommand(Context<Player> context, OfflinePlayer target, double amount) {
-        Player player = context.getSender();
+    public void moneySetCommand(Context<CommandSender> context, OfflinePlayer target, double amount) {
+        CommandSender sender = context.getSender();
 
         if (target != null && target.isOnline()) {
-            MoneySetEvent moneySetEvent = new MoneySetEvent(player, target.getPlayer(), amount);
+            MoneySetEvent moneySetEvent = new MoneySetEvent(sender, target.getPlayer(), amount);
             Bukkit.getPluginManager().callEvent(moneySetEvent);
         } else {
-            player.sendMessage(MessageValue.get(MessageValue::invalidTarget));
+            sender.sendMessage(MessageValue.get(MessageValue::invalidTarget));
         }
 
     }
@@ -134,14 +141,14 @@ public final class MoneyCommand {
             permission = "nexteconomy.command.add",
             async = true
     )
-    public void moneyAddCommand(Context<Player> context, OfflinePlayer target, double amount) {
-        Player player = context.getSender();
+    public void moneyAddCommand(Context<CommandSender> context, OfflinePlayer target, double amount) {
+        CommandSender sender = context.getSender();
 
         if (target != null && target.isOnline()) {
-            MoneyDepositEvent moneyDepositEvent = new MoneyDepositEvent(player, target.getPlayer(), amount);
+            MoneyDepositEvent moneyDepositEvent = new MoneyDepositEvent(sender, target.getPlayer(), amount);
             Bukkit.getPluginManager().callEvent(moneyDepositEvent);
         } else {
-            player.sendMessage(MessageValue.get(MessageValue::invalidTarget));
+            sender.sendMessage(MessageValue.get(MessageValue::invalidTarget));
         }
 
     }
@@ -154,14 +161,14 @@ public final class MoneyCommand {
             permission = "nexteconomy.command.add",
             async = true
     )
-    public void moneyRemoveCommand(Context<Player> context, OfflinePlayer target, double amount) {
-        Player player = context.getSender();
+    public void moneyRemoveCommand(Context<CommandSender> context, OfflinePlayer target, double amount) {
+        CommandSender sender = context.getSender();
 
         if (target != null && target.isOnline()) {
-            MoneyWithdrawEvent moneyWithdrawEvent = new MoneyWithdrawEvent(player, target.getPlayer(), amount);
+            MoneyWithdrawEvent moneyWithdrawEvent = new MoneyWithdrawEvent(sender, target.getPlayer(), amount);
             Bukkit.getPluginManager().callEvent(moneyWithdrawEvent);
         } else {
-            player.sendMessage(MessageValue.get(MessageValue::invalidTarget));
+            sender.sendMessage(MessageValue.get(MessageValue::invalidTarget));
         }
 
     }
@@ -174,19 +181,19 @@ public final class MoneyCommand {
             permission = "nexteconomy.command.reset",
             async = true
     )
-    public void moneyResetCommand(Context<Player> context, OfflinePlayer target) {
-        Player player = context.getSender();
+    public void moneyResetCommand(Context<CommandSender> context, OfflinePlayer target) {
+        CommandSender sender = context.getSender();
 
         if (target != null && target.isOnline()) {
             Account targetAccount = accountStorage.getAccount(target.getUniqueId());
 
             targetAccount.setBalance(0);
 
-            player.sendMessage(MessageValue.get(MessageValue::resetBalance)
+            sender.sendMessage(MessageValue.get(MessageValue::resetBalance)
                     .replace("$player", Bukkit.getOfflinePlayer(targetAccount.getOwner()).getName())
             );
         } else {
-            player.sendMessage(MessageValue.get(MessageValue::invalidTarget));
+            sender.sendMessage(MessageValue.get(MessageValue::invalidTarget));
         }
 
     }
@@ -198,8 +205,8 @@ public final class MoneyCommand {
             permission = "nexteconomy.command.top",
             async = true
     )
-    public void moneyTopCommand(Context<Player> context) {
-        Player player = context.getSender();
+    public void moneyTopCommand(Context<CommandSender> context) {
+        CommandSender sender = context.getSender();
 
         String rankingType = RankingValue.get(RankingValue::rankingType);
 
@@ -210,7 +217,7 @@ public final class MoneyCommand {
             String body = RankingValue.get(RankingValue::chatModelBody);
             List<String> footer = RankingValue.get(RankingValue::chatModelFooter);
 
-            header.forEach(player::sendMessage);
+            header.forEach(sender::sendMessage);
 
             AtomicInteger position = new AtomicInteger(1);
 
@@ -220,7 +227,7 @@ public final class MoneyCommand {
                 String name = Bukkit.getOfflinePlayer(account.getOwner()).getName();
                 String balance = NumberFormat.format(account.getBalance());
 
-                player.sendMessage(body
+                sender.sendMessage(body
                         .replace("$position", String.valueOf(position.get()))
                         .replace("$player", position.get() == 1
                                 ? tag + ChatColor.GREEN + " " + name
@@ -231,10 +238,14 @@ public final class MoneyCommand {
                 position.getAndIncrement();
             }
 
-            footer.forEach(player::sendMessage);
+            footer.forEach(sender::sendMessage);
         } else if (rankingType.equalsIgnoreCase("INVENTORY")) {
-            RankingInventory rankingInventory = new RankingInventory().init();
-            rankingInventory.openInventory(player);
+            if (sender instanceof Player) {
+                RankingInventory rankingInventory = new RankingInventory().init();
+                rankingInventory.openInventory((Player) sender);
+            } else {
+                sender.sendMessage(ChatColor.RED + "Este tipo de ranking só pode ser usado por jogadores.");
+            }
         } else {
             throw new IllegalArgumentException("Tipo de ranking inválido: + " + rankingType + ". (ranking.yml)");
         }

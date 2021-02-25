@@ -8,7 +8,7 @@ plugins {
 }
 
 group = 'com.nextplugins'
-version = '1.0.2'
+version = '1.0.3'
 
 tasks.build.dependsOn('pdm', 'shadowJar')
 
@@ -61,8 +61,9 @@ bukkit {
     authors = ['Henry_Fabio', 'Eike', 'Gabriel Santos', 'Yuhtin']
     website = 'https://github.com/NextPlugins'
     version = "${project.version}"
-    loadBefore = ['Vault']
-    softDepend = ['Citizens', 'HolographicDisplays', 'PlaceholderAPI', 'Vault']
+    depend = ['Vault']
+    load = 'STARTUP'
+    softDepend = ['Citizens', 'HolographicDisplays', 'PlaceholderAPI']
 }
 
 shadowJar {
