@@ -22,7 +22,6 @@ import lombok.Getter;
 import me.bristermitten.pdm.PluginDependencyManager;
 import net.citizensnpcs.api.npc.NPC;
 import org.bukkit.Bukkit;
-import org.bukkit.configuration.Configuration;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -73,16 +72,19 @@ public final class NextEconomy extends JavaPlugin {
                 accountStorage.init();
                 InventoryManager.enable(this);
 
+                VaultHookRegistry.of(this).register();
+
                 ConfigurationRegistry.of(this).register();
                 ListenerRegistry.of(this).register();
                 CommandRegistry.of(this).register();
                 TaskRegistry.of(this).register();
-                PlaceholderRegistry.of(this).register();
-                NPCRankingRegistry.of(this).register();
 
                 MetricProvider.of(this).setup();
 
-                VaultHookRegistry.of(this).register();
+                Bukkit.getScheduler().runTaskLaterAsynchronously(this, () -> {
+                    PlaceholderRegistry.of(this).register();
+                    NPCRankingRegistry.of(this).register();
+                }, 5 * 20);
 
                 getLogger().info("Plugin inicializado com sucesso!");
             } catch (Throwable t) {

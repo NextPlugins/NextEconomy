@@ -7,6 +7,7 @@ import com.nextplugins.economy.configuration.values.MessageValue;
 import com.nextplugins.economy.storage.AccountStorage;
 import com.nextplugins.economy.util.NumberFormat;
 import org.bukkit.Bukkit;
+import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -17,7 +18,7 @@ public final class MoneyDepositListener implements Listener {
 
     @EventHandler
     public void onDeposit(MoneyDepositEvent event) {
-        Player player = event.getPlayer();
+        CommandSender sender = event.getSender();
         Player target = event.getTarget();
         double amount = event.getAmount();
 
@@ -25,7 +26,7 @@ public final class MoneyDepositListener implements Listener {
 
         targetAccount.depositAmount(amount);
 
-        player.sendMessage(MessageValue.get(MessageValue::addAmount)
+        sender.sendMessage(MessageValue.get(MessageValue::addAmount)
                 .replace("$player", Bukkit.getOfflinePlayer(targetAccount.getOwner()).getName())
                 .replace("$amount", NumberFormat.format(targetAccount.getBalance()))
         );
