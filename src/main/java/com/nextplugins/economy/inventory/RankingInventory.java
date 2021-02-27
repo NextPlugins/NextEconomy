@@ -14,9 +14,9 @@ import com.nextplugins.economy.storage.RankingStorage;
 import com.nextplugins.economy.util.ItemBuilder;
 import com.nextplugins.economy.util.NumberFormat;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 
 import java.util.List;
-import java.util.concurrent.atomic.AtomicInteger;
 
 public final class RankingInventory extends PagedInventory {
 
@@ -45,20 +45,28 @@ public final class RankingInventory extends PagedInventory {
         String headDisplayName = RankingValue.get(RankingValue::inventoryModelHeadDisplayName);
         List<String> headLore = RankingValue.get(RankingValue::inventoryModelHeadLore);
 
-        AtomicInteger position = new AtomicInteger(1);
+        int position = 1;
 
         for (Account account : rankingStorage.getRankingAccounts()) {
-            String replacedDisplayName = headDisplayName.replace("$player", Bukkit.getOfflinePlayer(account.getOwner()).getName())
+            String name = Bukkit.getOfflinePlayer(account.getOwner()).getName();
+            String tycoonTag = RankingValue.get(RankingValue::tycoonTagValue);
+
+            String replacedDisplayName = headDisplayName.replace("$player", position == 1
+                    ? tycoonTag + ChatColor.RESET + " " + name
+                    : name
+            )
                     .replace("$amount", NumberFormat.format(account.getBalance()))
-                    .replace("$position", String.valueOf(position.getAndIncrement()));
+                    .replace("$position", String.valueOf(position));
 
             List<String> replacedLore = Lists.newArrayList();
 
             for (String lore : headLore) {
                 replacedLore.add(
-                        lore.replace("$player", Bukkit.getOfflinePlayer(account.getOwner()).getName())
+                        lore.replace("$player", position == 1
+                                ? tycoonTag + ChatColor.GREEN + " " + name
+                                : name)
                                 .replace("$amount", NumberFormat.format(account.getBalance()))
-                                .replace("$position", String.valueOf(position.getAndIncrement()))
+                                .replace("$position", String.valueOf(position))
                 );
             }
 
@@ -68,6 +76,8 @@ public final class RankingInventory extends PagedInventory {
                             .setLore(replacedLore)
                             .wrap()
             ));
+
+            position++;
         }
 
         return items;
