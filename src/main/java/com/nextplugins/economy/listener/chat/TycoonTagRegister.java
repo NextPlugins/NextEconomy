@@ -17,11 +17,16 @@ public final class TycoonTagRegister implements Listener {
     public void onChat(ChatMessageEvent event) {
         Player player = event.getSender();
 
+        if (rankingStorage.getRankingAccounts().isEmpty()) return;
+
         Account tycoonAccount = rankingStorage.getRankingAccounts().get(0);
+
+        if (tycoonAccount == null) return;
 
         if (player.getUniqueId().equals(tycoonAccount.getOwner())) {
             event.setTagValue("tycoon", RankingValue.get(RankingValue::tycoonTagValue));
         }
+
     }
 
 }
