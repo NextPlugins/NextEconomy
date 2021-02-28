@@ -7,8 +7,8 @@ Um sistema simples e completo de uma economia principal para servidores de Minec
 |----------------|-------------------------------|-----------------------------|
 |/money           |Veja a sua, ou a quantia de money de outra pessoa.|Nenhuma    |
 |/money enviar    |Envie uma quantia de money para outra pessoa.|`nexteconomy.command.pay`|
-|/money top       |Envie uma quantia de money para outra pessoa.|`nexteconomy.command.top`|
-|/money ajuda     |Envie uma quantia de money para outra pessoa.|`nexteconomy.command.help`|
+|/money top       |Veja o ranking dos jogadores mais ricos do server.|`nexteconomy.command.top`|
+|/money ajuda     |Veja os comandos disponíveis do sistema.|`nexteconomy.command.help`|
 |/money add       |Adicione uma quantia de money para alguém.|`nexteconomy.command.add`|
 |/money set       |Altere a quantia de money de alguém.|`nexteconomy.command.set`|
 |/money remove    |Remova uma quantia de money de alguém.|`nexteconomy.command.remove`|
