@@ -129,7 +129,7 @@ public class VaultExpansionHook implements Economy {
                 return new EconomyResponse(amount,
                         account.getBalance(),
                         EconomyResponse.ResponseType.SUCCESS,
-                        "Não foi possível terminar esta operação."
+                        "Operação realizada com sucesso."
                 );
             } else {
                 return new EconomyResponse(amount,
@@ -168,7 +168,7 @@ public class VaultExpansionHook implements Economy {
             return new EconomyResponse(amount,
                     account.getBalance(),
                     EconomyResponse.ResponseType.SUCCESS,
-                    "Não foi possível terminar esta operação."
+                    "Operação realizada com sucesso."
             );
         }
 
