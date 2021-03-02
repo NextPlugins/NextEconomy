@@ -63,7 +63,7 @@ bukkit {
     version = "${project.version}"
     depend = ['Vault']
     load = 'STARTUP'
-    softDepend = ['Citizens', 'HolographicDisplays', 'PlaceholderAPI']
+    softDepend = ['Citizens', 'HolographicDisplays', 'PlaceholderAPI', 'Legendchat']
 }
 
 shadowJar {
