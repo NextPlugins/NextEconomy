@@ -10,8 +10,9 @@ import com.nextplugins.economy.dao.AccountDAO;
 import com.nextplugins.economy.listener.registry.ListenerRegistry;
 import com.nextplugins.economy.metric.MetricProvider;
 import com.nextplugins.economy.placeholder.registry.PlaceholderRegistry;
-import com.nextplugins.economy.ranking.NPCRankingRegistry;
+import com.nextplugins.economy.ranking.CustomRankingRegistry;
 import com.nextplugins.economy.ranking.manager.LocationManager;
+import com.nextplugins.economy.ranking.runnable.ArmorStandRunnable;
 import com.nextplugins.economy.ranking.runnable.NPCRunnable;
 import com.nextplugins.economy.sql.SQLProvider;
 import com.nextplugins.economy.storage.AccountStorage;
@@ -24,6 +25,7 @@ import net.citizensnpcs.api.npc.NPC;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.entity.ArmorStand;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
@@ -83,7 +85,7 @@ public final class NextEconomy extends JavaPlugin {
 
                 Bukkit.getScheduler().runTaskLaterAsynchronously(this, () -> {
                     PlaceholderRegistry.of(this).register();
-                    NPCRankingRegistry.of(this).register();
+                    CustomRankingRegistry.of(this).register();
                 }, 5 * 20);
 
                 getLogger().info("Plugin inicializado com sucesso!");
@@ -98,8 +100,10 @@ public final class NextEconomy extends JavaPlugin {
     @Override
     public void onDisable() {
 
-        if (!NPCRunnable.NPC.isEmpty()) NPCRunnable.NPC.forEach(NPC::destroy);
-        if (!NPCRunnable.HOLOGRAM.isEmpty()) NPCRunnable.HOLOGRAM.forEach(Hologram::delete);
+        NPCRunnable.NPC.forEach(NPC::destroy);
+        NPCRunnable.HOLOGRAM.forEach(Hologram::delete);
+        ArmorStandRunnable.STANDS.forEach(ArmorStand::remove);
+        ArmorStandRunnable.HOLOGRAM.forEach(Hologram::delete);
 
     }
 

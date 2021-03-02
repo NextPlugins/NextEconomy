@@ -3,12 +3,13 @@ package com.nextplugins.economy.ranking.loader;
 import com.nextplugins.economy.NextEconomy;
 import com.nextplugins.economy.ranking.manager.LocationManager;
 import com.nextplugins.economy.ranking.util.LocationUtil;
+import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import org.bukkit.Location;
 
 import java.util.List;
 
-@RequiredArgsConstructor
+@Data(staticConstructor = "of")
 public final class LocationLoader {
 
     private final NextEconomy plugin;

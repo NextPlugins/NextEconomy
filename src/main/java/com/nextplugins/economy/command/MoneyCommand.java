@@ -9,7 +9,7 @@ import com.nextplugins.economy.api.model.Account;
 import com.nextplugins.economy.configuration.values.MessageValue;
 import com.nextplugins.economy.configuration.values.RankingValue;
 import com.nextplugins.economy.inventory.RankingInventory;
-import com.nextplugins.economy.ranking.NPCRankingRegistry;
+import com.nextplugins.economy.ranking.CustomRankingRegistry;
 import com.nextplugins.economy.ranking.manager.LocationManager;
 import com.nextplugins.economy.ranking.util.LocationUtil;
 import com.nextplugins.economy.storage.AccountStorage;
@@ -278,7 +278,7 @@ public final class MoneyCommand {
     public void npcAddCommand(Context<Player> context, int position) throws IOException {
         Player player = context.getSender();
 
-        if (!NPCRankingRegistry.isEnabled) {
+        if (!CustomRankingRegistry.isEnabled) {
             player.sendMessage(ChatColor.RED + "O ranking em NPC foi desabilitado por falta de dependências.");
             return;
         }
@@ -325,7 +325,7 @@ public final class MoneyCommand {
     public void npcRemoveCommand(Context<Player> context, int position) throws Exception {
         Player player = context.getSender();
 
-        if (!NPCRankingRegistry.isEnabled) {
+        if (!CustomRankingRegistry.isEnabled) {
             player.sendMessage(ChatColor.RED + "O ranking em NPC foi desabilitado por falta de dependências.");
             return;
         }
