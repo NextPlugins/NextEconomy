@@ -87,13 +87,13 @@ public final class ArmorStandRunnable implements Runnable {
             stand.setGravity(false);
             stand.setArms(true);
 
-            Material sword = SWORDS.length < position.get() ? SWORDS[SWORDS.length - 1] : SWORDS[position.get()];
+            Material sword = SWORDS.length < position.get() ? SWORDS[SWORDS.length - 1] : SWORDS[position.get() - 1];
             stand.setItemInHand(new ItemStack(sword));
 
             stand.setHelmet(new ItemBuilder(playerName).wrap());
             stand.setChestplate(createDyeItem(Material.LEATHER_CHESTPLATE, getColorByHex(RankingValue.get(RankingValue::chestplateRGB))));
-            stand.setChestplate(createDyeItem(Material.LEATHER_LEGGINGS, getColorByHex(RankingValue.get(RankingValue::leggingsRGB))));
-            stand.setChestplate(createDyeItem(Material.LEATHER_BOOTS, getColorByHex(RankingValue.get(RankingValue::bootsRGB))));
+            stand.setLeggings(createDyeItem(Material.LEATHER_LEGGINGS, getColorByHex(RankingValue.get(RankingValue::leggingsRGB))));
+            stand.setBoots(createDyeItem(Material.LEATHER_BOOTS, getColorByHex(RankingValue.get(RankingValue::bootsRGB))));
 
             stand.setVisible(true); // configuration finished, show stand
             position.getAndIncrement();
