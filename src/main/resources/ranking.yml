@@ -30,15 +30,14 @@ ranking:
     # NOTHING - Desativar ArmorStand e NPC
     type: ARMORSTAND
     # Configuração das cores da armadura de couro (apenas top armorstand)
-    # Todas as cores aqui são em RGB, procure no google para achar o código RGB da cor que quer colocar
-    # Quando pegar o RGB, ele virá com espaços e virgulas, coloque apenas os números (na mesma ordem)
+    # Todas as cores aqui são em HEX, procure no google para achar o código HEX da cor que quer colocar
     armor:
       # Cor do peitoral de couro
-      chestplate: '40176176' # Azul claro
+      chestplate: '#17c8cf' # Azul claro
       # Cor da calça de couro
-      leggings: '3716863' # Verde claro
+      leggings: '#31c456' # Verde claro
       # Cor da bota de couro
-      boots: '1893434' # Vermelho
+      boots: '#c43d31' # Vermelho
     hologram:
       # altura do holograma, em blocos (começando do chão)
       height: 3

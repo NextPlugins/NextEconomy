@@ -85,16 +85,15 @@ public final class ArmorStandRunnable implements Runnable {
             stand.setSmall(true);
             stand.setCustomNameVisible(false);
             stand.setGravity(false);
-            stand.setCollidable(false);
             stand.setArms(true);
 
             Material sword = SWORDS.length < position.get() ? SWORDS[SWORDS.length - 1] : SWORDS[position.get()];
             stand.setItemInHand(new ItemStack(sword));
 
             stand.setHelmet(new ItemBuilder(playerName).wrap());
-            stand.setChestplate(createDyeItem(Material.LEATHER_CHESTPLATE, Color.fromRGB(RankingValue.get(RankingValue::chestplateRGB))));
-            stand.setChestplate(createDyeItem(Material.LEATHER_LEGGINGS, Color.fromRGB(RankingValue.get(RankingValue::leggingsRGB))));
-            stand.setChestplate(createDyeItem(Material.LEATHER_BOOTS, Color.fromRGB(RankingValue.get(RankingValue::bootsRGB))));
+            stand.setChestplate(createDyeItem(Material.LEATHER_CHESTPLATE, getColorByHex(RankingValue.get(RankingValue::chestplateRGB))));
+            stand.setChestplate(createDyeItem(Material.LEATHER_LEGGINGS, getColorByHex(RankingValue.get(RankingValue::leggingsRGB))));
+            stand.setChestplate(createDyeItem(Material.LEATHER_BOOTS, getColorByHex(RankingValue.get(RankingValue::bootsRGB))));
 
             stand.setVisible(true); // configuration finished, show stand
             position.getAndIncrement();
@@ -102,7 +101,7 @@ public final class ArmorStandRunnable implements Runnable {
 
     }
 
-    public static ItemStack createDyeItem(Material leatherPiece, Color color) {
+    private ItemStack createDyeItem(Material leatherPiece, Color color) {
 
         ItemStack item = new ItemStack(leatherPiece);
 
@@ -111,6 +110,13 @@ public final class ArmorStandRunnable implements Runnable {
         item.setItemMeta(meta);
 
         return item;
+
+    }
+
+    private Color getColorByHex(String hex) {
+
+        java.awt.Color decode = java.awt.Color.decode(hex);
+        return Color.fromRGB(decode.getRed(), decode.getGreen(), decode.getBlue());
 
     }
 
