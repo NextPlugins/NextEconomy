@@ -87,7 +87,9 @@ public final class ArmorStandRunnable implements Runnable {
             stand.setGravity(false);
             stand.setArms(true);
 
-            Material sword = SWORDS.length < position.get() ? SWORDS[SWORDS.length - 1] : SWORDS[position.get() - 1];
+            int swordNumber = Math.min(SWORDS.length, position.get());
+            
+            Material sword =  SWORDS[swordNumber - 1];
             stand.setItemInHand(new ItemStack(sword));
 
             stand.setHelmet(new ItemBuilder(playerName).wrap());
