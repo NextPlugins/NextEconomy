@@ -5,6 +5,7 @@ import com.henryfabio.minecraft.inventoryapi.manager.InventoryManager;
 import com.henryfabio.sqlprovider.connector.SQLConnector;
 import com.henryfabio.sqlprovider.executor.SQLExecutor;
 import com.nextplugins.economy.command.registry.CommandRegistry;
+import com.nextplugins.economy.configuration.ConfigurationManager;
 import com.nextplugins.economy.configuration.registry.ConfigurationRegistry;
 import com.nextplugins.economy.dao.AccountDAO;
 import com.nextplugins.economy.listener.registry.ListenerRegistry;
@@ -50,10 +51,10 @@ public final class NextEconomy extends JavaPlugin {
 
         saveDefaultConfig();
 
-        npcFile = new File(getDataFolder(), "npcs.yml");
-        if (!npcFile.exists()) saveResource("npcs.yml", false);
+        ConfigurationManager npcConfigManager = ConfigurationManager.of("npcs.yml").saveDefault();
 
-        npcConfig = YamlConfiguration.loadConfiguration(npcFile);
+        this.npcConfig = npcConfigManager.load();
+        this.npcFile = npcConfigManager.getFile();
 
     }
 

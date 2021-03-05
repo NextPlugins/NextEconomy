@@ -6,6 +6,7 @@ import com.nextplugins.economy.ranking.loader.LocationLoader;
 import com.nextplugins.economy.ranking.runnable.ArmorStandRunnable;
 import com.nextplugins.economy.ranking.runnable.NPCRunnable;
 import lombok.Data;
+import lombok.Getter;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.scheduler.BukkitScheduler;
@@ -19,7 +20,8 @@ public class CustomRankingRegistry {
     protected final String CITIZENS = "Citizens";
     protected final String HOLOGRAPHIC_DISPLAYS = "HolographicDisplays";
 
-    public static boolean isEnabled;
+    @Getter private static boolean enabled;
+    @Getter private static Runnable runnable;
 
     public void register() {
 
@@ -64,7 +66,7 @@ public class CustomRankingRegistry {
 
         int updateDelay = RankingValue.get(RankingValue::updateDelay);
 
-        Runnable runnable = isNpc
+        runnable = isNpc
                 ? new NPCRunnable(plugin, plugin.getLocationManager(), plugin.getRankingStorage())
                 : new ArmorStandRunnable(plugin, plugin.getLocationManager(), plugin.getRankingStorage());
 
@@ -76,7 +78,7 @@ public class CustomRankingRegistry {
                 updateDelay * 20L
         );
 
-        isEnabled = true;
+        enabled = true;
     }
 
 }

@@ -3,6 +3,7 @@ package com.nextplugins.economy.configuration;
 import com.nextplugins.economy.NextEconomy;
 import lombok.Data;
 import org.bukkit.configuration.Configuration;
+import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 
 import java.io.File;
@@ -16,6 +17,7 @@ import java.io.File;
 public final class ConfigurationManager {
 
     private final String config;
+    private File file;
 
     public ConfigurationManager saveDefault() {
 
@@ -26,13 +28,12 @@ public final class ConfigurationManager {
 
     }
 
-    public Configuration load() {
+    public FileConfiguration load() {
 
         NextEconomy instance = NextEconomy.getInstance();
+        this.file = new File(instance.getDataFolder(), this.config);
 
-        return YamlConfiguration.loadConfiguration(
-                new File(instance.getDataFolder(), this.config)
-        );
+        return YamlConfiguration.loadConfiguration(file);
 
     }
 

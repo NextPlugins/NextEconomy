@@ -24,7 +24,7 @@ public final class RankingInventory extends PagedInventory {
 
     public RankingInventory() {
         super(
-                "nextcash.ranking.inventory",
+                "nexteconomy.ranking.inventory",
                 RankingValue.get(RankingValue::inventoryModelTitle),
                 4 * 9
         );
