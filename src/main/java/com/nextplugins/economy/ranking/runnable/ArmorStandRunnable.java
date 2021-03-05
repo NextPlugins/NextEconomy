@@ -88,7 +88,7 @@ public final class ArmorStandRunnable implements Runnable {
             stand.setArms(true);
 
             int swordNumber = Math.min(SWORDS.length, position.get());
-            
+
             Material sword =  SWORDS[swordNumber - 1];
             stand.setItemInHand(new ItemStack(sword));
 

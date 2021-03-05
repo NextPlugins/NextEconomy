@@ -84,11 +84,11 @@ public final class MoneyCommand {
             target = CommandTarget.PLAYER,
             async = true
     )
-    public void moneyPayCommand(Context<Player> context, OfflinePlayer target, double amount) {
+    public void moneyPayCommand(Context<Player> context, OfflinePlayer target, String amount) {
         Player player = context.getSender();
 
         if (target != null && target.isOnline()) {
-            TransactionRequestEvent transactionRequestEvent = new TransactionRequestEvent(player, target.getPlayer(), amount);
+            TransactionRequestEvent transactionRequestEvent = new TransactionRequestEvent(player, target.getPlayer(), NumberFormat.parse(amount));
             Bukkit.getPluginManager().callEvent(transactionRequestEvent);
         } else {
             player.sendMessage(MessageValue.get(MessageValue::invalidTarget));
@@ -121,11 +121,11 @@ public final class MoneyCommand {
             permission = "nexteconomy.command.set",
             async = true
     )
-    public void moneySetCommand(Context<CommandSender> context, OfflinePlayer target, double amount) {
+    public void moneySetCommand(Context<CommandSender> context, OfflinePlayer target, String amount) {
         CommandSender sender = context.getSender();
 
         if (target != null && target.isOnline()) {
-            MoneySetEvent moneySetEvent = new MoneySetEvent(sender, target.getPlayer(), amount);
+            MoneySetEvent moneySetEvent = new MoneySetEvent(sender, target.getPlayer(), NumberFormat.parse(amount));
             Bukkit.getPluginManager().callEvent(moneySetEvent);
         } else {
             sender.sendMessage(MessageValue.get(MessageValue::invalidTarget));
@@ -141,11 +141,11 @@ public final class MoneyCommand {
             permission = "nexteconomy.command.add",
             async = true
     )
-    public void moneyAddCommand(Context<CommandSender> context, OfflinePlayer target, double amount) {
+    public void moneyAddCommand(Context<CommandSender> context, OfflinePlayer target, String amount) {
         CommandSender sender = context.getSender();
 
         if (target != null && target.isOnline()) {
-            MoneyDepositEvent moneyDepositEvent = new MoneyDepositEvent(sender, target.getPlayer(), amount);
+            MoneyDepositEvent moneyDepositEvent = new MoneyDepositEvent(sender, target.getPlayer(), NumberFormat.parse(amount));
             Bukkit.getPluginManager().callEvent(moneyDepositEvent);
         } else {
             sender.sendMessage(MessageValue.get(MessageValue::invalidTarget));
@@ -161,11 +161,11 @@ public final class MoneyCommand {
             permission = "nexteconomy.command.add",
             async = true
     )
-    public void moneyRemoveCommand(Context<CommandSender> context, OfflinePlayer target, double amount) {
+    public void moneyRemoveCommand(Context<CommandSender> context, OfflinePlayer target, String amount) {
         CommandSender sender = context.getSender();
 
         if (target != null && target.isOnline()) {
-            MoneyWithdrawEvent moneyWithdrawEvent = new MoneyWithdrawEvent(sender, target.getPlayer(), amount);
+            MoneyWithdrawEvent moneyWithdrawEvent = new MoneyWithdrawEvent(sender, target.getPlayer(), NumberFormat.parse(amount));
             Bukkit.getPluginManager().callEvent(moneyWithdrawEvent);
         } else {
             sender.sendMessage(MessageValue.get(MessageValue::invalidTarget));
