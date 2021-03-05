@@ -40,7 +40,7 @@ public final class EconomyPlaceholderHook extends PlaceholderExpansion {
             return balance;
         }
 
-        return "";
+        return "Placeholder inválida";
     }
 
 }

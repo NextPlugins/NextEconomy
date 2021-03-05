@@ -23,7 +23,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 @RequiredArgsConstructor
 public final class NPCRunnable implements Runnable {
 
-    public static final List<NPC> NPC = Lists.newLinkedList();;
+    public static final List<NPC> NPC = Lists.newLinkedList();
     public static final List<Hologram> HOLOGRAM = Lists.newLinkedList();
 
     private final NextEconomy plugin;

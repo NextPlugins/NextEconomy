@@ -1,7 +1,7 @@
 package com.nextplugins.economy.command;
 
 import com.nextplugins.economy.NextEconomy;
-import com.nextplugins.economy.api.event.operations.MoneyDepositEvent;
+import com.nextplugins.economy.api.event.operations.MoneyGiveEvent;
 import com.nextplugins.economy.api.event.operations.MoneySetEvent;
 import com.nextplugins.economy.api.event.operations.MoneyWithdrawEvent;
 import com.nextplugins.economy.api.event.transaction.TransactionRequestEvent;
@@ -145,8 +145,8 @@ public final class MoneyCommand {
         CommandSender sender = context.getSender();
 
         if (target != null && target.isOnline()) {
-            MoneyDepositEvent moneyDepositEvent = new MoneyDepositEvent(sender, target.getPlayer(), NumberFormat.parse(amount));
-            Bukkit.getPluginManager().callEvent(moneyDepositEvent);
+            MoneyGiveEvent moneyGiveEvent = new MoneyGiveEvent(sender, target.getPlayer(), NumberFormat.parse(amount));
+            Bukkit.getPluginManager().callEvent(moneyGiveEvent);
         } else {
             sender.sendMessage(MessageValue.get(MessageValue::invalidTarget));
         }
@@ -312,7 +312,7 @@ public final class MoneyCommand {
 
         player.sendMessage(MessageValue.get(MessageValue::positionSuccessfulCreated).replace("$position", String.valueOf(position)));
         CustomRankingRegistry.getRunnable().run();
-        
+
     }
 
     @Command(

@@ -9,7 +9,7 @@ import org.bukkit.event.Cancellable;
 
 @Data
 @EqualsAndHashCode(callSuper = true)
-public final class MoneyDepositEvent extends EconomyEvent implements Cancellable {
+public final class MoneyGiveEvent extends EconomyEvent implements Cancellable {
 
     private final CommandSender sender;
     private final Player target;

@@ -1,12 +1,10 @@
 package com.nextplugins.economy.listener.registry;
 
 import com.nextplugins.economy.NextEconomy;
-import com.nextplugins.economy.configuration.values.FeatureValue;
 import com.nextplugins.economy.configuration.values.RankingValue;
-import com.nextplugins.economy.listener.UserConnectListener;
-import com.nextplugins.economy.listener.UserDisconnectListener;
+import com.nextplugins.economy.listener.UserConnectionListener;
 import com.nextplugins.economy.listener.chat.TycoonTagRegister;
-import com.nextplugins.economy.listener.operation.MoneyDepositListener;
+import com.nextplugins.economy.listener.operation.MoneyGiveListener;
 import com.nextplugins.economy.listener.operation.MoneySetListener;
 import com.nextplugins.economy.listener.operation.MoneyWithdrawListener;
 import com.nextplugins.economy.listener.transaction.TransactionRequestListener;
@@ -27,18 +25,14 @@ public final class ListenerRegistry {
             PluginManager pluginManager = Bukkit.getPluginManager();
 
             pluginManager.registerEvents(
-                    new UserConnectListener(plugin.getAccountStorage()),
-                    plugin
-            );
-            pluginManager.registerEvents(
-                    new UserDisconnectListener(plugin.getAccountStorage()),
+                    new UserConnectionListener(plugin.getAccountStorage()),
                     plugin
             );
 
             // operations
 
             pluginManager.registerEvents(
-                    new MoneyDepositListener(),
+                    new MoneyGiveListener(),
                     plugin
             );
             pluginManager.registerEvents(

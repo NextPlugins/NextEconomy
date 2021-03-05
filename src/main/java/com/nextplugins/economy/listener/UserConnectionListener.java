@@ -6,17 +6,21 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.event.player.PlayerQuitEvent;
 
 @RequiredArgsConstructor
-public final class UserConnectListener implements Listener {
+public final class UserConnectionListener implements Listener {
 
     private final AccountStorage accountStorage;
 
     @EventHandler
     public void onJoin(PlayerJoinEvent event) {
-        Player player = event.getPlayer();
+        accountStorage.getAccount(event.getPlayer().getUniqueId());
+    }
 
-        accountStorage.getAccount(player.getUniqueId());
+    @EventHandler
+    public void onQuit(PlayerQuitEvent event) {
+        accountStorage.purge(event.getPlayer().getUniqueId());
     }
 
 }
