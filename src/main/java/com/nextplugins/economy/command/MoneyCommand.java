@@ -23,7 +23,6 @@ import me.saiintbrisson.minecraft.command.command.Context;
 import me.saiintbrisson.minecraft.command.target.CommandTarget;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
-import org.bukkit.OfflinePlayer;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
@@ -43,15 +42,12 @@ public final class MoneyCommand {
             name = "money",
             usage = "/money <jogador>",
             description = "Utilize para ver a sua quantia de Cash, ou a de outro jogador.",
+            target = CommandTarget.PLAYER,
             async = true
     )
-    public void moneyCommand(Context<CommandSender> context, @Optional OfflinePlayer target) {
-        if (!(context.getSender() instanceof Player)) {
-            context.getSender().sendMessage(MessageValue.get(MessageValue::incorrectTarget));
-            return;
-        }
+    public void moneyCommand(Context<Player> context, @Optional Player target) {
 
-        Player player = (Player) context.getSender();
+        Player player = context.getSender();
 
         if (target == null) {
             double balance = accountStorage.getAccount(player.getUniqueId()).getBalance();
@@ -60,16 +56,12 @@ public final class MoneyCommand {
                     .replace("$amount", NumberFormat.format(balance))
             );
         } else {
-            if (target.hasPlayedBefore()) {
-                double targetBalance = accountStorage.getAccount(target.getUniqueId()).getBalance();
+            double targetBalance = accountStorage.getAccount(target.getUniqueId()).getBalance();
 
-                player.sendMessage(MessageValue.get(MessageValue::seeOtherBalance)
-                        .replace("$player", target.getName())
-                        .replace("$amount", NumberFormat.format(targetBalance))
-                );
-            } else {
-                player.sendMessage(MessageValue.get(MessageValue::invalidTarget));
-            }
+            player.sendMessage(MessageValue.get(MessageValue::seeOtherBalance)
+                    .replace("$player", target.getName())
+                    .replace("$amount", NumberFormat.format(targetBalance))
+            );
         }
 
     }
@@ -84,24 +76,19 @@ public final class MoneyCommand {
             target = CommandTarget.PLAYER,
             async = true
     )
-    public void moneyPayCommand(Context<Player> context, OfflinePlayer target, String amount) {
+    public void moneyPayCommand(Context<Player> context, Player target, String amount) {
         Player player = context.getSender();
 
-        if (target != null && target.isOnline()) {
+        double parse = NumberFormat.parse(amount);
+        if (parse == -1) {
 
-            double parse = NumberFormat.parse(amount);
-            if (parse == -1) {
+            player.sendMessage(MessageValue.get(MessageValue::invalidMoney));
+            return;
 
-                player.sendMessage(MessageValue.get(MessageValue::invalidMoney));
-                return;
-
-            }
-
-            TransactionRequestEvent transactionRequestEvent = new TransactionRequestEvent(player, target.getPlayer(), parse);
-            Bukkit.getPluginManager().callEvent(transactionRequestEvent);
-        } else {
-            player.sendMessage(MessageValue.get(MessageValue::invalidTarget));
         }
+
+        TransactionRequestEvent transactionRequestEvent = new TransactionRequestEvent(player, target.getPlayer(), parse);
+        Bukkit.getPluginManager().callEvent(transactionRequestEvent);
 
     }
 
@@ -130,24 +117,19 @@ public final class MoneyCommand {
             permission = "nexteconomy.command.set",
             async = true
     )
-    public void moneySetCommand(Context<CommandSender> context, OfflinePlayer target, String amount) {
+    public void moneySetCommand(Context<CommandSender> context, Player target, String amount) {
         CommandSender sender = context.getSender();
 
-        if (target != null && target.isOnline()) {
+        double parse = NumberFormat.parse(amount);
+        if (parse == -1) {
 
-            double parse = NumberFormat.parse(amount);
-            if (parse == -1) {
+            sender.sendMessage(MessageValue.get(MessageValue::invalidMoney));
+            return;
 
-                sender.sendMessage(MessageValue.get(MessageValue::invalidMoney));
-                return;
-
-            }
-
-            MoneySetEvent moneySetEvent = new MoneySetEvent(sender, target.getPlayer(), parse);
-            Bukkit.getPluginManager().callEvent(moneySetEvent);
-        } else {
-            sender.sendMessage(MessageValue.get(MessageValue::invalidTarget));
         }
+
+        MoneySetEvent moneySetEvent = new MoneySetEvent(sender, target.getPlayer(), parse);
+        Bukkit.getPluginManager().callEvent(moneySetEvent);
 
     }
 
@@ -159,25 +141,19 @@ public final class MoneyCommand {
             permission = "nexteconomy.command.add",
             async = true
     )
-    public void moneyAddCommand(Context<CommandSender> context, OfflinePlayer target, String amount) {
+    public void moneyAddCommand(Context<CommandSender> context, Player target, String amount) {
         CommandSender sender = context.getSender();
 
-        if (target != null && target.isOnline()) {
+        double parse = NumberFormat.parse(amount);
+        if (parse == -1) {
 
-            double parse = NumberFormat.parse(amount);
-            if (parse == -1) {
+            sender.sendMessage(MessageValue.get(MessageValue::invalidMoney));
+            return;
 
-                sender.sendMessage(MessageValue.get(MessageValue::invalidMoney));
-                return;
-
-            }
-
-            MoneyGiveEvent moneyGiveEvent = new MoneyGiveEvent(sender, target.getPlayer(), parse);
-            Bukkit.getPluginManager().callEvent(moneyGiveEvent);
-        } else {
-            sender.sendMessage(MessageValue.get(MessageValue::invalidTarget));
         }
 
+        MoneyGiveEvent moneyGiveEvent = new MoneyGiveEvent(sender, target.getPlayer(), parse);
+        Bukkit.getPluginManager().callEvent(moneyGiveEvent);
     }
 
     @Command(
@@ -188,24 +164,19 @@ public final class MoneyCommand {
             permission = "nexteconomy.command.add",
             async = true
     )
-    public void moneyRemoveCommand(Context<CommandSender> context, OfflinePlayer target, String amount) {
+    public void moneyRemoveCommand(Context<CommandSender> context, Player target, String amount) {
         CommandSender sender = context.getSender();
 
-        if (target != null && target.isOnline()) {
+        double parse = NumberFormat.parse(amount);
+        if (parse == -1) {
 
-            double parse = NumberFormat.parse(amount);
-            if (parse == -1) {
+            sender.sendMessage(MessageValue.get(MessageValue::invalidMoney));
+            return;
 
-                sender.sendMessage(MessageValue.get(MessageValue::invalidMoney));
-                return;
-
-            }
-
-            MoneyWithdrawEvent moneyWithdrawEvent = new MoneyWithdrawEvent(sender, target.getPlayer(), parse);
-            Bukkit.getPluginManager().callEvent(moneyWithdrawEvent);
-        } else {
-            sender.sendMessage(MessageValue.get(MessageValue::invalidTarget));
         }
+
+        MoneyWithdrawEvent moneyWithdrawEvent = new MoneyWithdrawEvent(sender, target.getPlayer(), parse);
+        Bukkit.getPluginManager().callEvent(moneyWithdrawEvent);
 
     }
 
@@ -217,20 +188,15 @@ public final class MoneyCommand {
             permission = "nexteconomy.command.reset",
             async = true
     )
-    public void moneyResetCommand(Context<CommandSender> context, OfflinePlayer target) {
+    public void moneyResetCommand(Context<CommandSender> context, Player target) {
         CommandSender sender = context.getSender();
 
-        if (target != null && target.isOnline()) {
-            Account targetAccount = accountStorage.getAccount(target.getUniqueId());
+        Account targetAccount = accountStorage.getAccount(target.getUniqueId());
+        targetAccount.setBalance(0);
 
-            targetAccount.setBalance(0);
-
-            sender.sendMessage(MessageValue.get(MessageValue::resetBalance)
-                    .replace("$player", Bukkit.getOfflinePlayer(targetAccount.getOwner()).getName())
-            );
-        } else {
-            sender.sendMessage(MessageValue.get(MessageValue::invalidTarget));
-        }
+        sender.sendMessage(MessageValue.get(MessageValue::resetBalance)
+                .replace("$player", Bukkit.getOfflinePlayer(targetAccount.getOwner()).getName())
+        );
 
     }
 
@@ -239,11 +205,12 @@ public final class MoneyCommand {
             aliases = {"ranking", "podio"},
             description = "Utilize para ver os jogadores com mais dinheiro do servidor.",
             permission = "nexteconomy.command.top",
+            target = CommandTarget.PLAYER,
             async = true
     )
-    public void moneyTopCommand(Context<CommandSender> context) {
-        CommandSender sender = context.getSender();
+    public void moneyTopCommand(Context<Player> context) {
 
+        Player sender = context.getSender();
         String rankingType = RankingValue.get(RankingValue::rankingType);
 
         if (rankingType.equalsIgnoreCase("CHAT")) {
@@ -276,12 +243,8 @@ public final class MoneyCommand {
 
             footer.forEach(sender::sendMessage);
         } else if (rankingType.equalsIgnoreCase("INVENTORY")) {
-            if (sender instanceof Player) {
-                RankingInventory rankingInventory = new RankingInventory().init();
-                rankingInventory.openInventory((Player) sender);
-            } else {
-                sender.sendMessage(ChatColor.RED + "Este tipo de ranking só pode ser usado por jogadores.");
-            }
+            RankingInventory rankingInventory = new RankingInventory().init();
+            rankingInventory.openInventory(sender);
         } else {
             throw new IllegalArgumentException("Tipo de ranking inválido: + " + rankingType + ". (ranking.yml)");
         }
@@ -392,6 +355,8 @@ public final class MoneyCommand {
 
         plugin.getNpcConfig().set("npc.locations", locations);
         plugin.getNpcConfig().save(plugin.getNpcFile());
+
+        locationManager.getLocationMap().remove(position);
 
         player.sendMessage(MessageValue.get(MessageValue::positionSuccessfulRemoved).replace("$position", String.valueOf(position)));
         CustomRankingRegistry.getRunnable().run();
