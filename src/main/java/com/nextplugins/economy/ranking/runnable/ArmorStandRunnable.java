@@ -10,7 +10,9 @@ import com.nextplugins.economy.ranking.manager.LocationManager;
 import com.nextplugins.economy.storage.RankingStorage;
 import com.nextplugins.economy.util.ItemBuilder;
 import com.nextplugins.economy.util.NumberFormat;
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import lombok.Setter;
 import org.bukkit.Bukkit;
 import org.bukkit.Color;
 import org.bukkit.Location;
@@ -31,6 +33,7 @@ public final class ArmorStandRunnable implements Runnable {
 
     public static final List<ArmorStand> STANDS = Lists.newLinkedList();;
     public static final List<Hologram> HOLOGRAM = Lists.newLinkedList();
+    @Setter @Getter private static boolean enabled;
 
     private static final Material[] SWORDS = new Material[] {
             Material.DIAMOND_SWORD, Material.GOLD_SWORD,
@@ -58,7 +61,7 @@ public final class ArmorStandRunnable implements Runnable {
 
             Location location = locationManager.getLocation(position.get());
             List<String> hologramLines = RankingValue.get(RankingValue::hologramLines);
-            int hologramHeight = RankingValue.get(RankingValue::hologramHeight);
+            double hologramHeight = RankingValue.get(RankingValue::hologramHeight);
 
             String playerName = Bukkit.getOfflinePlayer(account.getOwner()).getName();
 

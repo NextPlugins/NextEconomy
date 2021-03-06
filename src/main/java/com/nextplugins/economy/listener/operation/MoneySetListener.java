@@ -28,7 +28,7 @@ public final class MoneySetListener implements Listener {
 
         sender.sendMessage(MessageValue.get(MessageValue::setAmount)
                 .replace("$player", Bukkit.getOfflinePlayer(targetAccount.getOwner()).getName())
-                .replace("$amount", NumberFormat.format(targetAccount.getBalance()))
+                .replace("$amount", NumberFormat.format(amount))
         );
     }
 

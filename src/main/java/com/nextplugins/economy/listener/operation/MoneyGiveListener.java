@@ -28,7 +28,7 @@ public final class MoneyGiveListener implements Listener {
 
         sender.sendMessage(MessageValue.get(MessageValue::addAmount)
                 .replace("$player", Bukkit.getOfflinePlayer(targetAccount.getOwner()).getName())
-                .replace("$amount", NumberFormat.format(targetAccount.getBalance()))
+                .replace("$amount", NumberFormat.format(amount))
         );
     }
 

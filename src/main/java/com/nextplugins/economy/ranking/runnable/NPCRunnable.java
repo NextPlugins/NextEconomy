@@ -9,7 +9,9 @@ import com.nextplugins.economy.configuration.values.RankingValue;
 import com.nextplugins.economy.ranking.manager.LocationManager;
 import com.nextplugins.economy.storage.RankingStorage;
 import com.nextplugins.economy.util.NumberFormat;
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import lombok.Setter;
 import net.citizensnpcs.api.CitizensAPI;
 import net.citizensnpcs.api.npc.NPC;
 import net.citizensnpcs.api.npc.NPCRegistry;
@@ -25,6 +27,7 @@ public final class NPCRunnable implements Runnable {
 
     public static final List<NPC> NPC = Lists.newLinkedList();
     public static final List<Hologram> HOLOGRAM = Lists.newLinkedList();
+    @Setter @Getter private static boolean enabled;
 
     private final NextEconomy plugin;
     private final LocationManager locationManager;
@@ -48,7 +51,7 @@ public final class NPCRunnable implements Runnable {
 
             Location location = locationManager.getLocation(position.get());
             List<String> hologramLines = RankingValue.get(RankingValue::hologramLines);
-            int hologramHeight = RankingValue.get(RankingValue::hologramHeight);
+            double hologramHeight = RankingValue.get(RankingValue::hologramHeight);
 
             if (!hologramLines.isEmpty()) {
                 Location hologramLocation = location.clone().add(0, hologramHeight, 0);

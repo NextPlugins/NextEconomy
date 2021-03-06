@@ -28,7 +28,7 @@ public final class MoneyWithdrawListener implements Listener {
 
         sender.sendMessage(MessageValue.get(MessageValue::removeAmount)
                 .replace("$player", Bukkit.getOfflinePlayer(targetAccount.getOwner()).getName())
-                .replace("$amount", NumberFormat.format(targetAccount.getBalance()))
+                .replace("$amount", NumberFormat.format(amount))
         );
     }
 

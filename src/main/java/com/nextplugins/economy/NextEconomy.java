@@ -5,7 +5,6 @@ import com.henryfabio.minecraft.inventoryapi.manager.InventoryManager;
 import com.henryfabio.sqlprovider.connector.SQLConnector;
 import com.henryfabio.sqlprovider.executor.SQLExecutor;
 import com.nextplugins.economy.command.registry.CommandRegistry;
-import com.nextplugins.economy.configuration.ConfigurationManager;
 import com.nextplugins.economy.configuration.registry.ConfigurationRegistry;
 import com.nextplugins.economy.dao.AccountDAO;
 import com.nextplugins.economy.listener.registry.ListenerRegistry;
@@ -51,10 +50,10 @@ public final class NextEconomy extends JavaPlugin {
 
         saveDefaultConfig();
 
-        ConfigurationManager npcConfigManager = ConfigurationManager.of("npcs.yml").saveDefault();
+        npcFile = new File(getDataFolder(), "npcs.yml");
+        if (!npcFile.exists()) saveResource("npcs.yml", false);
 
-        this.npcConfig = npcConfigManager.load();
-        this.npcFile = npcConfigManager.getFile();
+        npcConfig = YamlConfiguration.loadConfiguration(npcFile);
 
     }
 
@@ -101,10 +100,19 @@ public final class NextEconomy extends JavaPlugin {
     @Override
     public void onDisable() {
 
-        NPCRunnable.NPC.forEach(NPC::destroy);
-        NPCRunnable.HOLOGRAM.forEach(Hologram::delete);
-        ArmorStandRunnable.STANDS.forEach(ArmorStand::remove);
-        ArmorStandRunnable.HOLOGRAM.forEach(Hologram::delete);
+        if (NPCRunnable.isEnabled()) {
+
+            NPCRunnable.NPC.forEach(NPC::destroy);
+            NPCRunnable.HOLOGRAM.forEach(Hologram::delete);
+
+        }
+
+        if (ArmorStandRunnable.isEnabled()) {
+
+            ArmorStandRunnable.STANDS.forEach(ArmorStand::remove);
+            ArmorStandRunnable.HOLOGRAM.forEach(Hologram::delete);
+
+        }
 
     }
 

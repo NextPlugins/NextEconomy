@@ -4,6 +4,7 @@ messages:
     more: 'coins'
   requests:
     invalid-target: '&cO jogador solicitado não encontra-se online ou é inexistente.'
+    invalid-money: '&cO dinheiro inserido não é válido.'
   convert:
     start: '&aA conversão de dados começou.'
     kick:

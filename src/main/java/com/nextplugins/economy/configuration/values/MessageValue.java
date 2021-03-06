@@ -31,6 +31,7 @@ public final class MessageValue implements ConfigurationInjectable {
     // requests
 
     @ConfigField("requests.invalid-target") private String invalidTarget;
+    @ConfigField("requests.invalid-money") private String invalidMoney;
 
     // operations
 
@@ -50,7 +51,7 @@ public final class MessageValue implements ConfigurationInjectable {
 
     // convert
 
-    @ConfigField("covert.start") private String convertStart;
+    @ConfigField("convert.start") private String convertStart;
     @ConfigField("convert.kick") private List<String> convertWhitelistKick;
     @ConfigField("convert.end") private String convertEnd;
 

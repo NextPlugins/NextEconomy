@@ -88,7 +88,16 @@ public final class MoneyCommand {
         Player player = context.getSender();
 
         if (target != null && target.isOnline()) {
-            TransactionRequestEvent transactionRequestEvent = new TransactionRequestEvent(player, target.getPlayer(), NumberFormat.parse(amount));
+
+            double parse = NumberFormat.parse(amount);
+            if (parse == -1) {
+
+                player.sendMessage(MessageValue.get(MessageValue::invalidMoney));
+                return;
+
+            }
+
+            TransactionRequestEvent transactionRequestEvent = new TransactionRequestEvent(player, target.getPlayer(), parse);
             Bukkit.getPluginManager().callEvent(transactionRequestEvent);
         } else {
             player.sendMessage(MessageValue.get(MessageValue::invalidTarget));
@@ -125,7 +134,16 @@ public final class MoneyCommand {
         CommandSender sender = context.getSender();
 
         if (target != null && target.isOnline()) {
-            MoneySetEvent moneySetEvent = new MoneySetEvent(sender, target.getPlayer(), NumberFormat.parse(amount));
+
+            double parse = NumberFormat.parse(amount);
+            if (parse == -1) {
+
+                sender.sendMessage(MessageValue.get(MessageValue::invalidMoney));
+                return;
+
+            }
+
+            MoneySetEvent moneySetEvent = new MoneySetEvent(sender, target.getPlayer(), parse);
             Bukkit.getPluginManager().callEvent(moneySetEvent);
         } else {
             sender.sendMessage(MessageValue.get(MessageValue::invalidTarget));
@@ -145,7 +163,16 @@ public final class MoneyCommand {
         CommandSender sender = context.getSender();
 
         if (target != null && target.isOnline()) {
-            MoneyGiveEvent moneyGiveEvent = new MoneyGiveEvent(sender, target.getPlayer(), NumberFormat.parse(amount));
+
+            double parse = NumberFormat.parse(amount);
+            if (parse == -1) {
+
+                sender.sendMessage(MessageValue.get(MessageValue::invalidMoney));
+                return;
+
+            }
+
+            MoneyGiveEvent moneyGiveEvent = new MoneyGiveEvent(sender, target.getPlayer(), parse);
             Bukkit.getPluginManager().callEvent(moneyGiveEvent);
         } else {
             sender.sendMessage(MessageValue.get(MessageValue::invalidTarget));
@@ -165,7 +192,16 @@ public final class MoneyCommand {
         CommandSender sender = context.getSender();
 
         if (target != null && target.isOnline()) {
-            MoneyWithdrawEvent moneyWithdrawEvent = new MoneyWithdrawEvent(sender, target.getPlayer(), NumberFormat.parse(amount));
+
+            double parse = NumberFormat.parse(amount);
+            if (parse == -1) {
+
+                sender.sendMessage(MessageValue.get(MessageValue::invalidMoney));
+                return;
+
+            }
+
+            MoneyWithdrawEvent moneyWithdrawEvent = new MoneyWithdrawEvent(sender, target.getPlayer(), parse);
             Bukkit.getPluginManager().callEvent(moneyWithdrawEvent);
         } else {
             sender.sendMessage(MessageValue.get(MessageValue::invalidTarget));

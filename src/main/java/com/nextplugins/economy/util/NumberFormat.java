@@ -40,14 +40,16 @@ public final class NumberFormat {
 
     public static double parse(String string) {
         try {
-            double result = (double) DECIMAL_FORMAT.parse(
-                    string.substring(0, string.length() - (int) string.chars().filter(Character::isLetter).count()));
-            int prefixIndex = Arrays.asList(CHARS).indexOf(string.substring(string.length() - 1)) + 1;
+
+            double result = Double.parseDouble(string.replaceAll("[^0-9.]", ""));
+
+            int prefixIndex = Arrays.asList(CHARS).indexOf(string.replaceAll("[^a-zA-Z]","").toUpperCase()) + 1;
             if (prefixIndex > 0) result *= Math.pow(10, prefixIndex * 3);
+
             return result;
+
         } catch (Exception e) {
-            e.printStackTrace();
-            return 0d;
+            return -1;
         }
     }
 
