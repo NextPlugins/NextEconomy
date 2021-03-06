@@ -30,7 +30,7 @@ public final class NumberFormat {
         int prefixIndex = (int) Math.log10(value) / 3;
         if (prefixIndex > CHARS.length) prefixIndex = CHARS.length;
         if (prefixIndex > 0)
-            result = DECIMAL_FORMAT.format(value / Math.pow(10, prefixIndex * 3)) + CHARS[prefixIndex - 1];
+            result = DECIMAL_FORMAT.format(value / Math.pow(10, prefixIndex * 3)) + CHARS[prefixIndex];
 
         return result;
 
@@ -41,7 +41,7 @@ public final class NumberFormat {
 
             double result = Double.parseDouble(string.replaceAll("[^0-9.]", ""));
 
-            int prefixIndex = Arrays.asList(CHARS).indexOf(string.replaceAll("[^a-zA-Z]","").toUpperCase()) + 1;
+            int prefixIndex = Arrays.asList(CHARS).indexOf(string.replaceAll("[^a-zA-Z]","").toUpperCase());
             if (prefixIndex > 0) result *= Math.pow(10, prefixIndex * 3);
 
             return result;
