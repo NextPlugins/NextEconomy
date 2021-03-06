@@ -45,7 +45,7 @@ public final class MoneyCommand {
             target = CommandTarget.PLAYER,
             async = true
     )
-    public void moneyCommand(Context<Player> context, @Optional Player target) {
+    public void moneyCommand(Context<Player> context, @Optional String target) {
 
         Player player = context.getSender();
 
@@ -53,14 +53,23 @@ public final class MoneyCommand {
             double balance = accountStorage.getAccount(player.getUniqueId()).getBalance();
 
             player.sendMessage(MessageValue.get(MessageValue::seeBalance)
-                    .replace("$amount", NumberFormat.format(balance))
+                    .replace("$amount", NumberFormat.format(balance) + " (" + balance + ")")
             );
         } else {
-            double targetBalance = accountStorage.getAccount(target.getUniqueId()).getBalance();
+
+            Player playerExact = Bukkit.getPlayerExact(target);
+            if (playerExact == null) {
+
+                player.sendMessage(MessageValue.get(MessageValue::invalidTarget));
+                return;
+
+            }
+
+            double targetBalance = accountStorage.getAccount(playerExact.getUniqueId()).getBalance();
 
             player.sendMessage(MessageValue.get(MessageValue::seeOtherBalance)
-                    .replace("$player", target.getName())
-                    .replace("$amount", NumberFormat.format(targetBalance))
+                    .replace("$player", playerExact.getName())
+                    .replace("$amount", NumberFormat.format(targetBalance) + " (" + targetBalance + ")")
             );
         }
 
@@ -76,7 +85,7 @@ public final class MoneyCommand {
             target = CommandTarget.PLAYER,
             async = true
     )
-    public void moneyPayCommand(Context<Player> context, Player target, String amount) {
+    public void moneyPayCommand(Context<Player> context, String target, String amount) {
         Player player = context.getSender();
 
         double parse = NumberFormat.parse(amount);
@@ -87,7 +96,15 @@ public final class MoneyCommand {
 
         }
 
-        TransactionRequestEvent transactionRequestEvent = new TransactionRequestEvent(player, target.getPlayer(), parse);
+        Player playerExact = Bukkit.getPlayerExact(target);
+        if (playerExact == null) {
+
+            player.sendMessage(MessageValue.get(MessageValue::invalidTarget));
+            return;
+
+        }
+
+        TransactionRequestEvent transactionRequestEvent = new TransactionRequestEvent(player, playerExact, parse);
         Bukkit.getPluginManager().callEvent(transactionRequestEvent);
 
     }
@@ -117,7 +134,7 @@ public final class MoneyCommand {
             permission = "nexteconomy.command.set",
             async = true
     )
-    public void moneySetCommand(Context<CommandSender> context, Player target, String amount) {
+    public void moneySetCommand(Context<CommandSender> context, String target, String amount) {
         CommandSender sender = context.getSender();
 
         double parse = NumberFormat.parse(amount);
@@ -128,7 +145,15 @@ public final class MoneyCommand {
 
         }
 
-        MoneySetEvent moneySetEvent = new MoneySetEvent(sender, target.getPlayer(), parse);
+        Player playerExact = Bukkit.getPlayerExact(target);
+        if (playerExact == null) {
+
+            sender.sendMessage(MessageValue.get(MessageValue::invalidTarget));
+            return;
+
+        }
+
+        MoneySetEvent moneySetEvent = new MoneySetEvent(sender, playerExact, parse);
         Bukkit.getPluginManager().callEvent(moneySetEvent);
 
     }
@@ -141,7 +166,7 @@ public final class MoneyCommand {
             permission = "nexteconomy.command.add",
             async = true
     )
-    public void moneyAddCommand(Context<CommandSender> context, Player target, String amount) {
+    public void moneyAddCommand(Context<CommandSender> context, String target, String amount) {
         CommandSender sender = context.getSender();
 
         double parse = NumberFormat.parse(amount);
@@ -152,7 +177,15 @@ public final class MoneyCommand {
 
         }
 
-        MoneyGiveEvent moneyGiveEvent = new MoneyGiveEvent(sender, target.getPlayer(), parse);
+        Player playerExact = Bukkit.getPlayerExact(target);
+        if (playerExact == null) {
+
+            sender.sendMessage(MessageValue.get(MessageValue::invalidTarget));
+            return;
+
+        }
+
+        MoneyGiveEvent moneyGiveEvent = new MoneyGiveEvent(sender, playerExact, parse);
         Bukkit.getPluginManager().callEvent(moneyGiveEvent);
     }
 
@@ -164,7 +197,7 @@ public final class MoneyCommand {
             permission = "nexteconomy.command.add",
             async = true
     )
-    public void moneyRemoveCommand(Context<CommandSender> context, Player target, String amount) {
+    public void moneyRemoveCommand(Context<CommandSender> context, String target, String amount) {
         CommandSender sender = context.getSender();
 
         double parse = NumberFormat.parse(amount);
@@ -175,7 +208,15 @@ public final class MoneyCommand {
 
         }
 
-        MoneyWithdrawEvent moneyWithdrawEvent = new MoneyWithdrawEvent(sender, target.getPlayer(), parse);
+        Player playerExact = Bukkit.getPlayerExact(target);
+        if (playerExact == null) {
+
+            sender.sendMessage(MessageValue.get(MessageValue::invalidTarget));
+            return;
+
+        }
+
+        MoneyWithdrawEvent moneyWithdrawEvent = new MoneyWithdrawEvent(sender, playerExact, parse);
         Bukkit.getPluginManager().callEvent(moneyWithdrawEvent);
 
     }
@@ -188,10 +229,18 @@ public final class MoneyCommand {
             permission = "nexteconomy.command.reset",
             async = true
     )
-    public void moneyResetCommand(Context<CommandSender> context, Player target) {
+    public void moneyResetCommand(Context<CommandSender> context, String target) {
         CommandSender sender = context.getSender();
 
-        Account targetAccount = accountStorage.getAccount(target.getUniqueId());
+        Player playerExact = Bukkit.getPlayerExact(target);
+        if (playerExact == null) {
+
+            sender.sendMessage(MessageValue.get(MessageValue::invalidTarget));
+            return;
+
+        }
+
+        Account targetAccount = accountStorage.getAccount(playerExact.getUniqueId());
         targetAccount.setBalance(0);
 
         sender.sendMessage(MessageValue.get(MessageValue::resetBalance)

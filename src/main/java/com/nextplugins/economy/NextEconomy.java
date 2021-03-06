@@ -6,6 +6,7 @@ import com.henryfabio.sqlprovider.connector.SQLConnector;
 import com.henryfabio.sqlprovider.executor.SQLExecutor;
 import com.nextplugins.economy.command.registry.CommandRegistry;
 import com.nextplugins.economy.configuration.registry.ConfigurationRegistry;
+import com.nextplugins.economy.configuration.values.RankingValue;
 import com.nextplugins.economy.dao.AccountDAO;
 import com.nextplugins.economy.listener.registry.ListenerRegistry;
 import com.nextplugins.economy.metric.MetricProvider;
@@ -100,18 +101,21 @@ public final class NextEconomy extends JavaPlugin {
     @Override
     public void onDisable() {
 
-        if (NPCRunnable.isEnabled()) {
+        if (CustomRankingRegistry.isEnabled()) {
+            String type = RankingValue.get(RankingValue::npcType);
+            if (type.equalsIgnoreCase("npc")) {
 
-            NPCRunnable.NPC.forEach(NPC::destroy);
-            NPCRunnable.HOLOGRAM.forEach(Hologram::delete);
+                NPCRunnable.NPC.forEach(NPC::destroy);
+                NPCRunnable.HOLOGRAM.forEach(Hologram::delete);
 
-        }
+            }
 
-        if (ArmorStandRunnable.isEnabled()) {
+            if (type.equalsIgnoreCase("armorstand")) {
 
-            ArmorStandRunnable.STANDS.forEach(ArmorStand::remove);
-            ArmorStandRunnable.HOLOGRAM.forEach(Hologram::delete);
+                ArmorStandRunnable.STANDS.forEach(ArmorStand::remove);
+                ArmorStandRunnable.HOLOGRAM.forEach(Hologram::delete);
 
+            }
         }
 
     }

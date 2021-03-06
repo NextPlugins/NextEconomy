@@ -11,14 +11,12 @@ public final class NumberFormat {
     private static final String[] CHARS = new String[]{"", "K", "M", "B", "T", "Q", "QQ", "S", "SS", "O", "N", "D",
             "UN", "DD", "TR", "QT", "QN", "SD", "SPD", "OD", "ND", "VG", "UVG", "DVG", "TVG", "QTV"};
 
-    private static final String FORMAT_TYPE = FeatureValue.get(FeatureValue::formatType);
-
     public static String decimalFormat(double number) {
         return DECIMAL_FORMAT.format(number);
     }
 
     public static boolean isLetterFormat() {
-        return FORMAT_TYPE.equalsIgnoreCase("letter");
+        return FeatureValue.get(FeatureValue::formatType).equalsIgnoreCase("letter");
     }
 
     public static String format(double number) {

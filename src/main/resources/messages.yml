@@ -14,7 +14,7 @@ messages:
     end: '&aA conversão de dados acabou!'
   operations:
     see: '&aVocê possui&f $amount&a de dinheiro.'
-    see-other: '&f$player&a possui&f $amount&a de dinheiro.'
+    see-other: '&aO jogador &f$player&a possui&f $amount&a de dinheiro.'
     set: '&aVocê alterou o saldo de&f $player&a para&f $amount'
     add: '&aVocê adicionou&f $amount&a ao saldo de&f $player'
     remove: '&aVocê removeu&f $amount&a do saldo de&f $player'
