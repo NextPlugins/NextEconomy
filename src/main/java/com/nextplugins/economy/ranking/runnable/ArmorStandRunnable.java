@@ -101,6 +101,8 @@ public final class ArmorStandRunnable implements Runnable {
             stand.setBoots(createDyeItem(Material.LEATHER_BOOTS, getColorByHex(RankingValue.get(RankingValue::bootsRGB))));
 
             stand.setVisible(true); // configuration finished, show stand
+
+            STANDS.add(stand);
             position.getAndIncrement();
         }
 
