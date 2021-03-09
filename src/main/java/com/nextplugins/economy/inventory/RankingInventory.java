@@ -44,17 +44,16 @@ public final class RankingInventory extends PagedInventory {
 
         String headDisplayName = RankingValue.get(RankingValue::inventoryModelHeadDisplayName);
         List<String> headLore = RankingValue.get(RankingValue::inventoryModelHeadLore);
+        String tycoonTag = RankingValue.get(RankingValue::tycoonTagValue);
 
         int position = 1;
 
         for (Account account : rankingStorage.getRankingAccounts()) {
             String name = Bukkit.getOfflinePlayer(account.getOwner()).getName();
-            String tycoonTag = RankingValue.get(RankingValue::tycoonTagValue);
 
             String replacedDisplayName = headDisplayName.replace("$player", position == 1
                     ? tycoonTag + ChatColor.RESET + " " + name
-                    : name
-            )
+                    : name)
                     .replace("$amount", NumberFormat.format(account.getBalance()))
                     .replace("$position", String.valueOf(position));
 

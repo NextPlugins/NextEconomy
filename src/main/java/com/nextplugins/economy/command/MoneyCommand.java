@@ -69,7 +69,7 @@ public final class MoneyCommand {
 
             player.sendMessage(MessageValue.get(MessageValue::seeOtherBalance)
                     .replace("$player", playerExact.getName())
-                    .replace("$amount", NumberFormat.format(targetBalance) + " (" + targetBalance + ")")
+                    .replace("$amount", NumberFormat.format(targetBalance))
             );
         }
 
