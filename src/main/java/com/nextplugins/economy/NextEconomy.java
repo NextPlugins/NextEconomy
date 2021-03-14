@@ -105,7 +105,7 @@ public final class NextEconomy extends JavaPlugin {
             String type = RankingValue.get(RankingValue::npcType);
             if (type.equalsIgnoreCase("npc")) {
 
-                NPCRunnable.NPC.forEach(NPC::destroy);
+                NPCRunnable.NPCS.forEach(NPC::destroy);
                 NPCRunnable.HOLOGRAM.forEach(Hologram::delete);
 
             }

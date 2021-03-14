@@ -15,7 +15,7 @@ import com.nextplugins.economy.ranking.util.LocationUtil;
 import com.nextplugins.economy.storage.AccountStorage;
 import com.nextplugins.economy.storage.RankingStorage;
 import com.nextplugins.economy.util.ColorUtil;
-import com.nextplugins.economy.util.NumberFormat;
+import com.nextplugins.economy.util.NumberUtils;
 import lombok.RequiredArgsConstructor;
 import me.saiintbrisson.minecraft.command.annotation.Command;
 import me.saiintbrisson.minecraft.command.annotation.Optional;
@@ -24,6 +24,7 @@ import me.saiintbrisson.minecraft.command.target.CommandTarget;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.Player;
 
 import java.io.IOException;
@@ -42,18 +43,25 @@ public final class MoneyCommand {
             name = "money",
             usage = "/money <jogador>",
             description = "Utilize para ver a sua quantia de Cash, ou a de outro jogador.",
-            target = CommandTarget.PLAYER,
             async = true
     )
-    public void moneyCommand(Context<Player> context, @Optional String target) {
+    public void moneyCommand(Context<CommandSender> context, @Optional String target) {
 
-        Player player = context.getSender();
+        CommandSender player = context.getSender();
 
         if (target == null) {
-            double balance = accountStorage.getAccount(player.getUniqueId()).getBalance();
+
+            if (player instanceof ConsoleCommandSender) {
+
+                player.sendMessage(ColorUtil.colored("&cOperação não suportada"));
+                return;
+
+            }
+
+            double balance = accountStorage.getAccount(((Player) player).getUniqueId()).getBalance();
 
             player.sendMessage(MessageValue.get(MessageValue::seeBalance)
-                    .replace("$amount", NumberFormat.format(balance) + " (" + balance + ")")
+                    .replace("$amount", NumberUtils.format(balance) + " (" + balance + ")")
             );
         } else {
 
@@ -69,7 +77,7 @@ public final class MoneyCommand {
 
             player.sendMessage(MessageValue.get(MessageValue::seeOtherBalance)
                     .replace("$player", playerExact.getName())
-                    .replace("$amount", NumberFormat.format(targetBalance))
+                    .replace("$amount", NumberUtils.format(targetBalance))
             );
         }
 
@@ -88,7 +96,7 @@ public final class MoneyCommand {
     public void moneyPayCommand(Context<Player> context, String target, String amount) {
         Player player = context.getSender();
 
-        double parse = NumberFormat.parse(amount);
+        double parse = NumberUtils.parse(amount);
         if (parse == -1) {
 
             player.sendMessage(MessageValue.get(MessageValue::invalidMoney));
@@ -137,7 +145,7 @@ public final class MoneyCommand {
     public void moneySetCommand(Context<CommandSender> context, String target, String amount) {
         CommandSender sender = context.getSender();
 
-        double parse = NumberFormat.parse(amount);
+        double parse = NumberUtils.parse(amount);
         if (parse == -1) {
 
             sender.sendMessage(MessageValue.get(MessageValue::invalidMoney));
@@ -169,7 +177,7 @@ public final class MoneyCommand {
     public void moneyAddCommand(Context<CommandSender> context, String target, String amount) {
         CommandSender sender = context.getSender();
 
-        double parse = NumberFormat.parse(amount);
+        double parse = NumberUtils.parse(amount);
         if (parse == -1) {
 
             sender.sendMessage(MessageValue.get(MessageValue::invalidMoney));
@@ -200,7 +208,7 @@ public final class MoneyCommand {
     public void moneyRemoveCommand(Context<CommandSender> context, String target, String amount) {
         CommandSender sender = context.getSender();
 
-        double parse = NumberFormat.parse(amount);
+        double parse = NumberUtils.parse(amount);
         if (parse == -1) {
 
             sender.sendMessage(MessageValue.get(MessageValue::invalidMoney));
@@ -277,7 +285,7 @@ public final class MoneyCommand {
 
             for (Account account : accounts) {
                 String name = Bukkit.getOfflinePlayer(account.getOwner()).getName();
-                String balance = NumberFormat.format(account.getBalance());
+                String balance = NumberUtils.format(account.getBalance());
 
                 sender.sendMessage(body
                         .replace("$position", String.valueOf(position.get()))

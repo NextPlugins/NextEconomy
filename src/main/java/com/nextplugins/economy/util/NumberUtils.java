@@ -1,11 +1,14 @@
 package com.nextplugins.economy.util;
 
 import com.nextplugins.economy.configuration.values.FeatureValue;
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 
 import java.text.DecimalFormat;
 import java.util.Arrays;
 
-public final class NumberFormat {
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
+public final class NumberUtils {
 
     private final static DecimalFormat DECIMAL_FORMAT = new DecimalFormat("#,###.#");
     private static final String[] CHARS = new String[]{"", "K", "M", "B", "T", "Q", "QQ", "S", "SS", "O", "N", "D",

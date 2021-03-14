@@ -8,7 +8,7 @@ import com.nextplugins.economy.api.model.Account;
 import com.nextplugins.economy.configuration.values.RankingValue;
 import com.nextplugins.economy.ranking.manager.LocationManager;
 import com.nextplugins.economy.storage.RankingStorage;
-import com.nextplugins.economy.util.NumberFormat;
+import com.nextplugins.economy.util.NumberUtils;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
@@ -25,7 +25,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 @RequiredArgsConstructor
 public final class NPCRunnable implements Runnable {
 
-    public static final List<NPC> NPC = Lists.newLinkedList();
+    public static final List<NPC> NPCS = Lists.newLinkedList();
     public static final List<Hologram> HOLOGRAM = Lists.newLinkedList();
     @Setter @Getter private static boolean enabled;
 
@@ -39,7 +39,7 @@ public final class NPCRunnable implements Runnable {
 
         if (accounts.size() <= 0) return;
 
-        NPC.forEach(net.citizensnpcs.api.npc.NPC::destroy);
+        NPCS.forEach(NPC::destroy);
         HOLOGRAM.forEach(Hologram::delete);
 
         NPCRegistry npcRegistry = CitizensAPI.getNPCRegistry();
@@ -62,7 +62,7 @@ public final class NPCRunnable implements Runnable {
 
                     replacedLine = replacedLine.replace("$position", String.valueOf(position.get()));
                     replacedLine = replacedLine.replace("$player", Bukkit.getOfflinePlayer(account.getOwner()).getName());
-                    replacedLine = replacedLine.replace("$amount", NumberFormat.format(account.getBalance()));
+                    replacedLine = replacedLine.replace("$amount", NumberUtils.format(account.getBalance()));
 
                     hologram.insertTextLine(i, replacedLine);
                 }
@@ -75,7 +75,7 @@ public final class NPCRunnable implements Runnable {
             npc.setProtected(true);
             npc.spawn(location);
 
-            NPC.add(npc);
+            NPCS.add(npc);
             position.getAndIncrement();
         }
 

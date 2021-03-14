@@ -4,7 +4,7 @@ import com.nextplugins.economy.NextEconomy;
 import com.nextplugins.economy.api.NextEconomyAPI;
 import com.nextplugins.economy.api.model.Account;
 import com.nextplugins.economy.configuration.values.MessageValue;
-import com.nextplugins.economy.util.NumberFormat;
+import com.nextplugins.economy.util.NumberUtils;
 import net.milkbowl.vault.economy.Economy;
 import net.milkbowl.vault.economy.EconomyResponse;
 import org.bukkit.Bukkit;
@@ -36,7 +36,7 @@ public class VaultExpansionHook implements Economy {
 
     @Override
     public String format(double amount) {
-        return NumberFormat.format(amount);
+        return NumberUtils.format(amount);
     }
 
     @Override

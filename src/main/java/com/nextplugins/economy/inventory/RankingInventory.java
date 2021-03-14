@@ -12,7 +12,7 @@ import com.nextplugins.economy.api.model.Account;
 import com.nextplugins.economy.configuration.values.RankingValue;
 import com.nextplugins.economy.storage.RankingStorage;
 import com.nextplugins.economy.util.ItemBuilder;
-import com.nextplugins.economy.util.NumberFormat;
+import com.nextplugins.economy.util.NumberUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 
@@ -54,7 +54,7 @@ public final class RankingInventory extends PagedInventory {
             String replacedDisplayName = headDisplayName.replace("$player", position == 1
                     ? tycoonTag + ChatColor.RESET + " " + name
                     : name)
-                    .replace("$amount", NumberFormat.format(account.getBalance()))
+                    .replace("$amount", NumberUtils.format(account.getBalance()))
                     .replace("$position", String.valueOf(position));
 
             List<String> replacedLore = Lists.newArrayList();
@@ -64,7 +64,7 @@ public final class RankingInventory extends PagedInventory {
                         lore.replace("$player", position == 1
                                 ? tycoonTag + ChatColor.GREEN + " " + name
                                 : name)
-                                .replace("$amount", NumberFormat.format(account.getBalance()))
+                                .replace("$amount", NumberUtils.format(account.getBalance()))
                                 .replace("$position", String.valueOf(position))
                 );
             }

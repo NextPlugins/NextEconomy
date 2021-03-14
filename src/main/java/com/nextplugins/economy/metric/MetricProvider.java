@@ -1,7 +1,6 @@
 package com.nextplugins.economy.metric;
 
 import com.nextplugins.economy.NextEconomy;
-import com.nextplugins.economy.configuration.values.FeatureValue;
 import lombok.Data;
 import org.bstats.bukkit.Metrics;
 

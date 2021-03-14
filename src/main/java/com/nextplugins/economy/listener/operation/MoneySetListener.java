@@ -5,7 +5,7 @@ import com.nextplugins.economy.api.event.operations.MoneySetEvent;
 import com.nextplugins.economy.api.model.Account;
 import com.nextplugins.economy.configuration.values.MessageValue;
 import com.nextplugins.economy.storage.AccountStorage;
-import com.nextplugins.economy.util.NumberFormat;
+import com.nextplugins.economy.util.NumberUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -28,7 +28,7 @@ public final class MoneySetListener implements Listener {
 
         sender.sendMessage(MessageValue.get(MessageValue::setAmount)
                 .replace("$player", Bukkit.getOfflinePlayer(targetAccount.getOwner()).getName())
-                .replace("$amount", NumberFormat.format(amount))
+                .replace("$amount", NumberUtils.format(amount))
         );
     }
 

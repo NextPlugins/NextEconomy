@@ -4,7 +4,6 @@ import com.nextplugins.economy.api.event.EconomyEvent;
 import com.nextplugins.economy.api.model.Account;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import lombok.Getter;
 
 import java.time.Instant;
 import java.util.Set;

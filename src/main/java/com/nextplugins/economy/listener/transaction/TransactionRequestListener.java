@@ -5,7 +5,7 @@ import com.nextplugins.economy.api.event.transaction.TransactionRequestEvent;
 import com.nextplugins.economy.api.model.Account;
 import com.nextplugins.economy.configuration.values.MessageValue;
 import com.nextplugins.economy.storage.AccountStorage;
-import com.nextplugins.economy.util.NumberFormat;
+import com.nextplugins.economy.util.NumberUtils;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -34,13 +34,13 @@ public final class TransactionRequestListener implements Listener {
 
             player.sendMessage(
                     MessageValue.get(MessageValue::paid).replace("$player", target.getName())
-                            .replace("$amount", NumberFormat.format(amount))
+                            .replace("$amount", NumberUtils.format(amount))
             );
 
             if (target.isOnline()) {
                 target.getPlayer().sendMessage(
                         MessageValue.get(MessageValue::received).replace("$player", player.getName())
-                                .replace("$amount", NumberFormat.format(amount))
+                                .replace("$amount", NumberUtils.format(amount))
                 );
             }
         } else {

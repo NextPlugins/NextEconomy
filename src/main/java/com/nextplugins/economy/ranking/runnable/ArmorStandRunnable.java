@@ -9,7 +9,7 @@ import com.nextplugins.economy.configuration.values.RankingValue;
 import com.nextplugins.economy.ranking.manager.LocationManager;
 import com.nextplugins.economy.storage.RankingStorage;
 import com.nextplugins.economy.util.ItemBuilder;
-import com.nextplugins.economy.util.NumberFormat;
+import com.nextplugins.economy.util.NumberUtils;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
@@ -69,7 +69,7 @@ public final class ArmorStandRunnable implements Runnable {
                 Location hologramLocation = location.clone().add(0, hologramHeight, 0);
                 Hologram hologram = HologramsAPI.createHologram(plugin, hologramLocation);
 
-                String format = NumberFormat.format(account.getBalance());
+                String format = NumberUtils.format(account.getBalance());
                 for (int i = 0; i < hologramLines.size(); i++) {
                     String replacedLine = hologramLines.get(i);
 

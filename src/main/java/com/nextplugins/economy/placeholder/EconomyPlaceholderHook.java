@@ -3,7 +3,7 @@ package com.nextplugins.economy.placeholder;
 import com.nextplugins.economy.NextEconomy;
 import com.nextplugins.economy.api.NextEconomyAPI;
 import com.nextplugins.economy.api.model.Account;
-import com.nextplugins.economy.util.NumberFormat;
+import com.nextplugins.economy.util.NumberUtils;
 import lombok.RequiredArgsConstructor;
 import me.clip.placeholderapi.expansion.PlaceholderExpansion;
 import org.bukkit.entity.Player;
@@ -34,7 +34,7 @@ public final class EconomyPlaceholderHook extends PlaceholderExpansion {
         if (player == null) return "&cOcorreu um erro!";
 
         final Account account = NextEconomyAPI.getInstance().findAccountByPlayer(player).orElse(null);
-        final String balance = account == null ? "&cOcorreu um erro!" : NumberFormat.format(account.getBalance());
+        final String balance = account == null ? "&cOcorreu um erro!" : NumberUtils.format(account.getBalance());
 
         if (params.equalsIgnoreCase("amount")) {
             return balance;
