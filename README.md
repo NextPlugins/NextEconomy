@@ -46,3 +46,4 @@ As dependências de desenvolvimento serão baixadas automáticamente quando o pl
 -   [command-framework](https://github.com/SaiintBrisson/command-framework) - Framework para criação e gerenciamento de comandos.
 -   [inventory-api](https://github.com/HenryFabio/inventory-api) - API para criação e o gerenciamento de inventários customizados.
 -   [sql-provider](https://github.com/henryfabio/sql-provider) - Provê a conexão com o banco de dados.
+-   [configuration-injector](https://github.com/HenryFabio/configuration-injector) - Injetar valores de configurações automaticamente.
