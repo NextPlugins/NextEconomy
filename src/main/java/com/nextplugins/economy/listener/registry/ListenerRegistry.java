@@ -3,11 +3,12 @@ package com.nextplugins.economy.listener.registry;
 import com.nextplugins.economy.NextEconomy;
 import com.nextplugins.economy.configuration.values.RankingValue;
 import com.nextplugins.economy.listener.UserConnectionListener;
-import com.nextplugins.economy.listener.chat.TycoonTagRegister;
-import com.nextplugins.economy.listener.operation.MoneyGiveListener;
-import com.nextplugins.economy.listener.operation.MoneySetListener;
-import com.nextplugins.economy.listener.operation.MoneyWithdrawListener;
-import com.nextplugins.economy.listener.transaction.TransactionRequestListener;
+import com.nextplugins.economy.listener.events.chat.TycoonTagRegister;
+import com.nextplugins.economy.listener.events.operation.MoneyGiveListener;
+import com.nextplugins.economy.listener.events.operation.MoneySetListener;
+import com.nextplugins.economy.listener.events.operation.MoneyWithdrawListener;
+import com.nextplugins.economy.listener.events.transaction.TransactionRequestListener;
+import com.nextplugins.economy.listener.events.update.MoneyTopUpdateListener;
 import lombok.Data;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.PluginManager;
@@ -35,10 +36,12 @@ public final class ListenerRegistry {
                     new MoneyGiveListener(),
                     plugin
             );
+
             pluginManager.registerEvents(
                     new MoneySetListener(),
                     plugin
             );
+
             pluginManager.registerEvents(
                     new MoneyWithdrawListener(),
                     plugin
@@ -48,6 +51,13 @@ public final class ListenerRegistry {
 
             pluginManager.registerEvents(
                     new TransactionRequestListener(),
+                    plugin
+            );
+
+            // update
+
+            pluginManager.registerEvents(
+                    new MoneyTopUpdateListener(),
                     plugin
             );
 

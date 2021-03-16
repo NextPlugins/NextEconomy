@@ -1,4 +1,4 @@
-package com.nextplugins.economy.listener.transaction;
+package com.nextplugins.economy.listener.events.transaction;
 
 import com.nextplugins.economy.NextEconomy;
 import com.nextplugins.economy.api.event.transaction.TransactionRequestEvent;
@@ -8,13 +8,14 @@ import com.nextplugins.economy.storage.AccountStorage;
 import com.nextplugins.economy.util.NumberUtils;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 
 public final class TransactionRequestListener implements Listener {
 
     protected final AccountStorage accountStorage = NextEconomy.getInstance().getAccountStorage();
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.MONITOR)
     public void onRequest(TransactionRequestEvent event) {
         Player player = event.getPlayer();
         Player target = event.getTarget();
