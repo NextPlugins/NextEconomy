@@ -1,8 +1,8 @@
-package com.nextplugins.economy.listener.registry;
+package com.nextplugins.economy.listener;
 
 import com.nextplugins.economy.NextEconomy;
 import com.nextplugins.economy.configuration.values.RankingValue;
-import com.nextplugins.economy.listener.UserConnectionListener;
+import com.nextplugins.economy.listener.events.connection.UserConnectionListener;
 import com.nextplugins.economy.listener.events.chat.TycoonTagRegister;
 import com.nextplugins.economy.listener.events.operation.MoneyGiveListener;
 import com.nextplugins.economy.listener.events.operation.MoneySetListener;

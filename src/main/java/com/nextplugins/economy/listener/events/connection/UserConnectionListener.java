@@ -1,4 +1,4 @@
-package com.nextplugins.economy.listener;
+package com.nextplugins.economy.listener.events.connection;
 
 import com.nextplugins.economy.storage.AccountStorage;
 import lombok.RequiredArgsConstructor;

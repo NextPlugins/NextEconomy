@@ -8,7 +8,7 @@ import com.nextplugins.economy.command.registry.CommandRegistry;
 import com.nextplugins.economy.configuration.registry.ConfigurationRegistry;
 import com.nextplugins.economy.configuration.values.RankingValue;
 import com.nextplugins.economy.dao.AccountDAO;
-import com.nextplugins.economy.listener.registry.ListenerRegistry;
+import com.nextplugins.economy.listener.ListenerRegistry;
 import com.nextplugins.economy.metric.MetricProvider;
 import com.nextplugins.economy.placeholder.registry.PlaceholderRegistry;
 import com.nextplugins.economy.ranking.CustomRankingRegistry;
