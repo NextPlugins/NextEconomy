@@ -1,0 +1,14 @@
+inventory:
+  main:
+    config:
+      name: 'Banco Central'
+      size: 37
+    buttons:
+      yourMoney:
+        skullName: '@player' # ficar com a cabeça do jogador que está visualizando
+        displayName: '&2Seu Dinheiro'
+        lore:
+          - '&7Aqui você pode ver a quantidade'
+          - '&7de moedas que você tem'
+          - ''
+          - '&aCoins: &f@money'
