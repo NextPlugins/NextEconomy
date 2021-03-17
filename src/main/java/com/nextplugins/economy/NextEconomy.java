@@ -18,6 +18,7 @@ import com.nextplugins.economy.ranking.runnable.NPCRunnable;
 import com.nextplugins.economy.sql.SQLProvider;
 import com.nextplugins.economy.storage.AccountStorage;
 import com.nextplugins.economy.storage.RankingStorage;
+import com.nextplugins.economy.task.AccountSaveTask;
 import com.nextplugins.economy.task.registry.TaskRegistry;
 import com.nextplugins.economy.vault.registry.VaultHookRegistry;
 import lombok.Getter;
@@ -55,6 +56,7 @@ public final class NextEconomy extends JavaPlugin {
         if (!npcFile.exists()) saveResource("npcs.yml", false);
 
         npcConfig = YamlConfiguration.loadConfiguration(npcFile);
+
 
     }
 
@@ -118,6 +120,8 @@ public final class NextEconomy extends JavaPlugin {
             }
         }
 
+        AccountSaveTask accountSaveTask = new AccountSaveTask(accountStorage, accountDAO);
+        accountSaveTask.run();
     }
 
     public static NextEconomy getInstance() {

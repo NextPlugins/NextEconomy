@@ -7,7 +7,11 @@ import com.henryfabio.minecraft.inventoryapi.viewer.Viewer;
 import com.nextplugins.economy.configuration.values.InventoryValue;
 import com.nextplugins.economy.inventory.button.InventoryButton;
 import com.nextplugins.economy.registry.InventoryButtonRegistry;
+import com.nextplugins.economy.util.ItemBuilder;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
+
+import java.util.stream.Collectors;
 
 /**
  * @author Yuhtin
@@ -31,7 +35,14 @@ public class MainInventory extends SimpleInventory {
         Player player = viewer.getPlayer();
 
         InventoryButton yourMoney = buttons.get("main.yourMoney");
-        editor.setItem(yourMoney.getInventorySlot(), InventoryItem.of(yourMoney.getItemStack(player)));
+        ItemStack yourMoneyItem = new ItemBuilder(yourMoney.getItemStack(player)).setLore(
+                yourMoney.getLore()
+                        .stream()
+                        .map(line -> line.replace("@money", String.valueOf(100d)))
+                        .collect(Collectors.toList())
+        ).wrap();
+
+        editor.setItem(yourMoney.getInventorySlot(), InventoryItem.of(yourMoneyItem));
 
     }
 }

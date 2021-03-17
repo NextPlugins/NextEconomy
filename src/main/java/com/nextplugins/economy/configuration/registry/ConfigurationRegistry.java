@@ -3,6 +3,7 @@ package com.nextplugins.economy.configuration.registry;
 import com.henryfabio.minecraft.configinjector.bukkit.injector.BukkitConfigurationInjector;
 import com.nextplugins.economy.NextEconomy;
 import com.nextplugins.economy.configuration.values.FeatureValue;
+import com.nextplugins.economy.configuration.values.InventoryValue;
 import com.nextplugins.economy.configuration.values.MessageValue;
 import com.nextplugins.economy.configuration.values.RankingValue;
 import lombok.Data;
@@ -18,13 +19,15 @@ public final class ConfigurationRegistry {
         configurationInjector.saveDefaultConfiguration(
                 plugin,
                 "messages.yml",
-                "ranking.yml"
+                "ranking.yml",
+                "inventories.yml"
         );
 
         configurationInjector.injectConfiguration(
                 FeatureValue.instance(),
                 MessageValue.instance(),
-                RankingValue.instance()
+                RankingValue.instance(),
+                InventoryValue.instance()
         );
     }
 
