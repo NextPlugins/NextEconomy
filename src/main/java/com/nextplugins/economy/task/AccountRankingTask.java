@@ -24,22 +24,28 @@ public final class AccountRankingTask implements Runnable {
 
         if (!accounts.isEmpty()) {
 
-            Account lastAccount = rankingStorage.getRankingAccounts().get(0);
-            rankingStorage.getRankingAccounts().clear();
+            Account lastAccount = null;
+            if (rankingStorage.getRankingAccounts().size() >= 1) {
+                lastAccount = rankingStorage.getRankingAccounts().get(0);
+                rankingStorage.getRankingAccounts().clear();
+            }
 
             accounts.forEach(rankingStorage.getRankingAccounts()::add);
 
-            Account topAccount = rankingStorage.getRankingAccounts().get(0);
-            if (lastAccount.getOwner().equals(topAccount.getOwner())) return;
+            if (lastAccount != null) {
 
-            Bukkit.getPluginManager().callEvent(
-                    MoneyTopPlayerUpdateEvent.builder()
-                            .lastMoneyTop(lastAccount)
-                            .moneyTop(topAccount)
-                            .updateInstant(Instant.now())
-                            .async(true)
-                    .build()
-            );
+                Account topAccount = rankingStorage.getRankingAccounts().get(0);
+                if (lastAccount.getOwner().equals(topAccount.getOwner())) return;
+
+                Bukkit.getPluginManager().callEvent(
+                        MoneyTopPlayerUpdateEvent.builder()
+                                .lastMoneyTop(lastAccount)
+                                .moneyTop(topAccount)
+                                .updateInstant(Instant.now())
+                                .async(true)
+                                .build()
+                );
+            }
 
         }
 

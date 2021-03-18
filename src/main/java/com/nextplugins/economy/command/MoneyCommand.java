@@ -61,7 +61,7 @@ public final class MoneyCommand {
             double balance = accountStorage.getAccount(((Player) player).getUniqueId()).getBalance();
 
             player.sendMessage(MessageValue.get(MessageValue::seeBalance)
-                    .replace("$amount", NumberUtils.format(balance) + " (" + balance + ")")
+                    .replace("$amount", NumberUtils.format(balance))
             );
         } else {
 

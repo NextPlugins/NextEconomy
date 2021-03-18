@@ -21,7 +21,7 @@ import java.util.function.Function;
 @Getter
 @TranslateColors
 @Accessors(fluent = true)
-@ConfigSection("inventories")
+@ConfigSection("inventory")
 @ConfigFile("inventories.yml")
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class InventoryValue implements ConfigurationInjectable {
