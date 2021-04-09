@@ -32,7 +32,14 @@ public class InventoryValue implements ConfigurationInjectable {
 
     @ConfigField("main.config.name") private String mainInventoryName;
     @ConfigField("main.config.size") private int mainInventorySize;
-    @ConfigSection("main.buttons.yourMoney") private ConfigurationSection mainInventoryMoneyButton;
+
+    @ConfigField("main.buttons.yourMoney") private ConfigurationSection yourMoneyButton;
+    @ConfigField("main.buttons.viewPlayerMoney") private ConfigurationSection viewPlayerMoneyButton;
+    @ConfigField("main.buttons.sendMoney") private ConfigurationSection sendMoneyButton;
+    @ConfigField("main.buttons.purse") private ConfigurationSection purseButton;
+    @ConfigField("main.buttons.topMoney") private ConfigurationSection topMoneyButton;
+
+    @ConfigField("main.buttons.purse.historyLine") private String purseHistoryLine;
 
     public static <T> T get(Function<InventoryValue, T> function) {
         return function.apply(instance);

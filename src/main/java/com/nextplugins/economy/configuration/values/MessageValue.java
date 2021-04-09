@@ -32,6 +32,7 @@ public final class MessageValue implements ConfigurationInjectable {
 
     @ConfigField("requests.invalid-target") private String invalidTarget;
     @ConfigField("requests.invalid-money") private String invalidMoney;
+    @ConfigField("request.no-time") private String noTime;
 
     // operations
 
@@ -49,11 +50,13 @@ public final class MessageValue implements ConfigurationInjectable {
     @ConfigField("transactions.is-yourself") private String isYourself;
     @ConfigField("transactions.insufficient-amount") private String insufficientAmount;
 
-    // convert
+    // interaction
 
-    @ConfigField("convert.start") private String convertStart;
-    @ConfigField("convert.kick") private List<String> convertWhitelistKick;
-    @ConfigField("convert.end") private String convertEnd;
+    @ConfigField("interaction.cancelled") private String interactionCancelled;
+    @ConfigField("interaction.invalid") private String interactionInvalid;
+    @ConfigField("interaction.input-player") private List<String> interactionInputPlayer;
+    @ConfigField("interaction.input-money") private List<String> interactionInputMoney;
+    @ConfigField("interaction.confirm") private List<String> interactionConfirm;
 
     // purse system
 
@@ -68,6 +71,9 @@ public final class MessageValue implements ConfigurationInjectable {
 
     @ConfigField("purse.updated.sound") private String purseUpdatedSound;
     @ConfigField("purse.updated.message") private List<String> purseUpdatedMessage;
+
+    @ConfigField("purse.high-status") private String purseHigh;
+    @ConfigField("purse.down-status") private String purseDown;
 
     // new money top
 

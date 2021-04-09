@@ -5,14 +5,31 @@ messages:
   requests:
     invalid-target: '&cO jogador solicitado não encontra-se online ou é inexistente.'
     invalid-money: '&cO dinheiro inserido não é válido.'
-  convert:
-    start: '&aA conversão de dados começou.'
-    kick:
-      - '&c&lNEXT ECONOMY'
-      - ''
-      - '&cA conversão começou, você foi expulso por não estar na whitelist.'
-    end: '&aA conversão de dados acabou!'
+    no-time: '&cVocê demorou muito para responder'
+  interaction:
+    cancelled: '&cOperação cancelada.'
+    invalid: "&cPara cancelar digite 'cancelar'."
+    input-player:
+      - ""
+      - "&aInsira o nome do jogador desejado"
+      - "&8Digite 'cancelar' para cancelar."
+      - ""
+    input-money:
+      - ""
+      - "&aInsira a quantia que deseja transferir"
+      - "&8Digite 'cancelar' para cancelar."
+      - ""
+    confirm:
+      - ""
+      - " &2&lTRANSFERÊNCIA"
+      - ""
+      - "  &fEnviando &a@money &fpara &a@player"
+      - "  &fVocê tem &a10 segundos &fpara cancelar."
+      - "  &fDigite '&ccancelar&f' para cancelar."
+      - ""
   purse:
+    high-status: 'em alta'
+    down-status: 'em queda'
     equals:
       icon: '&b➙'
       message: 'manteu'

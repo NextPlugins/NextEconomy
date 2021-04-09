@@ -1,5 +1,6 @@
 package com.nextplugins.economy.inventory.button;
 
+import com.nextplugins.economy.inventory.button.model.ButtonType;
 import com.nextplugins.economy.util.ItemBuilder;
 import lombok.Builder;
 import lombok.Data;
@@ -17,6 +18,8 @@ import java.util.List;
 public final class InventoryButton implements Cloneable {
 
     private final MaterialData materialData;
+
+    private final ButtonType buttonType;
 
     private final String nickname;
     private final String displayName;

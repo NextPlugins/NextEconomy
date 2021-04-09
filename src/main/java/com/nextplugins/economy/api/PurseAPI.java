@@ -2,11 +2,9 @@ package com.nextplugins.economy.api;
 
 import com.nextplugins.economy.NextEconomy;
 import com.nextplugins.economy.api.event.operations.AsyncPurseUpdateEvent;
+import com.nextplugins.economy.configuration.values.MessageValue;
 import com.nextplugins.economy.configuration.values.PurseValue;
-import lombok.AccessLevel;
-import lombok.Data;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.PluginManager;
 import org.jetbrains.annotations.Nullable;
@@ -26,7 +24,9 @@ public class PurseAPI {
     /**
      * Can be null if the user desactivate system
      */
-    @Getter @Nullable private static PurseAPI instance = new PurseAPI();
+    @Getter
+    @Nullable
+    private static PurseAPI instance = new PurseAPI();
 
     private int purse;
     private double purseMultiplier;
@@ -42,6 +42,17 @@ public class PurseAPI {
     public void setPurse(int purse) {
         this.purse = purse;
         this.purseMultiplier = purse / 100.0;
+    }
+
+    public String isHigh() {
+
+        val media = PurseValue.get(PurseValue::media);
+        if (purse >= media) {
+            return MessageValue.get(MessageValue::valuedIcon) + " " + MessageValue.get(MessageValue::purseHigh);
+        } else {
+            return MessageValue.get(MessageValue::devaluedIcon) + " " + MessageValue.get(MessageValue::purseDown);
+        }
+
     }
 
     public void updatePurse(int newValue) {

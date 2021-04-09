@@ -24,6 +24,7 @@ repositories {
 
     // libs
 
+    maven { url = 'https://libraries.minecraft.net/' }
     maven { url = 'https://repo.codemc.org/repository/maven-public' }
     maven { url = 'https://repo.citizensnpcs.co/' }
 
@@ -33,6 +34,7 @@ repositories {
 dependencies {
 
     compileOnly 'org.spigotmc:spigot:1.8.8-R0.1-SNAPSHOT'
+    compileOnly 'com.mojang:authlib:1.5.21'
 
     /*** local dependency (legendchat) ***/
     compileOnly 'br.com.devpaulo:legendchat:1.1.5'

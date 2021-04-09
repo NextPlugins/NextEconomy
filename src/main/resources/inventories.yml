@@ -5,6 +5,7 @@ inventory:
       size: 37
     buttons:
       yourMoney:
+        identifier: YOUR_MONEY
         skullName: '@player' # ficar com a cabeça do jogador que está visualizando
         displayName: '&aSeu perfil'
         slot: 10
@@ -12,11 +13,12 @@ inventory:
           - '&7Aqui você pode ver o seu'
           - '&7perfil no banco do servidor'
           - ''
-          - '&aCoins: &f@money'
-          - '&aTransações: &f@transactions transações'
-          - '&aDinheiro movimentado: &f@movimentedMoney'
+          - '&aCoins: &f$money'
+          - '&aTransações: &f$transactions transações'
+          - '&aDinheiro movimentado: &f$movimentedMoney'
           - ''
       viewPlayerMoney:
+        identifier: VIEW_MONEY
         material: SIGN
         data: 0
         slot: 11
@@ -25,6 +27,7 @@ inventory:
           - '&7Clique aqui para ver'
           - '&7o money de outro jogador'
       sendMoney:
+        identifier: SEND_MONEY
         material: PAPER
         data: 0
         slot: 14
@@ -34,7 +37,11 @@ inventory:
           - '&7à um jogador'
           - ''
           - '&cEsta ação é irreversível'
-      purse: # caso desative o sistema, este item não será usado
+      purse:
+        identifier: PURSE
+        historyLine: ' &a$position. &e$value% $status' # desativado temporariamente
+        # Caso não utilize o sistema de bolsa de valores
+        # Coloque o slot como -1 para desativar este item
         material: BOOK
         data: 0
         slot: 15
@@ -44,9 +51,10 @@ inventory:
           - '&7bolsa de valores atual'
           - ''
           - ' &aValor atual: &f$value'
+          - ' &aStatus: &f$status'
           - ''
-          - ''
-      topMoney: # este item só irá aporecer se utilizar o /money top em menu
+      topMoney:
+        identifier: TOP_MONEY
         material: GOLD_INGOT
         data: 0
         slot: 16

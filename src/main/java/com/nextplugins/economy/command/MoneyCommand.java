@@ -46,7 +46,6 @@ public final class MoneyCommand {
     private final RankingStorage rankingStorage;
     private final LocationManager locationManager;
     private final ConversorManager conversorManager;
-    private final SQLConnector sqlConnector;
 
     @Command(
             name = "money",

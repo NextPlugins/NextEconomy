@@ -17,6 +17,7 @@ import com.nextplugins.economy.ranking.CustomRankingRegistry;
 import com.nextplugins.economy.ranking.manager.LocationManager;
 import com.nextplugins.economy.ranking.runnable.ArmorStandRunnable;
 import com.nextplugins.economy.ranking.runnable.NPCRunnable;
+import com.nextplugins.economy.registry.InventoryRegistry;
 import com.nextplugins.economy.sql.SQLProvider;
 import com.nextplugins.economy.storage.AccountStorage;
 import com.nextplugins.economy.storage.RankingStorage;
@@ -78,14 +79,16 @@ public final class NextEconomy extends JavaPlugin {
                 locationManager = new LocationManager();
 
                 accountStorage.init();
+
                 InventoryManager.enable(this);
 
                 VaultHookRegistry.of(this).register();
-
                 ConfigurationRegistry.of(this).register();
                 ListenerRegistry.of(this).register();
                 CommandRegistry.of(this).register();
                 TaskRegistry.of(this).register();
+
+                InventoryRegistry.getInstance().init(this);
 
                 MetricProvider.of(this).setup();
 
