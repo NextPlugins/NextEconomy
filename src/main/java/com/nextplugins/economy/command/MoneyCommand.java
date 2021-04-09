@@ -1,6 +1,5 @@
 package com.nextplugins.economy.command;
 
-import com.henryfabio.sqlprovider.connector.SQLConnector;
 import com.nextplugins.economy.NextEconomy;
 import com.nextplugins.economy.api.event.operations.MoneyGiveEvent;
 import com.nextplugins.economy.api.event.operations.MoneySetEvent;
@@ -15,11 +14,13 @@ import com.nextplugins.economy.manager.ConversorManager;
 import com.nextplugins.economy.ranking.CustomRankingRegistry;
 import com.nextplugins.economy.ranking.manager.LocationManager;
 import com.nextplugins.economy.ranking.util.LocationUtil;
+import com.nextplugins.economy.registry.InventoryRegistry;
 import com.nextplugins.economy.storage.AccountStorage;
 import com.nextplugins.economy.storage.RankingStorage;
 import com.nextplugins.economy.util.ColorUtil;
 import com.nextplugins.economy.util.NumberUtils;
 import lombok.RequiredArgsConstructor;
+import lombok.val;
 import me.saiintbrisson.minecraft.command.annotation.Command;
 import me.saiintbrisson.minecraft.command.annotation.Optional;
 import me.saiintbrisson.minecraft.command.command.Context;
@@ -49,7 +50,7 @@ public final class MoneyCommand {
 
     @Command(
             name = "money",
-            usage = "/money <jogador>",
+            usage = "/money [jogador]",
             description = "Utilize para ver a sua quantia de Cash, ou a de outro jogador.",
             async = true
     )
@@ -66,11 +67,9 @@ public final class MoneyCommand {
 
             }
 
-            double balance = accountStorage.findOnlineAccount((Player) player).getBalance();
+            val inventory = InventoryRegistry.getInstance().getMainInventory();
+            inventory.openInventory((Player) player);
 
-            player.sendMessage(MessageValue.get(MessageValue::seeBalance)
-                    .replace("$amount", NumberUtils.format(balance))
-            );
         } else {
 
             Account offlineAccount = accountStorage.findOfflineAccount(target.getName());
