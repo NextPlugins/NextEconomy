@@ -35,10 +35,12 @@ public class PurseAPI {
     private double purseMultiplier;
     private long nextUpdate;
 
-    public void checkAvaliability() {
+    public static boolean isAvaliable() {
 
-        if (PurseValue.get(PurseValue::enable)) return;
+        if (PurseValue.get(PurseValue::enable)) return true;
+
         instance = null;
+        return false;
 
     }
 
@@ -62,11 +64,16 @@ public class PurseAPI {
 
         Bukkit.getScheduler().runTaskAsynchronously(NextEconomy.getInstance(), () -> {
 
+            val duration = PurseValue.get(PurseValue::nextUpdate);
+            val nextUpdate = Instant.ofEpochMilli(
+                    System.currentTimeMillis() + TimeUnit.SECONDS.toMillis(duration)
+            );
+
             AsyncPurseUpdateEvent asyncPurseUpdateEvent = new AsyncPurseUpdateEvent(
                     newValue,
                     purse,
                     Instant.now(),
-                    Instant.ofEpochMilli(System.currentTimeMillis() + TimeUnit.SECONDS.toMillis(600))
+                    nextUpdate
             );
 
             PluginManager pluginManager = Bukkit.getPluginManager();

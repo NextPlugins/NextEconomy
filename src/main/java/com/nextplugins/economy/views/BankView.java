@@ -1,4 +1,4 @@
-package com.nextplugins.economy.inventory;
+package com.nextplugins.economy.views;
 
 import com.henryfabio.minecraft.inventoryapi.editor.InventoryEditor;
 import com.henryfabio.minecraft.inventoryapi.inventory.impl.simple.SimpleInventory;
@@ -7,7 +7,7 @@ import com.henryfabio.minecraft.inventoryapi.viewer.Viewer;
 import com.nextplugins.economy.api.PurseAPI;
 import com.nextplugins.economy.api.model.account.Account;
 import com.nextplugins.economy.configuration.values.InventoryValue;
-import com.nextplugins.economy.inventory.button.InventoryButton;
+import com.nextplugins.economy.views.button.InventoryButton;
 import com.nextplugins.economy.registry.InventoryButtonRegistry;
 import com.nextplugins.economy.storage.AccountStorage;
 import com.nextplugins.economy.util.ItemBuilder;
@@ -21,13 +21,13 @@ import java.util.stream.Collectors;
  * @author Yuhtin
  * Github: https://github.com/Yuhtin
  */
-public class MainInventory extends SimpleInventory {
+public class BankView extends SimpleInventory {
 
     private static final InventoryButtonRegistry BUTTONS = InventoryButtonRegistry.getInstance();
 
     private final AccountStorage accountStorage;
 
-    public MainInventory(AccountStorage accountStorage) {
+    public BankView(AccountStorage accountStorage) {
         super(
                 "nexteconomy.main",
                 InventoryValue.get(InventoryValue::mainInventoryName),

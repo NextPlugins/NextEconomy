@@ -69,6 +69,7 @@ public final class NextEconomy extends JavaPlugin {
 
         PluginDependencyManager.of(this).loadAllDependencies().thenRun(() -> {
             try {
+
                 sqlConnector = SQLProvider.of(this).setup();
                 sqlExecutor = new SQLExecutor(sqlConnector);
 
@@ -97,7 +98,7 @@ public final class NextEconomy extends JavaPlugin {
                     CustomRankingRegistry.of(this).register();
                 }, 5 * 20);
 
-                PurseAPI.getInstance().checkAvaliability();
+                if (!PurseAPI.isAvaliable()) getLogger().info("Sistema de bolsa de valores desativado.");
 
                 getLogger().info("Plugin inicializado com sucesso!");
             } catch (Throwable t) {

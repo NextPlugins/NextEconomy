@@ -20,6 +20,8 @@ public final class VaultHookRegistry {
                         plugin,
                         ServicePriority.Highest
                 );
+
+        getPlugin().getLogger().info("Associação com o 'Vault' realizada com sucesso.");
     }
 
 }

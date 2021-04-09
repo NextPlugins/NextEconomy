@@ -1,6 +1,7 @@
 package com.nextplugins.economy.storage;
 
 import com.google.common.collect.Maps;
+import com.nextplugins.economy.NextEconomy;
 import com.nextplugins.economy.api.model.account.Account;
 import com.nextplugins.economy.dao.AccountDAO;
 import lombok.Getter;
@@ -18,7 +19,10 @@ public final class AccountStorage {
     @Getter private final AccountDAO accountDAO;
 
     public void init() {
+
         accountDAO.createTable();
+        NextEconomy.getInstance().getLogger().info("DAO do plugin iniciado com sucesso.");
+
     }
 
     /**

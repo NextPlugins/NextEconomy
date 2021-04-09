@@ -9,7 +9,7 @@ import com.nextplugins.economy.api.model.account.Account;
 import com.nextplugins.economy.api.model.account.old.OldAccount;
 import com.nextplugins.economy.configuration.values.MessageValue;
 import com.nextplugins.economy.configuration.values.RankingValue;
-import com.nextplugins.economy.inventory.RankingInventory;
+import com.nextplugins.economy.views.RankingView;
 import com.nextplugins.economy.manager.ConversorManager;
 import com.nextplugins.economy.ranking.CustomRankingRegistry;
 import com.nextplugins.economy.ranking.manager.LocationManager;
@@ -67,7 +67,7 @@ public final class MoneyCommand {
 
             }
 
-            val inventory = InventoryRegistry.getInstance().getMainInventory();
+            val inventory = InventoryRegistry.getInstance().getBankView();
             inventory.openInventory((Player) player);
 
         } else {
@@ -306,8 +306,8 @@ public final class MoneyCommand {
 
             footer.forEach(sender::sendMessage);
         } else if (rankingType.equalsIgnoreCase("INVENTORY")) {
-            RankingInventory rankingInventory = new RankingInventory().init();
-            rankingInventory.openInventory(sender);
+            RankingView rankingView = new RankingView().init();
+            rankingView.openInventory(sender);
         } else {
             throw new IllegalArgumentException("Tipo de ranking inválido: + " + rankingType + ". (ranking.yml)");
         }

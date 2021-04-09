@@ -10,9 +10,7 @@ import com.nextplugins.economy.ranking.manager.LocationManager;
 import com.nextplugins.economy.storage.RankingStorage;
 import com.nextplugins.economy.util.ItemBuilder;
 import com.nextplugins.economy.util.NumberUtils;
-import lombok.Getter;
 import lombok.RequiredArgsConstructor;
-import lombok.Setter;
 import org.bukkit.Color;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -32,7 +30,6 @@ public final class ArmorStandRunnable implements Runnable {
 
     public static final List<ArmorStand> STANDS = Lists.newLinkedList();;
     public static final List<Hologram> HOLOGRAM = Lists.newLinkedList();
-    @Setter @Getter private static boolean enabled;
 
     private static final Material[] SWORDS = new Material[] {
             Material.DIAMOND_SWORD, Material.GOLD_SWORD,

@@ -1,7 +1,7 @@
 package com.nextplugins.economy.registry;
 
 import com.nextplugins.economy.configuration.values.InventoryValue;
-import com.nextplugins.economy.inventory.button.InventoryButton;
+import com.nextplugins.economy.views.button.InventoryButton;
 import com.nextplugins.economy.parser.InventoryButtonParser;
 import com.nextplugins.economy.util.CaseInsensitiveLinkedMap;
 import lombok.Getter;

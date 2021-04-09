@@ -19,14 +19,18 @@ public final class ConfigurationRegistry {
         configurationInjector.saveDefaultConfiguration(
                 plugin,
                 "messages.yml",
-                "ranking.yml"
+                "ranking.yml",
+                "inventories.yml"
         );
 
         configurationInjector.injectConfiguration(
                 FeatureValue.instance(),
                 MessageValue.instance(),
-                RankingValue.instance()
+                RankingValue.instance(),
+                InventoryValue.instance()
         );
+
+        getPlugin().getLogger().info("Configurações registradas e injetadas com sucesso.");
     }
 
 }

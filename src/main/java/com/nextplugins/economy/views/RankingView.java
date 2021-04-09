@@ -1,4 +1,4 @@
-package com.nextplugins.economy.inventory;
+package com.nextplugins.economy.views;
 
 import com.google.common.collect.Lists;
 import com.henryfabio.minecraft.inventoryapi.editor.InventoryEditor;
@@ -18,11 +18,11 @@ import org.bukkit.ChatColor;
 
 import java.util.List;
 
-public final class RankingInventory extends SimpleInventory {
+public final class RankingView extends SimpleInventory {
 
     private final RankingStorage rankingStorage = NextEconomy.getInstance().getRankingStorage();
 
-    public RankingInventory() {
+    public RankingView() {
         super(
                 "nexteconomy.ranking.inventory",
                 RankingValue.get(RankingValue::inventoryModelTitle),

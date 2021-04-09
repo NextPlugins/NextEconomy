@@ -1,4 +1,4 @@
-package com.nextplugins.economy.inventory.button.model;
+package com.nextplugins.economy.views.button.model;
 
 import com.henryfabio.minecraft.inventoryapi.event.impl.CustomInventoryClickEvent;
 import com.nextplugins.economy.configuration.values.MessageValue;
@@ -38,7 +38,7 @@ public enum ButtonType {
 
     TOP_MONEY(callback -> {
 
-        val rankingInventory = InventoryRegistry.getInstance().getRankingInventory();
+        val rankingInventory = InventoryRegistry.getInstance().getRankingView();
         rankingInventory.openInventory(callback.getPlayer());
 
     });

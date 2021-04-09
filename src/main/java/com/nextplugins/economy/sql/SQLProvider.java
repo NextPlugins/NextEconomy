@@ -7,7 +7,7 @@ import com.henryfabio.sqlprovider.connector.type.impl.SQLiteDatabaseType;
 import lombok.Data;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
-import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.plugin.Plugin;
 
 import java.io.File;
 import java.util.logging.Logger;
@@ -15,16 +15,16 @@ import java.util.logging.Logger;
 @Data(staticConstructor = "of")
 public final class SQLProvider {
 
-    private final JavaPlugin javaPlugin;
+    private final Plugin plugin;
 
     public SQLConnector setup() {
 
-        FileConfiguration configuration = javaPlugin.getConfig();
+        FileConfiguration configuration = plugin.getConfig();
         ConfigurationSection databaseConfiguration = configuration.getConfigurationSection("database");
 
         String sqlType = databaseConfiguration.getString("type");
 
-        Logger logger = javaPlugin.getLogger();
+        Logger logger = plugin.getLogger();
 
         SQLConnector sqlConnector;
 
@@ -39,6 +39,7 @@ public final class SQLProvider {
             ConfigurationSection sqliteSection = databaseConfiguration.getConfigurationSection("sqlite");
             sqlConnector = sqliteDatabaseType(sqliteSection).connect();
             logger.info("Conexão com o banco de dados (SQLite) realizada com sucesso.");
+            logger.warning("Recomendamos o uso do banco de dados MySQL.");
 
         } else {
 
@@ -53,7 +54,7 @@ public final class SQLProvider {
 
     private SQLDatabaseType sqliteDatabaseType(ConfigurationSection section) {
         return SQLiteDatabaseType.builder()
-                .file(new File(javaPlugin.getDataFolder(), section.getString("file")))
+                .file(new File(plugin.getDataFolder(), section.getString("file")))
                 .build();
     }
 

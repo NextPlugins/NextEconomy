@@ -1,6 +1,6 @@
 package com.nextplugins.economy.parser;
 
-import com.nextplugins.economy.inventory.button.InventoryButton;
+import com.nextplugins.economy.views.button.InventoryButton;
 import com.nextplugins.economy.util.ColorUtil;
 import org.bukkit.Material;
 import org.bukkit.configuration.ConfigurationSection;

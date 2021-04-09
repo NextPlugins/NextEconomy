@@ -70,9 +70,6 @@ public class CustomRankingRegistry {
                 ? new NPCRunnable(plugin, plugin.getLocationManager(), plugin.getRankingStorage())
                 : new ArmorStandRunnable(plugin, plugin.getLocationManager(), plugin.getRankingStorage());
 
-        if (isNpc) NPCRunnable.setEnabled(true);
-        else ArmorStandRunnable.setEnabled(true);
-
         BukkitScheduler scheduler = Bukkit.getScheduler();
         scheduler.runTaskTimer(
                 plugin,
@@ -82,6 +79,8 @@ public class CustomRankingRegistry {
         );
 
         enabled = true;
+        plugin.getLogger().info("Sistema de NPC e ArmorStand registrado com sucesso.");
+
     }
 
 }
