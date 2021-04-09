@@ -1,13 +1,14 @@
 package com.nextplugins.economy.listener;
 
 import com.nextplugins.economy.NextEconomy;
+import com.nextplugins.economy.configuration.values.PurseValue;
 import com.nextplugins.economy.configuration.values.RankingValue;
-import com.nextplugins.economy.listener.events.connection.UserConnectionListener;
 import com.nextplugins.economy.listener.events.chat.TycoonTagRegister;
+import com.nextplugins.economy.listener.events.connection.UserConnectionListener;
+import com.nextplugins.economy.listener.events.operation.AsyncPurseUpdateListener;
 import com.nextplugins.economy.listener.events.operation.MoneyGiveListener;
 import com.nextplugins.economy.listener.events.operation.MoneySetListener;
 import com.nextplugins.economy.listener.events.operation.MoneyWithdrawListener;
-import com.nextplugins.economy.listener.events.operation.AsyncPurseUpdateListener;
 import com.nextplugins.economy.listener.events.transaction.TransactionRequestListener;
 import com.nextplugins.economy.listener.events.update.MoneyTopUpdateListener;
 import lombok.Data;
@@ -48,10 +49,12 @@ public final class ListenerRegistry {
                     plugin
             );
 
-            pluginManager.registerEvents(
-                    new AsyncPurseUpdateListener(),
-                    plugin
-            );
+            if (PurseValue.get(PurseValue::enable)) {
+                pluginManager.registerEvents(
+                        new AsyncPurseUpdateListener(),
+                        plugin
+                );
+            }
 
             // transactions
 

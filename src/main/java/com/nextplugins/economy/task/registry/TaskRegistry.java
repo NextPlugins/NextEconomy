@@ -52,7 +52,7 @@ public final class TaskRegistry {
                 purseUpdateDelay * 20L
         );
 
-        getPlugin().getLogger().info("Tasks registradas com sucesso.");
+        plugin.getLogger().info("Tasks registradas com sucesso.");
 
     }
 

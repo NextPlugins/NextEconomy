@@ -57,8 +57,11 @@ public class AsyncPurseUpdateListener implements Listener {
                 .collect(Collectors.toSet());
 
         Bukkit.getOnlinePlayers().forEach(onlinePlayer -> {
+
             SoundUtils.sendSound(onlinePlayer, Sound.valueOf(MessageValue.get(MessageValue::purseUpdatedSound)));
-            message.forEach(onlinePlayer::sendMessage);
+
+            for (String line : message) onlinePlayer.sendMessage(line);
+
         });
 
     }
