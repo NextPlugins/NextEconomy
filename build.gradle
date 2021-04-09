@@ -19,7 +19,7 @@ repositories {
 
     // spigot
 
-    maven { url = 'https://hub.spigotmc.org/nexus/content/repositories/snapshots/' }
+    maven { url = 'http://maven.elmakers.com/repository/' }
     maven { url = 'https://oss.sonatype.org/content/groups/public/' }
 
     // libs
@@ -32,7 +32,7 @@ repositories {
 
 dependencies {
 
-    compileOnly 'org.spigotmc:spigot-api:1.12.2-R0.1-SNAPSHOT'
+    compileOnly 'org.spigotmc:spigot:1.8.8-R0.1-SNAPSHOT'
 
     /*** local dependency (legendchat) ***/
     compileOnly 'br.com.devpaulo:legendchat:1.1.5'

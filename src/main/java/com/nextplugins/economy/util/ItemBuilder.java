@@ -5,8 +5,11 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.SkullMeta;
 
+import java.lang.reflect.Field;
 import java.util.Arrays;
+import java.util.Base64;
 import java.util.List;
+import java.util.UUID;
 import java.util.function.Consumer;
 
 public class ItemBuilder {
@@ -25,14 +28,40 @@ public class ItemBuilder {
         this(new ItemStack(type, quantity, data));
     }
 
-    public ItemBuilder(String name) {
+    public ItemBuilder(String textureUrl) {
 
-        item = new ItemStack(Material.getMaterial(397), 1, (short) 3);
+        item = new ItemStack(Material.SKULL_ITEM, 1, (short) 3);
 
-        SkullMeta meta = (SkullMeta) item.getItemMeta();
-        meta.setOwner(name);
+        if (textureUrl == null || textureUrl.isEmpty()) return;
 
-        item.setItemMeta(meta);
+        if (!textureUrl.startsWith("https://textures.minecraft.net/texture/")) {
+            textureUrl = "https://textures.minecraft.net/texture/" + textureUrl;
+        }
+
+        SkullMeta skullMeta = (SkullMeta) item.getItemMeta();
+        GameProfile profile = new GameProfile(UUID.nameUUIDFromBytes(textureUrl.getBytes()), null);
+        profile.getProperties().put(
+                "textures",
+                new Property(
+                        "textures",
+                        Arrays.toString(Base64.encodeBase64(
+                                String.format("{textures:{SKIN:{url:\"%s\"}}}", textureUrl).getBytes()
+                        ))
+                )
+        );
+
+        try {
+            Field profileField = skullMeta.getClass().getDeclaredField("profile");
+
+            profileField.setAccessible(true);
+            profileField.set(skullMeta, profile);
+
+            item.setItemMeta(skullMeta);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return this;
     }
 
     public ItemBuilder changeItemMeta(Consumer<ItemMeta> consumer) {

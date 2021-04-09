@@ -37,6 +37,7 @@ public final class TransactionRequestListener implements Listener {
         }
 
         if (account.hasAmount(amount)) {
+
             targetAccount.depositAmount(amount);
             account.withdrawAmount(amount);
 

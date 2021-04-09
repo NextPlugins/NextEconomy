@@ -20,7 +20,9 @@ public final class AccountDAO {
     public void createTable() {
         sqlExecutor.updateQuery("CREATE TABLE IF NOT EXISTS " + TABLE + "(" +
                 "owner CHAR(16) NOT NULL PRIMARY KEY," +
-                "balance DOUBLE NOT NULL" +
+                "balance DOUBLE NOT NULL," +
+                "movimentedBalance DOUBLE NOT NULL," +
+                "transactions INTEGER NOT NULL" +
                 ");"
         );
     }

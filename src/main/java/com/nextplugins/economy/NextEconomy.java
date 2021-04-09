@@ -4,6 +4,7 @@ import com.gmail.filoghost.holographicdisplays.api.Hologram;
 import com.henryfabio.minecraft.inventoryapi.manager.InventoryManager;
 import com.henryfabio.sqlprovider.connector.SQLConnector;
 import com.henryfabio.sqlprovider.executor.SQLExecutor;
+import com.nextplugins.economy.api.PurseAPI;
 import com.nextplugins.economy.command.registry.CommandRegistry;
 import com.nextplugins.economy.configuration.registry.ConfigurationRegistry;
 import com.nextplugins.economy.configuration.values.RankingValue;
@@ -92,6 +93,8 @@ public final class NextEconomy extends JavaPlugin {
                     PlaceholderRegistry.of(this).register();
                     CustomRankingRegistry.of(this).register();
                 }, 5 * 20);
+
+                PurseAPI.getInstance().checkAvaliability();
 
                 getLogger().info("Plugin inicializado com sucesso!");
             } catch (Throwable t) {

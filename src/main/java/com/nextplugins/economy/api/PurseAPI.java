@@ -2,12 +2,14 @@ package com.nextplugins.economy.api;
 
 import com.nextplugins.economy.NextEconomy;
 import com.nextplugins.economy.api.event.operations.AsyncPurseUpdateEvent;
+import com.nextplugins.economy.configuration.values.PurseValue;
 import lombok.AccessLevel;
 import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.PluginManager;
+import org.jetbrains.annotations.Nullable;
 
 import java.time.Instant;
 import java.util.concurrent.TimeUnit;
@@ -17,14 +19,30 @@ import java.util.concurrent.TimeUnit;
  * Github: https://github.com/Yuhtin
  */
 
-@Data
+@Getter
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class PurseAPI {
 
-    @Getter private static final PurseAPI instance = new PurseAPI();
+    /**
+     * Can be null if the user desactivate system
+     */
+    @Getter @Nullable private static PurseAPI instance = new PurseAPI();
 
     private int purse;
+    private double purseMultiplier;
     private long nextUpdate;
+
+    public void checkAvaliability() {
+
+        if (PurseValue.get(PurseValue::enable)) return;
+        instance = null;
+
+    }
+
+    public void setPurse(int purse) {
+        this.purse = purse;
+        this.purseMultiplier = purse / 100.0;
+    }
 
     public void updatePurse(int newValue) {
 

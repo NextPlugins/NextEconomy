@@ -6,37 +6,50 @@ inventory:
     buttons:
       yourMoney:
         skullName: '@player' # ficar com a cabeça do jogador que está visualizando
-        displayName: '&2Seu Dinheiro'
+        displayName: '&aSeu perfil'
+        slot: 10
         lore:
-          - '&7Aqui você pode ver a quantidade'
-          - '&7de moedas que você tem'
+          - '&7Aqui você pode ver o seu'
+          - '&7perfil no banco do servidor'
           - ''
           - '&aCoins: &f@money'
+          - '&aTransações: &f@transactions transações'
+          - '&aDinheiro movimentado: &f@movimentedMoney'
+          - ''
+      viewPlayerMoney:
+        material: SIGN
+        data: 0
+        slot: 11
+        displayName: '&aVer banco de outro jogador'
+        lore:
+          - '&7Clique aqui para ver'
+          - '&7o money de outro jogador'
       sendMoney:
         material: PAPER
         data: 0
+        slot: 14
+        displayName: '&aEnviar dinheiro'
         lore:
           - '&7Clique aqui para enviar money'
           - '&7à um jogador'
           - ''
           - '&cEsta ação é irreversível'
-      viewPlayerMoney:
-        material: SIGN
-        data: 0
-        lore:
-          - '&7Clique aqui para ver'
-          - '&o money de outro jogador'
-      purse:
+      purse: # caso desative o sistema, este item não será usado
         material: BOOK
         data: 0
+        slot: 15
+        displayName: '&aBolsa de valores'
         lore:
           - '&7Veja a informação da'
           - '&7bolsa de valores atual'
           - ''
-          - ' &'
+          - ' &aValor atual: &f$value'
+          - ''
+          - ''
       topMoney: # este item só irá aporecer se utilizar o /money top em menu
         material: GOLD_INGOT
         data: 0
+        slot: 16
         lore:
           - '&7Veja os jogadores mais'
           - '&7ricos do servidor'

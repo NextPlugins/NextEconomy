@@ -20,7 +20,7 @@ public class OldAccount {
     private final double balance;
 
     public Account toAccount() {
-        return Account.create(name, balance);
+        return Account.create(name, balance, balance, 1);
     }
     
 }
