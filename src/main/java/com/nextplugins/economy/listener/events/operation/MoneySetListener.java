@@ -31,6 +31,13 @@ public final class MoneySetListener implements Listener {
 
         }
 
+        if (Double.isNaN(amount) || amount < 1) {
+
+            sender.sendMessage(MessageValue.get(MessageValue::invalidMoney));
+            return;
+
+        }
+
         targetAccount.setBalance(amount);
 
         sender.sendMessage(MessageValue.get(MessageValue::setAmount)

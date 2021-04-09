@@ -31,6 +31,13 @@ public final class MoneyGiveListener implements Listener {
 
         }
 
+        if (Double.isNaN(amount) || amount < 1) {
+
+            sender.sendMessage(MessageValue.get(MessageValue::invalidMoney));
+            return;
+
+        }
+
         targetAccount.depositAmount(amount);
 
         sender.sendMessage(MessageValue.get(MessageValue::addAmount)

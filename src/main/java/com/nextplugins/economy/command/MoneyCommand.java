@@ -104,7 +104,7 @@ public final class MoneyCommand {
         Player player = context.getSender();
 
         double parse = NumberUtils.parse(amount);
-        if (parse == -1) {
+        if (parse < 1) {
 
             player.sendMessage(MessageValue.get(MessageValue::invalidMoney));
             return;
@@ -153,7 +153,7 @@ public final class MoneyCommand {
         CommandSender sender = context.getSender();
 
         double parse = NumberUtils.parse(amount);
-        if (parse == -1) {
+        if (parse < 1) {
 
             sender.sendMessage(MessageValue.get(MessageValue::invalidMoney));
             return;
@@ -185,7 +185,7 @@ public final class MoneyCommand {
         CommandSender sender = context.getSender();
 
         double parse = NumberUtils.parse(amount);
-        if (parse == -1) {
+        if (parse < 1) {
 
             sender.sendMessage(MessageValue.get(MessageValue::invalidMoney));
             return;
@@ -216,7 +216,7 @@ public final class MoneyCommand {
         CommandSender sender = context.getSender();
 
         double parse = NumberUtils.parse(amount);
-        if (parse == -1) {
+        if (parse < 1) {
 
             sender.sendMessage(MessageValue.get(MessageValue::invalidMoney));
             return;

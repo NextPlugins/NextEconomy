@@ -36,6 +36,13 @@ public final class TransactionRequestListener implements Listener {
 
         }
 
+        if (Double.isNaN(amount) || amount < 1) {
+
+            player.sendMessage(MessageValue.get(MessageValue::invalidMoney));
+            return;
+
+        }
+
         if (account.hasAmount(amount)) {
 
             targetAccount.depositAmount(amount);
