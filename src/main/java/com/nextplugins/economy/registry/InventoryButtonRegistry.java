@@ -7,7 +7,6 @@ import com.nextplugins.economy.util.CaseInsensitiveLinkedMap;
 import lombok.Getter;
 
 import java.util.Collection;
-import java.util.List;
 
 public final class InventoryButtonRegistry {
 
@@ -48,10 +47,6 @@ public final class InventoryButtonRegistry {
 
     public Collection<InventoryButton> values() {
         return inventoryButtonMap.values();
-    }
-
-    public InventoryButton get(String id) {
-        return inventoryButtonMap.get(id);
     }
 
 }

@@ -1,7 +1,9 @@
 package com.nextplugins.economy.api.model.account;
 
 import com.nextplugins.economy.configuration.values.FeatureValue;
-import lombok.*;
+import lombok.AccessLevel;
+import lombok.Data;
+import lombok.AllArgsConstructor;
 
 @Data
 @AllArgsConstructor(access = AccessLevel.PROTECTED)

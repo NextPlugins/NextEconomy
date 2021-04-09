@@ -1,6 +1,5 @@
 package com.nextplugins.economy.interactions.sendmoney.model;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
 import org.bukkit.OfflinePlayer;
 

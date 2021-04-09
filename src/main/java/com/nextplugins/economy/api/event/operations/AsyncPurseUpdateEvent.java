@@ -3,8 +3,6 @@ package com.nextplugins.economy.api.event.operations;
 import com.nextplugins.economy.api.event.EconomyEvent;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import org.bukkit.OfflinePlayer;
-import org.bukkit.command.CommandSender;
 import org.bukkit.event.Cancellable;
 
 import java.time.Instant;
