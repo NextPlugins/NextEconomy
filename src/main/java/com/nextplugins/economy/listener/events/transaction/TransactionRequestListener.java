@@ -2,10 +2,11 @@ package com.nextplugins.economy.listener.events.transaction;
 
 import com.nextplugins.economy.NextEconomy;
 import com.nextplugins.economy.api.event.transaction.TransactionRequestEvent;
-import com.nextplugins.economy.api.model.Account;
+import com.nextplugins.economy.api.model.account.Account;
 import com.nextplugins.economy.configuration.values.MessageValue;
 import com.nextplugins.economy.storage.AccountStorage;
 import com.nextplugins.economy.util.NumberUtils;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -18,7 +19,7 @@ public final class TransactionRequestListener implements Listener {
     @EventHandler(priority = EventPriority.MONITOR)
     public void onRequest(TransactionRequestEvent event) {
         Player player = event.getPlayer();
-        Player target = event.getTarget();
+        OfflinePlayer target = event.getTarget();
         double amount = event.getAmount();
 
         if (target.equals(player)) {
@@ -26,8 +27,14 @@ public final class TransactionRequestListener implements Listener {
             return;
         }
 
-        Account account = accountStorage.getAccount(player.getUniqueId());
-        Account targetAccount = accountStorage.getAccount(target.getUniqueId());
+        Account account = accountStorage.findOnlineAccount(player);
+        Account targetAccount = accountStorage.findOfflineAccount(target.getName());
+        if (targetAccount == null) {
+
+            player.sendMessage(MessageValue.get(MessageValue::invalidTarget));
+            return;
+
+        }
 
         if (account.hasAmount(amount)) {
             targetAccount.depositAmount(amount);

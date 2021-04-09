@@ -2,7 +2,7 @@ package com.nextplugins.economy.placeholder;
 
 import com.nextplugins.economy.NextEconomy;
 import com.nextplugins.economy.api.NextEconomyAPI;
-import com.nextplugins.economy.api.model.Account;
+import com.nextplugins.economy.api.model.account.Account;
 import com.nextplugins.economy.util.NumberUtils;
 import lombok.RequiredArgsConstructor;
 import me.clip.placeholderapi.expansion.PlaceholderExpansion;
@@ -33,7 +33,7 @@ public final class EconomyPlaceholderHook extends PlaceholderExpansion {
     public String onPlaceholderRequest(Player player, @NotNull String params) {
         if (player == null) return "&cOcorreu um erro!";
 
-        final Account account = NextEconomyAPI.getInstance().findAccountByPlayer(player).orElse(null);
+        final Account account = NextEconomyAPI.getInstance().findAccountByPlayer(player);
         final String balance = account == null ? "&cOcorreu um erro!" : NumberUtils.format(account.getBalance());
 
         if (params.equalsIgnoreCase("amount")) {

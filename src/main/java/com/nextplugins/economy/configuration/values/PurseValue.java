@@ -12,23 +12,29 @@ import lombok.experimental.Accessors;
 
 import java.util.function.Function;
 
+/**
+ * @author Yuhtin
+ * Github: https://github.com/Yuhtin
+ */
+
 @Getter
 @TranslateColors
 @Accessors(fluent = true)
-@ConfigSection("plugin.configuration")
+@ConfigSection("plugin.configuration.purse")
 @ConfigFile("config.yml")
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
-public final class FeatureValue implements ConfigurationInjectable {
+public final class PurseValue implements ConfigurationInjectable {
 
-    @Getter private static final FeatureValue instance = new FeatureValue();
+    @Getter private static final PurseValue instance = new PurseValue();
 
-    // configuration
+    @ConfigField("enable") private boolean enable;
 
-    @ConfigField("initial-balance") private double initialBalance;
-    @ConfigField("format-type") private String formatType;
-    @ConfigField("save-delay") private int saveDelay;
+    @ConfigField("media") private int media;
+    @ConfigField("minValue") private int minValue;
+    @ConfigField("maxValue") private int maxValue;
+    @ConfigField("nextUpdate") private int nextUpdate;
 
-    public static <T> T get(Function<FeatureValue, T> function) {
+    public static <T> T get(Function<PurseValue, T> function) {
         return function.apply(instance);
     }
 

@@ -14,12 +14,14 @@ public final class UserConnectionListener implements Listener {
 
     @EventHandler
     public void onJoin(PlayerJoinEvent event) {
-        accountStorage.getAccount(event.getPlayer().getUniqueId());
+
+        // for load player to cache
+        accountStorage.findOnlineAccount(event.getPlayer());
     }
 
     @EventHandler
     public void onQuit(PlayerQuitEvent event) {
-        accountStorage.purge(event.getPlayer().getUniqueId());
+        accountStorage.purge(event.getPlayer().getName());
     }
 
 }

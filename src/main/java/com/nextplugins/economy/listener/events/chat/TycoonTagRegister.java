@@ -2,7 +2,7 @@ package com.nextplugins.economy.listener.events.chat;
 
 import br.com.devpaulo.legendchat.api.events.ChatMessageEvent;
 import com.nextplugins.economy.NextEconomy;
-import com.nextplugins.economy.api.model.Account;
+import com.nextplugins.economy.api.model.account.Account;
 import com.nextplugins.economy.configuration.values.RankingValue;
 import com.nextplugins.economy.storage.RankingStorage;
 import org.bukkit.entity.Player;
@@ -21,7 +21,7 @@ public final class TycoonTagRegister implements Listener {
         if (rankingStorage.getRankingAccounts().isEmpty()) return;
 
         Account tycoonAccount = rankingStorage.getRankingAccounts().get(0);
-        if (tycoonAccount == null || !player.getUniqueId().equals(tycoonAccount.getOwner())) return;
+        if (tycoonAccount == null || !player.getName().equals(tycoonAccount.getUserName())) return;
 
         event.setTagValue("tycoon", RankingValue.get(RankingValue::tycoonTagValue));
 

@@ -12,3 +12,31 @@ inventory:
           - '&7de moedas que você tem'
           - ''
           - '&aCoins: &f@money'
+      sendMoney:
+        material: PAPER
+        data: 0
+        lore:
+          - '&7Clique aqui para enviar money'
+          - '&7à um jogador'
+          - ''
+          - '&cEsta ação é irreversível'
+      viewPlayerMoney:
+        material: SIGN
+        data: 0
+        lore:
+          - '&7Clique aqui para ver'
+          - '&o money de outro jogador'
+      purse:
+        material: BOOK
+        data: 0
+        lore:
+          - '&7Veja a informação da'
+          - '&7bolsa de valores atual'
+          - ''
+          - ' &'
+      topMoney: # este item só irá aporecer se utilizar o /money top em menu
+        material: GOLD_INGOT
+        data: 0
+        lore:
+          - '&7Veja os jogadores mais'
+          - '&7ricos do servidor'

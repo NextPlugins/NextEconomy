@@ -12,6 +12,32 @@ messages:
       - ''
       - '&cA conversão começou, você foi expulso por não estar na whitelist.'
     end: '&aA conversão de dados acabou!'
+  purse:
+    equals:
+      icon: '&b➙'
+      message: 'manteu'
+    devalued:
+      icon: '&c➘'
+      message: 'desvalorizou'
+    valued:
+      icon: '&a➚'
+      message: 'valorizou'
+    updated:
+      # Antes de mudar aqui, confira a lista de sons da versão do servidor
+      sound: NOTE_PLING
+      message:
+        - ''
+        - ' &3&LBOLSA DE VALORES'
+        - '&fA bolsa de valores foi atualizada. &7$lastvalue $operationIcon &7$newvalue &7($operationMessage)'
+        - ''
+  new-money-top:
+    # Habilitar mensagem e título de top
+    enable: true
+    message:
+      - ''
+      - '&2&L[MONEY TOP] &aO jogador &f$player &fé o novo &a&lmagnata &ado servidor.'
+      - ''
+    title: '&2&lMONEY TOP<nl>&a$player &fé o novo &2magnata'
   operations:
     see: '&aVocê possui&f $amount&a de dinheiro.'
     see-other: '&aO jogador &f$player&a possui&f $amount&a de dinheiro.'
@@ -62,4 +88,5 @@ messages:
       - '&a/money remove (jogador) (quantia)&8 -&7 Remova uma quantia de alguém.'
       - '&a/money reset (jogador) (quantia)&8 -&7 Zere a quantia de alguém.'
       - '&a/money npc&8 -&7 Veja a ajuda para o sistema de NPC.'
+      - '&a/money converter &8- &7Converter os dados da antiga versão do plugin.'
       - ''

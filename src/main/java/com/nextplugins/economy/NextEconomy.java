@@ -9,6 +9,7 @@ import com.nextplugins.economy.configuration.registry.ConfigurationRegistry;
 import com.nextplugins.economy.configuration.values.RankingValue;
 import com.nextplugins.economy.dao.AccountDAO;
 import com.nextplugins.economy.listener.ListenerRegistry;
+import com.nextplugins.economy.manager.ConversorManager;
 import com.nextplugins.economy.metric.MetricProvider;
 import com.nextplugins.economy.placeholder.registry.PlaceholderRegistry;
 import com.nextplugins.economy.ranking.CustomRankingRegistry;
@@ -41,6 +42,7 @@ public final class NextEconomy extends JavaPlugin {
     private AccountDAO accountDAO;
     private AccountStorage accountStorage;
     private RankingStorage rankingStorage;
+    private ConversorManager conversorManager;
 
     private LocationManager locationManager;
 
@@ -70,8 +72,8 @@ public final class NextEconomy extends JavaPlugin {
 
                 accountDAO = new AccountDAO(sqlExecutor);
                 accountStorage = new AccountStorage(accountDAO);
+                conversorManager = new ConversorManager(accountDAO);
                 rankingStorage = new RankingStorage();
-
                 locationManager = new LocationManager();
 
                 accountStorage.init();

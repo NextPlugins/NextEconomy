@@ -55,6 +55,26 @@ public final class MessageValue implements ConfigurationInjectable {
     @ConfigField("convert.kick") private List<String> convertWhitelistKick;
     @ConfigField("convert.end") private String convertEnd;
 
+    // purse system
+
+    @ConfigField("purse.devalued.icon") private String devaluedIcon;
+    @ConfigField("purse.devalued.message") private String devaluedMessage;
+
+    @ConfigField("purse.valued.icon") private String valuedIcon;
+    @ConfigField("purse.valued.message") private String valuedMessage;
+
+    @ConfigField("purse.equals.icon") private String equalsIcon;
+    @ConfigField("purse.equals.message") private String equalsMessage;
+
+    @ConfigField("purse.updated.sound") private String purseUpdatedSound;
+    @ConfigField("purse.updated.message") private List<String> purseUpdatedMessage;
+
+    // new money top
+
+    @ConfigField("new-money-top.enable") private boolean enableMoneyTopMessage;
+    @ConfigField("new-money-top.message") private List<String> moneyTopMessage;
+    @ConfigField("new-money-top.title") private String moneyTopTitle;
+
     // npc ranking
 
     @ConfigField("npc-ranking.wrong-position") private String wrongPosition;

@@ -1,10 +1,10 @@
 package com.nextplugins.economy.api.event.operations;
 
 import com.nextplugins.economy.api.event.EconomyEvent;
-import com.nextplugins.economy.api.model.account.Account;
-import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import org.bukkit.OfflinePlayer;
+import org.bukkit.command.CommandSender;
 import org.bukkit.event.Cancellable;
 
 import java.time.Instant;
@@ -14,16 +14,17 @@ import java.time.Instant;
  * Github: https://github.com/Yuhtin
  */
 
-@Builder
 @Data
 @EqualsAndHashCode(callSuper = true)
-public final class MoneyTopPlayerUpdateEvent extends EconomyEvent implements Cancellable {
+public final class AsyncPurseUpdateEvent extends EconomyEvent implements Cancellable {
 
-    private final Account lastMoneyTop;
-    private final Account moneyTop;
-
-    private final Instant updateInstant;
-    private final boolean async;
+    private final int newValue;
+    private final int lastValue;
+    private final Instant instant;
+    private final Instant nextUpdate;
     private boolean cancelled;
 
+    private final boolean async = true;
+
 }
+

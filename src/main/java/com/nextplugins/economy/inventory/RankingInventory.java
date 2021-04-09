@@ -1,24 +1,24 @@
 package com.nextplugins.economy.inventory;
 
 import com.google.common.collect.Lists;
-import com.henryfabio.minecraft.inventoryapi.inventory.impl.paged.PagedInventory;
+import com.henryfabio.minecraft.inventoryapi.editor.InventoryEditor;
+import com.henryfabio.minecraft.inventoryapi.inventory.impl.simple.SimpleInventory;
 import com.henryfabio.minecraft.inventoryapi.item.InventoryItem;
-import com.henryfabio.minecraft.inventoryapi.item.supplier.InventoryItemSupplier;
-import com.henryfabio.minecraft.inventoryapi.viewer.configuration.border.Border;
-import com.henryfabio.minecraft.inventoryapi.viewer.configuration.impl.ViewerConfigurationImpl;
-import com.henryfabio.minecraft.inventoryapi.viewer.impl.paged.PagedViewer;
+import com.henryfabio.minecraft.inventoryapi.item.enums.DefaultItem;
+import com.henryfabio.minecraft.inventoryapi.viewer.Viewer;
+import com.henryfabio.minecraft.inventoryapi.viewer.configuration.ViewerConfiguration;
+import com.henryfabio.minecraft.inventoryapi.viewer.impl.simple.SimpleViewer;
 import com.nextplugins.economy.NextEconomy;
-import com.nextplugins.economy.api.model.Account;
+import com.nextplugins.economy.api.model.account.Account;
 import com.nextplugins.economy.configuration.values.RankingValue;
 import com.nextplugins.economy.storage.RankingStorage;
 import com.nextplugins.economy.util.ItemBuilder;
 import com.nextplugins.economy.util.NumberUtils;
-import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 
 import java.util.List;
 
-public final class RankingInventory extends PagedInventory {
+public final class RankingInventory extends SimpleInventory {
 
     private final RankingStorage rankingStorage = NextEconomy.getInstance().getRankingStorage();
 
@@ -31,16 +31,15 @@ public final class RankingInventory extends PagedInventory {
     }
 
     @Override
-    protected void configureViewer(PagedViewer viewer) {
-        ViewerConfigurationImpl.Paged configuration = viewer.getConfiguration();
+    protected void configureViewer(SimpleViewer viewer) {
 
-        configuration.itemPageLimit(21);
-        configuration.border(Border.of(1, 1, 2, 1));
+        ViewerConfiguration configuration = viewer.getConfiguration();
+        configuration.backInventory("nexteconomy.main");
+
     }
 
     @Override
-    protected List<InventoryItemSupplier> createPageItems(PagedViewer viewer) {
-        List<InventoryItemSupplier> items = Lists.newLinkedList();
+    protected void configureInventory(Viewer viewer, InventoryEditor editor) {
 
         String headDisplayName = RankingValue.get(RankingValue::inventoryModelHeadDisplayName);
         List<String> headLore = RankingValue.get(RankingValue::inventoryModelHeadLore);
@@ -49,7 +48,7 @@ public final class RankingInventory extends PagedInventory {
         int position = 1;
 
         for (Account account : rankingStorage.getRankingAccounts()) {
-            String name = Bukkit.getOfflinePlayer(account.getOwner()).getName();
+            String name = account.getUserName();
 
             String replacedDisplayName = headDisplayName.replace("$player", position == 1
                     ? tycoonTag + ChatColor.RESET + " " + name
@@ -69,8 +68,12 @@ public final class RankingInventory extends PagedInventory {
                 );
             }
 
-            items.add(() -> InventoryItem.of(
-                    new ItemBuilder(Bukkit.getOfflinePlayer(account.getOwner()).getName())
+            int slot = position + 9;
+            if (slot >= 16) slot += 2;
+            if (slot == 23) break;
+
+            editor.setItem(slot, InventoryItem.of(
+                    new ItemBuilder(account.getUserName())
                             .name(replacedDisplayName)
                             .setLore(replacedLore)
                             .wrap()
@@ -79,7 +82,8 @@ public final class RankingInventory extends PagedInventory {
             position++;
         }
 
-        return items;
+        editor.setItem(27, DefaultItem.BACK.toInventoryItem());
+
     }
 
 }

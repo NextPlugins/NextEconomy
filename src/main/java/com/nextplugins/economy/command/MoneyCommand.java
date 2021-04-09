@@ -1,14 +1,17 @@
 package com.nextplugins.economy.command;
 
+import com.henryfabio.sqlprovider.connector.SQLConnector;
 import com.nextplugins.economy.NextEconomy;
 import com.nextplugins.economy.api.event.operations.MoneyGiveEvent;
 import com.nextplugins.economy.api.event.operations.MoneySetEvent;
 import com.nextplugins.economy.api.event.operations.MoneyWithdrawEvent;
 import com.nextplugins.economy.api.event.transaction.TransactionRequestEvent;
-import com.nextplugins.economy.api.model.Account;
+import com.nextplugins.economy.api.model.account.Account;
+import com.nextplugins.economy.api.model.account.old.OldAccount;
 import com.nextplugins.economy.configuration.values.MessageValue;
 import com.nextplugins.economy.configuration.values.RankingValue;
 import com.nextplugins.economy.inventory.RankingInventory;
+import com.nextplugins.economy.manager.ConversorManager;
 import com.nextplugins.economy.ranking.CustomRankingRegistry;
 import com.nextplugins.economy.ranking.manager.LocationManager;
 import com.nextplugins.economy.ranking.util.LocationUtil;
@@ -23,13 +26,17 @@ import me.saiintbrisson.minecraft.command.command.Context;
 import me.saiintbrisson.minecraft.command.target.CommandTarget;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.Player;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Objects;
+import java.util.Set;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 public final class MoneyCommand {
@@ -38,6 +45,8 @@ public final class MoneyCommand {
     private final AccountStorage accountStorage;
     private final RankingStorage rankingStorage;
     private final LocationManager locationManager;
+    private final ConversorManager conversorManager;
+    private final SQLConnector sqlConnector;
 
     @Command(
             name = "money",
@@ -45,7 +54,7 @@ public final class MoneyCommand {
             description = "Utilize para ver a sua quantia de Cash, ou a de outro jogador.",
             async = true
     )
-    public void moneyCommand(Context<CommandSender> context, @Optional String target) {
+    public void moneyCommand(Context<CommandSender> context, @Optional OfflinePlayer target) {
 
         CommandSender player = context.getSender();
 
@@ -58,25 +67,25 @@ public final class MoneyCommand {
 
             }
 
-            double balance = accountStorage.getAccount(((Player) player).getUniqueId()).getBalance();
+            double balance = accountStorage.findOnlineAccount((Player) player).getBalance();
 
             player.sendMessage(MessageValue.get(MessageValue::seeBalance)
                     .replace("$amount", NumberUtils.format(balance))
             );
         } else {
 
-            Player playerExact = Bukkit.getPlayerExact(target);
-            if (playerExact == null) {
+            Account offlineAccount = accountStorage.findOfflineAccount(target.getName());
+            if (offlineAccount == null) {
 
                 player.sendMessage(MessageValue.get(MessageValue::invalidTarget));
                 return;
 
             }
 
-            double targetBalance = accountStorage.getAccount(playerExact.getUniqueId()).getBalance();
+            double targetBalance = offlineAccount.getBalance();
 
             player.sendMessage(MessageValue.get(MessageValue::seeOtherBalance)
-                    .replace("$player", playerExact.getName())
+                    .replace("$player", target.getName())
                     .replace("$amount", NumberUtils.format(targetBalance))
             );
         }
@@ -93,7 +102,7 @@ public final class MoneyCommand {
             target = CommandTarget.PLAYER,
             async = true
     )
-    public void moneyPayCommand(Context<Player> context, String target, String amount) {
+    public void moneyPayCommand(Context<Player> context, OfflinePlayer target, String amount) {
         Player player = context.getSender();
 
         double parse = NumberUtils.parse(amount);
@@ -104,15 +113,15 @@ public final class MoneyCommand {
 
         }
 
-        Player playerExact = Bukkit.getPlayerExact(target);
-        if (playerExact == null) {
+        Account account = accountStorage.findOfflineAccount(target.getName());
+        if (account == null) {
 
             player.sendMessage(MessageValue.get(MessageValue::invalidTarget));
             return;
 
         }
 
-        TransactionRequestEvent transactionRequestEvent = new TransactionRequestEvent(player, playerExact, parse);
+        TransactionRequestEvent transactionRequestEvent = new TransactionRequestEvent(player, target, parse);
         Bukkit.getPluginManager().callEvent(transactionRequestEvent);
 
     }
@@ -142,7 +151,7 @@ public final class MoneyCommand {
             permission = "nexteconomy.command.set",
             async = true
     )
-    public void moneySetCommand(Context<CommandSender> context, String target, String amount) {
+    public void moneySetCommand(Context<CommandSender> context, OfflinePlayer target, String amount) {
         CommandSender sender = context.getSender();
 
         double parse = NumberUtils.parse(amount);
@@ -153,15 +162,15 @@ public final class MoneyCommand {
 
         }
 
-        Player playerExact = Bukkit.getPlayerExact(target);
-        if (playerExact == null) {
+        Account account = accountStorage.findOfflineAccount(target.getName());
+        if (account == null) {
 
             sender.sendMessage(MessageValue.get(MessageValue::invalidTarget));
             return;
 
         }
 
-        MoneySetEvent moneySetEvent = new MoneySetEvent(sender, playerExact, parse);
+        MoneySetEvent moneySetEvent = new MoneySetEvent(sender, target, parse);
         Bukkit.getPluginManager().callEvent(moneySetEvent);
 
     }
@@ -174,7 +183,7 @@ public final class MoneyCommand {
             permission = "nexteconomy.command.add",
             async = true
     )
-    public void moneyAddCommand(Context<CommandSender> context, String target, String amount) {
+    public void moneyAddCommand(Context<CommandSender> context, OfflinePlayer target, String amount) {
         CommandSender sender = context.getSender();
 
         double parse = NumberUtils.parse(amount);
@@ -185,15 +194,15 @@ public final class MoneyCommand {
 
         }
 
-        Player playerExact = Bukkit.getPlayerExact(target);
-        if (playerExact == null) {
+        Account account = accountStorage.findOfflineAccount(target.getName());
+        if (account == null) {
 
             sender.sendMessage(MessageValue.get(MessageValue::invalidTarget));
             return;
 
         }
 
-        MoneyGiveEvent moneyGiveEvent = new MoneyGiveEvent(sender, playerExact, parse);
+        MoneyGiveEvent moneyGiveEvent = new MoneyGiveEvent(sender, target, parse);
         Bukkit.getPluginManager().callEvent(moneyGiveEvent);
     }
 
@@ -205,7 +214,7 @@ public final class MoneyCommand {
             permission = "nexteconomy.command.add",
             async = true
     )
-    public void moneyRemoveCommand(Context<CommandSender> context, String target, String amount) {
+    public void moneyRemoveCommand(Context<CommandSender> context, OfflinePlayer target, String amount) {
         CommandSender sender = context.getSender();
 
         double parse = NumberUtils.parse(amount);
@@ -216,15 +225,15 @@ public final class MoneyCommand {
 
         }
 
-        Player playerExact = Bukkit.getPlayerExact(target);
-        if (playerExact == null) {
+        Account account = accountStorage.findOfflineAccount(target.getName());
+        if (account == null) {
 
             sender.sendMessage(MessageValue.get(MessageValue::invalidTarget));
             return;
 
         }
 
-        MoneyWithdrawEvent moneyWithdrawEvent = new MoneyWithdrawEvent(sender, playerExact, parse);
+        MoneyWithdrawEvent moneyWithdrawEvent = new MoneyWithdrawEvent(sender, target, parse);
         Bukkit.getPluginManager().callEvent(moneyWithdrawEvent);
 
     }
@@ -237,22 +246,21 @@ public final class MoneyCommand {
             permission = "nexteconomy.command.reset",
             async = true
     )
-    public void moneyResetCommand(Context<CommandSender> context, String target) {
+    public void moneyResetCommand(Context<CommandSender> context, OfflinePlayer target) {
         CommandSender sender = context.getSender();
 
-        Player playerExact = Bukkit.getPlayerExact(target);
-        if (playerExact == null) {
+        Account account = accountStorage.findOfflineAccount(target.getName());
+        if (account == null) {
 
             sender.sendMessage(MessageValue.get(MessageValue::invalidTarget));
             return;
 
         }
 
-        Account targetAccount = accountStorage.getAccount(playerExact.getUniqueId());
-        targetAccount.setBalance(0);
+        account.setBalance(0);
 
         sender.sendMessage(MessageValue.get(MessageValue::resetBalance)
-                .replace("$player", Bukkit.getOfflinePlayer(targetAccount.getOwner()).getName())
+                .replace("$player", target.getName())
         );
 
     }
@@ -284,7 +292,7 @@ public final class MoneyCommand {
             String tag = RankingValue.get(RankingValue::tycoonTagValue);
 
             for (Account account : accounts) {
-                String name = Bukkit.getOfflinePlayer(account.getOwner()).getName();
+                String name = account.getUserName();
                 String balance = NumberUtils.format(account.getBalance());
 
                 sender.sendMessage(body
@@ -417,6 +425,48 @@ public final class MoneyCommand {
 
         player.sendMessage(MessageValue.get(MessageValue::positionSuccessfulRemoved).replace("$position", String.valueOf(position)));
         CustomRankingRegistry.getRunnable().run();
+
+    }
+
+    @Command(
+            name = "money.converter",
+            permission = "nexteconomy.converter"
+    )
+    public void onConverterCommand(Context<CommandSender> context) {
+
+        if (!conversorManager.checkConversorAvaility(context.getSender())) {
+
+            context.sendMessage(ColorUtil.colored(
+                    "&cNenhum jogador pode estar online para efetuar esta ação."
+            ));
+            return;
+
+        }
+
+        long initial = System.currentTimeMillis();
+        conversorManager.setConverting(true);
+
+        final Set<OldAccount> oldAccounts = accountStorage.getAccountDAO()
+                .selectAllOld()
+                .stream()
+                .filter(Objects::nonNull)
+                .collect(Collectors.toSet());
+
+        if (oldAccounts.isEmpty()) {
+
+            context.sendMessage(ColorUtil.colored(
+                    "&aNão tem nenhum dado para converter."
+            ));
+            return;
+
+        }
+
+        conversorManager.startConversion(
+                context.getSender(),
+                oldAccounts,
+                "NextEconomyOLD",
+                initial
+        );
 
     }
 

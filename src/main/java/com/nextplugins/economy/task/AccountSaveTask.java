@@ -1,6 +1,6 @@
 package com.nextplugins.economy.task;
 
-import com.nextplugins.economy.api.model.Account;
+import com.nextplugins.economy.api.model.account.Account;
 import com.nextplugins.economy.dao.AccountDAO;
 import com.nextplugins.economy.storage.AccountStorage;
 import lombok.RequiredArgsConstructor;

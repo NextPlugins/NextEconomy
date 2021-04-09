@@ -4,7 +4,7 @@ import com.gmail.filoghost.holographicdisplays.api.Hologram;
 import com.gmail.filoghost.holographicdisplays.api.HologramsAPI;
 import com.google.common.collect.Lists;
 import com.nextplugins.economy.NextEconomy;
-import com.nextplugins.economy.api.model.Account;
+import com.nextplugins.economy.api.model.account.Account;
 import com.nextplugins.economy.configuration.values.RankingValue;
 import com.nextplugins.economy.ranking.manager.LocationManager;
 import com.nextplugins.economy.storage.RankingStorage;
@@ -15,7 +15,6 @@ import lombok.Setter;
 import net.citizensnpcs.api.CitizensAPI;
 import net.citizensnpcs.api.npc.NPC;
 import net.citizensnpcs.api.npc.NPCRegistry;
-import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.EntityType;
 
@@ -61,7 +60,7 @@ public final class NPCRunnable implements Runnable {
                     String replacedLine = hologramLines.get(i);
 
                     replacedLine = replacedLine.replace("$position", String.valueOf(position.get()));
-                    replacedLine = replacedLine.replace("$player", Bukkit.getOfflinePlayer(account.getOwner()).getName());
+                    replacedLine = replacedLine.replace("$player", account.getUserName());
                     replacedLine = replacedLine.replace("$amount", NumberUtils.format(account.getBalance()));
 
                     hologram.insertTextLine(i, replacedLine);
@@ -71,7 +70,7 @@ public final class NPCRunnable implements Runnable {
             }
 
             NPC npc = npcRegistry.createNPC(EntityType.PLAYER, "");
-            npc.data().set("player-skin-name", Bukkit.getOfflinePlayer(account.getOwner()).getName());
+            npc.data().set("player-skin-name", account.getUserName());
             npc.setProtected(true);
             npc.spawn(location);
 

@@ -22,7 +22,9 @@ public final class CommandRegistry {
                             plugin,
                             plugin.getAccountStorage(),
                             plugin.getRankingStorage(),
-                            plugin.getLocationManager()
+                            plugin.getLocationManager(),
+                            plugin.getConversorManager(),
+                            plugin.getSqlConnector()
                     )
             );
 

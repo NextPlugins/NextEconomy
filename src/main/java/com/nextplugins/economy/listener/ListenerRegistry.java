@@ -7,6 +7,7 @@ import com.nextplugins.economy.listener.events.chat.TycoonTagRegister;
 import com.nextplugins.economy.listener.events.operation.MoneyGiveListener;
 import com.nextplugins.economy.listener.events.operation.MoneySetListener;
 import com.nextplugins.economy.listener.events.operation.MoneyWithdrawListener;
+import com.nextplugins.economy.listener.events.operation.AsyncPurseUpdateListener;
 import com.nextplugins.economy.listener.events.transaction.TransactionRequestListener;
 import com.nextplugins.economy.listener.events.update.MoneyTopUpdateListener;
 import lombok.Data;
@@ -44,6 +45,11 @@ public final class ListenerRegistry {
 
             pluginManager.registerEvents(
                     new MoneyWithdrawListener(),
+                    plugin
+            );
+
+            pluginManager.registerEvents(
+                    new AsyncPurseUpdateListener(),
                     plugin
             );
 

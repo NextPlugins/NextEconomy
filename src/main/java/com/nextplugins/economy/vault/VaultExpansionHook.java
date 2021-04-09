@@ -2,12 +2,11 @@ package com.nextplugins.economy.vault;
 
 import com.nextplugins.economy.NextEconomy;
 import com.nextplugins.economy.api.NextEconomyAPI;
-import com.nextplugins.economy.api.model.Account;
+import com.nextplugins.economy.api.model.account.Account;
 import com.nextplugins.economy.configuration.values.MessageValue;
 import com.nextplugins.economy.util.NumberUtils;
 import net.milkbowl.vault.economy.Economy;
 import net.milkbowl.vault.economy.EconomyResponse;
-import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 
 import java.util.List;
@@ -51,33 +50,28 @@ public class VaultExpansionHook implements Economy {
 
     @Override
     public boolean hasAccount(String playerName) {
-        return NextEconomyAPI.getInstance().findAccountByUUID(Bukkit.getOfflinePlayer(playerName).getUniqueId()).isPresent();
+        return NextEconomyAPI.getInstance().findAccountByName(playerName) != null;
     }
 
     @Override
     public boolean hasAccount(OfflinePlayer player) {
-        return NextEconomyAPI.getInstance().findAccountByUUID(player.getUniqueId()).isPresent();
+        return hasAccount(player.getName());
     }
 
     @Override
     public boolean hasAccount(String playerName, String worldName) {
-        return NextEconomyAPI.getInstance().findAccountByUUID(Bukkit.getOfflinePlayer(playerName).getUniqueId()).isPresent();
+        return hasAccount(playerName);
     }
 
     @Override
     public boolean hasAccount(OfflinePlayer player, String worldName) {
-        return NextEconomyAPI.getInstance().findAccountByUUID(player.getUniqueId()).isPresent();
+        return hasAccount(player.getName());
     }
 
     @Override
     public double getBalance(String playerName) {
-        return getBalance(Bukkit.getPlayer(playerName));
-    }
 
-    @Override
-    public double getBalance(OfflinePlayer player) {
-
-        Account account = NextEconomyAPI.getInstance().findAccountByUUID(player.getUniqueId()).orElse(null);
+        Account account = NextEconomyAPI.getInstance().findAccountByName(playerName);
         if (account != null) return account.getBalance();
 
         return 0;
@@ -85,19 +79,24 @@ public class VaultExpansionHook implements Economy {
     }
 
     @Override
+    public double getBalance(OfflinePlayer player) {
+        return getBalance(player.getName());
+    }
+
+    @Override
     public double getBalance(String playerName, String world) {
-        return getBalance(Bukkit.getPlayer(playerName));
+        return getBalance(playerName);
     }
 
     @Override
     public double getBalance(OfflinePlayer player, String world) {
-        return getBalance(player);
+        return getBalance(player.getName());
     }
 
     @Override
     public boolean has(String playerName, double amount) {
 
-        Account account = NextEconomyAPI.getInstance().findAccountByName(playerName).orElse(null);
+        Account account = NextEconomyAPI.getInstance().findAccountByName(playerName);
         if (account != null) return account.hasAmount(amount);
 
         return false;
@@ -121,7 +120,7 @@ public class VaultExpansionHook implements Economy {
 
     @Override
     public EconomyResponse withdrawPlayer(String playerName, double amount) {
-        Account account = NextEconomyAPI.getInstance().findAccountByName(playerName).orElse(null);
+        Account account = NextEconomyAPI.getInstance().findAccountByName(playerName);
 
         if (account != null) {
             if (has(playerName, amount)) {
@@ -161,7 +160,7 @@ public class VaultExpansionHook implements Economy {
 
     @Override
     public EconomyResponse depositPlayer(String playerName, double amount) {
-        Account account = NextEconomyAPI.getInstance().findAccountByName(playerName).orElse(null);
+        Account account = NextEconomyAPI.getInstance().findAccountByName(playerName);
 
         if (account != null) {
             account.depositAmount(amount);
@@ -192,93 +191,89 @@ public class VaultExpansionHook implements Economy {
 
     @Override
     public EconomyResponse createBank(String name, String player) {
-        return null;
+        throw new UnsupportedOperationException();
     }
 
     @Override
     public EconomyResponse createBank(String name, OfflinePlayer player) {
-        return null;
+        throw new UnsupportedOperationException();
     }
 
     @Override
     public EconomyResponse deleteBank(String name) {
-        return null;
+        throw new UnsupportedOperationException();
     }
 
     @Override
     public EconomyResponse bankBalance(String name) {
-        return null;
+        throw new UnsupportedOperationException();
     }
 
     @Override
     public EconomyResponse bankHas(String name, double amount) {
-        return null;
+        throw new UnsupportedOperationException();
     }
 
     @Override
     public EconomyResponse bankWithdraw(String name, double amount) {
-        return null;
+        throw new UnsupportedOperationException();
     }
 
     @Override
     public EconomyResponse bankDeposit(String name, double amount) {
-        return null;
+        throw new UnsupportedOperationException();
     }
 
     @Override
     public EconomyResponse isBankOwner(String name, String playerName) {
-        return null;
+        throw new UnsupportedOperationException();
     }
 
     @Override
     public EconomyResponse isBankOwner(String name, OfflinePlayer player) {
-        return null;
+        throw new UnsupportedOperationException();
     }
 
     @Override
     public EconomyResponse isBankMember(String name, String playerName) {
-        return null;
+        throw new UnsupportedOperationException();
     }
 
     @Override
     public EconomyResponse isBankMember(String name, OfflinePlayer player) {
-        return null;
+        throw new UnsupportedOperationException();
     }
 
     @Override
     public List<String> getBanks() {
-        return null;
+        throw new UnsupportedOperationException();
     }
 
     @Override
     public boolean createPlayerAccount(String playerName) {
-        return createPlayerAccount(Bukkit.getPlayer(playerName));
+
+        Account account = NextEconomyAPI.getInstance().findAccountByName(playerName);
+        if (account != null) return false;
+
+        account = Account.createDefault(playerName);
+
+        NextEconomy.getInstance().getAccountDAO().saveOne(account);
+        return true;
     }
 
     @Override
     public boolean createPlayerAccount(OfflinePlayer player) {
-
-        Account account = NextEconomyAPI.getInstance().findAccountByUUID(player.getUniqueId()).orElse(null);
-        if (account != null) return false;
-
-        account = Account.builder()
-                .owner(player.getUniqueId())
-                .balance(0)
-                .build();
-
-        NextEconomy.getInstance().getAccountDAO().insertOne(account);
-        return true;
-
+        return createPlayerAccount(player.getName());
     }
 
     @Override
     public boolean createPlayerAccount(String playerName, String worldName) {
-        return createPlayerAccount(Bukkit.getPlayer(playerName));
+        return createPlayerAccount(playerName);
     }
 
     @Override
     public boolean createPlayerAccount(OfflinePlayer player, String worldName) {
-        return createPlayerAccount(player);
+        return createPlayerAccount(player.getName());
     }
 
 }

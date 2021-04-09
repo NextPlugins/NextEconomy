@@ -4,7 +4,7 @@ import com.gmail.filoghost.holographicdisplays.api.Hologram;
 import com.gmail.filoghost.holographicdisplays.api.HologramsAPI;
 import com.google.common.collect.Lists;
 import com.nextplugins.economy.NextEconomy;
-import com.nextplugins.economy.api.model.Account;
+import com.nextplugins.economy.api.model.account.Account;
 import com.nextplugins.economy.configuration.values.RankingValue;
 import com.nextplugins.economy.ranking.manager.LocationManager;
 import com.nextplugins.economy.storage.RankingStorage;
@@ -13,7 +13,6 @@ import com.nextplugins.economy.util.NumberUtils;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
-import org.bukkit.Bukkit;
 import org.bukkit.Color;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -63,8 +62,6 @@ public final class ArmorStandRunnable implements Runnable {
             List<String> hologramLines = RankingValue.get(RankingValue::hologramLines);
             double hologramHeight = RankingValue.get(RankingValue::hologramHeight);
 
-            String playerName = Bukkit.getOfflinePlayer(account.getOwner()).getName();
-
             if (!hologramLines.isEmpty()) {
                 Location hologramLocation = location.clone().add(0, hologramHeight, 0);
                 Hologram hologram = HologramsAPI.createHologram(plugin, hologramLocation);
@@ -74,7 +71,7 @@ public final class ArmorStandRunnable implements Runnable {
                     String replacedLine = hologramLines.get(i);
 
                     replacedLine = replacedLine.replace("$position", String.valueOf(position.get()));
-                    replacedLine = replacedLine.replace("$player", playerName);
+                    replacedLine = replacedLine.replace("$player", account.getUserName());
                     replacedLine = replacedLine.replace("$amount", format);
 
                     hologram.insertTextLine(i, replacedLine);
@@ -95,7 +92,7 @@ public final class ArmorStandRunnable implements Runnable {
             Material sword =  SWORDS[swordNumber - 1];
             stand.setItemInHand(new ItemStack(sword));
 
-            stand.setHelmet(new ItemBuilder(playerName).wrap());
+            stand.setHelmet(new ItemBuilder(account.getUserName()).wrap());
             stand.setChestplate(createDyeItem(Material.LEATHER_CHESTPLATE, getColorByHex(RankingValue.get(RankingValue::chestplateRGB))));
             stand.setLeggings(createDyeItem(Material.LEATHER_LEGGINGS, getColorByHex(RankingValue.get(RankingValue::leggingsRGB))));
             stand.setBoots(createDyeItem(Material.LEATHER_BOOTS, getColorByHex(RankingValue.get(RankingValue::bootsRGB))));

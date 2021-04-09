@@ -2,7 +2,7 @@ package com.nextplugins.economy.task;
 
 import com.google.common.collect.Lists;
 import com.nextplugins.economy.api.event.operations.MoneyTopPlayerUpdateEvent;
-import com.nextplugins.economy.api.model.Account;
+import com.nextplugins.economy.api.model.account.Account;
 import com.nextplugins.economy.dao.AccountDAO;
 import com.nextplugins.economy.storage.RankingStorage;
 import lombok.RequiredArgsConstructor;
@@ -22,30 +22,31 @@ public final class AccountRankingTask implements Runnable {
 
         List<Account> accounts = Lists.newLinkedList(accountDAO.selectAll("ORDER BY balance DESC LIMIT 10"));
 
-        if (!accounts.isEmpty()) {
+        if (accounts.isEmpty()) return;
 
-            Account lastAccount = null;
-            if (rankingStorage.getRankingAccounts().size() >= 1) {
-                lastAccount = rankingStorage.getRankingAccounts().get(0);
-                rankingStorage.getRankingAccounts().clear();
-            }
+        Account lastAccount = null;
+        if (!rankingStorage.getRankingAccounts().isEmpty()) {
 
-            accounts.forEach(rankingStorage.getRankingAccounts()::add);
+            lastAccount = rankingStorage.getRankingAccounts().get(0);
+            rankingStorage.getRankingAccounts().clear();
 
-            if (lastAccount != null) {
+        }
 
-                Account topAccount = rankingStorage.getRankingAccounts().get(0);
-                if (lastAccount.getOwner().equals(topAccount.getOwner())) return;
+        accounts.forEach(rankingStorage.getRankingAccounts()::add);
 
-                Bukkit.getPluginManager().callEvent(
-                        MoneyTopPlayerUpdateEvent.builder()
-                                .lastMoneyTop(lastAccount)
-                                .moneyTop(topAccount)
-                                .updateInstant(Instant.now())
-                                .async(true)
-                                .build()
-                );
-            }
+        if (lastAccount != null) {
+
+            Account topAccount = rankingStorage.getRankingAccounts().get(0);
+            if (lastAccount.getUserName().equals(topAccount.getUserName())) return;
+
+            Bukkit.getPluginManager().callEvent(
+                    MoneyTopPlayerUpdateEvent.builder()
+                            .lastMoneyTop(lastAccount)
+                            .moneyTop(topAccount)
+                            .updateInstant(Instant.now())
+                            .async(true)
+                            .build()
+            );
 
         }
 
