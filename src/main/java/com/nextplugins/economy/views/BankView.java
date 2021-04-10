@@ -7,11 +7,12 @@ import com.henryfabio.minecraft.inventoryapi.viewer.Viewer;
 import com.nextplugins.economy.api.PurseAPI;
 import com.nextplugins.economy.api.model.account.Account;
 import com.nextplugins.economy.configuration.values.InventoryValue;
-import com.nextplugins.economy.views.button.InventoryButton;
 import com.nextplugins.economy.registry.InventoryButtonRegistry;
 import com.nextplugins.economy.storage.AccountStorage;
 import com.nextplugins.economy.util.ItemBuilder;
 import com.nextplugins.economy.util.NumberUtils;
+import com.nextplugins.economy.util.TimeUtils;
+import com.nextplugins.economy.views.button.InventoryButton;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
@@ -51,6 +52,10 @@ public class BankView extends SimpleInventory {
                 ? PurseAPI.getInstance().isHigh()
                 : "";
 
+        String nextUpdate = PurseAPI.getInstance() != null
+                ? TimeUtils.formatTime(System.currentTimeMillis() - PurseAPI.getInstance().getNextUpdate())
+                : "";
+
         for (InventoryButton value : BUTTONS.values()) {
 
             int inventorySlot = value.getInventorySlot();
@@ -65,6 +70,7 @@ public class BankView extends SimpleInventory {
                                     .replace("$movimentedMoney", NumberUtils.format(account.getMovimentedBalance()))
                                     .replace("$value", purse)
                                     .replace("$status", isHigh)
+                                    .replace("$time", nextUpdate)
                             )
                             .collect(Collectors.toList())
                     ).wrap();

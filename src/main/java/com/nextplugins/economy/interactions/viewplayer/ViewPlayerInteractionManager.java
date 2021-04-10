@@ -22,6 +22,8 @@ public class ViewPlayerInteractionManager {
                 .filter(event -> event.getPlayer().getName().equals(player.getName()))
                 .thenAccept(event -> {
 
+                    event.setCancelled(true);
+
                     String message = event.getMessage();
                     if (message.contains(" ")) message = message.split(" ")[0];
 

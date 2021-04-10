@@ -7,58 +7,59 @@ inventory:
       yourMoney:
         identifier: YOUR_MONEY
         skullName: '@player' # ficar com a cabeça do jogador que está visualizando
-        displayName: '&aSeu perfil'
-        slot: 10
+        displayName: '&6Seu perfil'
+        inventorySlot: 10
         lore:
-          - '&7Aqui você pode ver o seu'
-          - '&7perfil no banco do servidor'
+          - '&8Aqui você pode ver o seu'
+          - '&8perfil no banco do servidor'
           - ''
-          - '&aCoins: &f$money'
-          - '&aTransações: &f$transactions transações'
-          - '&aDinheiro movimentado: &f$movimentedMoney'
+          - ' &7Coins: &e$money'
+          - ' &7Transações: &e$transactions transações'
+          - ' &7Dinheiro movimentado: &e$movimentedMoney'
           - ''
       viewPlayerMoney:
         identifier: VIEW_MONEY
         material: SIGN
         data: 0
-        slot: 11
-        displayName: '&aVer banco de outro jogador'
+        inventorySlot: 11
+        displayName: '&6Ver banco de outro jogador'
         lore:
-          - '&7Clique aqui para ver'
-          - '&7o money de outro jogador'
+          - '&8Clique aqui para ver'
+          - '&8o money de outro jogador'
       sendMoney:
         identifier: SEND_MONEY
         material: PAPER
         data: 0
-        slot: 14
-        displayName: '&aEnviar dinheiro'
+        inventorySlot: 14
+        displayName: '&6Enviar dinheiro'
         lore:
-          - '&7Clique aqui para enviar money'
-          - '&7à um jogador'
+          - '&8Clique aqui para enviar money'
+          - '&8à um jogador'
           - ''
           - '&cEsta ação é irreversível'
       purse:
         identifier: PURSE
-        historyLine: ' &a$position. &e$value% $status' # desativado temporariamente
+        historyLine: ' &6$position. &e$value% $status' # desativado temporariamente
         # Caso não utilize o sistema de bolsa de valores
         # Coloque o slot como -1 para desativar este item
         material: BOOK
         data: 0
-        slot: 15
-        displayName: '&aBolsa de valores'
+        inventorySlot: 15
+        displayName: '&6Bolsa de valores'
         lore:
-          - '&7Veja a informação da'
-          - '&7bolsa de valores atual'
+          - '&8Veja a informação da'
+          - '&8bolsa de valores atual'
           - ''
-          - ' &aValor atual: &f$value'
-          - ' &aStatus: &f$status'
+          - ' &7Valor atual: &e$value'
+          - ' &7Status: &e$status'
           - ''
+          - '&ePróxima atualização em &6$time'
       topMoney:
         identifier: TOP_MONEY
         material: GOLD_INGOT
         data: 0
-        slot: 16
-        displayName: '&aMais ricos do servidor'
+        inventorySlot: 16
+        displayName: '&6Mais ricos do servidor'
         lore:
-          - '&7Veja os jogadores mais'
-          - '&7ricos do servidor'
+          - '&8Veja os jogadores mais'
+          - '&8ricos do servidor'

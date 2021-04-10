@@ -32,6 +32,7 @@ public class SendMoneyInteractionManager {
     public void sendRequisition(Player player) {
 
         if (!players.containsKey(player.getName())) players.put(player.getName(), SendMoneyInteraction.create());
+        else return;
 
         EventAwaiter.newAwaiter(AsyncPlayerChatEvent.class, NextEconomy.getInstance())
                 .expiringAfter(1, TimeUnit.MINUTES)
@@ -70,6 +71,8 @@ public class SendMoneyInteractionManager {
     public SendMoneyInteractionManager init() {
 
         consumer = event -> {
+
+            event.setCancelled(true);
 
             Player player = event.getPlayer();
             String message = event.getMessage();
@@ -114,7 +117,7 @@ public class SendMoneyInteractionManager {
                 case QUANTITY: {
 
                     double parse = NumberUtils.parse(message);
-                    if (parse == -1) {
+                    if (parse < 1) {
 
                         player.sendMessage(MessageValue.get(MessageValue::invalidMoney));
                         return;

@@ -2,6 +2,7 @@ package com.nextplugins.economy.parser;
 
 import com.nextplugins.economy.views.button.InventoryButton;
 import com.nextplugins.economy.util.ColorUtil;
+import com.nextplugins.economy.views.button.model.ButtonType;
 import org.bukkit.Material;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.material.MaterialData;
@@ -22,6 +23,7 @@ public final class InventoryButtonParser {
                 )
                 .nickname(section.getString("skullName"))
                 .inventorySlot(section.getInt("inventorySlot"))
+                .buttonType(ButtonType.valueOf(section.getString("identifier")))
                 .build();
     }
 

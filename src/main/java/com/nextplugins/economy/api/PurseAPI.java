@@ -27,9 +27,7 @@ public class PurseAPI {
     /**
      * Can be null if the user desactivate system
      */
-    @Getter
-    @Nullable
-    private static PurseAPI instance = new PurseAPI();
+    @Getter @Nullable private static PurseAPI instance = new PurseAPI();
 
     private int purse;
     private double purseMultiplier;

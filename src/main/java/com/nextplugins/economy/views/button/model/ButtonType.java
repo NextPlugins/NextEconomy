@@ -26,7 +26,7 @@ public enum ButtonType {
 
     }),
 
-    MONEY(callback -> {
+    VIEW_MONEY(callback -> {
 
         val player = callback.getPlayer();
         val interaction = InteractionRegistry.getInstance().getViewPlayerInteractionManager();
