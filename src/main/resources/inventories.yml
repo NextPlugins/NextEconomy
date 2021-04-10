@@ -58,6 +58,7 @@ inventory:
         material: GOLD_INGOT
         data: 0
         slot: 16
+        displayName: '&aMais ricos do servidor'
         lore:
           - '&7Veja os jogadores mais'
           - '&7ricos do servidor'
