@@ -19,8 +19,8 @@ inventory:
       displayName: '@message'
       lore:
         - ''
-        - ' &bQuantia: &f@amount'
-        - ' &bData: @date'
+        - ' &eQuantia: &f@amount'
+        - ' &eData: &f@date'
         - ''
   main:
     config:

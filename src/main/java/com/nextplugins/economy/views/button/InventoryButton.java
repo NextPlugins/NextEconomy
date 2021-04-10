@@ -5,7 +5,6 @@ import com.nextplugins.economy.util.ItemBuilder;
 import lombok.Builder;
 import lombok.Data;
 import org.bukkit.Material;
-import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.SkullMeta;

@@ -16,10 +16,8 @@ import com.nextplugins.economy.storage.RankingStorage;
 import com.nextplugins.economy.util.ItemBuilder;
 import com.nextplugins.economy.util.NumberUtils;
 import lombok.val;
-import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
-import org.bukkit.OfflinePlayer;
 
 import java.util.HashMap;
 import java.util.List;
@@ -55,7 +53,9 @@ public final class RankingView extends SimpleInventory {
 
         int position = 1;
 
-        val rankingAccounts = playerRewardFilter.get(viewer.getPlayer().getName()) == -1
+        int sorter = playerRewardFilter.getOrDefault(viewer.getName(), -1);
+
+        val rankingAccounts = sorter == -1
                 ? rankingStorage.getRankByCoin()
                 : rankingStorage.getRankByMovimentation();
 

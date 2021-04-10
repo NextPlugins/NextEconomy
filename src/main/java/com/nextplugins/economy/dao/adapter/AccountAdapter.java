@@ -5,11 +5,7 @@ import com.google.gson.GsonBuilder;
 import com.henryfabio.sqlprovider.executor.adapter.SQLResultAdapter;
 import com.henryfabio.sqlprovider.executor.result.SimpleResultSet;
 import com.nextplugins.economy.api.model.account.Account;
-import com.nextplugins.economy.api.model.account.historic.AccountBankHistoric;
 import com.nextplugins.economy.util.LinkedListHelper;
-
-import java.util.LinkedList;
-import java.util.List;
 
 public final class AccountAdapter implements SQLResultAdapter<Account> {
 

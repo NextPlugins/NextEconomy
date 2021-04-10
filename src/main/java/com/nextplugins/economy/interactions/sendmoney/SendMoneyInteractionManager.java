@@ -108,7 +108,7 @@ public class SendMoneyInteractionManager {
 
                 }
 
-                case QUANTITY: {
+                default: {
 
                     double parse = NumberUtils.parse(message);
                     if (parse < 1) {

@@ -33,20 +33,20 @@ messages:
     down-status: 'em queda'
     equals:
       icon: '&b➙'
-      message: 'manteve'
+      message: '&bmanteve'
     devalued:
       icon: '&c➘'
-      message: 'desvalorizou'
+      message: '&cdesvalorizou'
     valued:
       icon: '&a➚'
-      message: 'valorizou'
+      message: '&avalorizou'
     updated:
       # Antes de mudar aqui, confira a lista de sons da versão do servidor
       sound: NOTE_PLING
       message:
         - ''
         - ' &3&LBOLSA DE VALORES'
-        - '&fA &bbolsa de valores &ffoi atualizada. &7$lastvalue $operationIcon &7$newvalue &7($operationMessage)'
+        - '&fA &bbolsa de valores &ffoi atualizada. &7$lastvalue $operationIcon &7$newvalue &7($operationMessage&7)'
         - ''
   new-money-top:
     # Habilitar mensagem e título de top
@@ -57,17 +57,17 @@ messages:
       - ''
     title: '&2&lMONEY TOP<nl>&a$player &fé o novo &2magnata'
   operations:
-    see: '&aVocê possui&f $amount&a de dinheiro.'
-    see-other: '&aO jogador &f$player&a possui&f $amount&a de dinheiro.'
-    set: '&aVocê alterou o saldo de&f $player&a para&f $amount'
-    add: '&aVocê adicionou&f $amount&a ao saldo de&f $player'
-    remove: '&aVocê removeu&f $amount&a do saldo de&f $player'
-    reset: '&aVocê zerou o saldo de&f $player'
+    see: '&6&LBANCO &fVocê possui &e$amount&f de dinheiro.'
+    see-other: '&6&LBANCO &fO jogador &e$player&f possui&e $amount&f de dinheiro.'
+    set: '&6&LBANCO &fVocê alterou o saldo de&e $player&f para&e $amount'
+    add: '&6&LBANCO &fVocê adicionou&e $amount&f ao saldo de&e $player'
+    remove: '&6&LBANCO &fVocê removeu&e $amount&f do saldo de&e $player'
+    reset: '&6&LBANCO &fVocê zerou o saldo de&e $player'
   transactions:
     singular: 'transação'
     plural: 'transações'
-    paid: '&aVocê acaba de realizar uma transação.&7 ($amount&c ➡&f $player&7)'
-    received: '&aVocê acaba de receber uma transação.&7 (&f$player&2 ➡&f $amount&7)'
+    paid: '&6&LBANCO &fVocê acabou de realizar uma transação.&7 ($amount&c ➡&f $player&7)'
+    received: '&6&LBANCO &fVocê acaba de receber uma transação.&7 (&f$player&2 ➡&f $amount&7)'
     is-yourself: '&cVocê não pode fazer uma transação para si mesmo.'
     insufficient-amount: '&cVocê não tem dinheiro suficiente para completar esta transação.'
   npc-ranking:

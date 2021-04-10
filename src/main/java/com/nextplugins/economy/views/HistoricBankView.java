@@ -81,8 +81,8 @@ public class HistoricBankView extends PagedInventory {
 
             val item = InventoryButton.builder()
                     .materialData(new MaterialData(Material.AIR))
-                    .displayName(InventoryValue.get(InventoryValue::historicDisplayName).replace("@date", date))
-                    .nickname(InventoryValue.get(InventoryValue::historicSkullName).replace("@message", transactionMessage))
+                    .displayName(InventoryValue.get(InventoryValue::historicDisplayName).replace("@message", transactionMessage))
+                    .nickname(InventoryValue.get(InventoryValue::historicSkullName))
                     .lore(InventoryValue.get(InventoryValue::historicLore).stream()
                             .map(line -> line
                                     .replace("@date", date)

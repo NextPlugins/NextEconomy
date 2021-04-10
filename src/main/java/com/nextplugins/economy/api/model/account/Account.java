@@ -51,7 +51,7 @@ public class Account {
 
         val historic = AccountBankHistoric.builder()
                 .target(owner)
-                .amount(amount)
+                .amount(amount * -1)
                 .type(transactionType)
                 .build();
 
