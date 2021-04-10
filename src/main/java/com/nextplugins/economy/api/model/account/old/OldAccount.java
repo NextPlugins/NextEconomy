@@ -1,5 +1,6 @@
 package com.nextplugins.economy.api.model.account.old;
 
+import com.google.common.collect.Lists;
 import com.nextplugins.economy.api.model.account.Account;
 import lombok.Builder;
 import lombok.Data;
@@ -20,7 +21,7 @@ public class OldAccount {
     private final double balance;
 
     public Account toAccount() {
-        return Account.create(name, balance, balance, 1);
+        return Account.create(name, balance, balance, Lists.newLinkedList());
     }
     
 }

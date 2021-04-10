@@ -1,9 +1,15 @@
 package com.nextplugins.economy.api.model.account;
 
+import com.google.common.collect.Lists;
+import com.nextplugins.economy.api.model.account.historic.AccountBankHistoric;
+import com.nextplugins.economy.api.model.account.transaction.TransactionType;
 import com.nextplugins.economy.configuration.values.FeatureValue;
 import lombok.AccessLevel;
 import lombok.Data;
 import lombok.AllArgsConstructor;
+import lombok.val;
+
+import java.util.LinkedList;
 
 @Data
 @AllArgsConstructor(access = AccessLevel.PROTECTED)
@@ -12,7 +18,8 @@ public class Account {
     private final String userName;
     private double balance;
     private double movimentedBalance;
-    private int transactions;
+
+    private LinkedList<AccountBankHistoric> transactions;
 
     public static Account createDefault(String name) {
 
@@ -20,12 +27,12 @@ public class Account {
                 name,
                 FeatureValue.get(FeatureValue::initialBalance),
                 0,
-                FeatureValue.get(FeatureValue::initialBalance) >= 0 ? 1 : 0
+                Lists.newLinkedList()
         );
 
     }
 
-    public static Account create(String name, double balance, double movimentedBalance, int transactions) {
+    public static Account create(String name, double balance, double movimentedBalance, LinkedList<AccountBankHistoric> transactions) {
 
         return new Account(
                 name,
@@ -36,19 +43,19 @@ public class Account {
 
     }
 
-    public synchronized void depositAmount(double amount) {
+    public synchronized void createTransaction(String owner, double amount, TransactionType transactionType) {
 
-        this.balance = balance + amount;
-        ++this.transactions;
+        if (transactionType == TransactionType.WITHDRAW) amount *= -1;
 
-    }
+        this.balance += amount;
 
-    public synchronized void withdrawAmount(double amount) {
+        val historic = AccountBankHistoric.builder()
+                .target(owner)
+                .amount(amount)
+                .type(transactionType)
+                .build();
 
-        this.balance = balance - amount;
-
-        ++this.transactions;
-        this.movimentedBalance += amount;
+        transactions.add(historic);
 
     }
 

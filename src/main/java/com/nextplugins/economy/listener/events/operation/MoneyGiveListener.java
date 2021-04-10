@@ -3,6 +3,7 @@ package com.nextplugins.economy.listener.events.operation;
 import com.nextplugins.economy.NextEconomy;
 import com.nextplugins.economy.api.event.operations.MoneyGiveEvent;
 import com.nextplugins.economy.api.model.account.Account;
+import com.nextplugins.economy.api.model.account.transaction.TransactionType;
 import com.nextplugins.economy.configuration.values.MessageValue;
 import com.nextplugins.economy.storage.AccountStorage;
 import com.nextplugins.economy.util.NumberUtils;
@@ -38,7 +39,11 @@ public final class MoneyGiveListener implements Listener {
 
         }
 
-        targetAccount.depositAmount(amount);
+        targetAccount.createTransaction(
+                MessageValue.get(MessageValue::mainAccountName),
+                amount,
+                TransactionType.DEPOSIT
+        );
 
         sender.sendMessage(MessageValue.get(MessageValue::addAmount)
                 .replace("$player", target.getName())

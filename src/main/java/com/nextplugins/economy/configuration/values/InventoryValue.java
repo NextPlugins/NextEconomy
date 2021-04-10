@@ -11,6 +11,7 @@ import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
 import org.bukkit.configuration.ConfigurationSection;
 
+import java.util.List;
 import java.util.function.Function;
 
 /**
@@ -29,6 +30,16 @@ public class InventoryValue implements ConfigurationInjectable {
     @Getter private static final InventoryValue instance = new InventoryValue();
 
     // main inventory
+
+    @ConfigField("historic.config.name") private String historicInventoryName;
+    @ConfigField("historic.config.size") private int historicInventorySize;
+
+    @ConfigField("historic.depositMessage") private String depositMessage;
+    @ConfigField("historic.withdrawMessage") private String withdrawMessage;
+
+    @ConfigField("historic.item.skullName") private String historicSkullName;
+    @ConfigField("historic.item.displayName") private String historicDisplayName;
+    @ConfigField("historic.item.lore") private List<String> historicLore;
 
     @ConfigField("main.config.name") private String mainInventoryName;
     @ConfigField("main.config.size") private int mainInventorySize;

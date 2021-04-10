@@ -7,6 +7,7 @@ import com.henryfabio.minecraft.inventoryapi.viewer.Viewer;
 import com.nextplugins.economy.api.PurseAPI;
 import com.nextplugins.economy.api.model.account.Account;
 import com.nextplugins.economy.configuration.values.InventoryValue;
+import com.nextplugins.economy.configuration.values.MessageValue;
 import com.nextplugins.economy.registry.InventoryButtonRegistry;
 import com.nextplugins.economy.storage.AccountStorage;
 import com.nextplugins.economy.util.ItemBuilder;
@@ -53,8 +54,12 @@ public class BankView extends SimpleInventory {
                 : "";
 
         String nextUpdate = PurseAPI.getInstance() != null
-                ? TimeUtils.formatTime(System.currentTimeMillis() - PurseAPI.getInstance().getNextUpdate())
+                ? TimeUtils.formatTime(PurseAPI.getInstance().getNextUpdate() - System.currentTimeMillis())
                 : "";
+
+        String transactionName = account.getTransactions().size() == 1
+                ? MessageValue.get(MessageValue::singularTransaction)
+                : MessageValue.get(MessageValue::pluralTransaction);
 
         for (InventoryButton value : BUTTONS.values()) {
 
@@ -66,8 +71,9 @@ public class BankView extends SimpleInventory {
                             .stream()
                             .map(line -> line
                                     .replace("$money", NumberUtils.format(account.getBalance()))
-                                    .replace("$transactions", String.valueOf(account.getTransactions()))
+                                    .replace("$transactions", String.valueOf(account.getTransactions().size()))
                                     .replace("$movimentedMoney", NumberUtils.format(account.getMovimentedBalance()))
+                                    .replace("$transactionName", transactionName)
                                     .replace("$value", purse)
                                     .replace("$status", isHigh)
                                     .replace("$time", nextUpdate)

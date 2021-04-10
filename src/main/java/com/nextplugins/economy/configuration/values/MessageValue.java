@@ -25,6 +25,7 @@ public final class MessageValue implements ConfigurationInjectable {
 
     // currency
 
+    @ConfigField("currency.mainAccountName") private String mainAccountName;
     @ConfigField("currency.one") private String coinCurrency;
     @ConfigField("currency.more") private String coinsCurrency;
 
@@ -45,6 +46,8 @@ public final class MessageValue implements ConfigurationInjectable {
 
     // transactions
 
+    @ConfigField("transactions.singular") private String singularTransaction;
+    @ConfigField("transactions.plural") private String pluralTransaction;
     @ConfigField("transactions.paid") private String paid;
     @ConfigField("transactions.received") private String received;
     @ConfigField("transactions.is-yourself") private String isYourself;

@@ -29,7 +29,7 @@ public final class InventoryButton implements Cloneable {
 
     protected ItemStack itemStack;
 
-    public ItemStack getItemStack(Player player) {
+    public ItemStack getItemStack(String nick) {
 
         if (this.itemStack == null) {
 
@@ -44,7 +44,7 @@ public final class InventoryButton implements Cloneable {
 
         }
 
-        return player == null ? itemStack : updateByNick(player.getName());
+        return nick == null ? itemStack : updateByNick(nick);
     }
 
     public ItemStack updateByNick(String nick) {

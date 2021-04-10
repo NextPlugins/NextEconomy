@@ -19,7 +19,7 @@ public final class AsyncPurseUpdateEvent extends EconomyEvent implements Cancell
     private final int newValue;
     private final int lastValue;
     private final Instant instant;
-    private final Instant nextUpdate;
+    private final long nextUpdate;
     private boolean cancelled;
 
     private final boolean async = true;

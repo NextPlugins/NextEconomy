@@ -1,5 +1,6 @@
 messages:
   currency:
+    mainAccountName: 'Banco'
     one: 'coin'
     more: 'coins'
   requests:
@@ -21,10 +22,10 @@ messages:
       - ""
     confirm:
       - ""
-      - " &2&lTRANSFERÊNCIA"
+      - " &6&lTRANSFERÊNCIA"
       - ""
-      - "  &fEnviando &a@money &fpara &a@player"
-      - "  &fVocê tem &a10 segundos &fpara cancelar."
+      - "  &fEnviando &e@money &fpara &e@player"
+      - "  &fVocê tem &e10 segundos &fpara cancelar."
       - "  &fDigite '&ccancelar&f' para cancelar."
       - ""
   purse:
@@ -45,7 +46,7 @@ messages:
       message:
         - ''
         - ' &3&LBOLSA DE VALORES'
-        - '&fA bolsa de valores foi atualizada. &7$lastvalue $operationIcon &7$newvalue &7($operationMessage)'
+        - '&fA &bbolsa de valores &ffoi atualizada. &7$lastvalue $operationIcon &7$newvalue &7($operationMessage)'
         - ''
   new-money-top:
     # Habilitar mensagem e título de top
@@ -63,7 +64,9 @@ messages:
     remove: '&aVocê removeu&f $amount&a do saldo de&f $player'
     reset: '&aVocê zerou o saldo de&f $player'
   transactions:
-    paid: '&aVocê acaba de realizar uma transação.&7 ($amount&2 ➡&f $player&7)'
+    singular: 'transação'
+    plural: 'transações'
+    paid: '&aVocê acaba de realizar uma transação.&7 ($amount&c ➡&f $player&7)'
     received: '&aVocê acaba de receber uma transação.&7 (&f$player&2 ➡&f $amount&7)'
     is-yourself: '&cVocê não pode fazer uma transação para si mesmo.'
     insufficient-amount: '&cVocê não tem dinheiro suficiente para completar esta transação.'

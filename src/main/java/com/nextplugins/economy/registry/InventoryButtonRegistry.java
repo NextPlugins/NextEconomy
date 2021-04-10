@@ -17,23 +17,23 @@ public final class InventoryButtonRegistry {
 
     public InventoryButtonRegistry init() {
 
-        register("yourMoney", inventoryButtonParser.parse(
+        register("main.yourMoney", inventoryButtonParser.parse(
                 InventoryValue.get(InventoryValue::yourMoneyButton)
         ));
 
-        register("viewPlayerMoney", inventoryButtonParser.parse(
+        register("main.viewPlayerMoney", inventoryButtonParser.parse(
                 InventoryValue.get(InventoryValue::viewPlayerMoneyButton)
         ));
 
-        register("sendMoney", inventoryButtonParser.parse(
+        register("main.sendMoney", inventoryButtonParser.parse(
                 InventoryValue.get(InventoryValue::sendMoneyButton)
         ));
 
-        register("purse", inventoryButtonParser.parse(
+        register("main.purse", inventoryButtonParser.parse(
                 InventoryValue.get(InventoryValue::purseButton)
         ));
 
-        register("topMoney", inventoryButtonParser.parse(
+        register("main.topMoney", inventoryButtonParser.parse(
                 InventoryValue.get(InventoryValue::topMoneyButton)
         ));
 

@@ -26,7 +26,7 @@ public class AsyncPurseUpdateListener implements Listener {
     public void onPurseUpdate(AsyncPurseUpdateEvent event) {
 
         purseAPI.setPurse(event.getNewValue());
-        purseAPI.setNextUpdate(event.getNextUpdate().toEpochMilli());
+        purseAPI.setNextUpdate(event.getNextUpdate());
 
         boolean equals = event.getNewValue() == event.getLastValue();
         boolean difference = event.getNewValue() > event.getLastValue();
@@ -55,12 +55,11 @@ public class AsyncPurseUpdateListener implements Listener {
                         .replace("$newvalue", event.getNewValue() + "%")
                         .replace("$operationMessage", finalOperationMessage))
                 .map(ColorUtil::colored)
-                .collect(Collectors.toSet());
+                .collect(Collectors.toList());
 
         Bukkit.getOnlinePlayers().forEach(onlinePlayer -> {
 
             SoundUtils.sendSound(onlinePlayer, Sound.valueOf(MessageValue.get(MessageValue::purseUpdatedSound)));
-
             for (String line : message) onlinePlayer.sendMessage(line);
 
         });

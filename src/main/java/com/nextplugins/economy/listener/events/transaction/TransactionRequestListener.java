@@ -3,6 +3,7 @@ package com.nextplugins.economy.listener.events.transaction;
 import com.nextplugins.economy.NextEconomy;
 import com.nextplugins.economy.api.event.transaction.TransactionRequestEvent;
 import com.nextplugins.economy.api.model.account.Account;
+import com.nextplugins.economy.api.model.account.transaction.TransactionType;
 import com.nextplugins.economy.configuration.values.MessageValue;
 import com.nextplugins.economy.storage.AccountStorage;
 import com.nextplugins.economy.util.NumberUtils;
@@ -45,8 +46,17 @@ public final class TransactionRequestListener implements Listener {
 
         if (account.hasAmount(amount)) {
 
-            targetAccount.depositAmount(amount);
-            account.withdrawAmount(amount);
+            targetAccount.createTransaction(
+                    player.getName(),
+                    amount,
+                    TransactionType.DEPOSIT
+            );
+
+            account.createTransaction(
+                    target.getName(),
+                    amount,
+                    TransactionType.WITHDRAW
+            );
 
             player.sendMessage(
                     MessageValue.get(MessageValue::paid).replace("$player", target.getName())

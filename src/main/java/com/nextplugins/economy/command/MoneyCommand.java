@@ -96,7 +96,6 @@ public final class MoneyCommand {
             usage = "/money enviar {jogador} {quantia}",
             description = "Utilize para enviar uma quantia da sua conta para outra.",
             permission = "nexteconomy.command.pay",
-
             target = CommandTarget.PLAYER,
             async = true
     )

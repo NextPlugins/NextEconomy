@@ -3,6 +3,7 @@ package com.nextplugins.economy.vault;
 import com.nextplugins.economy.NextEconomy;
 import com.nextplugins.economy.api.NextEconomyAPI;
 import com.nextplugins.economy.api.model.account.Account;
+import com.nextplugins.economy.api.model.account.transaction.TransactionType;
 import com.nextplugins.economy.configuration.values.MessageValue;
 import com.nextplugins.economy.util.NumberUtils;
 import net.milkbowl.vault.economy.Economy;
@@ -124,7 +125,13 @@ public class VaultExpansionHook implements Economy {
 
         if (account != null) {
             if (has(playerName, amount)) {
-                account.withdrawAmount(amount);
+
+                account.createTransaction(
+                        MessageValue.get(MessageValue::mainAccountName),
+                        amount,
+                        TransactionType.WITHDRAW
+                );
+
                 return new EconomyResponse(amount,
                         account.getBalance(),
                         EconomyResponse.ResponseType.SUCCESS,
@@ -163,7 +170,13 @@ public class VaultExpansionHook implements Economy {
         Account account = NextEconomyAPI.getInstance().findAccountByName(playerName);
 
         if (account != null) {
-            account.depositAmount(amount);
+
+            account.createTransaction(
+                    MessageValue.get(MessageValue::mainAccountName),
+                    amount,
+                    TransactionType.DEPOSIT
+            );
+
             return new EconomyResponse(amount,
                     account.getBalance(),
                     EconomyResponse.ResponseType.SUCCESS,

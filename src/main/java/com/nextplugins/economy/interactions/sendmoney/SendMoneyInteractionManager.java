@@ -32,7 +32,6 @@ public class SendMoneyInteractionManager {
     public void sendRequisition(Player player) {
 
         if (!players.containsKey(player.getName())) players.put(player.getName(), SendMoneyInteraction.create());
-        else return;
 
         EventAwaiter.newAwaiter(AsyncPlayerChatEvent.class, NextEconomy.getInstance())
                 .expiringAfter(1, TimeUnit.MINUTES)

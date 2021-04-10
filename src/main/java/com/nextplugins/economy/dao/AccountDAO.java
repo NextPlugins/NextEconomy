@@ -1,10 +1,13 @@
 package com.nextplugins.economy.dao;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.henryfabio.sqlprovider.executor.SQLExecutor;
 import com.nextplugins.economy.api.model.account.Account;
 import com.nextplugins.economy.api.model.account.old.OldAccount;
 import com.nextplugins.economy.api.model.account.old.adapter.OldAccountAdapter;
 import com.nextplugins.economy.dao.adapter.AccountAdapter;
+import com.nextplugins.economy.util.LinkedListHelper;
 import lombok.RequiredArgsConstructor;
 
 import java.util.Set;
@@ -13,7 +16,8 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public final class AccountDAO {
 
-    private final String TABLE = "nexteconomy_data";
+    private static final Gson GSON = new GsonBuilder().setPrettyPrinting().create();
+    private static final String TABLE = "nexteconomy_data";
 
     private final SQLExecutor sqlExecutor;
 
@@ -22,7 +26,7 @@ public final class AccountDAO {
                 "owner CHAR(16) NOT NULL PRIMARY KEY," +
                 "balance DOUBLE NOT NULL," +
                 "movimentedBalance DOUBLE NOT NULL," +
-                "transactions INTEGER NOT NULL" +
+                "transactions LONGTEXT NOT NULL" +
                 ");"
         );
     }
@@ -66,7 +70,7 @@ public final class AccountDAO {
                     statement.set(1, account.getUserName());
                     statement.set(2, account.getBalance());
                     statement.set(3, account.getMovimentedBalance());
-                    statement.set(4, account.getTransactions());
+                    statement.set(4, LinkedListHelper.toJson(account.getTransactions()));
 
                 }
         );
