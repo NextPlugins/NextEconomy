@@ -78,6 +78,7 @@ public final class NextEconomy extends JavaPlugin {
                 conversorManager = new ConversorManager(accountDAO);
                 rankingStorage = new RankingStorage();
                 locationManager = new LocationManager();
+                interactionRegistry = new InteractionRegistry();
 
                 accountStorage.init();
                 interactionRegistry.init();
