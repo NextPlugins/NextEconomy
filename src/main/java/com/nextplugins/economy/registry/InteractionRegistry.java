@@ -1,6 +1,5 @@
 package com.nextplugins.economy.registry;
 
-import com.nextplugins.economy.NextEconomy;
 import com.nextplugins.economy.interactions.sendmoney.SendMoneyInteractionManager;
 import com.nextplugins.economy.interactions.viewplayer.ViewPlayerInteractionManager;
 import lombok.Getter;
@@ -12,12 +11,10 @@ import lombok.Getter;
 @Getter
 public final class InteractionRegistry {
 
-    @Getter private static final InteractionRegistry instance = new InteractionRegistry();
-
     private SendMoneyInteractionManager sendMoneyInteractionManager;
     private ViewPlayerInteractionManager viewPlayerInteractionManager;
 
-    public void init(NextEconomy plugin) {
+    public void init() {
 
         this.sendMoneyInteractionManager = new SendMoneyInteractionManager().init();
         this.viewPlayerInteractionManager = new ViewPlayerInteractionManager();

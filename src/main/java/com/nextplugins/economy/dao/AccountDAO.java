@@ -1,7 +1,5 @@
 package com.nextplugins.economy.dao;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import com.henryfabio.sqlprovider.executor.SQLExecutor;
 import com.nextplugins.economy.api.model.account.Account;
 import com.nextplugins.economy.api.model.account.old.OldAccount;
@@ -16,7 +14,6 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public final class AccountDAO {
 
-    private static final Gson GSON = new GsonBuilder().setPrettyPrinting().create();
     private static final String TABLE = "nexteconomy_data";
 
     private final SQLExecutor sqlExecutor;

@@ -5,6 +5,7 @@ import com.nextplugins.economy.views.BankView;
 import com.nextplugins.economy.views.HistoricBankView;
 import com.nextplugins.economy.views.RankingView;
 import lombok.Getter;
+import lombok.Setter;
 
 @Getter
 public final class InventoryRegistry {
@@ -14,8 +15,16 @@ public final class InventoryRegistry {
     private BankView bankView;
     private RankingView rankingView;
     private HistoricBankView historicBankView;
+    @Setter private NextEconomy plugin;
 
-    public void init(NextEconomy plugin) {
+    public static InventoryRegistry of(NextEconomy plugin) {
+
+        instance.setPlugin(plugin);
+        return instance;
+
+    }
+
+    public void register() {
 
         this.historicBankView = new HistoricBankView(plugin.getAccountStorage()).init();
         this.bankView = new BankView(plugin.getAccountStorage()).init();

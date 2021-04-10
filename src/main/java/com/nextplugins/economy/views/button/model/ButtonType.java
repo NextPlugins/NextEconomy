@@ -1,6 +1,7 @@
 package com.nextplugins.economy.views.button.model;
 
 import com.henryfabio.minecraft.inventoryapi.event.impl.CustomInventoryClickEvent;
+import com.nextplugins.economy.NextEconomy;
 import com.nextplugins.economy.configuration.values.MessageValue;
 import com.nextplugins.economy.registry.InteractionRegistry;
 import com.nextplugins.economy.registry.InventoryRegistry;
@@ -26,7 +27,7 @@ public enum ButtonType {
         val player = callback.getPlayer();
         player.closeInventory();
 
-        val interaction = InteractionRegistry.getInstance().getSendMoneyInteractionManager();
+        val interaction = NextEconomy.getInstance().getInteractionRegistry().getSendMoneyInteractionManager();
 
         MessageValue.get(MessageValue::interactionInputPlayer).forEach(player::sendMessage);
         interaction.sendRequisition(player);
@@ -38,7 +39,7 @@ public enum ButtonType {
         val player = callback.getPlayer();
         player.closeInventory();
 
-        val interaction = InteractionRegistry.getInstance().getViewPlayerInteractionManager();
+        val interaction = NextEconomy.getInstance().getInteractionRegistry().getViewPlayerInteractionManager();
 
         MessageValue.get(MessageValue::interactionInputPlayer).forEach(player::sendMessage);
         interaction.sendRequisition(player);
