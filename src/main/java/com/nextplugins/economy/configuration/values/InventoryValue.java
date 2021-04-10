@@ -48,6 +48,7 @@ public class InventoryValue implements ConfigurationInjectable {
     @ConfigField("main.buttons.sendMoney") private ConfigurationSection sendMoneyButton;
     @ConfigField("main.buttons.purse") private ConfigurationSection purseButton;
     @ConfigField("main.buttons.topMoney") private ConfigurationSection topMoneyButton;
+    @ConfigField("main.buttons.historic") private ConfigurationSection historicButton;
 
     @ConfigField("main.buttons.purse.historyLine") private String purseHistoryLine;
 

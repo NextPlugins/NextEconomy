@@ -15,7 +15,6 @@ import com.nextplugins.economy.configuration.values.RankingValue;
 import com.nextplugins.economy.storage.RankingStorage;
 import com.nextplugins.economy.util.ItemBuilder;
 import com.nextplugins.economy.util.NumberUtils;
-import com.nextplugins.economy.vault.VaultGroupHook;
 import lombok.val;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -31,7 +30,6 @@ public final class RankingView extends SimpleInventory {
 
     private final Map<String, Integer> playerRewardFilter = new HashMap<>();
     private final RankingStorage rankingStorage = NextEconomy.getInstance().getRankingStorage();
-    private final VaultGroupHook vaultGroupHook = NextEconomy.getInstance().getVaultHookRegistry().getVaultGroupHook();
 
     public RankingView() {
         super(
@@ -64,16 +62,12 @@ public final class RankingView extends SimpleInventory {
         for (Account account : rankingAccounts) {
 
             String name = account.getUserName();
-            OfflinePlayer offlinePlayer = Bukkit.getOfflinePlayer(name);
-
-            String prefix = vaultGroupHook.getGroupPrefix(offlinePlayer);
-            if (!prefix.endsWith(" ")) prefix = prefix + " ";
 
             String replacedDisplayName = (position == 1
                     ? RankingValue.get(RankingValue::inventoryModelHeadDisplayNameTop)
                     : RankingValue.get(RankingValue::inventoryModelHeadDisplayName))
                     .replace("$tycoonTag", tycoonTag)
-                    .replace("$prefix", prefix)
+                    .replace("$prefix", "")
                     .replace("$position", String.valueOf(position))
                     .replace("$player", name);
 

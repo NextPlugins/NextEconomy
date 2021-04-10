@@ -63,7 +63,12 @@ public class HistoricBankView extends PagedInventory {
 
         List<InventoryItemSupplier> items = new LinkedList<>();
 
-        for (AccountBankHistoric transaction : account.getTransactions()) {
+        val accounts = account.getTransactions()
+                .stream()
+                .limit(56)
+                .collect(Collectors.toList());
+
+        for (AccountBankHistoric transaction : accounts) {
 
             String date = DateFormat.of(transaction.getMilli());
             String transactionMessage = (transaction.getType() == TransactionType.WITHDRAW

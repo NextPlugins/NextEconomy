@@ -53,7 +53,7 @@ messages:
     enable: true
     message:
       - ''
-      - '&2&L[MONEY TOP] &aO jogador &f$player &fé o novo &a&lmagnata &ado servidor.'
+      - '&2&L[MONEY TOP] &aO jogador &f$player &aé o novo &a&lmagnata &ado servidor.'
       - ''
     title: '&2&lMONEY TOP<nl>&a$player &fé o novo &2magnata'
   operations:

@@ -40,6 +40,13 @@ public enum ButtonType {
 
     }),
 
+    HISTORIC(callback -> {
+
+        val historicBankView = InventoryRegistry.getInstance().getHistoricBankView();
+        historicBankView.openInventory(callback.getPlayer());
+
+    }),
+
     TOP_MONEY(callback -> {
 
         val rankingInventory = InventoryRegistry.getInstance().getRankingView();

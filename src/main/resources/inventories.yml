@@ -28,7 +28,7 @@ inventory:
       size: 27
     buttons:
       yourMoney:
-        identifier: MAIN_YOUR_MONEY
+        identifier: YOUR_MONEY
         skullName: '@player' # ficar com a cabeça do jogador que está visualizando
         displayName: '&6Seu perfil'
         inventorySlot: 10
@@ -40,36 +40,24 @@ inventory:
           - ' &7Transações: &e$transactions'
           - ' &7Dinheiro movimentado: &e$movimentedMoney'
           - ''
-      viewPlayerMoney:
-        identifier: MAIN_VIEW_MONEY
-        material: SIGN
+      historic:
+        identifier: HISTORIC
+        material: BOOK
         data: 0
         inventorySlot: 11
-        displayName: '&6Ver banco de outro jogador'
+        displayName: '&6Ver histórico de transações'
         lore:
-          - '&8Clique aqui para ver'
-          - '&8o money de outro jogador'
+          - '&8Veja as últimas transações'
+          - '&8que você fez ou recebeu no servidor'
           - ''
           - '&eClique aqui para ver'
-      sendMoney:
-        identifier: MAIN_SEND_MONEY
-        material: PAPER
-        data: 0
-        inventorySlot: 14
-        displayName: '&6Enviar dinheiro'
-        lore:
-          - '&8Clique aqui para enviar money'
-          - '&8à um jogador'
-          - ''
-          - '&cEsta ação é irreversível'
       purse:
-        identifier: MAIN_PURSE
+        identifier: PURSE
         historyLine: ' &6$position. &e$value% $status' # desativado temporariamente
         # Caso não utilize o sistema de bolsa de valores
         # Coloque o slot como -1 para desativar este item
-        material: BOOK
-        data: 0
-        inventorySlot: 15
+        skullName: 'MrSnowDK'
+        inventorySlot: 13
         displayName: '&6Bolsa de valores'
         lore:
           - '&8Veja a informação da'
@@ -79,8 +67,30 @@ inventory:
           - ' &7Status: &e$status'
           - ''
           - '&ePróxima atualização em &6$time'
+      sendMoney:
+        identifier: SEND_MONEY
+        material: PAPER
+        data: 0
+        inventorySlot: 14
+        displayName: '&6Enviar dinheiro'
+        lore:
+          - '&8Clique aqui para enviar money'
+          - '&8à um jogador'
+          - ''
+          - '&cEsta ação é irreversível'
+      viewPlayerMoney:
+        identifier: VIEW_MONEY
+        material: SIGN
+        data: 0
+        inventorySlot: 15
+        displayName: '&6Ver banco de outro jogador'
+        lore:
+          - '&8Clique aqui para ver'
+          - '&8o money de outro jogador'
+          - ''
+          - '&eClique aqui para ver'
       topMoney:
-        identifier: MAIN_TOP_MONEY
+        identifier: TOP_MONEY
         material: GOLD_INGOT
         data: 0
         inventorySlot: 16

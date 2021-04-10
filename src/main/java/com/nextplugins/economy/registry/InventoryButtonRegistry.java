@@ -1,52 +1,56 @@
 package com.nextplugins.economy.registry;
 
+import com.google.common.collect.Sets;
 import com.nextplugins.economy.configuration.values.InventoryValue;
-import com.nextplugins.economy.views.button.InventoryButton;
 import com.nextplugins.economy.parser.InventoryButtonParser;
-import com.nextplugins.economy.util.CaseInsensitiveLinkedMap;
+import com.nextplugins.economy.views.button.InventoryButton;
 import lombok.Getter;
 
-import java.util.Collection;
+import java.util.Set;
 
 public final class InventoryButtonRegistry {
 
     @Getter private static final InventoryButtonRegistry instance = new InventoryButtonRegistry().init();
 
-    private final CaseInsensitiveLinkedMap<InventoryButton> inventoryButtonMap = CaseInsensitiveLinkedMap.newMap();
+    private final Set<InventoryButton> inventoryButtonMap = Sets.newHashSet();
     private final InventoryButtonParser inventoryButtonParser = new InventoryButtonParser();
 
     public InventoryButtonRegistry init() {
 
-        register("main.yourMoney", inventoryButtonParser.parse(
+        register(inventoryButtonParser.parse(
                 InventoryValue.get(InventoryValue::yourMoneyButton)
         ));
 
-        register("main.viewPlayerMoney", inventoryButtonParser.parse(
+        register(inventoryButtonParser.parse(
                 InventoryValue.get(InventoryValue::viewPlayerMoneyButton)
         ));
 
-        register("main.sendMoney", inventoryButtonParser.parse(
+        register(inventoryButtonParser.parse(
                 InventoryValue.get(InventoryValue::sendMoneyButton)
         ));
 
-        register("main.purse", inventoryButtonParser.parse(
+        register(inventoryButtonParser.parse(
                 InventoryValue.get(InventoryValue::purseButton)
         ));
 
-        register("main.topMoney", inventoryButtonParser.parse(
+        register(inventoryButtonParser.parse(
                 InventoryValue.get(InventoryValue::topMoneyButton)
+        ));
+
+        register(inventoryButtonParser.parse(
+                InventoryValue.get(InventoryValue::historicButton)
         ));
 
         return this;
 
     }
 
-    public void register(String id, InventoryButton inventoryButton) {
-        inventoryButtonMap.put(id, inventoryButton);
+    public void register(InventoryButton inventoryButton) {
+        inventoryButtonMap.add(inventoryButton);
     }
 
-    public Collection<InventoryButton> values() {
-        return inventoryButtonMap.values();
+    public Set<InventoryButton> values() {
+        return inventoryButtonMap;
     }
 
 }
