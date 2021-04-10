@@ -9,7 +9,6 @@ import com.nextplugins.economy.api.model.account.Account;
 import com.nextplugins.economy.api.model.account.old.OldAccount;
 import com.nextplugins.economy.configuration.values.MessageValue;
 import com.nextplugins.economy.configuration.values.RankingValue;
-import com.nextplugins.economy.views.RankingView;
 import com.nextplugins.economy.manager.ConversorManager;
 import com.nextplugins.economy.ranking.CustomRankingRegistry;
 import com.nextplugins.economy.ranking.manager.LocationManager;
@@ -19,6 +18,7 @@ import com.nextplugins.economy.storage.AccountStorage;
 import com.nextplugins.economy.storage.RankingStorage;
 import com.nextplugins.economy.util.ColorUtil;
 import com.nextplugins.economy.util.NumberUtils;
+import com.nextplugins.economy.views.RankingView;
 import lombok.RequiredArgsConstructor;
 import lombok.val;
 import me.saiintbrisson.minecraft.command.annotation.Command;
@@ -36,7 +36,6 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
-import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
@@ -273,43 +272,9 @@ public final class MoneyCommand {
     public void moneyTopCommand(Context<Player> context) {
 
         Player sender = context.getSender();
-        String rankingType = RankingValue.get(RankingValue::rankingType);
 
-        if (rankingType.equalsIgnoreCase("CHAT")) {
-            List<Account> accounts = rankingStorage.getRankByCoin();
-
-            List<String> header = RankingValue.get(RankingValue::chatModelHeader);
-            String body = RankingValue.get(RankingValue::chatModelBody);
-            List<String> footer = RankingValue.get(RankingValue::chatModelFooter);
-
-            header.forEach(sender::sendMessage);
-
-            AtomicInteger position = new AtomicInteger(1);
-
-            String tag = RankingValue.get(RankingValue::tycoonTagValue);
-
-            for (Account account : accounts) {
-                String name = account.getUserName();
-                String balance = NumberUtils.format(account.getBalance());
-
-                sender.sendMessage(body
-                        .replace("$position", String.valueOf(position.get()))
-                        .replace("$player", position.get() == 1
-                                ? tag + ChatColor.GREEN + " " + name
-                                : name
-                        )
-                        .replace("$amount", balance)
-                );
-                position.getAndIncrement();
-            }
-
-            footer.forEach(sender::sendMessage);
-        } else if (rankingType.equalsIgnoreCase("INVENTORY")) {
-            RankingView rankingView = new RankingView().init();
-            rankingView.openInventory(sender);
-        } else {
-            throw new IllegalArgumentException("Tipo de ranking inválido: + " + rankingType + ". (ranking.yml)");
-        }
+        RankingView rankingView = new RankingView().init();
+        rankingView.openInventory(sender);
 
     }
 

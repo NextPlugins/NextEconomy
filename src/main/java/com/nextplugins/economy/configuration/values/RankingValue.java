@@ -32,12 +32,6 @@ public final class RankingValue implements ConfigurationInjectable {
 
     @ConfigField("model.type") private String rankingType;
 
-    // chat model
-
-    @ConfigField("model.chat.header") private List<String> chatModelHeader;
-    @ConfigField("model.chat.body") private String chatModelBody;
-    @ConfigField("model.chat.footer") private List<String> chatModelFooter;
-
     // inventory model
 
     @ConfigField("model.inventory.title") private String inventoryModelTitle;
