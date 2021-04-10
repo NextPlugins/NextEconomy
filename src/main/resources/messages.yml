@@ -106,7 +106,7 @@ messages:
       - '&a/money ajuda &8- &7Veja esta mensagem.'
       - '&a/money add (jogador) (quantia)&8 -&7 Adicione uma quantia para alguém.'
       - '&a/money remove (jogador) (quantia)&8 -&7 Remova uma quantia de alguém.'
-      - '&a/money reset (jogador) (quantia)&8 -&7 Zere a quantia de alguém.'
+      - '&a/money reset (jogador)&8 -&7 Zere a quantia de alguém.'
       - '&a/money npc&8 -&7 Veja a ajuda para o sistema de NPC.'
       - '&a/money converter &8- &7Converter os dados da antiga versão do plugin.'
       - ''

@@ -44,7 +44,7 @@ public class Account {
                 name,
                 balance,
                 movimentedBalance,
-                0,
+                transactionsQuantity,
                 transactions
         );
 
@@ -66,7 +66,7 @@ public class Account {
 
         val historic = AccountBankHistoric.builder()
                 .target(owner)
-                .amount(amount * -1)
+                .amount(amount < 0 ? amount * -1 : amount)
                 .type(transactionType)
                 .build();
 
