@@ -34,7 +34,6 @@ repositories {
 dependencies {
 
     compileOnly 'org.spigotmc:spigot:1.8.8-R0.1-SNAPSHOT'
-    compileOnly 'com.mojang:authlib:1.5.21'
 
     /*** local dependency (legendchat) ***/
     compileOnly 'br.com.devpaulo:legendchat:1.1.5'
@@ -49,7 +48,6 @@ dependencies {
     implementation 'com.github.HenryFabio:configuration-injector:main-SNAPSHOT'
     implementation 'org.bstats:bstats-bukkit:1.8'
 
-    pdm 'com.github.NextPlugins:data-converter:experimental-0.0.1'
     pdm 'com.github.SaiintBrisson:command-framework:1.1.0'
 
     def lombok = 'org.projectlombok:lombok:1.18.16'
