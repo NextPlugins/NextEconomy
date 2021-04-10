@@ -14,7 +14,12 @@ import java.util.function.Consumer;
 public enum ButtonType {
 
     PURSE(callback -> {}),
-    YOUR_MONEY(callback -> {}),
+    YOUR_MONEY(callback -> {
+
+        val historicBankView = InventoryRegistry.getInstance().getHistoricBankView();
+        historicBankView.openInventory(callback.getPlayer());
+
+    }),
 
     SEND_MONEY(callback -> {
 
@@ -37,13 +42,6 @@ public enum ButtonType {
 
         MessageValue.get(MessageValue::interactionInputPlayer).forEach(player::sendMessage);
         interaction.sendRequisition(player);
-
-    }),
-
-    HISTORIC(callback -> {
-
-        val historicBankView = InventoryRegistry.getInstance().getHistoricBankView();
-        historicBankView.openInventory(callback.getPlayer());
 
     }),
 

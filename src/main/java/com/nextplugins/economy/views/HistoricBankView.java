@@ -17,6 +17,8 @@ import com.nextplugins.economy.util.DateFormat;
 import com.nextplugins.economy.util.NumberUtils;
 import com.nextplugins.economy.views.button.InventoryButton;
 import lombok.val;
+import org.bukkit.Material;
+import org.bukkit.material.MaterialData;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -78,6 +80,7 @@ public class HistoricBankView extends PagedInventory {
                     .replace("@player", player.getName());
 
             val item = InventoryButton.builder()
+                    .materialData(new MaterialData(Material.AIR))
                     .displayName(InventoryValue.get(InventoryValue::historicDisplayName).replace("@date", date))
                     .nickname(InventoryValue.get(InventoryValue::historicSkullName).replace("@message", transactionMessage))
                     .lore(InventoryValue.get(InventoryValue::historicLore).stream()

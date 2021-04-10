@@ -71,8 +71,8 @@ public class BankView extends SimpleInventory {
                             .stream()
                             .map(line -> line
                                     .replace("$money", NumberUtils.format(account.getBalance()))
-                                    .replace("$transactions", String.valueOf(account.getTransactions().size()))
-                                    .replace("$movimentedMoney", NumberUtils.format(account.getMovimentedBalance()) + " " + transactionName)
+                                    .replace("$transactions", account.getTransactions().size() + " " + transactionName)
+                                    .replace("$movimentedMoney", NumberUtils.format(account.getMovimentedBalance()))
                                     .replace("$value", purse)
                                     .replace("$status", isHigh)
                                     .replace("$time", nextUpdate)

@@ -37,10 +37,6 @@ public final class InventoryButtonRegistry {
                 InventoryValue.get(InventoryValue::topMoneyButton)
         ));
 
-        register(inventoryButtonParser.parse(
-                InventoryValue.get(InventoryValue::historicButton)
-        ));
-
         return this;
 
     }
