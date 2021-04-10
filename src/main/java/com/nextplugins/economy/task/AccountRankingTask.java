@@ -3,6 +3,7 @@ package com.nextplugins.economy.task;
 import com.google.common.collect.Lists;
 import com.nextplugins.economy.api.event.operations.MoneyTopPlayerUpdateEvent;
 import com.nextplugins.economy.api.model.account.Account;
+import com.nextplugins.economy.configuration.values.RankingValue;
 import com.nextplugins.economy.dao.AccountDAO;
 import com.nextplugins.economy.storage.RankingStorage;
 import lombok.RequiredArgsConstructor;
@@ -20,33 +21,48 @@ public final class AccountRankingTask implements Runnable {
     @Override
     public void run() {
 
-        List<Account> accounts = Lists.newLinkedList(accountDAO.selectAll("ORDER BY balance DESC LIMIT 10"));
+        List<Account> accounts = Lists.newLinkedList(accountDAO.selectAll(
+                "ORDER BY balance DESC LIMIT " + RankingValue.get(RankingValue::rankingLimit
+        )));
 
-        if (accounts.isEmpty()) return;
+        List<Account> accountsMovimentation = Lists.newLinkedList(accountDAO.selectAll(
+                "ORDER BY movimentedBalance DESC LIMIT " + RankingValue.get(RankingValue::rankingLimit
+        )));
 
-        Account lastAccount = null;
-        if (!rankingStorage.getRankingAccounts().isEmpty()) {
+        if (!accounts.isEmpty()) {
 
-            lastAccount = rankingStorage.getRankingAccounts().get(0);
-            rankingStorage.getRankingAccounts().clear();
+            Account lastAccount = null;
+            if (!rankingStorage.getRankByCoin().isEmpty()) {
+
+                lastAccount = rankingStorage.getRankByCoin().get(0);
+                rankingStorage.getRankByCoin().clear();
+
+            }
+
+            accounts.forEach(rankingStorage.getRankByCoin()::add);
+
+            if (lastAccount != null) {
+
+                Account topAccount = rankingStorage.getRankByCoin().get(0);
+                if (lastAccount.getUserName().equals(topAccount.getUserName())) return;
+
+                Bukkit.getPluginManager().callEvent(
+                        MoneyTopPlayerUpdateEvent.builder()
+                                .lastMoneyTop(lastAccount)
+                                .moneyTop(topAccount)
+                                .updateInstant(Instant.now())
+                                .async(true)
+                                .build()
+                );
+
+            }
 
         }
 
-        accounts.forEach(rankingStorage.getRankingAccounts()::add);
+        if (!accountsMovimentation.isEmpty()) {
 
-        if (lastAccount != null) {
-
-            Account topAccount = rankingStorage.getRankingAccounts().get(0);
-            if (lastAccount.getUserName().equals(topAccount.getUserName())) return;
-
-            Bukkit.getPluginManager().callEvent(
-                    MoneyTopPlayerUpdateEvent.builder()
-                            .lastMoneyTop(lastAccount)
-                            .moneyTop(topAccount)
-                            .updateInstant(Instant.now())
-                            .async(true)
-                            .build()
-            );
+            rankingStorage.getRankByMovimentation().clear();
+            accountsMovimentation.forEach(rankingStorage.getRankByMovimentation()::add);
 
         }
 

@@ -9,6 +9,7 @@ import java.util.List;
 @Data
 public final class RankingStorage {
 
-    private final List<Account> rankingAccounts = Lists.newLinkedList();
+    private final List<Account> rankByCoin = Lists.newLinkedList();
+    private final List<Account> rankByMovimentation = Lists.newLinkedList();
 
 }

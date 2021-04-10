@@ -1,8 +1,17 @@
 inventory:
+  ranking:
+    item:
+      material: HOPPER
+      data: 0
+      lore:
+        - ''
+        - ''
+        - ''
+        - ''
+        - ''
   historic:
     config:
       name: 'Histórico de Transações'
-      size: 54
     depositMessage: '&c@target &2➡ &a@player'
     withdrawMessage: '&c@player &2➡ &a@target'
     item:
@@ -28,7 +37,7 @@ inventory:
           - '&8perfil no banco do servidor'
           - ''
           - ' &7Coins: &e$money'
-          - ' &7Transações: &e$transactions $transactionName'
+          - ' &7Transações: &e$transactions'
           - ' &7Dinheiro movimentado: &e$movimentedMoney'
           - ''
       viewPlayerMoney:

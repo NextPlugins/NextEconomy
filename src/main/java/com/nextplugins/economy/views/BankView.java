@@ -66,14 +66,13 @@ public class BankView extends SimpleInventory {
             int inventorySlot = value.getInventorySlot();
             if (inventorySlot == -1) continue;
 
-            ItemStack valueItem = new ItemBuilder(value.getItemStack(player))
+            ItemStack valueItem = new ItemBuilder(value.getItemStack(player.getName()))
                     .setLore(value.getLore()
                             .stream()
                             .map(line -> line
                                     .replace("$money", NumberUtils.format(account.getBalance()))
                                     .replace("$transactions", String.valueOf(account.getTransactions().size()))
-                                    .replace("$movimentedMoney", NumberUtils.format(account.getMovimentedBalance()))
-                                    .replace("$transactionName", transactionName)
+                                    .replace("$movimentedMoney", NumberUtils.format(account.getMovimentedBalance()) + " " + transactionName)
                                     .replace("$value", purse)
                                     .replace("$status", isHigh)
                                     .replace("$time", nextUpdate)

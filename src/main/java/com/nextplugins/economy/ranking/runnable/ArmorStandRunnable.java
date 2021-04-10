@@ -43,7 +43,7 @@ public final class ArmorStandRunnable implements Runnable {
 
     @Override
     public void run() {
-        List<Account> accounts = rankingStorage.getRankingAccounts();
+        List<Account> accounts = rankingStorage.getRankByCoin();
 
         if (accounts.size() <= 0) return;
 

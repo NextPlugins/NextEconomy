@@ -41,6 +41,7 @@ public final class RankingValue implements ConfigurationInjectable {
     // inventory model
 
     @ConfigField("model.inventory.title") private String inventoryModelTitle;
+    @ConfigField("model.inventory.head-display-name-top") private String inventoryModelHeadDisplayNameTop;
     @ConfigField("model.inventory.head-display-name") private String inventoryModelHeadDisplayName;
     @ConfigField("model.inventory.head-lore") private List<String> inventoryModelHeadLore;
 

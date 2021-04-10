@@ -46,8 +46,9 @@ public final class NextEconomy extends JavaPlugin {
     private AccountStorage accountStorage;
     private RankingStorage rankingStorage;
     private ConversorManager conversorManager;
-
     private LocationManager locationManager;
+
+    private VaultHookRegistry vaultHookRegistry;
 
     private File npcFile;
     private FileConfiguration npcConfig;
@@ -84,11 +85,11 @@ public final class NextEconomy extends JavaPlugin {
 
                 InventoryManager.enable(this);
 
-                VaultHookRegistry.of(this).register();
                 ConfigurationRegistry.of(this).register();
                 ListenerRegistry.of(this).register();
                 CommandRegistry.of(this).register();
                 TaskRegistry.of(this).register();
+                vaultHookRegistry = VaultHookRegistry.of(this).register();
 
                 InteractionRegistry.getInstance().init(this);
                 InventoryRegistry.getInstance().init(this);

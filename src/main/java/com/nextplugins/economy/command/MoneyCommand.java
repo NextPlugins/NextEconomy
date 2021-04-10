@@ -276,7 +276,7 @@ public final class MoneyCommand {
         String rankingType = RankingValue.get(RankingValue::rankingType);
 
         if (rankingType.equalsIgnoreCase("CHAT")) {
-            List<Account> accounts = rankingStorage.getRankingAccounts();
+            List<Account> accounts = rankingStorage.getRankByCoin();
 
             List<String> header = RankingValue.get(RankingValue::chatModelHeader);
             String body = RankingValue.get(RankingValue::chatModelBody);

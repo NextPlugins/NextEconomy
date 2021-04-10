@@ -12,7 +12,7 @@ import org.bukkit.OfflinePlayer;
 
 import java.util.List;
 
-public class VaultExpansionHook implements Economy {
+public class VaultEconomyHook implements Economy {
 
     @Override
     public boolean isEnabled() {

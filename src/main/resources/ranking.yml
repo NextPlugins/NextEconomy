@@ -19,10 +19,13 @@ ranking:
         - ''
     inventory:
       title: 'Ranking - Money'
-      head-display-name: '&f$positionº&8 - &e$player '
+      head-display-name-top: '$tycoonTag $prefix &e$positionº &8- &f$player'
+      head-display-name: '$prefix &e$positionº &8- &f$player'
       head-lore:
         - ''
-        - ' &7Quantia: &7(&2$&f $amount&7)'
+        - ' &7Quantia: &e$amount'
+        - ' &7Transações: &e$transactions'
+        - ' &7Dinheiro movimentado: &e$movimentation'
         - ''
   npc:
     # ARMORSTAND - Mini bonecos com cabeça de cada jogador
