@@ -99,12 +99,7 @@ public class SendMoneyInteractionManager {
 
                     }
 
-                    MessageValue.get(MessageValue::interactionInputMoney).stream()
-                            .map(line -> line
-                                    .replace("@money", NumberUtils.format(sendMoneyInteraction.getAmount()))
-                                    .replace("@player", sendMoneyInteraction.getTarget().getName())
-                            )
-                            .forEach(player::sendMessage);
+                    MessageValue.get(MessageValue::interactionInputMoney).forEach(player::sendMessage);
 
                     sendMoneyInteraction.setTarget(offlinePlayer);
                     sendMoneyInteraction.setStep(SendMoneyInteractionStep.QUANTITY);
@@ -124,7 +119,13 @@ public class SendMoneyInteractionManager {
 
                     }
 
-                    MessageValue.get(MessageValue::interactionConfirm).forEach(player::sendMessage);
+                    MessageValue.get(MessageValue::interactionConfirm)
+                            .stream()
+                            .map(line -> line
+                                    .replace("@money", NumberUtils.format(sendMoneyInteraction.getAmount()))
+                                    .replace("@player", sendMoneyInteraction.getTarget().getName())
+                            )
+                            .forEach(player::sendMessage);
 
                     sendMoneyInteraction.setAmount(parse);
                     sendMoneyInteraction.setStep(SendMoneyInteractionStep.CONFIRM);

@@ -29,6 +29,9 @@ public enum ButtonType {
     VIEW_MONEY(callback -> {
 
         val player = callback.getPlayer();
+        player.closeInventory();
+
+
         val interaction = InteractionRegistry.getInstance().getViewPlayerInteractionManager();
 
         MessageValue.get(MessageValue::interactionInputPlayer).forEach(player::sendMessage);
@@ -37,6 +40,8 @@ public enum ButtonType {
     }),
 
     TOP_MONEY(callback -> {
+
+        callback.getPlayer().closeInventory();
 
         val rankingInventory = InventoryRegistry.getInstance().getRankingView();
         rankingInventory.openInventory(callback.getPlayer());

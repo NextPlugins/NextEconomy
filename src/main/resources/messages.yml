@@ -32,7 +32,7 @@ messages:
     down-status: 'em queda'
     equals:
       icon: '&b➙'
-      message: 'manteu'
+      message: 'manteve'
     devalued:
       icon: '&c➘'
       message: 'desvalorizou'

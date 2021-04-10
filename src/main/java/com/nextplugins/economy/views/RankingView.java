@@ -82,7 +82,7 @@ public final class RankingView extends SimpleInventory {
             position++;
         }
 
-        editor.setItem(27, DefaultItem.BACK.toInventoryItem());
+        editor.setItem(27, DefaultItem.BACK.toInventoryItem(viewer));
 
     }
 
