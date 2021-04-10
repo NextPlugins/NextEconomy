@@ -21,7 +21,7 @@ public class OldAccount {
     private final double balance;
 
     public Account toAccount() {
-        return Account.create(name, balance, balance, Lists.newLinkedList());
+        return Account.create(name, balance, 0, 0, Lists.newLinkedList());
     }
     
 }

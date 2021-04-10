@@ -4,11 +4,11 @@ ranking:
   tycoon:
     tag:
       use: true
-      value: '&7[&2$&7]'
+      value: '&2[$] '
   model:
     inventory:
       title: 'Ranking - Money'
-      head-display-name-top: '$tycoonTag &e$positionº &8- &f$player'
+      head-display-name-top: '$tycoonTag&e$positionº &8- &f$player'
       head-display-name: '&e$positionº &8- &f$player'
       head-lore:
         - ''
@@ -34,6 +34,6 @@ ranking:
       # altura do holograma, em blocos (começando do chão)
       height: 2.15 # Recomendado 3 para NPC e 2.15 para ArmorStand
       lines:
-        - '&7$positionº'
-        - '&6$player'
-        - '&e$amount coins'
+        - '&f$positionº'
+        - '&e$player'
+        - '&7(&2&f$amount&7)'

@@ -16,7 +16,6 @@ import com.nextplugins.economy.storage.RankingStorage;
 import com.nextplugins.economy.util.ItemBuilder;
 import com.nextplugins.economy.util.NumberUtils;
 import lombok.val;
-import org.bukkit.ChatColor;
 import org.bukkit.Material;
 
 import java.util.HashMap;
@@ -78,14 +77,11 @@ public final class RankingView extends SimpleInventory {
                     : MessageValue.get(MessageValue::pluralTransaction);
 
             for (String lore : headLore) {
-                replacedLore.add(
-                        lore.replace("$player", position == 1
-                                ? tycoonTag + ChatColor.GREEN + " " + name
-                                : name)
-                                .replace("$amount", NumberUtils.format(account.getBalance()))
-                                .replace("$transactions", account.getTransactions().size() + " " + transactionName)
-                                .replace("$movimentation", NumberUtils.format(account.getMovimentedBalance()))
-                                .replace("$position", String.valueOf(position))
+                replacedLore.add(lore
+                        .replace("$amount", NumberUtils.format(account.getBalance()))
+                        .replace("$transactions", account.getTransactions().size() + " " + transactionName)
+                        .replace("$movimentation", NumberUtils.format(account.getMovimentedBalance()))
+                        .replace("$position", String.valueOf(position))
                 );
             }
 
@@ -106,6 +102,11 @@ public final class RankingView extends SimpleInventory {
         editor.setItem(40, sortRankingItem(viewer));
         editor.setItem(36, DefaultItem.BACK.toInventoryItem(viewer));
 
+    }
+
+    @Override
+    protected void update(Viewer viewer, InventoryEditor editor) {
+        configureInventory(viewer, editor);
     }
 
     private InventoryItem sortRankingItem(Viewer viewer) {

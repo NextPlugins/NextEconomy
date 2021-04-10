@@ -1,14 +1,4 @@
 inventory:
-  ranking:
-    item:
-      material: HOPPER
-      data: 0
-      lore:
-        - ''
-        - ''
-        - ''
-        - ''
-        - ''
   historic:
     config:
       name: 'Histórico de Transações'
@@ -19,6 +9,7 @@ inventory:
       displayName: '@message'
       lore:
         - ''
+        - ' &eAção: &f@type'
         - ' &eQuantia: &f@amount'
         - ' &eData: &f@date'
         - ''
@@ -62,7 +53,7 @@ inventory:
         displayName: '&6Bolsa de valores'
         lore:
           - '&8Veja a informação da'
-          - '&8bolsa de valores atual'
+          - '&8bolsa de valores atualmente'
           - ''
           - ' &7Valor atual: &e$value'
           - ' &7Status: &e$status'
@@ -75,8 +66,8 @@ inventory:
         inventorySlot: 15
         displayName: '&6Enviar dinheiro'
         lore:
-          - '&8Clique aqui para enviar money'
-          - '&8à um jogador'
+          - '&8Clique aqui para enviar'
+          - '&8dinheiro à um jogador'
           - ''
           - '&cEsta ação é irreversível'
       viewPlayerMoney:

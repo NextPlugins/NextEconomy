@@ -141,7 +141,7 @@ public final class MoneyCommand {
 
     @Command(
             name = "money.set",
-            aliases = {"alterar"},
+            aliases = {"alterar", "setar"},
             usage = "/money set {jogador} {quantia}",
             description = "Utilize para alterar a quantia de dinheiro de alguém.",
             permission = "nexteconomy.command.set",
@@ -173,7 +173,7 @@ public final class MoneyCommand {
 
     @Command(
             name = "money.add",
-            aliases = {"adicionar", "deposit", "depositar"},
+            aliases = {"adicionar", "deposit", "depositar", "give"},
             usage = "/money adicionar {jogador} {quantia} ",
             description = "Utilize para adicionar uma quantia de dinheiro para alguém.",
             permission = "nexteconomy.command.add",
@@ -204,7 +204,7 @@ public final class MoneyCommand {
 
     @Command(
             name = "money.remove",
-            aliases = {"remover", "withdraw", "retirar"},
+            aliases = {"remover", "withdraw", "retirar", "take"},
             usage = "/money remover {jogador} {quantia}",
             description = "Utilize para remover uma quantia de dinheiro de alguém.",
             permission = "nexteconomy.command.add",

@@ -4,9 +4,11 @@ import com.nextplugins.economy.NextEconomy;
 import com.nextplugins.economy.api.event.transaction.TransactionRequestEvent;
 import com.nextplugins.economy.api.model.account.Account;
 import com.nextplugins.economy.api.model.account.transaction.TransactionType;
+import com.nextplugins.economy.configuration.values.FeatureValue;
 import com.nextplugins.economy.configuration.values.MessageValue;
 import com.nextplugins.economy.storage.AccountStorage;
 import com.nextplugins.economy.util.NumberUtils;
+import lombok.val;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -40,6 +42,16 @@ public final class TransactionRequestListener implements Listener {
         if (Double.isNaN(amount) || amount < 1) {
 
             player.sendMessage(MessageValue.get(MessageValue::invalidMoney));
+            return;
+
+        }
+
+        val minValue = FeatureValue.get(FeatureValue::minTransactionValue);
+        if (amount < minValue) {
+
+            player.sendMessage(MessageValue.get(MessageValue::minValueNecessary)
+                    .replace("$amount", NumberUtils.format(minValue))
+            );
             return;
 
         }

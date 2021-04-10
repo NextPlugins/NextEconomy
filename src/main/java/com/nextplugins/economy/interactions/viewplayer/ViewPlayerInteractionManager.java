@@ -25,6 +25,13 @@ public class ViewPlayerInteractionManager {
                     event.setCancelled(true);
 
                     String message = event.getMessage();
+                    if (message.equalsIgnoreCase("cancelar")) {
+
+                        player.sendMessage(MessageValue.get(MessageValue::interactionCancelled));
+                        return;
+
+                    }
+
                     if (message.contains(" ")) message = message.split(" ")[0];
 
                     event.getPlayer().performCommand("money " + message);

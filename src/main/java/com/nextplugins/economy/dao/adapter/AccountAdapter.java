@@ -17,12 +17,14 @@ public final class AccountAdapter implements SQLResultAdapter<Account> {
         String accountOwner = resultSet.get("owner");
         double accountBalance = resultSet.get("balance");
         double movimentedBalance = resultSet.get("movimentedBalance");
+        int transactionsQuantity = resultSet.get("transactionsQuantity");
         String transactions = resultSet.get("transactions");
 
         return Account.create(
                 accountOwner,
                 accountBalance,
                 movimentedBalance,
+                transactionsQuantity,
                 LinkedListHelper.fromJson(transactions)
         );
 

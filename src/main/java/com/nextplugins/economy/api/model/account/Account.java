@@ -5,8 +5,8 @@ import com.nextplugins.economy.api.model.account.historic.AccountBankHistoric;
 import com.nextplugins.economy.api.model.account.transaction.TransactionType;
 import com.nextplugins.economy.configuration.values.FeatureValue;
 import lombok.AccessLevel;
-import lombok.Data;
 import lombok.AllArgsConstructor;
+import lombok.Data;
 import lombok.val;
 
 import java.util.LinkedList;
@@ -18,6 +18,7 @@ public class Account {
     private final String userName;
     private double balance;
     private double movimentedBalance;
+    private int transactionsQuantity;
 
     private LinkedList<AccountBankHistoric> transactions;
 
@@ -27,17 +28,23 @@ public class Account {
                 name,
                 FeatureValue.get(FeatureValue::initialBalance),
                 0,
+                0,
                 Lists.newLinkedList()
         );
 
     }
 
-    public static Account create(String name, double balance, double movimentedBalance, LinkedList<AccountBankHistoric> transactions) {
+    public static Account create(String name,
+                                 double balance,
+                                 double movimentedBalance,
+                                 int transactionsQuantity,
+                                 LinkedList<AccountBankHistoric> transactions) {
 
         return new Account(
                 name,
                 balance,
                 movimentedBalance,
+                0,
                 transactions
         );
 
@@ -45,9 +52,17 @@ public class Account {
 
     public synchronized void createTransaction(String owner, double amount, TransactionType transactionType) {
 
-        if (transactionType == TransactionType.WITHDRAW) amount *= -1;
+        ++transactionsQuantity;
+
+        if (transactionType == TransactionType.WITHDRAW) {
+
+            movimentedBalance += amount;
+            amount *= -1;
+
+        }
 
         this.balance += amount;
+        if (this.balance < 0) this.balance = 0;
 
         val historic = AccountBankHistoric.builder()
                 .target(owner)
@@ -55,6 +70,7 @@ public class Account {
                 .type(transactionType)
                 .build();
 
+        if (transactions.size() >= 56) transactions.remove(0);
         transactions.add(historic);
 
     }

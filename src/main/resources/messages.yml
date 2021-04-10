@@ -1,6 +1,7 @@
 messages:
   currency:
     mainAccountName: 'Banco'
+    mainAccountSkin: 'MrSnowDK'
     one: 'coin'
     more: 'coins'
   requests:
@@ -32,7 +33,7 @@ messages:
     high-status: 'em alta'
     down-status: 'em queda'
     equals:
-      icon: '&b➙'
+      icon: '&b➫'
       message: '&bmanteve'
     devalued:
       icon: '&c➘'
@@ -70,6 +71,7 @@ messages:
     received: '&6&LBANCO &fVocê acaba de receber uma transação.&7 (&f$player&2 ➡&f $amount&7)'
     is-yourself: '&cVocê não pode fazer uma transação para si mesmo.'
     insufficient-amount: '&cVocê não tem dinheiro suficiente para completar esta transação.'
+    min-value: '&cO valor mínimo necessário para realizar uma operação é de $amount.'
   npc-ranking:
     wrong-position: '&cInsira uma posição acima de 0!'
     position-already-defined: '&cEste posição já está definida!'

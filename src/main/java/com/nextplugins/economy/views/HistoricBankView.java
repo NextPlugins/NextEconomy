@@ -10,8 +10,10 @@ import com.henryfabio.minecraft.inventoryapi.viewer.configuration.border.Border;
 import com.henryfabio.minecraft.inventoryapi.viewer.configuration.impl.ViewerConfigurationImpl;
 import com.henryfabio.minecraft.inventoryapi.viewer.impl.paged.PagedViewer;
 import com.nextplugins.economy.api.model.account.historic.AccountBankHistoric;
+import com.nextplugins.economy.api.model.account.historic.BankHistoricComparator;
 import com.nextplugins.economy.api.model.account.transaction.TransactionType;
 import com.nextplugins.economy.configuration.values.InventoryValue;
+import com.nextplugins.economy.configuration.values.MessageValue;
 import com.nextplugins.economy.storage.AccountStorage;
 import com.nextplugins.economy.util.DateFormat;
 import com.nextplugins.economy.util.NumberUtils;
@@ -65,12 +67,9 @@ public class HistoricBankView extends PagedInventory {
 
         List<InventoryItemSupplier> items = new LinkedList<>();
 
-        val accounts = account.getTransactions()
-                .stream()
-                .limit(56)
-                .collect(Collectors.toList());
+        account.getTransactions().sort(new BankHistoricComparator());
 
-        for (AccountBankHistoric transaction : accounts) {
+        for (AccountBankHistoric transaction : account.getTransactions()) {
 
             String date = DateFormat.of(transaction.getMilli());
             String transactionMessage = (transaction.getType() == TransactionType.WITHDRAW
@@ -86,6 +85,7 @@ public class HistoricBankView extends PagedInventory {
                     .lore(InventoryValue.get(InventoryValue::historicLore).stream()
                             .map(line -> line
                                     .replace("@date", date)
+                                    .replace("@type", transaction.getType().getMessage())
                                     .replace("@message", transactionMessage)
                                     .replace("@amount", NumberUtils.format(transaction.getAmount()))
                             )
@@ -93,7 +93,17 @@ public class HistoricBankView extends PagedInventory {
                     )
                     .build();
 
-            items.add(() -> InventoryItem.of(item.getItemStack(transaction.getTarget())));
+
+            items.add(() -> {
+
+                String target = transaction.getTarget();
+                if (target.equalsIgnoreCase(MessageValue.get(MessageValue::mainAccountName))) {
+                    target = MessageValue.get(MessageValue::mainAccountSkin);
+                }
+
+                return InventoryItem.of(item.getItemStack(target));
+
+            });
 
         }
 

@@ -57,7 +57,7 @@ public class BankView extends SimpleInventory {
                 ? TimeUtils.formatTime(PurseAPI.getInstance().getNextUpdate() - System.currentTimeMillis())
                 : "";
 
-        String transactionName = account.getTransactions().size() == 1
+        String transactionName = account.getTransactionsQuantity() == 1
                 ? MessageValue.get(MessageValue::singularTransaction)
                 : MessageValue.get(MessageValue::pluralTransaction);
 
@@ -71,7 +71,7 @@ public class BankView extends SimpleInventory {
                             .stream()
                             .map(line -> line
                                     .replace("$money", NumberUtils.format(account.getBalance()))
-                                    .replace("$transactions", account.getTransactions().size() + " " + transactionName)
+                                    .replace("$transactions", account.getTransactionsQuantity() + " " + transactionName)
                                     .replace("$movimentedMoney", NumberUtils.format(account.getMovimentedBalance()))
                                     .replace("$value", purse)
                                     .replace("$status", isHigh)

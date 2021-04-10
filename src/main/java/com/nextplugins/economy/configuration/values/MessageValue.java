@@ -25,6 +25,7 @@ public final class MessageValue implements ConfigurationInjectable {
 
     // currency
 
+    @ConfigField("currency.mainAccountSkin") private String mainAccountSkin;
     @ConfigField("currency.mainAccountName") private String mainAccountName;
     @ConfigField("currency.one") private String coinCurrency;
     @ConfigField("currency.more") private String coinsCurrency;
@@ -52,6 +53,7 @@ public final class MessageValue implements ConfigurationInjectable {
     @ConfigField("transactions.received") private String received;
     @ConfigField("transactions.is-yourself") private String isYourself;
     @ConfigField("transactions.insufficient-amount") private String insufficientAmount;
+    @ConfigField("transactions.min-value") private String minValueNecessary;
 
     // interaction
 
