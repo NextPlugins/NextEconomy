@@ -14,7 +14,12 @@ public final class AccountAdapter implements SQLResultAdapter<Account> {
         double movimentedBalance = resultSet.get("movimentedBalance");
         int transactions = resultSet.get("transactions");
 
-        return Account.create(accountOwner, accountBalance, movimentedBalance, transactions);
+        return Account.create(
+                accountOwner,
+                accountBalance,
+                movimentedBalance,
+                transactions
+        );
 
     }
 

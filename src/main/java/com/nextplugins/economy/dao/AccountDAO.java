@@ -60,11 +60,13 @@ public final class AccountDAO {
     public void saveOne(Account account) {
 
         this.sqlExecutor.updateQuery(
-                String.format("REPLACE INTO %s VALUES(?,?)", TABLE),
+                String.format("REPLACE INTO %s VALUES(?,?,?,?)", TABLE),
                 statement -> {
 
                     statement.set(1, account.getUserName());
                     statement.set(2, account.getBalance());
+                    statement.set(3, account.getMovimentedBalance());
+                    statement.set(4, account.getTransactions());
 
                 }
         );
