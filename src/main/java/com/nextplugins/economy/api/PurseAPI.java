@@ -4,10 +4,7 @@ import com.nextplugins.economy.NextEconomy;
 import com.nextplugins.economy.api.event.operations.AsyncPurseUpdateEvent;
 import com.nextplugins.economy.configuration.values.MessageValue;
 import com.nextplugins.economy.configuration.values.PurseValue;
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.val;
+import lombok.*;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.PluginManager;
 import org.jetbrains.annotations.Nullable;
@@ -31,7 +28,7 @@ public class PurseAPI {
 
     private int purse;
     private double purseMultiplier;
-    private long nextUpdate;
+    @Setter private long nextUpdate;
 
     public static boolean isAvaliable() {
 

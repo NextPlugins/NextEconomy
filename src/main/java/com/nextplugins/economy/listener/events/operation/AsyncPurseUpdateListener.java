@@ -26,6 +26,7 @@ public class AsyncPurseUpdateListener implements Listener {
     public void onPurseUpdate(AsyncPurseUpdateEvent event) {
 
         purseAPI.setPurse(event.getNewValue());
+        purseAPI.setNextUpdate(event.getNextUpdate().toEpochMilli());
 
         boolean equals = event.getNewValue() == event.getLastValue();
         boolean difference = event.getNewValue() > event.getLastValue();
