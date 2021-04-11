@@ -1,7 +1,7 @@
 package com.nextplugins.economy.storage;
 
 import com.google.common.collect.Lists;
-import com.nextplugins.economy.api.model.Account;
+import com.nextplugins.economy.api.model.account.Account;
 import lombok.Data;
 
 import java.util.List;
@@ -9,6 +9,7 @@ import java.util.List;
 @Data
 public final class RankingStorage {
 
-    private final List<Account> rankingAccounts = Lists.newLinkedList();
+    private final List<Account> rankByCoin = Lists.newLinkedList();
+    private final List<Account> rankByMovimentation = Lists.newLinkedList();
 
 }

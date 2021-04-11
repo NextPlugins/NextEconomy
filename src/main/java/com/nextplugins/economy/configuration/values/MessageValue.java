@@ -25,6 +25,8 @@ public final class MessageValue implements ConfigurationInjectable {
 
     // currency
 
+    @ConfigField("currency.mainAccountSkin") private String mainAccountSkin;
+    @ConfigField("currency.mainAccountName") private String mainAccountName;
     @ConfigField("currency.one") private String coinCurrency;
     @ConfigField("currency.more") private String coinsCurrency;
 
@@ -32,6 +34,7 @@ public final class MessageValue implements ConfigurationInjectable {
 
     @ConfigField("requests.invalid-target") private String invalidTarget;
     @ConfigField("requests.invalid-money") private String invalidMoney;
+    @ConfigField("request.no-time") private String noTime;
 
     // operations
 
@@ -44,16 +47,44 @@ public final class MessageValue implements ConfigurationInjectable {
 
     // transactions
 
+    @ConfigField("transactions.singular") private String singularTransaction;
+    @ConfigField("transactions.plural") private String pluralTransaction;
     @ConfigField("transactions.paid") private String paid;
     @ConfigField("transactions.received") private String received;
     @ConfigField("transactions.is-yourself") private String isYourself;
     @ConfigField("transactions.insufficient-amount") private String insufficientAmount;
+    @ConfigField("transactions.min-value") private String minValueNecessary;
 
-    // convert
+    // interaction
 
-    @ConfigField("convert.start") private String convertStart;
-    @ConfigField("convert.kick") private List<String> convertWhitelistKick;
-    @ConfigField("convert.end") private String convertEnd;
+    @ConfigField("interaction.cancelled") private String interactionCancelled;
+    @ConfigField("interaction.invalid") private String interactionInvalid;
+    @ConfigField("interaction.input-player") private List<String> interactionInputPlayer;
+    @ConfigField("interaction.input-money") private List<String> interactionInputMoney;
+    @ConfigField("interaction.confirm") private List<String> interactionConfirm;
+
+    // purse system
+
+    @ConfigField("purse.devalued.icon") private String devaluedIcon;
+    @ConfigField("purse.devalued.message") private String devaluedMessage;
+
+    @ConfigField("purse.valued.icon") private String valuedIcon;
+    @ConfigField("purse.valued.message") private String valuedMessage;
+
+    @ConfigField("purse.equals.icon") private String equalsIcon;
+    @ConfigField("purse.equals.message") private String equalsMessage;
+
+    @ConfigField("purse.updated.sound") private String purseUpdatedSound;
+    @ConfigField("purse.updated.message") private List<String> purseUpdatedMessage;
+
+    @ConfigField("purse.high-status") private String purseHigh;
+    @ConfigField("purse.down-status") private String purseDown;
+
+    // new money top
+
+    @ConfigField("new-money-top.enable") private boolean enableMoneyTopMessage;
+    @ConfigField("new-money-top.message") private List<String> moneyTopMessage;
+    @ConfigField("new-money-top.title") private String moneyTopTitle;
 
     // npc ranking
 

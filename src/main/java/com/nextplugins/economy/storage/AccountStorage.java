@@ -1,43 +1,62 @@
 package com.nextplugins.economy.storage;
 
 import com.google.common.collect.Maps;
-import com.nextplugins.economy.api.model.Account;
+import com.nextplugins.economy.NextEconomy;
+import com.nextplugins.economy.api.model.account.Account;
 import com.nextplugins.economy.dao.AccountDAO;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import org.bukkit.entity.Player;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.Map;
-import java.util.UUID;
 
 @RequiredArgsConstructor
 public final class AccountStorage {
 
-    @Getter private final Map<UUID, Account> accounts = Maps.newLinkedHashMap();
+    @Getter private final Map<String, Account> accounts = Maps.newLinkedHashMap();
 
-    private final AccountDAO accountDAO;
+    @Getter private final AccountDAO accountDAO;
 
     public void init() {
+
         accountDAO.createTable();
+        NextEconomy.getInstance().getLogger().info("DAO do plugin iniciado com sucesso.");
+
     }
 
-    public Account getAccount(UUID owner) {
+    /**
+     * Used to no cache account
+     *
+     * @param userName player name
+     * @return {@link Account} found
+     */
+    @Nullable
+    public Account findOfflineAccount(String userName) {
 
-        Account account = accounts.getOrDefault(owner, null);
+        Account account = accounts.getOrDefault(userName, null);
+        if (account == null) account = accountDAO.selectOne(userName);
+
+        return account;
+
+    }
+
+    public Account findOnlineAccount(Player player) {
+
+        String userName = player.getName();
+        Account account = accounts.getOrDefault(userName, null);
         if (account == null) {
 
-            account = accountDAO.selectOne(owner);
+            account = accountDAO.selectOne(userName);
 
             if (account == null) {
 
-                account = Account.builder()
-                        .owner(owner)
-                        .balance(0)
-                        .build();
+                account = Account.createDefault(userName);
+                accountDAO.saveOne(account);
 
-                accountDAO.insertOne(account);
             }
 
-            accounts.put(owner, account);
+            accounts.put(userName, account);
         }
 
         return account;
@@ -45,7 +64,7 @@ public final class AccountStorage {
 
     public void insertOne(Account account) {
         addAccount(account);
-        accountDAO.insertOne(account);
+        accountDAO.saveOne(account);
     }
 
     public void deleteOne(Account account) {
@@ -53,23 +72,23 @@ public final class AccountStorage {
         accountDAO.deleteOne(account);
     }
 
-    public void purge(UUID owner) {
-        Account account = accounts.getOrDefault(owner, null);
+    public void purge(String name) {
 
+        Account account = accounts.getOrDefault(name, null);
         if (account == null) return;
 
         accountDAO.saveOne(account);
-        accounts.remove(account.getOwner());
+        removeAccount(account);
     }
 
     public void addAccount(Account account) {
-        if (!accounts.containsKey(account.getOwner())) {
-            accounts.put(account.getOwner(), account);
+        if (!accounts.containsKey(account.getUserName())) {
+            accounts.put(account.getUserName(), account);
         }
     }
 
     public void removeAccount(Account account) {
-        accounts.put(account.getOwner(), account);
+        accounts.put(account.getUserName(), account);
     }
 
 }

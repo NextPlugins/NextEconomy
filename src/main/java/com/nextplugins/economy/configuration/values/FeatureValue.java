@@ -15,7 +15,7 @@ import java.util.function.Function;
 @Getter
 @TranslateColors
 @Accessors(fluent = true)
-@ConfigSection("plugin")
+@ConfigSection("plugin.configuration")
 @ConfigFile("config.yml")
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public final class FeatureValue implements ConfigurationInjectable {
@@ -24,8 +24,10 @@ public final class FeatureValue implements ConfigurationInjectable {
 
     // configuration
 
-    @ConfigField("configuration.format-type") private String formatType;
-    @ConfigField("configuration.save-delay") private int saveDelay;
+    @ConfigField("initial-balance") private double initialBalance;
+    @ConfigField("min-value") private double minTransactionValue;
+    @ConfigField("format-type") private String formatType;
+    @ConfigField("save-delay") private int saveDelay;
 
     public static <T> T get(Function<FeatureValue, T> function) {
         return function.apply(instance);

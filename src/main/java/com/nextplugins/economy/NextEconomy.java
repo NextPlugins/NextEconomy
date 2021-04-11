@@ -4,20 +4,25 @@ import com.gmail.filoghost.holographicdisplays.api.Hologram;
 import com.henryfabio.minecraft.inventoryapi.manager.InventoryManager;
 import com.henryfabio.sqlprovider.connector.SQLConnector;
 import com.henryfabio.sqlprovider.executor.SQLExecutor;
+import com.nextplugins.economy.api.PurseAPI;
 import com.nextplugins.economy.command.registry.CommandRegistry;
 import com.nextplugins.economy.configuration.registry.ConfigurationRegistry;
 import com.nextplugins.economy.configuration.values.RankingValue;
 import com.nextplugins.economy.dao.AccountDAO;
-import com.nextplugins.economy.listener.registry.ListenerRegistry;
+import com.nextplugins.economy.listener.ListenerRegistry;
+import com.nextplugins.economy.manager.ConversorManager;
 import com.nextplugins.economy.metric.MetricProvider;
 import com.nextplugins.economy.placeholder.registry.PlaceholderRegistry;
 import com.nextplugins.economy.ranking.CustomRankingRegistry;
 import com.nextplugins.economy.ranking.manager.LocationManager;
 import com.nextplugins.economy.ranking.runnable.ArmorStandRunnable;
 import com.nextplugins.economy.ranking.runnable.NPCRunnable;
+import com.nextplugins.economy.registry.InteractionRegistry;
+import com.nextplugins.economy.registry.InventoryRegistry;
 import com.nextplugins.economy.sql.SQLProvider;
 import com.nextplugins.economy.storage.AccountStorage;
 import com.nextplugins.economy.storage.RankingStorage;
+import com.nextplugins.economy.task.AccountSaveTask;
 import com.nextplugins.economy.task.registry.TaskRegistry;
 import com.nextplugins.economy.vault.registry.VaultHookRegistry;
 import lombok.Getter;
@@ -40,8 +45,9 @@ public final class NextEconomy extends JavaPlugin {
     private AccountDAO accountDAO;
     private AccountStorage accountStorage;
     private RankingStorage rankingStorage;
-
+    private ConversorManager conversorManager;
     private LocationManager locationManager;
+    private InteractionRegistry interactionRegistry;
 
     private File npcFile;
     private FileConfiguration npcConfig;
@@ -63,31 +69,37 @@ public final class NextEconomy extends JavaPlugin {
 
         PluginDependencyManager.of(this).loadAllDependencies().thenRun(() -> {
             try {
+
                 sqlConnector = SQLProvider.of(this).setup();
                 sqlExecutor = new SQLExecutor(sqlConnector);
 
                 accountDAO = new AccountDAO(sqlExecutor);
                 accountStorage = new AccountStorage(accountDAO);
+                conversorManager = new ConversorManager(accountDAO);
                 rankingStorage = new RankingStorage();
-
                 locationManager = new LocationManager();
+                interactionRegistry = new InteractionRegistry();
 
                 accountStorage.init();
-                InventoryManager.enable(this);
+                interactionRegistry.init();
 
-                VaultHookRegistry.of(this).register();
+                InventoryManager.enable(this);
 
                 ConfigurationRegistry.of(this).register();
                 ListenerRegistry.of(this).register();
                 CommandRegistry.of(this).register();
                 TaskRegistry.of(this).register();
+                VaultHookRegistry.of(this).register();
+                MetricProvider.of(this).register();
+                InventoryRegistry.of(this).register();
 
-                MetricProvider.of(this).setup();
 
                 Bukkit.getScheduler().runTaskLaterAsynchronously(this, () -> {
                     PlaceholderRegistry.of(this).register();
                     CustomRankingRegistry.of(this).register();
                 }, 5 * 20);
+
+                if (!PurseAPI.isAvaliable()) getLogger().info("Sistema de bolsa de valores desativado.");
 
                 getLogger().info("Plugin inicializado com sucesso!");
             } catch (Throwable t) {
@@ -118,6 +130,8 @@ public final class NextEconomy extends JavaPlugin {
             }
         }
 
+        AccountSaveTask accountSaveTask = new AccountSaveTask(accountStorage, accountDAO);
+        accountSaveTask.run();
     }
 
     public static NextEconomy getInstance() {

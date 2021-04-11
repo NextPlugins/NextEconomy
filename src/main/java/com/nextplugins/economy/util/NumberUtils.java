@@ -6,52 +6,59 @@ import lombok.NoArgsConstructor;
 
 import java.text.DecimalFormat;
 import java.util.Arrays;
+import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public final class NumberUtils {
 
-    private final static DecimalFormat DECIMAL_FORMAT = new DecimalFormat("#,###.#");
-    private static final String[] CHARS = new String[]{"", "K", "M", "B", "T", "Q", "QQ", "S", "SS", "O", "N", "D",
-            "UN", "DD", "TR", "QT", "QN", "SD", "SPD", "OD", "ND", "VG", "UVG", "DVG", "TVG", "QTV"};
+    private static final Pattern PATTERN = Pattern.compile("^(\\d+\\.?\\d*)(\\D+)");
 
-    public static String decimalFormat(double number) {
-        return DECIMAL_FORMAT.format(number);
-    }
-
-    public static boolean isLetterFormat() {
-        return FeatureValue.get(FeatureValue::formatType).equalsIgnoreCase("letter");
-    }
+    private final static DecimalFormat DECIMAL_FORMAT = new DecimalFormat("#.##");
+    private static final List<String> CHARS = Arrays.asList("", "K", "M", "B", "T", "Q", "QQ", "S", "SS", "O", "N", "D",
+            "UN", "DD", "TR", "QT", "QN", "SD", "SPD", "OD", "ND", "VG", "UVG", "DVG", "TVG", "QTV");
 
     public static String format(double number) {
         return isLetterFormat() ? letterFormat(number) : decimalFormat(number);
     }
 
+    private static String decimalFormat(double number) {
+        return DECIMAL_FORMAT.format(number);
+    }
+
+    private static boolean isLetterFormat() {
+        return FeatureValue.get(FeatureValue::formatType).equalsIgnoreCase("letter");
+    }
+
     private static String letterFormat(double value) {
 
-        String result = String.valueOf(value);
+        int index = 0;
 
-        int prefixIndex = (int) Math.log10(value) / 3;
-        if (prefixIndex > CHARS.length) prefixIndex = CHARS.length;
-        if (prefixIndex > 0)
-            result = DECIMAL_FORMAT.format(value / Math.pow(10, prefixIndex * 3)) + CHARS[prefixIndex];
+        double tmp;
+        while ((tmp = value / 1000) >= 1) {
+            value = tmp;
+            ++index;
+        }
 
-        return result;
+        return DECIMAL_FORMAT.format(value) + CHARS.get(index);
 
     }
 
     public static double parse(String string) {
         try {
+            return Double.parseDouble(string);
+        } catch (Exception ignored) {}
 
-            double result = Double.parseDouble(string.replaceAll("[^0-9.]", ""));
+        Matcher matcher = PATTERN.matcher(string);
+        if (!matcher.find()) return -1;
 
-            int prefixIndex = Arrays.asList(CHARS).indexOf(string.replaceAll("[^a-zA-Z]","").toUpperCase());
-            if (prefixIndex > 0) result *= Math.pow(10, prefixIndex * 3);
+        double amount = Double.parseDouble(matcher.group(1));
+        String suffix = matcher.group(2);
 
-            return result;
+        int index = CHARS.indexOf(suffix.toUpperCase());
 
-        } catch (Exception e) {
-            return -1;
-        }
+        return amount * Math.pow(1000, index);
     }
 
 }

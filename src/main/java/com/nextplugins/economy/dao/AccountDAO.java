@@ -1,8 +1,11 @@
 package com.nextplugins.economy.dao;
 
 import com.henryfabio.sqlprovider.executor.SQLExecutor;
-import com.nextplugins.economy.api.model.Account;
+import com.nextplugins.economy.api.model.account.Account;
+import com.nextplugins.economy.api.model.account.old.OldAccount;
+import com.nextplugins.economy.api.model.account.old.adapter.OldAccountAdapter;
 import com.nextplugins.economy.dao.adapter.AccountAdapter;
+import com.nextplugins.economy.util.LinkedListHelper;
 import lombok.RequiredArgsConstructor;
 
 import java.util.Set;
@@ -11,33 +14,40 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public final class AccountDAO {
 
-    private final String TABLE = "economy_data";
+    private static final String TABLE = "nexteconomy_data";
 
     private final SQLExecutor sqlExecutor;
 
     public void createTable() {
         sqlExecutor.updateQuery("CREATE TABLE IF NOT EXISTS " + TABLE + "(" +
-                "owner CHAR(36) NOT NULL PRIMARY KEY," +
-                "balance DOUBLE NOT NULL" +
+                "owner CHAR(16) NOT NULL PRIMARY KEY," +
+                "balance DOUBLE NOT NULL," +
+                "movimentedBalance DOUBLE NOT NULL," +
+                "transactionsQuantity INTEGER NOT NULL," +
+                "transactions LONGTEXT NOT NULL" +
                 ");"
         );
     }
 
-    public Account selectOne(UUID owner) {
+    public Account selectOne(String owner) {
         return sqlExecutor.resultOneQuery(
                 "SELECT * FROM " + TABLE + " WHERE owner = ?",
-                statement -> statement.set(1, owner.toString()),
+                statement -> statement.set(1, owner),
                 AccountAdapter.class
         );
     }
 
-    public Set<Account> selectAll() {
+    public Set<OldAccount> selectAllOld() {
         return sqlExecutor.resultManyQuery(
-                "SELECT * FROM " + TABLE,
+                "SELECT * FROM economy_data",
                 k -> {
                 },
-                AccountAdapter.class
+                OldAccountAdapter.class
         );
+    }
+
+    public Set<Account> selectAll() {
+        return selectAll("");
     }
 
     public Set<Account> selectAll(String query) {
@@ -49,29 +59,32 @@ public final class AccountDAO {
         );
     }
 
-    public void insertOne(Account account) {
-        sqlExecutor.updateQuery(
-                "INSERT INTO " + TABLE + " VALUES(?,?);",
+    public void saveOne(Account account) {
+
+        this.sqlExecutor.updateQuery(
+                String.format("REPLACE INTO %s VALUES(?,?,?,?,?)", TABLE),
                 statement -> {
-                    statement.set(1, account.getOwner().toString());
+
+                    statement.set(1, account.getUserName());
                     statement.set(2, account.getBalance());
+                    statement.set(3, account.getMovimentedBalance());
+                    statement.set(4, account.getTransactionsQuantity());
+                    statement.set(5, LinkedListHelper.toJson(account.getTransactions()));
+
                 }
         );
+
     }
 
-    public void saveOne(Account account) {
+    public void deleteOldByUUID(UUID uuid) {
         sqlExecutor.updateQuery(
-                "UPDATE " + TABLE + " SET balance = ? WHERE owner = ?",
-                statement -> {
-                    statement.set(1, account.getBalance());
-                    statement.set(2, account.getOwner().toString());
-                }
+                "DELETE FROM economy_data WHERE owner = '" + uuid.toString() + "'"
         );
     }
 
     public void deleteOne(Account account) {
         sqlExecutor.updateQuery(
-                "DELETE FROM " + TABLE + " WHERE owner = '" + account.getOwner().toString() + "'"
+                "DELETE FROM " + TABLE + " WHERE owner = '" + account.getUserName() + "'"
         );
     }
 
