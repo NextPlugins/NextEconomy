@@ -8,6 +8,7 @@ import com.nextplugins.economy.interactions.sendmoney.model.SendMoneyInteraction
 import com.nextplugins.economy.util.EventAwaiter;
 import com.nextplugins.economy.util.NumberUtils;
 import lombok.Getter;
+import lombok.val;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
@@ -29,9 +30,9 @@ public class SendMoneyInteractionManager {
 
     private Consumer<AsyncPlayerChatEvent> consumer;
 
-    public void sendRequisition(Player player) {
+    public void sendRequisition(Player player, boolean inUse) {
 
-        if (!players.containsKey(player.getName())) players.put(player.getName(), SendMoneyInteraction.create());
+        if (!inUse) players.put(player.getName(), SendMoneyInteraction.create());
 
         EventAwaiter.newAwaiter(AsyncPlayerChatEvent.class, NextEconomy.getInstance())
                 .expiringAfter(1, TimeUnit.MINUTES)
@@ -73,8 +74,9 @@ public class SendMoneyInteractionManager {
 
             event.setCancelled(true);
 
-            Player player = event.getPlayer();
-            String message = event.getMessage();
+            val player = event.getPlayer();
+            val message = event.getMessage();
+
             if (message.equalsIgnoreCase("cancelar")) {
 
                 players.remove(player.getName());
@@ -103,7 +105,7 @@ public class SendMoneyInteractionManager {
 
                     MessageValue.get(MessageValue::interactionInputMoney).forEach(player::sendMessage);
 
-                    sendRequisition(player);
+                    sendRequisition(player, true);
                     return;
 
                 }

@@ -30,7 +30,7 @@ public enum ButtonType {
         val interaction = NextEconomy.getInstance().getInteractionRegistry().getSendMoneyInteractionManager();
 
         MessageValue.get(MessageValue::interactionInputPlayer).forEach(player::sendMessage);
-        interaction.sendRequisition(player);
+        interaction.sendRequisition(player, false);
 
     }),
 

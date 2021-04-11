@@ -98,7 +98,7 @@ public final class EventAwaiter<E extends Event> {
                 (listener, event) -> consumer.accept(event),
                 EventPriority.LOWEST,
                 plugin,
-                true
+                false
         );
 
         for (HandlerList handlerList : HandlerList.getHandlerLists()) {
