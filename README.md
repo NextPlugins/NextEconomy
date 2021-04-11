@@ -7,7 +7,7 @@ Um sistema simples e completo de uma economia principal para servidores de Minec
 ## Comandos
 |Comando         |Descrição                      |Permissão                    |
 |----------------|-------------------------------|-----------------------------|
-|/money           |Veja a sua, ou a quantia de money de outra pessoa.|Nenhuma    |
+|/money           |Abrir o menu do sistema.|Nenhuma    |
 |/money enviar    |Envie uma quantia de money para outra pessoa.|`nexteconomy.command.pay`|
 |/money top       |Veja o ranking dos jogadores mais ricos do server.|`nexteconomy.command.top`|
 |/money ajuda     |Veja os comandos disponíveis do sistema.|`nexteconomy.command.help`|
