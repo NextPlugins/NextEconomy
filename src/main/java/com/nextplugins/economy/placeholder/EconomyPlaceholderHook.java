@@ -2,6 +2,7 @@ package com.nextplugins.economy.placeholder;
 
 import com.nextplugins.economy.NextEconomy;
 import com.nextplugins.economy.api.NextEconomyAPI;
+import com.nextplugins.economy.api.PurseAPI;
 import com.nextplugins.economy.api.model.account.Account;
 import com.nextplugins.economy.util.NumberUtils;
 import lombok.RequiredArgsConstructor;
@@ -38,6 +39,18 @@ public final class EconomyPlaceholderHook extends PlaceholderExpansion {
 
         if (params.equalsIgnoreCase("amount")) {
             return balance;
+        }
+
+        if (params.equalsIgnoreCase("purse")) {
+            return PurseAPI.getInstance().getPurseFormated();
+        }
+
+        if (params.equalsIgnoreCase("purse_only_value")) {
+            return String.valueOf(PurseAPI.getInstance().getPurse());
+        }
+
+        if (params.equalsIgnoreCase("purse_with_icon")) {
+            return PurseAPI.getInstance().getPurseFormatedWithIcon();
         }
 
         return "Placeholder inválida";
