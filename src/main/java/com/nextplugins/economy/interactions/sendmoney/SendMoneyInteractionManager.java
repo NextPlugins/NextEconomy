@@ -54,10 +54,12 @@ public class SendMoneyInteractionManager {
 
                     SendMoneyInteraction sendMoneyInteraction = players.get(player.getName());
 
-                    player.performCommand(String.format(COMMAND,
+                    Bukkit.getScheduler().runTask(
+                            NextEconomy.getInstance(),
+                            () -> player.performCommand(String.format(COMMAND,
                             sendMoneyInteraction.getTarget().getName(),
                             sendMoneyInteraction.getAmount())
-                    );
+                    ));
 
                     players.remove(player.getName());
 

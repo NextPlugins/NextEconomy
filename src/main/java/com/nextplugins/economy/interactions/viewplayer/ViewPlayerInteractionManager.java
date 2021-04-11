@@ -4,6 +4,7 @@ import com.nextplugins.economy.NextEconomy;
 import com.nextplugins.economy.configuration.values.MessageValue;
 import com.nextplugins.economy.util.EventAwaiter;
 import lombok.val;
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 
@@ -45,9 +46,7 @@ public class ViewPlayerInteractionManager {
 
             }
 
-            if (message.contains(" ")) message = message.split(" ")[0];
-
-            player.performCommand("money " + message);
+            Bukkit.getScheduler().runTask(NextEconomy.getInstance(), () -> player.performCommand("money " + message));
 
         };
 
