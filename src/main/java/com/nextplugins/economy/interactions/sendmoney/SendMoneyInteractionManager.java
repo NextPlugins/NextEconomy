@@ -64,8 +64,12 @@ public class SendMoneyInteractionManager {
                 })
                 .filter(event -> event.getPlayer().getName().equals(player.getName()))
                 .thenAccept(consumer)
-                .await(true);
+                .await(false);
 
+    }
+
+    public boolean isUsing(Player player) {
+        return players.containsKey(player.getName());
     }
 
     public SendMoneyInteractionManager init() {

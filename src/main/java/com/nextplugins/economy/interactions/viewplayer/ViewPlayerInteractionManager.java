@@ -25,7 +25,7 @@ public class ViewPlayerInteractionManager {
                 .withTimeOutAction(() -> player.sendMessage(MessageValue.get(MessageValue::noTime)))
                 .filter(event -> event.getPlayer().getName().equals(player.getName()))
                 .thenAccept(consumer)
-                .await(true);
+                .await(false);
 
     }
 

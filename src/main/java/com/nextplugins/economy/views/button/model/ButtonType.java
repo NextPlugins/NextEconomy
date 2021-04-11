@@ -39,7 +39,10 @@ public enum ButtonType {
         val player = callback.getPlayer();
         player.closeInventory();
 
-        val interaction = NextEconomy.getInstance().getInteractionRegistry().getViewPlayerInteractionManager();
+        val interactionRegistry = NextEconomy.getInstance().getInteractionRegistry();
+        if (interactionRegistry.getSendMoneyInteractionManager().isUsing(player)) player.chat("cancelar");
+
+        val interaction = interactionRegistry.getViewPlayerInteractionManager();
 
         MessageValue.get(MessageValue::interactionInputPlayer).forEach(player::sendMessage);
         interaction.sendRequisition(player);
