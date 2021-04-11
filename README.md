@@ -29,7 +29,11 @@ O plugin conta com vários arquivos de configuração, em que se pode configurar
 
 ## Placeholders
 
-PlaceholderAPI: "{placeholderapi_nexteconomy_amount}" ~ quantia de dinheiro
+### PlaceholderAPI: 
+-   "{placeholderapi_nexteconomy_amount}" ~ quantia de dinheiro
+-   "{placeholderapi_nexteconomy_purse}" ~ valor da bolsa -> Ex.: (28%)
+-   "{placeholderapi_nexteconomy_purse_only_value}" ~ valor da bolsa apenas numero -> Ex.: (28)
+-   "{placeholderapi_nexteconomy_purse_with_icon}" ~ valor da bolsa -> Ex.: (48% ↗ em alta)
 
 LegendChat: "{tycoon}" ~ tag magnata
 
