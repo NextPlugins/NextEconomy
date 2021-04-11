@@ -46,7 +46,7 @@ public class BankView extends SimpleInventory {
         Account account = accountStorage.findOnlineAccount(player);
 
         String purse = PurseAPI.getInstance() != null
-                ? PurseAPI.getInstance().getPurse() + "%"
+                ? PurseAPI.getInstance().getPurseFormated()
                 : "";
 
         String isHigh = PurseAPI.getInstance() != null

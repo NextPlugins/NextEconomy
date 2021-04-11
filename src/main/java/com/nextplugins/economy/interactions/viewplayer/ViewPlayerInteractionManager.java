@@ -29,7 +29,7 @@ public class ViewPlayerInteractionManager {
 
     }
 
-    public void init() {
+    public ViewPlayerInteractionManager init() {
 
         consumer = event -> {
 
@@ -50,6 +50,8 @@ public class ViewPlayerInteractionManager {
             player.performCommand("money " + message);
 
         };
+
+        return this;
 
     }
 

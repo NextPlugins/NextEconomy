@@ -17,7 +17,7 @@ public final class InteractionRegistry {
     public void init() {
 
         this.sendMoneyInteractionManager = new SendMoneyInteractionManager().init();
-        this.viewPlayerInteractionManager = new ViewPlayerInteractionManager();
+        this.viewPlayerInteractionManager = new ViewPlayerInteractionManager().init();
 
     }
 
