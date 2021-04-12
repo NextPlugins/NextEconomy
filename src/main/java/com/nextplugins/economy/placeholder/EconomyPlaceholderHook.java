@@ -4,8 +4,10 @@ import com.nextplugins.economy.NextEconomy;
 import com.nextplugins.economy.api.NextEconomyAPI;
 import com.nextplugins.economy.api.PurseAPI;
 import com.nextplugins.economy.api.model.account.Account;
+import com.nextplugins.economy.configuration.values.RankingValue;
 import com.nextplugins.economy.util.NumberUtils;
 import lombok.RequiredArgsConstructor;
+import lombok.val;
 import me.clip.placeholderapi.expansion.PlaceholderExpansion;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
@@ -14,6 +16,7 @@ import org.jetbrains.annotations.NotNull;
 public final class EconomyPlaceholderHook extends PlaceholderExpansion {
 
     private final NextEconomy plugin;
+    private final boolean useTycoon = RankingValue.get(RankingValue::useTycoonTag);
 
     @Override
     public @NotNull String getIdentifier() {
@@ -39,6 +42,18 @@ public final class EconomyPlaceholderHook extends PlaceholderExpansion {
 
         if (params.equalsIgnoreCase("amount")) {
             return balance;
+        }
+
+        if (params.equalsIgnoreCase("tycoon") && useTycoon) {
+
+            val rankByCoin = NextEconomyAPI.getInstance().getRankingStorage().getRankByCoin();
+            if (rankByCoin.isEmpty()) return "";
+
+            val topAccount = rankByCoin.get(0);
+            if (!topAccount.getUserName().equals(player.getName())) return "";
+
+            return RankingValue.get(RankingValue::tycoonTagValue);
+
         }
 
         if (params.equalsIgnoreCase("purse")) {

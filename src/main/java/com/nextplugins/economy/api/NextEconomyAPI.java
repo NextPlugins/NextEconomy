@@ -5,6 +5,7 @@ import com.nextplugins.economy.NextEconomy;
 import com.nextplugins.economy.api.model.account.Account;
 import com.nextplugins.economy.dao.AccountDAO;
 import com.nextplugins.economy.storage.AccountStorage;
+import com.nextplugins.economy.storage.RankingStorage;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -27,6 +28,7 @@ public final class NextEconomyAPI {
     @Getter private static final NextEconomyAPI instance = new NextEconomyAPI();
 
     private final AccountDAO accountDAO = NextEconomy.getInstance().getAccountDAO();
+    private final RankingStorage rankingStorage = NextEconomy.getInstance().getRankingStorage();
     private final AccountStorage accountStorage = NextEconomy.getInstance().getAccountStorage();
 
     /**
