@@ -35,8 +35,8 @@ dependencies {
 
     compileOnly 'org.spigotmc:spigot:1.8.8-R0.1-SNAPSHOT'
 
-    /*** local dependency (legendchat) ***/
-    compileOnly 'br.com.devpaulo:legendchat:1.1.5'
+    /*** local dependency (nChat) ***/
+    compileOnly 'com.nickuc:nchat:1.0.0'
 
     compileOnly 'com.github.PlaceholderAPI:PlaceholderAPI:2.10.9'
     compileOnly 'com.gmail.filoghost.holographicdisplays:holographicdisplays-api:2.4.0'

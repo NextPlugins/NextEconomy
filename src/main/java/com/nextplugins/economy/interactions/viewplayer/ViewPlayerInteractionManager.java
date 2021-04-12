@@ -3,10 +3,10 @@ package com.nextplugins.economy.interactions.viewplayer;
 import com.nextplugins.economy.NextEconomy;
 import com.nextplugins.economy.configuration.values.MessageValue;
 import com.nextplugins.economy.util.EventAwaiter;
+import com.nickuc.chat.api.events.PublicMessageEvent;
 import lombok.val;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
-import org.bukkit.event.player.AsyncPlayerChatEvent;
 
 import java.util.concurrent.TimeUnit;
 import java.util.function.Consumer;
@@ -17,14 +17,14 @@ import java.util.function.Consumer;
  */
 public class ViewPlayerInteractionManager {
 
-    private Consumer<AsyncPlayerChatEvent> consumer;
+    private Consumer<PublicMessageEvent> consumer;
 
     public void sendRequisition(Player player) {
 
-        EventAwaiter.newAwaiter(AsyncPlayerChatEvent.class, NextEconomy.getInstance())
+        EventAwaiter.newAwaiter(PublicMessageEvent.class, NextEconomy.getInstance())
                 .expiringAfter(1, TimeUnit.MINUTES)
                 .withTimeOutAction(() -> player.sendMessage(MessageValue.get(MessageValue::noTime)))
-                .filter(event -> event.getPlayer().getName().equals(player.getName()))
+                .filter(event -> event.getSender().getName().equals(player.getName()))
                 .thenAccept(consumer)
                 .await(false);
 
@@ -36,7 +36,7 @@ public class ViewPlayerInteractionManager {
 
             event.setCancelled(true);
 
-            val player = event.getPlayer();
+            val player = event.getSender();
 
             String message = event.getMessage();
             if (message.equalsIgnoreCase("cancelar")) {
