@@ -7,12 +7,12 @@ import com.nextplugins.economy.interactions.sendmoney.model.SendMoneyInteraction
 import com.nextplugins.economy.interactions.sendmoney.model.SendMoneyInteractionStep;
 import com.nextplugins.economy.util.EventAwaiter;
 import com.nextplugins.economy.util.NumberUtils;
-import com.nickuc.chat.api.events.PublicMessageEvent;
 import lombok.Getter;
 import lombok.val;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
+import org.bukkit.event.player.AsyncPlayerChatEvent;
 
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
@@ -28,19 +28,19 @@ public class SendMoneyInteractionManager {
 
     @Getter private final Map<String, SendMoneyInteraction> players = Maps.newHashMap();
 
-    private Consumer<PublicMessageEvent> consumer;
+    private Consumer<AsyncPlayerChatEvent> consumer;
 
     public void sendRequisition(Player player, boolean inUse) {
 
         if (!inUse) players.put(player.getName(), SendMoneyInteraction.create());
 
-        EventAwaiter.newAwaiter(PublicMessageEvent.class, NextEconomy.getInstance())
+        EventAwaiter.newAwaiter(AsyncPlayerChatEvent.class, NextEconomy.getInstance())
                 .expiringAfter(1, TimeUnit.MINUTES)
                 .withTimeOutAction(() -> {
                     player.sendMessage(MessageValue.get(MessageValue::noTime));
                     players.remove(player.getName());
                 })
-                .filter(event -> event.getSender().getName().equals(player.getName()))
+                .filter(event -> event.getPlayer().getName().equals(player.getName()))
                 .thenAccept(consumer)
                 .await(true);
 
@@ -48,7 +48,7 @@ public class SendMoneyInteractionManager {
 
     public void sendConfirmation(Player player) {
 
-        EventAwaiter.newAwaiter(PublicMessageEvent.class, NextEconomy.getInstance())
+        EventAwaiter.newAwaiter(AsyncPlayerChatEvent.class, NextEconomy.getInstance())
                 .expiringAfter(10, TimeUnit.SECONDS)
                 .withTimeOutAction(() -> {
 
@@ -64,7 +64,7 @@ public class SendMoneyInteractionManager {
                     players.remove(player.getName());
 
                 })
-                .filter(event -> event.getSender().getName().equals(player.getName()))
+                .filter(event -> event.getPlayer().getName().equals(player.getName()))
                 .thenAccept(consumer)
                 .await(false);
 
@@ -80,7 +80,7 @@ public class SendMoneyInteractionManager {
 
             event.setCancelled(true);
 
-            val player = event.getSender();
+            val player = event.getPlayer();
             val message = event.getMessage();
 
             if (message.equalsIgnoreCase("cancelar")) {
