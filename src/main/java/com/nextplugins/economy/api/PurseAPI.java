@@ -65,7 +65,7 @@ public class PurseAPI {
 
     public void updatePurse(int newValue) {
 
-        Bukkit.getScheduler().runTaskAsynchronously(NextEconomy.getInstance(), () -> {
+        Bukkit.getScheduler().runTask(NextEconomy.getInstance(), () -> {
 
             val duration = PurseValue.get(PurseValue::nextUpdate);
             val nextUpdate = System.currentTimeMillis() + TimeUnit.SECONDS.toMillis(duration);
