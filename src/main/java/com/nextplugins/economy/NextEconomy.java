@@ -93,7 +93,7 @@ public final class NextEconomy extends JavaPlugin {
                 MetricProvider.of(this).register();
                 InventoryRegistry.of(this).register();
 
-                Bukkit.getScheduler().runTaskLaterAsynchronously(this, () -> {
+                Bukkit.getScheduler().runTaskLater(this, () -> {
                     PlaceholderRegistry.of(this).register();
                     CustomRankingRegistry.of(this).register();
                 }, 5 * 20);

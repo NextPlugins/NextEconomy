@@ -45,7 +45,7 @@ public final class TaskRegistry {
 
         int purseUpdateDelay = PurseValue.get(PurseValue::nextUpdate);
 
-        scheduler.runTaskTimer(
+        scheduler.runTaskTimerAsynchronously(
                 plugin,
                 new PurseUpdateTask(),
                 0,
