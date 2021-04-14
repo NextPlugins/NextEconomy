@@ -16,6 +16,7 @@ import org.jetbrains.annotations.NotNull;
 public final class EconomyPlaceholderHook extends PlaceholderExpansion {
 
     private final NextEconomy plugin;
+    private final PurseAPI instance = PurseAPI.getInstance();
     private final boolean useTycoon = RankingValue.get(RankingValue::useTycoonTag);
 
     @Override
@@ -56,16 +57,18 @@ public final class EconomyPlaceholderHook extends PlaceholderExpansion {
 
         }
 
-        if (params.equalsIgnoreCase("purse")) {
-            return PurseAPI.getInstance().getPurseFormated();
-        }
+        if (instance != null) {
+            if (params.equalsIgnoreCase("purse")) {
+                return instance.getPurseFormated();
+            }
 
-        if (params.equalsIgnoreCase("purse_only_value")) {
-            return String.valueOf(PurseAPI.getInstance().getPurse());
-        }
+            if (params.equalsIgnoreCase("purse_only_value")) {
+                return String.valueOf(instance.getPurse());
+            }
 
-        if (params.equalsIgnoreCase("purse_with_icon")) {
-            return PurseAPI.getInstance().getPurseFormatedWithIcon();
+            if (params.equalsIgnoreCase("purse_with_icon")) {
+                return instance.getPurseFormatedWithIcon();
+            }
         }
 
         return "Placeholder inválida";
