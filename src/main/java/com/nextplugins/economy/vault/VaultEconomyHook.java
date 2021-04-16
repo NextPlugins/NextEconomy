@@ -127,7 +127,7 @@ public class VaultEconomyHook implements Economy {
             if (has(playerName, amount)) {
 
                 account.createTransaction(
-                        MessageValue.get(MessageValue::mainAccountName),
+                        null,
                         amount,
                         TransactionType.WITHDRAW
                 );
@@ -172,7 +172,7 @@ public class VaultEconomyHook implements Economy {
         if (account != null) {
 
             account.createTransaction(
-                    MessageValue.get(MessageValue::mainAccountName),
+                    null,
                     amount,
                     TransactionType.DEPOSIT
             );

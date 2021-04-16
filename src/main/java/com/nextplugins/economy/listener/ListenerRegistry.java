@@ -3,6 +3,8 @@ package com.nextplugins.economy.listener;
 import com.nextplugins.economy.NextEconomy;
 import com.nextplugins.economy.configuration.values.PurseValue;
 import com.nextplugins.economy.configuration.values.RankingValue;
+import com.nextplugins.economy.listener.events.chat.LegendChatListener;
+import com.nextplugins.economy.listener.events.chat.OpeNChatListener;
 import com.nextplugins.economy.listener.events.chat.TycoonTagRegister;
 import com.nextplugins.economy.listener.events.connection.UserConnectionListener;
 import com.nextplugins.economy.listener.events.operation.AsyncPurseUpdateListener;
@@ -11,7 +13,9 @@ import com.nextplugins.economy.listener.events.operation.MoneySetListener;
 import com.nextplugins.economy.listener.events.operation.MoneyWithdrawListener;
 import com.nextplugins.economy.listener.events.transaction.TransactionRequestListener;
 import com.nextplugins.economy.listener.events.update.MoneyTopUpdateListener;
+import com.nextplugins.economy.registry.InteractionRegistry;
 import lombok.Data;
+import lombok.val;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.PluginManager;
 
@@ -75,6 +79,20 @@ public final class ListenerRegistry {
             if (RankingValue.get(RankingValue::useTycoonTag)) {
                 pluginManager.registerEvents(
                         new TycoonTagRegister(),
+                        plugin
+                );
+            }
+
+            val interactionRegistry = getPlugin().getInteractionRegistry();
+
+            if (pluginManager.isPluginEnabled("nChat")) {
+                pluginManager.registerEvents(
+                        new OpeNChatListener(interactionRegistry),
+                        plugin
+                );
+            } else if (pluginManager.isPluginEnabled("LegendChat")) {
+                pluginManager.registerEvents(
+                        new LegendChatListener(interactionRegistry),
                         plugin
                 );
             }

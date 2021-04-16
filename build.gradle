@@ -8,7 +8,7 @@ plugins {
 }
 
 group = 'com.nextplugins'
-version = '1.1.1'
+version = '1.1.2'
 
 tasks.build.dependsOn('pdm', 'shadowJar')
 
@@ -36,7 +36,7 @@ dependencies {
     compileOnly 'org.spigotmc:spigot:1.8.8-R0.1-SNAPSHOT'
 
     /*** local dependency (nChat) ***/
-    compileOnly 'com.nickuc:nchat:1.0.0'
+    compileOnly 'com.nickuc:chat:1.0.0'
 
     compileOnly 'com.github.PlaceholderAPI:PlaceholderAPI:2.10.9'
     compileOnly 'com.gmail.filoghost.holographicdisplays:holographicdisplays-api:2.4.0'
@@ -58,8 +58,8 @@ dependencies {
 
 bukkit {
     main = 'com.nextplugins.economy.NextEconomy'
-    authors = ['Henry_Fabio', 'Eike', 'Gabriel Santos', 'Yuhtin']
-    website = 'https://github.com/NextPlugins'
+    authors = ['NextPlugins']
+    website = 'https://nextplugins.com.br'
     version = "${project.version}"
     depend = ['Vault']
     load = 'STARTUP'

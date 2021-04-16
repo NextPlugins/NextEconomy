@@ -40,7 +40,7 @@ public final class MoneyGiveListener implements Listener {
         }
 
         targetAccount.createTransaction(
-                MessageValue.get(MessageValue::mainAccountName),
+                null,
                 amount,
                 TransactionType.DEPOSIT
         );

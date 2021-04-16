@@ -11,6 +11,7 @@ import com.nextplugins.economy.storage.RankingStorage;
 import com.nextplugins.economy.util.ItemBuilder;
 import com.nextplugins.economy.util.NumberUtils;
 import lombok.RequiredArgsConstructor;
+import org.bukkit.Chunk;
 import org.bukkit.Color;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -28,7 +29,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 @RequiredArgsConstructor
 public final class ArmorStandRunnable implements Runnable {
 
-    public static final List<ArmorStand> STANDS = Lists.newLinkedList();;
+    public static final List<ArmorStand> STANDS = Lists.newLinkedList();
     public static final List<Hologram> HOLOGRAM = Lists.newLinkedList();
 
     private static final Material[] SWORDS = new Material[] {
@@ -56,6 +57,9 @@ public final class ArmorStandRunnable implements Runnable {
             if (!locationManager.getLocationMap().containsKey(position.get())) return;
 
             Location location = locationManager.getLocation(position.get());
+            Chunk chunk = location.getChunk();
+            if (!chunk.isLoaded()) chunk.load();
+
             List<String> hologramLines = RankingValue.get(RankingValue::hologramLines);
             double hologramHeight = RankingValue.get(RankingValue::hologramHeight);
 

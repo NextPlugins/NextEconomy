@@ -94,16 +94,7 @@ public class HistoricBankView extends PagedInventory {
                     .build();
 
 
-            items.add(() -> {
-
-                String target = transaction.getTarget();
-                if (target.equalsIgnoreCase(MessageValue.get(MessageValue::mainAccountName))) {
-                    target = MessageValue.get(MessageValue::mainAccountSkin);
-                }
-
-                return InventoryItem.of(item.getItemStack(target));
-
-            });
+            items.add(() -> InventoryItem.of(item.getItemStack(transaction.getTarget())));
 
         }
 

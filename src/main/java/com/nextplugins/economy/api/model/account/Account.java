@@ -50,7 +50,9 @@ public class Account {
 
     }
 
-    public synchronized void createTransaction(String owner, double amount, TransactionType transactionType) {
+    public synchronized void createTransaction(String owner,
+                                               double amount,
+                                               TransactionType transactionType) {
 
         ++transactionsQuantity;
 
@@ -64,14 +66,18 @@ public class Account {
         this.balance += amount;
         if (this.balance < 0) this.balance = 0;
 
-        val historic = AccountBankHistoric.builder()
-                .target(owner)
-                .amount(amount < 0 ? amount * -1 : amount)
-                .type(transactionType)
-                .build();
+        if (owner != null) {
 
-        if (transactions.size() >= 56) transactions.remove(0);
-        transactions.add(historic);
+            val historic = AccountBankHistoric.builder()
+                    .target(owner)
+                    .amount(amount < 0 ? amount * -1 : amount)
+                    .type(transactionType)
+                    .build();
+
+            if (transactions.size() >= 56) transactions.remove(0);
+            transactions.add(historic);
+
+        }
 
     }
 

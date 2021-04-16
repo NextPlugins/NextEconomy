@@ -26,7 +26,6 @@ public final class MessageValue implements ConfigurationInjectable {
     // currency
 
     @ConfigField("currency.mainAccountSkin") private String mainAccountSkin;
-    @ConfigField("currency.mainAccountName") private String mainAccountName;
     @ConfigField("currency.one") private String coinCurrency;
     @ConfigField("currency.more") private String coinsCurrency;
 
