@@ -1,7 +1,5 @@
 messages:
   currency:
-    mainAccountName: 'Banco'
-    mainAccountSkin: 'MrSnowDK'
     one: 'coin'
     more: 'coins'
   requests:

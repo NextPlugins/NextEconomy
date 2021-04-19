@@ -13,7 +13,6 @@ import com.nextplugins.economy.api.model.account.historic.AccountBankHistoric;
 import com.nextplugins.economy.api.model.account.historic.BankHistoricComparator;
 import com.nextplugins.economy.api.model.account.transaction.TransactionType;
 import com.nextplugins.economy.configuration.values.InventoryValue;
-import com.nextplugins.economy.configuration.values.MessageValue;
 import com.nextplugins.economy.storage.AccountStorage;
 import com.nextplugins.economy.util.DateFormat;
 import com.nextplugins.economy.util.NumberUtils;
@@ -94,7 +93,14 @@ public class HistoricBankView extends PagedInventory {
                     .build();
 
 
-            items.add(() -> InventoryItem.of(item.getItemStack(transaction.getTarget())));
+            items.add(() -> {
+
+                String target = transaction.getTarget();
+                if (target.equalsIgnoreCase("Banco")) target = "MrSnowDK";
+
+                return InventoryItem.of(item.getItemStack(target));
+
+            });
 
         }
 
