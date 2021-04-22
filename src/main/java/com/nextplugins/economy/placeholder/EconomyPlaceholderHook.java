@@ -4,7 +4,7 @@ import com.nextplugins.economy.NextEconomy;
 import com.nextplugins.economy.api.NextEconomyAPI;
 import com.nextplugins.economy.api.PurseAPI;
 import com.nextplugins.economy.api.model.account.Account;
-import com.nextplugins.economy.configuration.values.RankingValue;
+import com.nextplugins.economy.configuration.RankingValue;
 import com.nextplugins.economy.util.NumberUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.val;

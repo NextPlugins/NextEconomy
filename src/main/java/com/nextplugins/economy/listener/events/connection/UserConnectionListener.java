@@ -1,6 +1,6 @@
 package com.nextplugins.economy.listener.events.connection;
 
-import com.nextplugins.economy.storage.AccountStorage;
+import com.nextplugins.economy.api.model.account.storage.AccountStorage;
 import lombok.RequiredArgsConstructor;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;

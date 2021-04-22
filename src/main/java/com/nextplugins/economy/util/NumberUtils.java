@@ -1,6 +1,6 @@
 package com.nextplugins.economy.util;
 
-import com.nextplugins.economy.configuration.values.FeatureValue;
+import com.nextplugins.economy.configuration.FeatureValue;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 

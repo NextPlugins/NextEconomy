@@ -1,10 +1,8 @@
-package com.nextplugins.economy.interactions.sendmoney;
+package com.nextplugins.economy.listener.events.interactions;
 
 import com.google.common.collect.Maps;
 import com.nextplugins.economy.NextEconomy;
-import com.nextplugins.economy.configuration.values.MessageValue;
-import com.nextplugins.economy.interactions.sendmoney.model.SendMoneyInteraction;
-import com.nextplugins.economy.interactions.sendmoney.model.SendMoneyInteractionStep;
+import com.nextplugins.economy.configuration.MessageValue;
 import com.nextplugins.economy.util.EventAwaiter;
 import com.nextplugins.economy.util.NumberUtils;
 import lombok.Getter;
@@ -22,17 +20,17 @@ import java.util.function.Consumer;
  * @author Yuhtin
  * Github: https://github.com/Yuhtin
  */
-public class SendMoneyInteractionManager {
+public class PayInteractionManager {
 
     private static final String COMMAND = "money enviar %s %s";
 
-    @Getter private final Map<String, SendMoneyInteraction> players = Maps.newHashMap();
+    @Getter private final Map<String, PayInteraction> players = Maps.newHashMap();
 
     private Consumer<AsyncPlayerChatEvent> consumer;
 
     public void sendRequisition(Player player, boolean inUse) {
 
-        if (!inUse) players.put(player.getName(), SendMoneyInteraction.create());
+        if (!inUse) players.put(player.getName(), PayInteraction.create());
 
         EventAwaiter.newAwaiter(AsyncPlayerChatEvent.class, NextEconomy.getInstance())
                 .expiringAfter(1, TimeUnit.MINUTES)
@@ -52,13 +50,13 @@ public class SendMoneyInteractionManager {
                 .expiringAfter(10, TimeUnit.SECONDS)
                 .withTimeOutAction(() -> {
 
-                    SendMoneyInteraction sendMoneyInteraction = players.get(player.getName());
+                    PayInteraction payInteraction = players.get(player.getName());
 
                     Bukkit.getScheduler().runTask(
                             NextEconomy.getInstance(),
                             () -> player.performCommand(String.format(COMMAND,
-                            sendMoneyInteraction.getTarget().getName(),
-                            sendMoneyInteraction.getAmount())
+                            payInteraction.getTarget().getName(),
+                            payInteraction.getAmount())
                     ));
 
                     players.remove(player.getName());
@@ -74,7 +72,7 @@ public class SendMoneyInteractionManager {
         return players.containsKey(player.getName());
     }
 
-    public SendMoneyInteractionManager init() {
+    public PayInteractionManager init() {
 
         consumer = event -> {
 
@@ -91,8 +89,8 @@ public class SendMoneyInteractionManager {
 
             }
 
-            SendMoneyInteraction sendMoneyInteraction = players.get(player.getName());
-            SendMoneyInteractionStep step = sendMoneyInteraction.getStep();
+            PayInteraction payInteraction = players.get(player.getName());
+            PayInteractionStep step = payInteraction.getStep();
 
             switch (step) {
 
@@ -106,8 +104,8 @@ public class SendMoneyInteractionManager {
 
                     }
 
-                    sendMoneyInteraction.setTarget(offlinePlayer);
-                    sendMoneyInteraction.setStep(SendMoneyInteractionStep.QUANTITY);
+                    payInteraction.setTarget(offlinePlayer);
+                    payInteraction.setStep(PayInteractionStep.QUANTITY);
 
                     MessageValue.get(MessageValue::interactionInputMoney).forEach(player::sendMessage);
 
@@ -126,14 +124,14 @@ public class SendMoneyInteractionManager {
 
                     }
 
-                    sendMoneyInteraction.setAmount(parse);
-                    sendMoneyInteraction.setStep(SendMoneyInteractionStep.CONFIRM);
+                    payInteraction.setAmount(parse);
+                    payInteraction.setStep(PayInteractionStep.CONFIRM);
 
                     MessageValue.get(MessageValue::interactionConfirm)
                             .stream()
                             .map(line -> line
-                                    .replace("@money", NumberUtils.format(sendMoneyInteraction.getAmount()))
-                                    .replace("@player", sendMoneyInteraction.getTarget().getName())
+                                    .replace("@money", NumberUtils.format(payInteraction.getAmount()))
+                                    .replace("@player", payInteraction.getTarget().getName())
                             )
                             .forEach(player::sendMessage);
 

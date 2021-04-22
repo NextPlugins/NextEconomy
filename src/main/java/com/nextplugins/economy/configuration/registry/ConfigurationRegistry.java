@@ -2,7 +2,7 @@ package com.nextplugins.economy.configuration.registry;
 
 import com.henryfabio.minecraft.configinjector.bukkit.injector.BukkitConfigurationInjector;
 import com.nextplugins.economy.NextEconomy;
-import com.nextplugins.economy.configuration.values.*;
+import com.nextplugins.economy.configuration.*;
 import lombok.Data;
 
 @Data(staticConstructor = "of")

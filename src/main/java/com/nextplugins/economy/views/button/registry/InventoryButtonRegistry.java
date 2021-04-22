@@ -1,8 +1,8 @@
-package com.nextplugins.economy.registry;
+package com.nextplugins.economy.views.button.registry;
 
 import com.google.common.collect.Sets;
-import com.nextplugins.economy.configuration.values.InventoryValue;
-import com.nextplugins.economy.parser.InventoryButtonParser;
+import com.nextplugins.economy.configuration.InventoryValue;
+import com.nextplugins.economy.views.button.parser.InventoryButtonParser;
 import com.nextplugins.economy.views.button.InventoryButton;
 import lombok.Getter;
 

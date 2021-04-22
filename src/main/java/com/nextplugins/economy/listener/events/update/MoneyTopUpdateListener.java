@@ -1,7 +1,7 @@
 package com.nextplugins.economy.listener.events.update;
 
 import com.nextplugins.economy.api.event.operations.MoneyTopPlayerUpdateEvent;
-import com.nextplugins.economy.configuration.values.MessageValue;
+import com.nextplugins.economy.configuration.MessageValue;
 import com.nextplugins.economy.util.TitleUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;

@@ -7,21 +7,21 @@ import com.henryfabio.sqlprovider.executor.SQLExecutor;
 import com.nextplugins.economy.api.PurseAPI;
 import com.nextplugins.economy.command.registry.CommandRegistry;
 import com.nextplugins.economy.configuration.registry.ConfigurationRegistry;
-import com.nextplugins.economy.configuration.values.RankingValue;
-import com.nextplugins.economy.dao.AccountDAO;
+import com.nextplugins.economy.configuration.RankingValue;
+import com.nextplugins.economy.dao.repository.AccountRepository;
 import com.nextplugins.economy.listener.ListenerRegistry;
-import com.nextplugins.economy.manager.ConversorManager;
-import com.nextplugins.economy.metric.MetricProvider;
+import com.nextplugins.economy.api.conversor.ConversorManager;
+import com.nextplugins.economy.api.metric.MetricProvider;
 import com.nextplugins.economy.placeholder.registry.PlaceholderRegistry;
 import com.nextplugins.economy.ranking.CustomRankingRegistry;
 import com.nextplugins.economy.ranking.manager.LocationManager;
 import com.nextplugins.economy.ranking.runnable.ArmorStandRunnable;
 import com.nextplugins.economy.ranking.runnable.NPCRunnable;
-import com.nextplugins.economy.registry.InteractionRegistry;
-import com.nextplugins.economy.registry.InventoryRegistry;
-import com.nextplugins.economy.sql.SQLProvider;
-import com.nextplugins.economy.storage.AccountStorage;
-import com.nextplugins.economy.storage.RankingStorage;
+import com.nextplugins.economy.listener.events.interactions.registry.InteractionRegistry;
+import com.nextplugins.economy.views.registry.InventoryRegistry;
+import com.nextplugins.economy.dao.SQLProvider;
+import com.nextplugins.economy.api.model.account.storage.AccountStorage;
+import com.nextplugins.economy.ranking.storage.RankingStorage;
 import com.nextplugins.economy.task.AccountSaveTask;
 import com.nextplugins.economy.task.registry.TaskRegistry;
 import com.nextplugins.economy.vault.registry.VaultHookRegistry;
@@ -42,7 +42,7 @@ public final class NextEconomy extends JavaPlugin {
     private SQLConnector sqlConnector;
     private SQLExecutor sqlExecutor;
 
-    private AccountDAO accountDAO;
+    private AccountRepository accountRepository;
     private AccountStorage accountStorage;
     private RankingStorage rankingStorage;
     private ConversorManager conversorManager;
@@ -73,9 +73,9 @@ public final class NextEconomy extends JavaPlugin {
                 sqlConnector = SQLProvider.of(this).setup();
                 sqlExecutor = new SQLExecutor(sqlConnector);
 
-                accountDAO = new AccountDAO(sqlExecutor);
-                accountStorage = new AccountStorage(accountDAO);
-                conversorManager = new ConversorManager(accountDAO);
+                accountRepository = new AccountRepository(sqlExecutor);
+                accountStorage = new AccountStorage(accountRepository);
+                conversorManager = new ConversorManager(accountRepository);
                 rankingStorage = new RankingStorage();
                 locationManager = new LocationManager();
                 interactionRegistry = new InteractionRegistry();
@@ -129,7 +129,7 @@ public final class NextEconomy extends JavaPlugin {
             }
         }
 
-        AccountSaveTask accountSaveTask = new AccountSaveTask(accountStorage, accountDAO);
+        AccountSaveTask accountSaveTask = new AccountSaveTask(accountStorage, accountRepository);
         accountSaveTask.run();
     }
 

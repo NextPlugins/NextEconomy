@@ -1,7 +1,7 @@
 package com.nextplugins.economy.task;
 
 import com.nextplugins.economy.api.PurseAPI;
-import com.nextplugins.economy.configuration.values.PurseValue;
+import com.nextplugins.economy.configuration.PurseValue;
 import lombok.val;
 
 import java.util.Random;

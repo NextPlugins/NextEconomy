@@ -2,8 +2,8 @@ package com.nextplugins.economy.api;
 
 import com.nextplugins.economy.NextEconomy;
 import com.nextplugins.economy.api.event.operations.AsyncPurseUpdateEvent;
-import com.nextplugins.economy.configuration.values.MessageValue;
-import com.nextplugins.economy.configuration.values.PurseValue;
+import com.nextplugins.economy.configuration.MessageValue;
+import com.nextplugins.economy.configuration.PurseValue;
 import lombok.*;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.PluginManager;

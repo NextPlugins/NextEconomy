@@ -1,4 +1,4 @@
-package com.nextplugins.economy.dao.adapter;
+package com.nextplugins.economy.dao.repository.adapter;
 
 import com.henryfabio.sqlprovider.executor.adapter.SQLResultAdapter;
 import com.henryfabio.sqlprovider.executor.result.SimpleResultSet;

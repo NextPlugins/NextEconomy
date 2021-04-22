@@ -1,10 +1,10 @@
-package com.nextplugins.economy.dao;
+package com.nextplugins.economy.dao.repository;
 
 import com.henryfabio.sqlprovider.executor.SQLExecutor;
 import com.nextplugins.economy.api.model.account.Account;
 import com.nextplugins.economy.api.model.account.old.OldAccount;
 import com.nextplugins.economy.api.model.account.old.adapter.OldAccountAdapter;
-import com.nextplugins.economy.dao.adapter.AccountAdapter;
+import com.nextplugins.economy.dao.repository.adapter.AccountAdapter;
 import com.nextplugins.economy.util.LinkedListHelper;
 import lombok.RequiredArgsConstructor;
 
@@ -12,7 +12,7 @@ import java.util.Set;
 import java.util.UUID;
 
 @RequiredArgsConstructor
-public final class AccountDAO {
+public final class AccountRepository {
 
     private static final String TABLE = "nexteconomy_data";
 

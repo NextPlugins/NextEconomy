@@ -1,4 +1,4 @@
-package com.nextplugins.economy.metric;
+package com.nextplugins.economy.api.metric;
 
 import com.nextplugins.economy.NextEconomy;
 import lombok.Data;

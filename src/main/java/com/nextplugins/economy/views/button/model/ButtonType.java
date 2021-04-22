@@ -2,9 +2,8 @@ package com.nextplugins.economy.views.button.model;
 
 import com.henryfabio.minecraft.inventoryapi.event.impl.CustomInventoryClickEvent;
 import com.nextplugins.economy.NextEconomy;
-import com.nextplugins.economy.configuration.values.MessageValue;
-import com.nextplugins.economy.registry.InteractionRegistry;
-import com.nextplugins.economy.registry.InventoryRegistry;
+import com.nextplugins.economy.configuration.MessageValue;
+import com.nextplugins.economy.views.registry.InventoryRegistry;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.val;
@@ -27,7 +26,7 @@ public enum ButtonType {
         val player = callback.getPlayer();
         player.closeInventory();
 
-        val interaction = NextEconomy.getInstance().getInteractionRegistry().getSendMoneyInteractionManager();
+        val interaction = NextEconomy.getInstance().getInteractionRegistry().getPayInteractionManager();
 
         MessageValue.get(MessageValue::interactionInputPlayer).forEach(player::sendMessage);
         interaction.sendRequisition(player, false);
@@ -40,9 +39,9 @@ public enum ButtonType {
         player.closeInventory();
 
         val interactionRegistry = NextEconomy.getInstance().getInteractionRegistry();
-        if (interactionRegistry.getSendMoneyInteractionManager().isUsing(player)) player.chat("cancelar");
+        if (interactionRegistry.getPayInteractionManager().isUsing(player)) player.chat("cancelar");
 
-        val interaction = interactionRegistry.getViewPlayerInteractionManager();
+        val interaction = interactionRegistry.getLookupInteractionManager();
 
         MessageValue.get(MessageValue::interactionInputPlayer).forEach(player::sendMessage);
         interaction.sendRequisition(player);

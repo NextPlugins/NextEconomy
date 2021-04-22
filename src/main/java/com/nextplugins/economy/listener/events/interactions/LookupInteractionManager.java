@@ -1,8 +1,8 @@
-package com.nextplugins.economy.interactions.viewplayer;
+package com.nextplugins.economy.listener.events.interactions;
 
 import com.google.common.collect.Lists;
 import com.nextplugins.economy.NextEconomy;
-import com.nextplugins.economy.configuration.values.MessageValue;
+import com.nextplugins.economy.configuration.MessageValue;
 import com.nextplugins.economy.util.EventAwaiter;
 import lombok.Getter;
 import lombok.val;
@@ -18,7 +18,7 @@ import java.util.function.Consumer;
  * @author Yuhtin
  * Github: https://github.com/Yuhtin
  */
-public class ViewPlayerInteractionManager {
+public class LookupInteractionManager {
 
     @Getter private final List<String> usersInOperation = Lists.newArrayList();
     private Consumer<AsyncPlayerChatEvent> consumer;
@@ -39,7 +39,7 @@ public class ViewPlayerInteractionManager {
 
     }
 
-    public ViewPlayerInteractionManager init() {
+    public LookupInteractionManager init() {
 
         consumer = event -> {
 

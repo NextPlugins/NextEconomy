@@ -2,7 +2,7 @@ package com.nextplugins.economy.listener.events.operation;
 
 import com.nextplugins.economy.api.PurseAPI;
 import com.nextplugins.economy.api.event.operations.AsyncPurseUpdateEvent;
-import com.nextplugins.economy.configuration.values.MessageValue;
+import com.nextplugins.economy.configuration.MessageValue;
 import com.nextplugins.economy.util.ColorUtil;
 import com.nextplugins.economy.util.SoundUtils;
 import lombok.val;

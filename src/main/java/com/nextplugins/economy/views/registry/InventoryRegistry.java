@@ -1,4 +1,4 @@
-package com.nextplugins.economy.registry;
+package com.nextplugins.economy.views.registry;
 
 import com.nextplugins.economy.NextEconomy;
 import com.nextplugins.economy.views.BankView;

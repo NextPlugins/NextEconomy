@@ -1,9 +1,9 @@
-package com.nextplugins.economy.storage;
+package com.nextplugins.economy.api.model.account.storage;
 
 import com.google.common.collect.Maps;
 import com.nextplugins.economy.NextEconomy;
 import com.nextplugins.economy.api.model.account.Account;
-import com.nextplugins.economy.dao.AccountDAO;
+import com.nextplugins.economy.dao.repository.AccountRepository;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.bukkit.entity.Player;
@@ -16,11 +16,11 @@ public final class AccountStorage {
 
     @Getter private final Map<String, Account> accounts = Maps.newLinkedHashMap();
 
-    @Getter private final AccountDAO accountDAO;
+    @Getter private final AccountRepository accountRepository;
 
     public void init() {
 
-        accountDAO.createTable();
+        accountRepository.createTable();
         NextEconomy.getInstance().getLogger().info("DAO do plugin iniciado com sucesso.");
 
     }
@@ -35,7 +35,7 @@ public final class AccountStorage {
     public Account findOfflineAccount(String userName) {
 
         Account account = accounts.getOrDefault(userName, null);
-        if (account == null) account = accountDAO.selectOne(userName);
+        if (account == null) account = accountRepository.selectOne(userName);
 
         return account;
 
@@ -47,12 +47,12 @@ public final class AccountStorage {
         Account account = accounts.getOrDefault(userName, null);
         if (account == null) {
 
-            account = accountDAO.selectOne(userName);
+            account = accountRepository.selectOne(userName);
 
             if (account == null) {
 
                 account = Account.createDefault(userName);
-                accountDAO.saveOne(account);
+                accountRepository.saveOne(account);
 
             }
 
@@ -64,12 +64,12 @@ public final class AccountStorage {
 
     public void insertOne(Account account) {
         addAccount(account);
-        accountDAO.saveOne(account);
+        accountRepository.saveOne(account);
     }
 
     public void deleteOne(Account account) {
         removeAccount(account);
-        accountDAO.deleteOne(account);
+        accountRepository.deleteOne(account);
     }
 
     public void purge(String name) {
@@ -77,7 +77,7 @@ public final class AccountStorage {
         Account account = accounts.getOrDefault(name, null);
         if (account == null) return;
 
-        accountDAO.saveOne(account);
+        accountRepository.saveOne(account);
         removeAccount(account);
     }
 

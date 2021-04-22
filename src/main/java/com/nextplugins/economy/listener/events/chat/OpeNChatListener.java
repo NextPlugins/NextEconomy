@@ -1,6 +1,6 @@
 package com.nextplugins.economy.listener.events.chat;
 
-import com.nextplugins.economy.registry.InteractionRegistry;
+import com.nextplugins.economy.listener.events.interactions.registry.InteractionRegistry;
 import com.nickuc.chat.api.events.PublicMessageEvent;
 import lombok.RequiredArgsConstructor;
 import lombok.val;
@@ -18,8 +18,8 @@ public final class OpeNChatListener implements Listener {
 
         if (event.isCancelled()) return;
 
-        val users = interactionRegistry.getSendMoneyInteractionManager().getPlayers().keySet();
-        users.addAll(interactionRegistry.getViewPlayerInteractionManager().getUsersInOperation());
+        val users = interactionRegistry.getPayInteractionManager().getPlayers().keySet();
+        users.addAll(interactionRegistry.getLookupInteractionManager().getUsersInOperation());
 
         if (!users.contains(event.getSender().getName())) return;
 

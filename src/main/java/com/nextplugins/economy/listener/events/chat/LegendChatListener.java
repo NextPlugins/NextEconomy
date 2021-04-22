@@ -1,7 +1,7 @@
 package com.nextplugins.economy.listener.events.chat;
 
 import br.com.devpaulo.legendchat.api.events.ChatMessageEvent;
-import com.nextplugins.economy.registry.InteractionRegistry;
+import com.nextplugins.economy.listener.events.interactions.registry.InteractionRegistry;
 import lombok.RequiredArgsConstructor;
 import lombok.val;
 import org.bukkit.event.EventHandler;
@@ -18,8 +18,8 @@ public final class LegendChatListener implements Listener {
 
         if (event.isCancelled()) return;
 
-        val users = interactionRegistry.getSendMoneyInteractionManager().getPlayers().keySet();
-        users.addAll(interactionRegistry.getViewPlayerInteractionManager().getUsersInOperation());
+        val users = interactionRegistry.getPayInteractionManager().getPlayers().keySet();
+        users.addAll(interactionRegistry.getLookupInteractionManager().getUsersInOperation());
 
         if (!users.contains(event.getSender().getName())) return;
 

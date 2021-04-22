@@ -1,8 +1,8 @@
 package com.nextplugins.economy.listener;
 
 import com.nextplugins.economy.NextEconomy;
-import com.nextplugins.economy.configuration.values.PurseValue;
-import com.nextplugins.economy.configuration.values.RankingValue;
+import com.nextplugins.economy.configuration.PurseValue;
+import com.nextplugins.economy.configuration.RankingValue;
 import com.nextplugins.economy.listener.events.chat.LegendChatListener;
 import com.nextplugins.economy.listener.events.chat.OpeNChatListener;
 import com.nextplugins.economy.listener.events.chat.TycoonTagRegister;
@@ -13,7 +13,6 @@ import com.nextplugins.economy.listener.events.operation.MoneySetListener;
 import com.nextplugins.economy.listener.events.operation.MoneyWithdrawListener;
 import com.nextplugins.economy.listener.events.transaction.TransactionRequestListener;
 import com.nextplugins.economy.listener.events.update.MoneyTopUpdateListener;
-import com.nextplugins.economy.registry.InteractionRegistry;
 import lombok.Data;
 import lombok.val;
 import org.bukkit.Bukkit;

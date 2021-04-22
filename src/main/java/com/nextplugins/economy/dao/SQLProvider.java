@@ -1,4 +1,4 @@
-package com.nextplugins.economy.sql;
+package com.nextplugins.economy.dao;
 
 import com.henryfabio.sqlprovider.connector.SQLConnector;
 import com.henryfabio.sqlprovider.connector.type.SQLDatabaseType;

@@ -1,7 +1,7 @@
 package com.nextplugins.economy.ranking;
 
 import com.nextplugins.economy.NextEconomy;
-import com.nextplugins.economy.configuration.values.RankingValue;
+import com.nextplugins.economy.configuration.RankingValue;
 import com.nextplugins.economy.ranking.loader.LocationLoader;
 import com.nextplugins.economy.ranking.runnable.ArmorStandRunnable;
 import com.nextplugins.economy.ranking.runnable.NPCRunnable;

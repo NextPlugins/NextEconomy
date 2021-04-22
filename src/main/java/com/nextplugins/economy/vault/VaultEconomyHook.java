@@ -4,7 +4,7 @@ import com.nextplugins.economy.NextEconomy;
 import com.nextplugins.economy.api.NextEconomyAPI;
 import com.nextplugins.economy.api.model.account.Account;
 import com.nextplugins.economy.api.model.account.transaction.TransactionType;
-import com.nextplugins.economy.configuration.values.MessageValue;
+import com.nextplugins.economy.configuration.MessageValue;
 import com.nextplugins.economy.util.NumberUtils;
 import net.milkbowl.vault.economy.Economy;
 import net.milkbowl.vault.economy.EconomyResponse;
@@ -270,7 +270,7 @@ public class VaultEconomyHook implements Economy {
 
         account = Account.createDefault(playerName);
 
-        NextEconomy.getInstance().getAccountDAO().saveOne(account);
+        NextEconomy.getInstance().getAccountRepository().saveOne(account);
         return true;
     }
 

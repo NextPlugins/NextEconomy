@@ -7,15 +7,15 @@ import com.nextplugins.economy.api.event.operations.MoneyWithdrawEvent;
 import com.nextplugins.economy.api.event.transaction.TransactionRequestEvent;
 import com.nextplugins.economy.api.model.account.Account;
 import com.nextplugins.economy.api.model.account.old.OldAccount;
-import com.nextplugins.economy.configuration.values.MessageValue;
-import com.nextplugins.economy.configuration.values.RankingValue;
-import com.nextplugins.economy.manager.ConversorManager;
+import com.nextplugins.economy.configuration.MessageValue;
+import com.nextplugins.economy.configuration.RankingValue;
+import com.nextplugins.economy.api.conversor.ConversorManager;
 import com.nextplugins.economy.ranking.CustomRankingRegistry;
 import com.nextplugins.economy.ranking.manager.LocationManager;
 import com.nextplugins.economy.ranking.util.LocationUtil;
-import com.nextplugins.economy.registry.InventoryRegistry;
-import com.nextplugins.economy.storage.AccountStorage;
-import com.nextplugins.economy.storage.RankingStorage;
+import com.nextplugins.economy.views.registry.InventoryRegistry;
+import com.nextplugins.economy.api.model.account.storage.AccountStorage;
+import com.nextplugins.economy.ranking.storage.RankingStorage;
 import com.nextplugins.economy.util.ColorUtil;
 import com.nextplugins.economy.util.NumberUtils;
 import com.nextplugins.economy.views.RankingView;
@@ -408,7 +408,7 @@ public final class MoneyCommand {
         long initial = System.currentTimeMillis();
         conversorManager.setConverting(true);
 
-        final Set<OldAccount> oldAccounts = accountStorage.getAccountDAO()
+        final Set<OldAccount> oldAccounts = accountStorage.getAccountRepository()
                 .selectAllOld()
                 .stream()
                 .filter(Objects::nonNull)

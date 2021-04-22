@@ -3,9 +3,9 @@ package com.nextplugins.economy.api;
 import com.google.common.collect.Sets;
 import com.nextplugins.economy.NextEconomy;
 import com.nextplugins.economy.api.model.account.Account;
-import com.nextplugins.economy.dao.AccountDAO;
-import com.nextplugins.economy.storage.AccountStorage;
-import com.nextplugins.economy.storage.RankingStorage;
+import com.nextplugins.economy.dao.repository.AccountRepository;
+import com.nextplugins.economy.api.model.account.storage.AccountStorage;
+import com.nextplugins.economy.ranking.storage.RankingStorage;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -22,12 +22,12 @@ public final class NextEconomyAPI {
 
     /**
      * Only for cached accounts
-     * Access {@link AccountDAO} to make operations direct to/from sql
+     * Access {@link AccountRepository} to make operations direct to/from sql
      */
 
     @Getter private static final NextEconomyAPI instance = new NextEconomyAPI();
 
-    private final AccountDAO accountDAO = NextEconomy.getInstance().getAccountDAO();
+    private final AccountRepository accountRepository = NextEconomy.getInstance().getAccountRepository();
     private final RankingStorage rankingStorage = NextEconomy.getInstance().getRankingStorage();
     private final AccountStorage accountStorage = NextEconomy.getInstance().getAccountStorage();
 

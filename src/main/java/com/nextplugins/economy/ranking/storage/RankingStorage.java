@@ -1,4 +1,4 @@
-package com.nextplugins.economy.storage;
+package com.nextplugins.economy.ranking.storage;
 
 import com.google.common.collect.Lists;
 import com.nextplugins.economy.api.model.account.Account;

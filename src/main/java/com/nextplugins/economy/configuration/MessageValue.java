@@ -1,4 +1,4 @@
-package com.nextplugins.economy.configuration.values;
+package com.nextplugins.economy.configuration;
 
 import com.henryfabio.minecraft.configinjector.common.annotations.ConfigField;
 import com.henryfabio.minecraft.configinjector.common.annotations.ConfigFile;

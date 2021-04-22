@@ -1,8 +1,8 @@
-package com.nextplugins.economy.manager;
+package com.nextplugins.economy.api.conversor;
 
 import com.nextplugins.economy.NextEconomy;
 import com.nextplugins.economy.api.model.account.old.OldAccount;
-import com.nextplugins.economy.dao.AccountDAO;
+import com.nextplugins.economy.dao.repository.AccountRepository;
 import com.nextplugins.economy.api.model.account.Account;
 import com.nextplugins.economy.util.ActionBarUtils;
 import com.nextplugins.economy.util.ColorUtil;
@@ -26,7 +26,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 @Data
 public class ConversorManager {
 
-    private final AccountDAO accountDAO;
+    private final AccountRepository accountRepository;
 
     private static final String CONVERSION_FORMAT = "&4&L%s &a> &fConvertido &c%s &fde &a%s &fdados em &6%s";
 
@@ -79,8 +79,8 @@ public class ConversorManager {
 
                     for (OldAccount account : accounts) {
 
-                        accountDAO.deleteOldByUUID(account.getUuid());
-                        accountDAO.saveOne(account.toAccount());
+                        accountRepository.deleteOldByUUID(account.getUuid());
+                        accountRepository.saveOne(account.toAccount());
                         converted.incrementAndGet();
 
                     }

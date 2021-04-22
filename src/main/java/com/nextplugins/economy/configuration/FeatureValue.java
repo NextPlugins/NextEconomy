@@ -1,4 +1,4 @@
-package com.nextplugins.economy.configuration.values;
+package com.nextplugins.economy.configuration;
 
 import com.henryfabio.minecraft.configinjector.common.annotations.ConfigField;
 import com.henryfabio.minecraft.configinjector.common.annotations.ConfigFile;
@@ -12,29 +12,24 @@ import lombok.experimental.Accessors;
 
 import java.util.function.Function;
 
-/**
- * @author Yuhtin
- * Github: https://github.com/Yuhtin
- */
-
 @Getter
 @TranslateColors
 @Accessors(fluent = true)
-@ConfigSection("plugin.configuration.purse")
+@ConfigSection("plugin.configuration")
 @ConfigFile("config.yml")
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
-public final class PurseValue implements ConfigurationInjectable {
+public final class FeatureValue implements ConfigurationInjectable {
 
-    @Getter private static final PurseValue instance = new PurseValue();
+    @Getter private static final FeatureValue instance = new FeatureValue();
 
-    @ConfigField("enable") private boolean enable;
+    // configuration
 
-    @ConfigField("media") private int media;
-    @ConfigField("minValue") private int minValue;
-    @ConfigField("maxValue") private int maxValue;
-    @ConfigField("nextUpdate") private int nextUpdate;
+    @ConfigField("initial-balance") private double initialBalance;
+    @ConfigField("min-value") private double minTransactionValue;
+    @ConfigField("format-type") private String formatType;
+    @ConfigField("save-delay") private int saveDelay;
 
-    public static <T> T get(Function<PurseValue, T> function) {
+    public static <T> T get(Function<FeatureValue, T> function) {
         return function.apply(instance);
     }
 

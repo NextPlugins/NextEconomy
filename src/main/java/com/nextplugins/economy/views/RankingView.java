@@ -10,9 +10,9 @@ import com.henryfabio.minecraft.inventoryapi.viewer.configuration.ViewerConfigur
 import com.henryfabio.minecraft.inventoryapi.viewer.impl.simple.SimpleViewer;
 import com.nextplugins.economy.NextEconomy;
 import com.nextplugins.economy.api.model.account.Account;
-import com.nextplugins.economy.configuration.values.MessageValue;
-import com.nextplugins.economy.configuration.values.RankingValue;
-import com.nextplugins.economy.storage.RankingStorage;
+import com.nextplugins.economy.configuration.MessageValue;
+import com.nextplugins.economy.configuration.RankingValue;
+import com.nextplugins.economy.ranking.storage.RankingStorage;
 import com.nextplugins.economy.util.ItemBuilder;
 import com.nextplugins.economy.util.NumberUtils;
 import lombok.val;
@@ -87,7 +87,7 @@ public final class RankingView extends SimpleInventory {
 
             int slot = position + 10;
             if (slot >= 16) slot += 4;
-            if (slot == 24) break;
+            if (slot == 25) break;
 
             editor.setItem(slot, InventoryItem.of(
                     new ItemBuilder(account.getUserName())

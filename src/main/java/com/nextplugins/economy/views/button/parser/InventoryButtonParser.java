@@ -1,4 +1,4 @@
-package com.nextplugins.economy.parser;
+package com.nextplugins.economy.views.button.parser;
 
 import com.nextplugins.economy.views.button.InventoryButton;
 import com.nextplugins.economy.util.ColorUtil;

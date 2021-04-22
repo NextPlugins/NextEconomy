@@ -3,7 +3,7 @@ package com.nextplugins.economy.api.model.account;
 import com.google.common.collect.Lists;
 import com.nextplugins.economy.api.model.account.historic.AccountBankHistoric;
 import com.nextplugins.economy.api.model.account.transaction.TransactionType;
-import com.nextplugins.economy.configuration.values.FeatureValue;
+import com.nextplugins.economy.configuration.FeatureValue;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Data;
