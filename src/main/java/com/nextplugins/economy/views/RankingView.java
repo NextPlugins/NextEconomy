@@ -85,9 +85,9 @@ public final class RankingView extends SimpleInventory {
                 );
             }
 
-            int slot = position + 9;
-            if (slot >= 16) slot += 2;
-            if (slot == 23) break;
+            int slot = position + 10;
+            if (slot >= 16) slot += 4;
+            if (slot == 24) break;
 
             editor.setItem(slot, InventoryItem.of(
                     new ItemBuilder(account.getUserName())
