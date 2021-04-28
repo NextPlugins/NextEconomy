@@ -91,8 +91,10 @@ public final class CheckCommand {
             usage = "/cheque criar (valor) (jogador)",
             async = true
     )
-    public void createCheckCommand(Context<CommandSender> context, double amount, Player target) {
+    public void createCheckCommand(Context<CommandSender> context, String value, Player target) {
         final CommandSender sender = context.getSender();
+
+        final double amount = NumberUtils.parse(value);
 
         final ItemStack checkItem = CheckManager.createCheck(amount);
 
@@ -101,6 +103,12 @@ public final class CheckCommand {
         sender.sendMessage(
                 MessageValue.get(MessageValue::checkCreated)
                         .replace("$checkValue", NumberUtils.format(amount))
+        );
+
+        target.sendMessage(
+                MessageValue.get(MessageValue::checkReceived)
+                        .replace("$checkValue", NumberUtils.format(amount))
+                        .replace("$sender", sender.getName())
         );
     }
 

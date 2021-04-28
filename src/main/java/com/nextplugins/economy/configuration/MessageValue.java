@@ -110,6 +110,7 @@ public final class MessageValue implements ConfigurationInjectable {
     @ConfigField("checks.insufficient-value") private String checkInsufficientValue;
     @ConfigField("checks.min-value") private String checkMinimumValue;
     @ConfigField("checks.used") private String checkUsed;
+    @ConfigField("checks.received") private String checkReceived;
 
     public static <T> T get(Function<MessageValue, T> function) {
         return function.apply(instance);
