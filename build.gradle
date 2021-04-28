@@ -8,7 +8,7 @@ plugins {
 }
 
 group = 'com.nextplugins'
-version = '1.1.3'
+version = '1.1.4'
 
 tasks.build.dependsOn('pdm', 'shadowJar')
 
@@ -68,7 +68,7 @@ bukkit {
 }
 
 shadowJar {
-    archiveName("${project.name}-${project.version}.jar")
+    archiveName("${project.name}.jar")
     relocate 'com.henryfabio.minecraft.inventoryapi', 'com.nextplugins.economy.libs.inventoryapi'
     relocate 'com.henryfabio.sqlprovider', 'com.nextplugins.economy.libs.sqlprovider'
     relocate 'com.henryfabio.minecraft.configinjector', 'com.nextplugins.economy.libs.configinjector'
