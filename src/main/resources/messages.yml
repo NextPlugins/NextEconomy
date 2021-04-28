@@ -125,6 +125,5 @@ messages:
       - '&a&lNextEconomy &8&l➡&f Sistema de cheque'
       - ''
       - '&a/cheque &8- &7Veja esta mensagem.'
-      - '&a/cheque criar (valor) &8- &7Crie um cheque com uma certa quantia em dinheiro.'
-      - '&a/cheque enviar (valor) (jogador) &8- &7Envie um cheque sem retirar o valor do seu saldo.'
+      - '&a/cheque criar (valor) [jogador] &8- &7Crie um cheque com uma certa quantia em dinheiro.'
       - ''
