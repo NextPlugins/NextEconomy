@@ -84,6 +84,13 @@ messages:
       - '&a/money npc add (posição)&8 -&7 Adicione uma localização para spawn de um NPC da posição desejada.'
       - '&a/money npc remove (posição)&8 -&7 Remova a localização do NPC da posição desejada.'
       - ''
+  checks:
+    created: '&aVocê criou um cheque no valor de &f$checkValue'
+    # '$checkTotalValue' = valor de todos os cheques somados
+    # '$checkValue' = valor de cada cheque
+    used: '&aVocê resgatou&f x$checkAmount&a cheque(s), o valor total é de &f$checkTotalValue'
+    insufficient-value: '&cVocê não tem dinheiro suficiente para criar este cheque.'
+    min-value: '&cO valor mínimo necessário para realizar uma operação é de $amount.'
   commands:
     incorrect-target: '&cEste comando é destinado apenas à jogadores.'
     incorrect-usage: '&cUso incorreto! Utilize: {usage}'
@@ -96,6 +103,8 @@ messages:
       - '&a/money &8- &7Abra o menu do banco.'
       - '&a/money ajuda &8- &7Veja esta mensagem.'
       - ''
+      - '&a/cheque &8- &7Sistema de cheque.'
+      - ''
     help-command-staff: # mensagem que será enviada se o player tiver a permissão: 'nexteconomy.command.help.staff'
       - ''
       - '&a&lNextEconomy &8&l➡&f Ajuda'
@@ -107,4 +116,14 @@ messages:
       - '&a/money reset (jogador)&8 -&7 Zere a quantia de alguém.'
       - '&a/money npc&8 -&7 Veja a ajuda para o sistema de NPC.'
       - '&a/money converter &8- &7Converter os dados da antiga versão do plugin.'
+      - ''
+      - '&a/cheque &8- &7Sistema de cheque.'
+      - ''
+    check-help-command:
+      - ''
+      - '&a&lNextEconomy &8&l➡&f Sistema de cheque'
+      - ''
+      - '&a/cheque &8- &7Veja esta mensagem.'
+      - '&a/cheque criar (valor) &8- &7Crie um cheque com uma certa quantia em dinheiro.'
+      - '&a/cheque enviar (valor) (jogador) &8- &7Envie um cheque sem retirar o valor do seu saldo.'
       - ''

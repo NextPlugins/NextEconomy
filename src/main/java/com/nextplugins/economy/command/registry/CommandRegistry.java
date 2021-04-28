@@ -1,7 +1,9 @@
 package com.nextplugins.economy.command.registry;
 
 import com.nextplugins.economy.NextEconomy;
+import com.nextplugins.economy.command.CheckCommand;
 import com.nextplugins.economy.command.MoneyCommand;
+import com.nextplugins.economy.configuration.FeatureValue;
 import com.nextplugins.economy.configuration.MessageValue;
 import lombok.Data;
 import me.saiintbrisson.bukkit.command.BukkitFrame;
@@ -21,11 +23,16 @@ public final class CommandRegistry {
                     new MoneyCommand(
                             plugin,
                             plugin.getAccountStorage(),
-                            plugin.getRankingStorage(),
                             plugin.getLocationManager(),
                             plugin.getConversorManager()
                     )
             );
+
+            if (FeatureValue.get(FeatureValue::checkSystemEnabled)) {
+                bukkitFrame.registerCommands(
+                        new CheckCommand(plugin.getAccountStorage())
+                );
+            }
 
             MessageHolder messageHolder = bukkitFrame.getMessageHolder();
 

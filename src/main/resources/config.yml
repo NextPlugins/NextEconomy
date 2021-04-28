@@ -7,7 +7,7 @@
 #                                           __/ |                  #
 #                                          |___/                   #
 #                       Servidor de Suporte                        #
-#                      discord.gg/JtTN7E6A2q                       #
+#               https://nextplugins.com.br/discord                 #
 
 database:
   type: 'sqlite' # Opções válidas: 'sqlite' e 'mysql'
@@ -38,3 +38,19 @@ plugin:
     format-type: 'LETTER' # letter = 1K, 1M etc... decimal = 1.000,00, 1.000.000,00 etc...
     # delay de salvamento das contas online (em segundos)
     save-delay: 300
+    # Sistema de cheques
+    check:
+      # ative ou desative o sistema de cheque
+      enable: true
+      # valor mínimo para criar um cheque
+      min-value: 1000
+      # item que irá simbolizar um cheque
+      item:
+        display-name: '&aCheque de coins'
+        material: PAPER
+        data: 0
+        lore:
+          - ''
+          - '&7Quantia armazenada:&f $amount'
+          - ''
+          - '&aClique esquerdo para resgatar.'

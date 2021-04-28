@@ -1,11 +1,13 @@
 package com.nextplugins.economy.listener;
 
 import com.nextplugins.economy.NextEconomy;
+import com.nextplugins.economy.configuration.FeatureValue;
 import com.nextplugins.economy.configuration.PurseValue;
 import com.nextplugins.economy.configuration.RankingValue;
 import com.nextplugins.economy.listener.events.chat.LegendChatListener;
 import com.nextplugins.economy.listener.events.chat.OpeNChatListener;
 import com.nextplugins.economy.listener.events.chat.TycoonTagRegister;
+import com.nextplugins.economy.listener.events.check.CheckInteractListener;
 import com.nextplugins.economy.listener.events.connection.UserConnectionListener;
 import com.nextplugins.economy.listener.events.operation.AsyncPurseUpdateListener;
 import com.nextplugins.economy.listener.events.operation.MoneyGiveListener;
@@ -92,6 +94,15 @@ public final class ListenerRegistry {
             } else if (pluginManager.isPluginEnabled("LegendChat")) {
                 pluginManager.registerEvents(
                         new LegendChatListener(interactionRegistry),
+                        plugin
+                );
+            }
+
+            // check system
+
+            if (FeatureValue.get(FeatureValue::checkSystemEnabled)) {
+                pluginManager.registerEvents(
+                        new CheckInteractListener(plugin.getAccountStorage()),
                         plugin
                 );
             }

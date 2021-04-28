@@ -25,7 +25,7 @@ repositories {
     // libs
 
     maven { url = 'https://libraries.minecraft.net/' }
-    maven { url = 'https://repo.codemc.org/repository/maven-public' }
+    maven { url = 'https://repo.codemc.org/repository/maven-public/' }
     maven { url = 'https://repo.citizensnpcs.co/' }
 
     maven { url = 'https://jitpack.io/' }
@@ -43,6 +43,7 @@ dependencies {
     compileOnly 'net.citizensnpcs:citizens:2.0.27-SNAPSHOT'
     compileOnly 'com.github.MilkBowl:VaultAPI:1.7'
 
+    implementation 'de.tr7zw:item-nbt-api:2.7.1'
     implementation 'com.github.HenryFabio:inventory-api:2.0.3'
     implementation 'com.github.HenryFabio:sql-provider:9561f20fd2'
     implementation 'com.github.HenryFabio:configuration-injector:main-SNAPSHOT'
@@ -71,6 +72,7 @@ shadowJar {
     relocate 'com.henryfabio.minecraft.inventoryapi', 'com.nextplugins.economy.libs.inventoryapi'
     relocate 'com.henryfabio.sqlprovider', 'com.nextplugins.economy.libs.sqlprovider'
     relocate 'com.henryfabio.minecraft.configinjector', 'com.nextplugins.economy.libs.configinjector'
+    relocate 'de.tr7zw.changeme.nbtapi', 'com.nextplugins.economy.libs.nbtapi'
     relocate 'org.bstats', 'com.nextplugins.economy.libs.bstats'
 }
 

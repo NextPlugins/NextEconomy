@@ -1,24 +1,23 @@
 package com.nextplugins.economy.command;
 
 import com.nextplugins.economy.NextEconomy;
+import com.nextplugins.economy.api.conversor.ConversorManager;
 import com.nextplugins.economy.api.event.operations.MoneyGiveEvent;
 import com.nextplugins.economy.api.event.operations.MoneySetEvent;
 import com.nextplugins.economy.api.event.operations.MoneyWithdrawEvent;
 import com.nextplugins.economy.api.event.transaction.TransactionRequestEvent;
 import com.nextplugins.economy.api.model.account.Account;
 import com.nextplugins.economy.api.model.account.old.OldAccount;
+import com.nextplugins.economy.api.model.account.storage.AccountStorage;
 import com.nextplugins.economy.configuration.MessageValue;
 import com.nextplugins.economy.configuration.RankingValue;
-import com.nextplugins.economy.api.conversor.ConversorManager;
 import com.nextplugins.economy.ranking.CustomRankingRegistry;
 import com.nextplugins.economy.ranking.manager.LocationManager;
 import com.nextplugins.economy.ranking.util.LocationUtil;
-import com.nextplugins.economy.views.registry.InventoryRegistry;
-import com.nextplugins.economy.api.model.account.storage.AccountStorage;
-import com.nextplugins.economy.ranking.storage.RankingStorage;
 import com.nextplugins.economy.util.ColorUtil;
 import com.nextplugins.economy.util.NumberUtils;
 import com.nextplugins.economy.views.RankingView;
+import com.nextplugins.economy.views.registry.InventoryRegistry;
 import lombok.RequiredArgsConstructor;
 import lombok.val;
 import me.saiintbrisson.minecraft.command.annotation.Command;
@@ -43,7 +42,6 @@ public final class MoneyCommand {
 
     private final NextEconomy plugin;
     private final AccountStorage accountStorage;
-    private final RankingStorage rankingStorage;
     private final LocationManager locationManager;
     private final ConversorManager conversorManager;
 

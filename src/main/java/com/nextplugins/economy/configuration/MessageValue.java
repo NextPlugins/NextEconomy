@@ -102,6 +102,14 @@ public final class MessageValue implements ConfigurationInjectable {
     @ConfigField("commands.no-permission") private String noPermission;
     @ConfigField("commands.help-command") private List<String> helpCommand;
     @ConfigField("commands.help-command-staff") private List<String> helpCommandStaff;
+    @ConfigField("commands.check-help-command") private List<String> checkHelpCommand;
+
+    // check system
+
+    @ConfigField("checks.created") private String checkCreated;
+    @ConfigField("checks.insufficient-value") private String checkInsufficientValue;
+    @ConfigField("checks.min-value") private String checkMinimumValue;
+    @ConfigField("checks.used") private String checkUsed;
 
     public static <T> T get(Function<MessageValue, T> function) {
         return function.apply(instance);
