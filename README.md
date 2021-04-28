@@ -18,6 +18,8 @@ Um sistema simples e completo de uma economia principal para servidores de Minec
 |/money npc       |Veja a ajuda para o sistema de NPCs.|`nexteconomy.command.npc.help`|
 |/money npc add   |Adicione uma localização de spawn de NPC.|`nexteconomy.command.npc.add`|
 |/money npc remove|Remova uma localização de spawn de NPC.|`nexteconomy.command.npc.remove`|
+|/cheque          |Veja os comandos disponíveis do sistema.|`nexteconomy.command.check`|
+|/cheque criar    |Crie um cheque com uma certa quantia de dinheiro.|`nexteconomy.command.check.create`|
 
 ## Download
 
@@ -52,3 +54,4 @@ As dependências de desenvolvimento serão baixadas automáticamente quando o pl
 -   [inventory-api](https://github.com/HenryFabio/inventory-api) - API para criação e o gerenciamento de inventários customizados.
 -   [sql-provider](https://github.com/henryfabio/sql-provider) - Provê a conexão com o banco de dados.
 -   [configuration-injector](https://github.com/HenryFabio/configuration-injector) - Injetar valores de configurações automaticamente.
+-   [Item-NBT-API](https://github.com/tr7zw/Item-NBT-API) - Adicione tags NBT customizadas para itens/tiles/entities sem NMS.
