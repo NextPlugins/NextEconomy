@@ -14,11 +14,13 @@ public class CaseInsensitiveLinkedMap<V> extends LinkedHashMap<String, V> {
 
     @Override
     public V get(Object key) {
-        String keyFounded = this.keySet()
-                .stream()
-                .filter(keyMap -> keyMap.equalsIgnoreCase((String) key))
-                .findAny()
-                .orElse(null);
+        String keyFounded = null;
+        for (String keyMap : this.keySet()) {
+            if (keyMap.equalsIgnoreCase((String) key)) {
+                keyFounded = keyMap;
+                break;
+            }
+        }
 
         return keyFounded == null ? null : super.get(keyFounded);
     }

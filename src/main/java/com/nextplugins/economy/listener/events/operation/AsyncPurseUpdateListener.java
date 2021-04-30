@@ -8,6 +8,7 @@ import com.nextplugins.economy.util.SoundUtils;
 import lombok.val;
 import org.bukkit.Bukkit;
 import org.bukkit.Sound;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
@@ -57,12 +58,10 @@ public class AsyncPurseUpdateListener implements Listener {
                 .map(ColorUtil::colored)
                 .collect(Collectors.toList());
 
-        Bukkit.getOnlinePlayers().forEach(onlinePlayer -> {
-
+        for (Player onlinePlayer : Bukkit.getOnlinePlayers()) {
             SoundUtils.sendSound(onlinePlayer, Sound.valueOf(MessageValue.get(MessageValue::purseUpdatedSound)));
             for (String line : message) onlinePlayer.sendMessage(line);
-
-        });
+        }
 
     }
 

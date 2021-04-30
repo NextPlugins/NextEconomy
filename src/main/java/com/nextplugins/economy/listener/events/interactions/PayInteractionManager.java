@@ -127,13 +127,13 @@ public class PayInteractionManager {
                     payInteraction.setAmount(parse);
                     payInteraction.setStep(PayInteractionStep.CONFIRM);
 
-                    MessageValue.get(MessageValue::interactionConfirm)
-                            .stream()
-                            .map(line -> line
-                                    .replace("@money", NumberUtils.format(payInteraction.getAmount()))
-                                    .replace("@player", payInteraction.getTarget().getName())
-                            )
-                            .forEach(player::sendMessage);
+                    for (String line : MessageValue.get(MessageValue::interactionConfirm)) {
+                        String replace = line
+                                .replace("@money", NumberUtils.format(payInteraction.getAmount()))
+                                .replace("@player", payInteraction.getTarget().getName());
+
+                        player.sendMessage(replace);
+                    }
 
                     sendConfirmation(player);
                     return;

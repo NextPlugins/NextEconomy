@@ -9,21 +9,24 @@ import org.bukkit.Material;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.inventory.ItemStack;
 
-import java.util.stream.Collectors;
+import java.util.ArrayList;
+import java.util.List;
 
 public final class CheckManager {
 
     public static ItemStack createCheck(double checkValue) {
         final ConfigurationSection checkSection = FeatureValue.get(FeatureValue::checkItem);
 
+        List<String> lore = new ArrayList<>();
+        for (String line : checkSection.getStringList("lore")) {
+            String colored = ColorUtil.colored(line);
+            String $amount = colored.replace("$amount", NumberUtils.format(checkValue));
+            lore.add($amount);
+        }
+
         final ItemStack checkItem = new ItemBuilder(Material.valueOf(checkSection.getString("material")), checkSection.getInt("data"))
                 .name(ColorUtil.colored(checkSection.getString("display-name")))
-                .setLore(
-                        checkSection.getStringList("lore").stream()
-                                .map(ColorUtil::colored)
-                                .map(s -> s.replace("$amount", NumberUtils.format(checkValue)))
-                                .collect(Collectors.toList())
-                )
+                .setLore(lore)
                 .wrap();
 
         final NBTItem checkNBT = new NBTItem(checkItem);

@@ -123,8 +123,13 @@ public final class NextEconomy extends JavaPlugin {
 
             if (type.equalsIgnoreCase("armorstand")) {
 
-                ArmorStandRunnable.STANDS.forEach(ArmorStand::remove);
-                ArmorStandRunnable.HOLOGRAM.forEach(Hologram::delete);
+                for (ArmorStand STAND : ArmorStandRunnable.STANDS) {
+                    STAND.remove();
+                }
+
+                for (Hologram hologram : ArmorStandRunnable.HOLOGRAM) {
+                    hologram.delete();
+                }
 
             }
         }
