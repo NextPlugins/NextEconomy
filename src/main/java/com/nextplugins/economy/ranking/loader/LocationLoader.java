@@ -3,12 +3,12 @@ package com.nextplugins.economy.ranking.loader;
 import com.nextplugins.economy.NextEconomy;
 import com.nextplugins.economy.ranking.manager.LocationManager;
 import com.nextplugins.economy.ranking.util.LocationUtil;
-import lombok.RequiredArgsConstructor;
+import lombok.Data;
 import org.bukkit.Location;
 
 import java.util.List;
 
-@RequiredArgsConstructor
+@Data(staticConstructor = "of")
 public final class LocationLoader {
 
     private final NextEconomy plugin;
@@ -27,6 +27,7 @@ public final class LocationLoader {
 
             locationManager.getLocationMap().put(position, location);
         }
+
         plugin.getLogger().info(
                 "Foram carregados " + locationManager.getLocationMap().size() + " posições no ranking de npc!"
         );

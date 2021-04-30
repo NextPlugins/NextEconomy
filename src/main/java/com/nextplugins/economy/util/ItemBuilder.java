@@ -21,6 +21,14 @@ public class ItemBuilder {
         this(new ItemStack(type));
     }
 
+    public ItemBuilder(Material type, int data) {
+        this(new ItemStack(type, 1, (short) data));
+    }
+
+    public ItemBuilder(Material type, int amount, int data) {
+        this(new ItemStack(type, amount, (short) data));
+    }
+
     public ItemBuilder(Material type, int quantity, short data) {
         this(new ItemStack(type, quantity, data));
     }

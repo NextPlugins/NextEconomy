@@ -1,10 +1,12 @@
 package com.nextplugins.economy.task.registry;
 
 import com.nextplugins.economy.NextEconomy;
-import com.nextplugins.economy.configuration.values.FeatureValue;
-import com.nextplugins.economy.configuration.values.RankingValue;
+import com.nextplugins.economy.configuration.FeatureValue;
+import com.nextplugins.economy.configuration.PurseValue;
+import com.nextplugins.economy.configuration.RankingValue;
 import com.nextplugins.economy.task.AccountRankingTask;
 import com.nextplugins.economy.task.AccountSaveTask;
+import com.nextplugins.economy.task.PurseUpdateTask;
 import lombok.Data;
 import org.bukkit.scheduler.BukkitScheduler;
 
@@ -23,7 +25,7 @@ public final class TaskRegistry {
 
         scheduler.runTaskTimerAsynchronously(
                 plugin,
-                new AccountSaveTask(plugin.getAccountStorage(), plugin.getAccountDAO()),
+                new AccountSaveTask(plugin.getAccountStorage(), plugin.getAccountRepository()),
                 0,
                 accountSaveDelay * 20L
         );
@@ -34,10 +36,23 @@ public final class TaskRegistry {
 
         scheduler.runTaskTimerAsynchronously(
                 plugin,
-                new AccountRankingTask(plugin.getAccountDAO(), plugin.getRankingStorage()),
+                new AccountRankingTask(plugin.getAccountRepository(), plugin.getRankingStorage()),
                 0,
                 accountRankingUpdateDelay * 20L
         );
+
+        // purse update
+
+        int purseUpdateDelay = PurseValue.get(PurseValue::nextUpdate);
+
+        scheduler.runTaskTimerAsynchronously(
+                plugin,
+                new PurseUpdateTask(),
+                0,
+                purseUpdateDelay * 20L
+        );
+
+        plugin.getLogger().info("Tasks registradas com sucesso.");
 
     }
 

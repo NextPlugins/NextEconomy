@@ -1,8 +1,8 @@
 package com.nextplugins.economy.task;
 
-import com.nextplugins.economy.api.model.Account;
-import com.nextplugins.economy.dao.AccountDAO;
-import com.nextplugins.economy.storage.AccountStorage;
+import com.nextplugins.economy.api.model.account.Account;
+import com.nextplugins.economy.dao.repository.AccountRepository;
+import com.nextplugins.economy.api.model.account.storage.AccountStorage;
 import lombok.RequiredArgsConstructor;
 
 import java.util.Collection;
@@ -11,7 +11,7 @@ import java.util.Collection;
 public final class AccountSaveTask implements Runnable {
 
     private final AccountStorage accountStorage;
-    private final AccountDAO accountDAO;
+    private final AccountRepository accountRepository;
 
     @Override
     public void run() {
@@ -19,7 +19,7 @@ public final class AccountSaveTask implements Runnable {
 
         if (!accounts.isEmpty()) {
             for (Account account : accountStorage.getAccounts().values()) {
-                accountDAO.saveOne(account);
+                accountRepository.saveOne(account);
             }
         }
 

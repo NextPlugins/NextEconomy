@@ -1,8 +1,10 @@
 package com.nextplugins.economy.command.registry;
 
 import com.nextplugins.economy.NextEconomy;
+import com.nextplugins.economy.command.CheckCommand;
 import com.nextplugins.economy.command.MoneyCommand;
-import com.nextplugins.economy.configuration.values.MessageValue;
+import com.nextplugins.economy.configuration.FeatureValue;
+import com.nextplugins.economy.configuration.MessageValue;
 import lombok.Data;
 import me.saiintbrisson.bukkit.command.BukkitFrame;
 import me.saiintbrisson.minecraft.command.message.MessageHolder;
@@ -21,10 +23,16 @@ public final class CommandRegistry {
                     new MoneyCommand(
                             plugin,
                             plugin.getAccountStorage(),
-                            plugin.getRankingStorage(),
-                            plugin.getLocationManager()
+                            plugin.getLocationManager(),
+                            plugin.getConversorManager()
                     )
             );
+
+            if (FeatureValue.get(FeatureValue::checkSystemEnabled)) {
+                bukkitFrame.registerCommands(
+                        new CheckCommand(plugin.getAccountStorage())
+                );
+            }
 
             MessageHolder messageHolder = bukkitFrame.getMessageHolder();
 
@@ -32,6 +40,8 @@ public final class CommandRegistry {
             messageHolder.setMessage(MessageType.INCORRECT_TARGET, MessageValue.get(MessageValue::incorrectTarget));
             messageHolder.setMessage(MessageType.INCORRECT_USAGE, MessageValue.get(MessageValue::incorrectUsage));
             messageHolder.setMessage(MessageType.NO_PERMISSION, MessageValue.get(MessageValue::noPermission));
+
+            plugin.getLogger().info("Comandos registrados com sucesso.");
         } catch (Throwable t) {
             t.printStackTrace();
             plugin.getLogger().severe("Não foi possível registrar os comandos.");

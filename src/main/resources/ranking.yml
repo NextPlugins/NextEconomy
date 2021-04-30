@@ -4,31 +4,36 @@ ranking:
   tycoon:
     tag:
       use: true
-      value: '&7[&2$&7]'
+      value: '&2[$] '
   model:
-    type: 'CHAT' # tipo do ranking, tipos válidos: 'CHAT' e 'INVENTORY'
-    chat:
-      header:
-        - ''
-        - ' &a&lMONEY TOP &8&l➡ &fJogadores mais ricos'
-        - ''
-      body: ' &f$positionº&8 -&a $player &7(&2$&f $amount&7)'
-      footer:
-        - ''
-        - ' &7Atualiza automaticamente.'
-        - ''
     inventory:
       title: 'Ranking - Money'
-      head-display-name: '&f$positionº&8 - &e$player '
+      head-display-name-top: '$tycoonTag&e$positionº &8- &f$player'
+      head-display-name: '&e$positionº &8- &f$player'
       head-lore:
         - ''
-        - ' &7Quantia: &7(&2$&f $amount&7)'
+        - ' &7Quantia: &e$amount'
+        - ' &7Transações: &e$transactions'
+        - ' &7Dinheiro movimentado: &e$movimentation'
         - ''
   npc:
+    # ARMORSTAND - Mini bonecos com cabeça de cada jogador
+    # NPC - Boneco da altua e mesma skin do jogador
+    # NOTHING - Desativar ArmorStand e NPC
+    type: ARMORSTAND
+    # Configuração das cores da armadura de couro (apenas top armorstand)
+    # Todas as cores aqui são em HEX, procure no google para achar o código HEX da cor que quer colocar
+    armor:
+      # Cor do peitoral de couro
+      chestplate: '#17c8cf' # Azul claro
+      # Cor da calça de couro
+      leggings: '#31c456' # Verde claro
+      # Cor da bota de couro
+      boots: '#c43d31' # Vermelho
     hologram:
       # altura do holograma, em blocos (começando do chão)
-      height: 3
+      height: 2.15 # Recomendado 3 para NPC e 2.15 para ArmorStand
       lines:
         - '&f$positionº'
-        - '&a$player'
-        - '&7(&2$&f $amount&7)'
+        - '&e$player'
+        - '&7(&2&f$amount&7)'

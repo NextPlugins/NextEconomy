@@ -2,83 +2,72 @@ package com.nextplugins.economy.api;
 
 import com.google.common.collect.Sets;
 import com.nextplugins.economy.NextEconomy;
-import com.nextplugins.economy.api.model.Account;
-import com.nextplugins.economy.storage.AccountStorage;
+import com.nextplugins.economy.api.model.account.Account;
+import com.nextplugins.economy.dao.repository.AccountRepository;
+import com.nextplugins.economy.api.model.account.storage.AccountStorage;
+import com.nextplugins.economy.ranking.storage.RankingStorage;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.bukkit.Bukkit;
-import org.bukkit.entity.Player;
+import org.bukkit.OfflinePlayer;
+import org.jetbrains.annotations.Nullable;
 
-import java.util.Optional;
 import java.util.Set;
-import java.util.UUID;
 import java.util.function.Predicate;
-import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
+@Getter
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public final class NextEconomyAPI {
 
+    /**
+     * Only for cached accounts
+     * Access {@link AccountRepository} to make operations direct to/from sql
+     */
+
     @Getter private static final NextEconomyAPI instance = new NextEconomyAPI();
 
+    private final AccountRepository accountRepository = NextEconomy.getInstance().getAccountRepository();
+    private final RankingStorage rankingStorage = NextEconomy.getInstance().getRankingStorage();
     private final AccountStorage accountStorage = NextEconomy.getInstance().getAccountStorage();
 
     /**
-     * Search all accounts to look for one with the entered custom filter.
+     * Search all accounts in cache to look for one with the entered custom filter.
      *
      * @param filter custom filter to search
-     * @return {@link java.util.Optional} with the account found
+     * @return {@link Stream} aplicated with filter
      */
-    public Optional<Account> findAccountByFilter(Predicate<Account> filter) {
+    public Stream<Account> findAccountByFilter(Predicate<Account> filter) {
         return allAccounts().stream()
-                .filter(filter)
-                .findFirst();
+                .filter(filter);
     }
 
     /**
-     * Search all accounts to look for every with the entered custom filter.
-     *
-     * @param filter custom filter to search
-     * @return {@link java.util.Set} with all accounts found
-     */
-    public Set<Account> findAccountsByFilter(Predicate<Account> filter) {
-        return allAccounts().stream()
-                .filter(filter)
-                .collect(Collectors.toSet());
-    }
-
-    /**
-     * Search all accounts to look for every with the entered custom filter.
-     *
-     * @param owner account owner name
-     * @return {@link java.util.Optional} with the account found
-     */
-    public Optional<Account> findAccountByUUID(UUID owner) {
-        return allAccounts().stream()
-                .filter(account -> account.getOwner().equals(owner))
-                .findFirst();
-    }
-
-    /**
-     * Search all accounts to look for every with the entered custom filter.
+     * Search player in cache and sql
+     * Can be null if player not exists in database
      *
      * @param player an online player
-     * @return {@link java.util.Optional} with the account found
+     * @return {@link Account} the account found
      */
-    public Optional<Account> findAccountByPlayer(Player player) {
-        return allAccounts().stream()
-                .filter(account -> account.getOwner().equals(player.getUniqueId()))
-                .findFirst();
-    }
-
-    public Optional<Account> findAccountByName(String name) {
-        return allAccounts().stream()
-                .filter(account -> Bukkit.getOfflinePlayer(account.getOwner()).getName().equals(name))
-                .findFirst();
+    @Nullable
+    public Account findAccountByPlayer(OfflinePlayer player) {
+        return findAccountByName(player.getName());
     }
 
     /**
-     * Retrieve all accounts loaded so far.
+     * Search player in cache and sql
+     * Can be null if player not exists in database
+     *
+     * @param name player name
+     * @return {@link Account} the account found
+     */
+    @Nullable
+    public Account findAccountByName(String name) {
+        return accountStorage.findOfflineAccount(name);
+    }
+
+    /**
+     * Retrieve all accounts loaded in cache.
      *
      * @return {@link java.util.Set} with accounts
      */

@@ -8,7 +8,7 @@ plugins {
 }
 
 group = 'com.nextplugins'
-version = '1.0.4'
+version = '1.1.4'
 
 tasks.build.dependsOn('pdm', 'shadowJar')
 
@@ -19,12 +19,13 @@ repositories {
 
     // spigot
 
-    maven { url = 'https://hub.spigotmc.org/nexus/content/repositories/snapshots/' }
+    maven { url = 'http://maven.elmakers.com/repository/' }
     maven { url = 'https://oss.sonatype.org/content/groups/public/' }
 
     // libs
 
-    maven { url = 'https://repo.codemc.org/repository/maven-public' }
+    maven { url = 'https://libraries.minecraft.net/' }
+    maven { url = 'https://repo.codemc.org/repository/maven-public/' }
     maven { url = 'https://repo.citizensnpcs.co/' }
 
     maven { url = 'https://jitpack.io/' }
@@ -32,22 +33,22 @@ repositories {
 
 dependencies {
 
-    compileOnly 'org.spigotmc:spigot-api:1.12.2-R0.1-SNAPSHOT'
+    compileOnly 'org.spigotmc:spigot:1.8.8-R0.1-SNAPSHOT'
 
-    /*** local dependency (legendchat) ***/
-    compileOnly 'br.com.devpaulo:legendchat:1.1.5'
+    /*** local dependency (nChat) ***/
+    compileOnly 'com.nickuc:chat:1.0.0'
 
     compileOnly 'com.github.PlaceholderAPI:PlaceholderAPI:2.10.9'
     compileOnly 'com.gmail.filoghost.holographicdisplays:holographicdisplays-api:2.4.0'
     compileOnly 'net.citizensnpcs:citizens:2.0.27-SNAPSHOT'
     compileOnly 'com.github.MilkBowl:VaultAPI:1.7'
 
+    implementation 'de.tr7zw:item-nbt-api:2.7.1'
     implementation 'com.github.HenryFabio:inventory-api:2.0.3'
     implementation 'com.github.HenryFabio:sql-provider:9561f20fd2'
     implementation 'com.github.HenryFabio:configuration-injector:main-SNAPSHOT'
     implementation 'org.bstats:bstats-bukkit:1.8'
 
-    pdm 'com.github.NextPlugins:data-converter:experimental-0.0.1'
     pdm 'com.github.SaiintBrisson:command-framework:1.1.0'
 
     def lombok = 'org.projectlombok:lombok:1.18.16'
@@ -58,19 +59,20 @@ dependencies {
 
 bukkit {
     main = 'com.nextplugins.economy.NextEconomy'
-    authors = ['Henry_Fabio', 'Eike', 'Gabriel Santos', 'Yuhtin']
-    website = 'https://github.com/NextPlugins'
+    authors = ['NextPlugins']
+    website = 'https://nextplugins.com.br'
     version = "${project.version}"
     depend = ['Vault']
     load = 'STARTUP'
-    softDepend = ['Citizens', 'HolographicDisplays', 'PlaceholderAPI']
+    softDepend = ['Citizens', 'HolographicDisplays', 'PlaceholderAPI', 'Legendchat']
 }
 
 shadowJar {
-    archiveName("${project.name}-${project.version}.jar")
+    archiveName("${project.name}.jar")
     relocate 'com.henryfabio.minecraft.inventoryapi', 'com.nextplugins.economy.libs.inventoryapi'
     relocate 'com.henryfabio.sqlprovider', 'com.nextplugins.economy.libs.sqlprovider'
     relocate 'com.henryfabio.minecraft.configinjector', 'com.nextplugins.economy.libs.configinjector'
+    relocate 'de.tr7zw.changeme.nbtapi', 'com.nextplugins.economy.libs.nbtapi'
     relocate 'org.bstats', 'com.nextplugins.economy.libs.bstats'
 }
 
