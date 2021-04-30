@@ -9,8 +9,8 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 
+import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * @author Yuhtin
@@ -28,15 +28,20 @@ public class MoneyTopUpdateListener implements Listener {
         String title = MessageValue.get(MessageValue::moneyTopTitle)
                 .replace("$player", userName);
 
-        List<String> message = MessageValue.get(MessageValue::moneyTopMessage).stream()
-                .map(line -> line.replace("$player", userName))
-                .collect(Collectors.toList());
+        List<String> message = new ArrayList<>();
+        for (String line : MessageValue.get(MessageValue::moneyTopMessage)) {
+            String $player = line.replace("$player", userName);
+            message.add($player);
+        }
 
         Object[] titlePackets = TitleUtils.buildTitlePackets(title, 20, 20, 20);
         for (Player onlinePlayer : Bukkit.getOnlinePlayers()) {
 
             TitleUtils.sendTitlePacket(onlinePlayer, titlePackets);
-            message.forEach(onlinePlayer::sendMessage);
+
+            for (String s : message) {
+                onlinePlayer.sendMessage(s);
+            }
 
         }
 

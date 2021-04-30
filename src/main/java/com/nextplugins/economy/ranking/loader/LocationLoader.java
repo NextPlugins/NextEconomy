@@ -27,6 +27,7 @@ public final class LocationLoader {
 
             locationManager.getLocationMap().put(position, location);
         }
+
         plugin.getLogger().info(
                 "Foram carregados " + locationManager.getLocationMap().size() + " posições no ranking de npc!"
         );

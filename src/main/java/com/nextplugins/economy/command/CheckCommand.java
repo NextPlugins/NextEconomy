@@ -98,7 +98,9 @@ public final class CheckCommand {
     }
 
     private void dropItem(Player player, Map<Integer, ItemStack> addItem) {
-        addItem.values().forEach(itemStack -> player.getWorld().dropItemNaturally(player.getLocation(), itemStack));
+        for (ItemStack itemStack : addItem.values()) {
+            player.getWorld().dropItemNaturally(player.getLocation(), itemStack);
+        }
     }
 
 }

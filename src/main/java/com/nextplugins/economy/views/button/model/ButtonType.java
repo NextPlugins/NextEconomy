@@ -28,7 +28,10 @@ public enum ButtonType {
 
         val interaction = NextEconomy.getInstance().getInteractionRegistry().getPayInteractionManager();
 
-        MessageValue.get(MessageValue::interactionInputPlayer).forEach(player::sendMessage);
+        for (String message : MessageValue.get(MessageValue::interactionInputPlayer)) {
+            player.sendMessage(message);
+        }
+
         interaction.sendRequisition(player, false);
 
     }),
@@ -43,7 +46,10 @@ public enum ButtonType {
 
         val interaction = interactionRegistry.getLookupInteractionManager();
 
-        MessageValue.get(MessageValue::interactionInputPlayer).forEach(player::sendMessage);
+        for (String message : MessageValue.get(MessageValue::interactionInputPlayer)) {
+            player.sendMessage(message);
+        }
+
         interaction.sendRequisition(player);
 
     }),

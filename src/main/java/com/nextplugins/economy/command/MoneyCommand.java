@@ -32,10 +32,9 @@ import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.Player;
 
 import java.io.IOException;
+import java.util.HashSet;
 import java.util.List;
-import java.util.Objects;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 public final class MoneyCommand {
@@ -131,9 +130,13 @@ public final class MoneyCommand {
         CommandSender sender = context.getSender();
 
         if (sender.hasPermission("nexteconomy.command.help.staff")) {
-            ColorUtil.colored(MessageValue.get(MessageValue::helpCommandStaff)).forEach(sender::sendMessage);
+            for (String s : ColorUtil.colored(MessageValue.get(MessageValue::helpCommandStaff))) {
+                sender.sendMessage(s);
+            }
         } else {
-            ColorUtil.colored(MessageValue.get(MessageValue::helpCommand)).forEach(sender::sendMessage);
+            for (String s : ColorUtil.colored(MessageValue.get(MessageValue::helpCommand))) {
+                sender.sendMessage(s);
+            }
         }
     }
 
@@ -287,7 +290,9 @@ public final class MoneyCommand {
     public void npcCommand(Context<Player> context) {
         Player player = context.getSender();
 
-        ColorUtil.colored(MessageValue.get(MessageValue::npcHelp)).forEach(player::sendMessage);
+        for (String s : ColorUtil.colored(MessageValue.get(MessageValue::npcHelp))) {
+            player.sendMessage(s);
+        }
     }
 
     @Command(
@@ -406,11 +411,12 @@ public final class MoneyCommand {
         long initial = System.currentTimeMillis();
         conversorManager.setConverting(true);
 
-        final Set<OldAccount> oldAccounts = accountStorage.getAccountRepository()
-                .selectAllOld()
-                .stream()
-                .filter(Objects::nonNull)
-                .collect(Collectors.toSet());
+        final Set<OldAccount> oldAccounts = new HashSet<>();
+        for (OldAccount oldAccount : accountStorage.getAccountRepository().selectAllOld()) {
+            if (oldAccount != null) {
+                oldAccounts.add(oldAccount);
+            }
+        }
 
         if (oldAccounts.isEmpty()) {
 

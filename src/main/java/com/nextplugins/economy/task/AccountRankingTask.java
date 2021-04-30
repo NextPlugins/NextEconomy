@@ -62,8 +62,9 @@ public final class AccountRankingTask implements Runnable {
         if (!accountsMovimentation.isEmpty()) {
 
             rankingStorage.getRankByMovimentation().clear();
-            accountsMovimentation.forEach(rankingStorage.getRankByMovimentation()::add);
 
+            List<Account> accounts1 = rankingStorage.getRankByMovimentation();
+            accounts1.addAll(accountsMovimentation);
         }
 
     }

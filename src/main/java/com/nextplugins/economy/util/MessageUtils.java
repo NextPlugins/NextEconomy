@@ -2,6 +2,7 @@ package com.nextplugins.economy.util;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Sound;
+import org.bukkit.entity.Player;
 
 import java.util.List;
 
@@ -14,17 +15,17 @@ public class MessageUtils {
     public static void sendSoundAndTitle(String message, Sound sound, int time) {
         Object[] titlePackets = TitleUtils.buildTitlePackets(message, time, time, time);
 
-        Bukkit.getOnlinePlayers().forEach(target -> {
+        for (Player target : Bukkit.getOnlinePlayers()) {
             TitleUtils.sendTitlePacket(target, titlePackets);
             SoundUtils.sendSound(target, sound);
-        });
+        }
     }
 
     public static void sendSoundAndTitle(Object[] titlePackets, Sound sound) {
-        Bukkit.getOnlinePlayers().forEach(target -> {
+        for (Player target : Bukkit.getOnlinePlayers()) {
             TitleUtils.sendTitlePacket(target, titlePackets);
             SoundUtils.sendSound(target, sound);
-        });
+        }
     }
 
     public static String joinStrings(List<String> list) {
