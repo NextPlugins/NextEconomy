@@ -62,33 +62,14 @@ public final class AccountStorage {
         return account;
     }
 
-    public void insertOne(Account account) {
-        addAccount(account);
-        accountRepository.saveOne(account);
-    }
-
-    public void deleteOne(Account account) {
-        removeAccount(account);
-        accountRepository.deleteOne(account);
-    }
-
     public void purge(String name) {
 
         Account account = accounts.getOrDefault(name, null);
         if (account == null) return;
 
         accountRepository.saveOne(account);
-        removeAccount(account);
-    }
+        accounts.remove(account.getUserName(), account);
 
-    public void addAccount(Account account) {
-        if (!accounts.containsKey(account.getUserName())) {
-            accounts.put(account.getUserName(), account);
-        }
-    }
-
-    public void removeAccount(Account account) {
-        accounts.put(account.getUserName(), account);
     }
 
 }
