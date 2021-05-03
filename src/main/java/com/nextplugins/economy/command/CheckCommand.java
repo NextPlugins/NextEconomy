@@ -69,7 +69,7 @@ public final class CheckCommand {
         }
 
         account.createTransaction(
-                null,
+                "Cheque",
                 amount,
                 TransactionType.WITHDRAW
         );

@@ -97,6 +97,7 @@ public class HistoricBankView extends PagedInventory {
 
                 String target = transaction.getTarget();
                 if (target.equalsIgnoreCase("Banco")) target = "MrSnowDK";
+                if (target.equalsIgnoreCase("Cheque")) target = "Tom25W";
 
                 return InventoryItem.of(item.getItemStack(target));
 

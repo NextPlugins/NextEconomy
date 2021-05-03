@@ -45,16 +45,16 @@ messages:
       message:
         - ''
         - ' &3&LBOLSA DE VALORES'
-        - '&fA &bbolsa de valores &ffoi atualizada. &7$lastvalue $operationIcon &7$newvalue &7($operationMessage&7)'
+        - ' &fA &bbolsa de valores &ffoi atualizada. &7$lastvalue $operationIcon &7$newvalue &7($operationMessage&7)'
         - ''
   new-money-top:
     # Habilitar mensagem e título de top
     enable: true
     message:
       - ''
-      - '&2&L[MONEY TOP] &aO jogador &f$player &aé o novo &a&lmagnata &ado servidor.'
+      - '&2&L[$] &fO jogador &a$player &fé o novo &amagnata &fdo servidor.'
       - ''
-    title: '&2&lMONEY TOP<nl>&a$player &fé o novo &2magnata'
+    title: '&2&lMAGNATA<nl>&a$player &fé o novo &amagnata'
   operations:
     see: '&6&LBANCO &fVocê possui &e$amount&f de dinheiro.'
     see-other: '&6&LBANCO &fO jogador &e$player&f possui&e $amount&f de dinheiro.'
