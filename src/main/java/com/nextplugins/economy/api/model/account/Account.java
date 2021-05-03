@@ -54,8 +54,6 @@ public class Account {
                                                double amount,
                                                TransactionType transactionType) {
 
-        ++transactionsQuantity;
-
         if (transactionType == TransactionType.WITHDRAW) {
 
             movimentedBalance += amount;
@@ -67,6 +65,8 @@ public class Account {
         if (this.balance < 0) this.balance = 0;
 
         if (owner != null) {
+
+            ++transactionsQuantity;
 
             val historic = AccountBankHistoric.builder()
                     .target(owner)
