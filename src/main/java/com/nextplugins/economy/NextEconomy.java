@@ -67,46 +67,52 @@ public final class NextEconomy extends JavaPlugin {
     @Override
     public void onEnable() {
 
-        PluginDependencyManager.of(this).loadAllDependencies().thenRun(() -> {
-            try {
+        PluginDependencyManager.of(this).loadAllDependencies()
+                .exceptionally(throwable -> {
 
-                sqlConnector = SQLProvider.of(this).setup();
-                sqlExecutor = new SQLExecutor(sqlConnector);
+                    throwable.printStackTrace();
 
-                accountRepository = new AccountRepository(sqlExecutor);
-                accountStorage = new AccountStorage(accountRepository);
-                conversorManager = new ConversorManager(accountRepository);
-                rankingStorage = new RankingStorage();
-                locationManager = new LocationManager();
-                interactionRegistry = new InteractionRegistry();
+                    getLogger().severe("Ocorreu um erro durante a inicialização do plugin!");
+                    Bukkit.getPluginManager().disablePlugin(this);
 
-                accountStorage.init();
-                interactionRegistry.init();
+                    return null;
 
-                InventoryManager.enable(this);
+                })
+                .thenRun(() -> {
 
-                ConfigurationRegistry.of(this).register();
-                ListenerRegistry.of(this).register();
-                CommandRegistry.of(this).register();
-                TaskRegistry.of(this).register();
-                VaultHookRegistry.of(this).register();
-                MetricProvider.of(this).register();
-                InventoryRegistry.of(this).register();
+                    sqlConnector = SQLProvider.of(this).setup();
+                    sqlExecutor = new SQLExecutor(sqlConnector);
 
-                Bukkit.getScheduler().runTaskLater(this, () -> {
-                    PlaceholderRegistry.of(this).register();
-                    CustomRankingRegistry.of(this).register();
-                }, 5 * 20);
+                    accountRepository = new AccountRepository(sqlExecutor);
+                    accountStorage = new AccountStorage(accountRepository);
+                    conversorManager = new ConversorManager(accountRepository);
+                    rankingStorage = new RankingStorage();
+                    locationManager = new LocationManager();
+                    interactionRegistry = new InteractionRegistry();
 
-                if (!PurseAPI.isAvaliable()) getLogger().info("Sistema de bolsa de valores desativado.");
+                    accountStorage.init();
+                    interactionRegistry.init();
 
-                getLogger().info("Plugin inicializado com sucesso!");
-            } catch (Throwable t) {
-                t.printStackTrace();
-                getLogger().severe("Ocorreu um erro durante a inicialização do plugin!");
-                Bukkit.getPluginManager().disablePlugin(this);
-            }
-        });
+                    InventoryManager.enable(this);
+
+                    ConfigurationRegistry.of(this).register();
+                    ListenerRegistry.of(this).register();
+                    CommandRegistry.of(this).register();
+                    TaskRegistry.of(this).register();
+                    VaultHookRegistry.of(this).register();
+                    MetricProvider.of(this).register();
+                    InventoryRegistry.of(this).register();
+
+                    Bukkit.getScheduler().runTaskLater(this, () -> {
+                        PlaceholderRegistry.of(this).register();
+                        CustomRankingRegistry.of(this).register();
+                    }, 5 * 20);
+
+                    if (!PurseAPI.isAvaliable()) getLogger().info("Sistema de bolsa de valores desativado.");
+
+                    getLogger().info("Plugin inicializado com sucesso!");
+
+                });
     }
 
     @Override
