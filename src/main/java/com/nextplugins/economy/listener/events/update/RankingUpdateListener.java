@@ -1,28 +1,38 @@
-package com.nextplugins.economy.ranking.runnable;
+package com.nextplugins.economy.listener.events.update;
 
 import com.google.common.collect.Lists;
+import com.nextplugins.economy.api.event.operations.AsyncRankingUpdateEvent;
 import com.nextplugins.economy.api.event.operations.MoneyTopPlayerUpdateEvent;
 import com.nextplugins.economy.api.model.account.Account;
-import com.nextplugins.economy.configuration.FeatureValue;
 import com.nextplugins.economy.configuration.RankingValue;
 import com.nextplugins.economy.dao.repository.AccountRepository;
 import com.nextplugins.economy.ranking.storage.RankingStorage;
 import lombok.RequiredArgsConstructor;
 import lombok.val;
 import org.bukkit.Bukkit;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
 
 import java.time.Instant;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
+
+/**
+ * @author Yuhtin
+ * Github: https://github.com/Yuhtin
+ */
 
 @RequiredArgsConstructor
-public final class UpdateRankingRunnable implements Runnable {
+public class RankingUpdateListener implements Listener {
 
     private final AccountRepository accountRepository;
     private final RankingStorage rankingStorage;
 
-    @Override
-    public void run() {
+    @EventHandler
+    public void onRankingUpdate(AsyncRankingUpdateEvent event) {
+
+        if (event.isCancelled()) return;
+
+        val pluginManager = Bukkit.getPluginManager();
 
         List<Account> accounts = Lists.newLinkedList(accountRepository.selectAll(
                 "ORDER BY balance DESC LIMIT " + RankingValue.get(RankingValue::rankingLimit)
@@ -49,7 +59,7 @@ public final class UpdateRankingRunnable implements Runnable {
                 Account topAccount = rankingStorage.getRankByCoin().get(0);
                 if (lastAccount.getUserName().equals(topAccount.getUserName())) return;
 
-                Bukkit.getPluginManager().callEvent(
+                pluginManager.callEvent(
                         MoneyTopPlayerUpdateEvent.builder()
                                 .lastMoneyTop(lastAccount)
                                 .moneyTop(topAccount)
