@@ -15,6 +15,7 @@ import com.nextplugins.economy.listener.events.operation.MoneySetListener;
 import com.nextplugins.economy.listener.events.operation.MoneyWithdrawListener;
 import com.nextplugins.economy.listener.events.transaction.TransactionRequestListener;
 import com.nextplugins.economy.listener.events.update.MoneyTopUpdateListener;
+import com.nextplugins.economy.listener.events.update.RankingUpdateListener;
 import lombok.Data;
 import lombok.val;
 import org.bukkit.Bukkit;
@@ -72,6 +73,11 @@ public final class ListenerRegistry {
 
             pluginManager.registerEvents(
                     new MoneyTopUpdateListener(),
+                    plugin
+            );
+
+            pluginManager.registerEvents(
+                    new RankingUpdateListener(plugin.getAccountRepository(), plugin.getRankingStorage()),
                     plugin
             );
 
