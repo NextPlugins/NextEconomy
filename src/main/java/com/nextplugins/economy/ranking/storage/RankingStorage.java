@@ -11,5 +11,6 @@ public final class RankingStorage {
 
     private final List<Account> rankByCoin = Lists.newLinkedList();
     private final List<Account> rankByMovimentation = Lists.newLinkedList();
+    private long nextUpdateMillis = System.currentTimeMillis();
 
 }

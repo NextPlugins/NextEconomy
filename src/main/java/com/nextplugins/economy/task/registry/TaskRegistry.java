@@ -4,7 +4,7 @@ import com.nextplugins.economy.NextEconomy;
 import com.nextplugins.economy.configuration.FeatureValue;
 import com.nextplugins.economy.configuration.PurseValue;
 import com.nextplugins.economy.configuration.RankingValue;
-import com.nextplugins.economy.task.AccountRankingTask;
+import com.nextplugins.economy.ranking.runnable.UpdateRankingRunnable;
 import com.nextplugins.economy.task.AccountSaveTask;
 import com.nextplugins.economy.task.PurseUpdateTask;
 import lombok.Data;
@@ -36,7 +36,7 @@ public final class TaskRegistry {
 
         scheduler.runTaskTimerAsynchronously(
                 plugin,
-                new AccountRankingTask(plugin.getAccountRepository(), plugin.getRankingStorage()),
+                new UpdateRankingRunnable(plugin.getAccountRepository(), plugin.getRankingStorage()),
                 0,
                 accountRankingUpdateDelay * 20L
         );
