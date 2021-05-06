@@ -108,7 +108,7 @@ public final class NextEconomy extends JavaPlugin {
                         CustomRankingRegistry.of(this).register();
                     }, 5 * 20);
 
-                    if (!PurseAPI.isAvaliable()) getLogger().info("Sistema de bolsa de valores desativado.");
+                    if (!PurseAPI.init()) getLogger().info("Sistema de bolsa de valores desativado.");
 
                     getLogger().info("Plugin inicializado com sucesso!");
 

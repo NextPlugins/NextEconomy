@@ -24,19 +24,23 @@ public class PurseAPI {
     /**
      * Can be null if the user desactivate system
      */
-    @Getter @Nullable private static PurseAPI instance = new PurseAPI();
+    @Getter @Nullable private static PurseAPI instance;
 
     private int purse;
     private double purseMultiplier;
     @Setter private long nextUpdate;
 
+    public static boolean init() {
+
+        if (!PurseValue.get(PurseValue::enable)) return false;
+
+        instance = new PurseAPI();
+        return true;
+
+    }
+
     public static boolean isAvaliable() {
-
-        if (PurseValue.get(PurseValue::enable)) return true;
-
-        instance = null;
-        return false;
-
+        return instance != null;
     }
 
     public void setPurse(int purse) {
