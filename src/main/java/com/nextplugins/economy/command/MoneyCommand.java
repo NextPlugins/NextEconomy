@@ -16,7 +16,6 @@ import com.nextplugins.economy.ranking.manager.LocationManager;
 import com.nextplugins.economy.ranking.util.LocationUtil;
 import com.nextplugins.economy.util.ColorUtil;
 import com.nextplugins.economy.util.NumberUtils;
-import com.nextplugins.economy.views.RankingView;
 import com.nextplugins.economy.views.registry.InventoryRegistry;
 import lombok.RequiredArgsConstructor;
 import lombok.val;
@@ -272,10 +271,8 @@ public final class MoneyCommand {
     )
     public void moneyTopCommand(Context<Player> context) {
 
-        Player sender = context.getSender();
-
-        RankingView rankingView = new RankingView().init();
-        rankingView.openInventory(sender);
+        val rankingView = InventoryRegistry.getInstance().getRankingView();
+        rankingView.openInventory(context.getSender());
 
     }
 
