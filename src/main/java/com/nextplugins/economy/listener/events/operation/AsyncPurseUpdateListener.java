@@ -26,6 +26,8 @@ public class AsyncPurseUpdateListener implements Listener {
     @EventHandler(priority = EventPriority.MONITOR)
     public void onPurseUpdate(AsyncPurseUpdateEvent event) {
 
+        if (purseAPI == null) return;
+
         purseAPI.setPurse(event.getNewValue());
         purseAPI.setNextUpdate(event.getNextUpdate());
 

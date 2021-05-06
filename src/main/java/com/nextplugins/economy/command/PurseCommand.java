@@ -2,6 +2,7 @@ package com.nextplugins.economy.command;
 
 import com.nextplugins.economy.api.PurseAPI;
 import com.nextplugins.economy.util.ColorUtil;
+import lombok.val;
 import me.saiintbrisson.minecraft.command.annotation.Command;
 import me.saiintbrisson.minecraft.command.command.Context;
 import me.saiintbrisson.minecraft.command.target.CommandTarget;
@@ -44,8 +45,16 @@ public class PurseCommand {
     )
     public void onSetPurseCommand(Context<CommandSender> context, int percentage) {
 
+        val instance = PurseAPI.getInstance();
+        if (instance == null) {
 
+            context.sendMessage(ColorUtil.colored("&cSistema desativado."));
+            return;
 
+        }
+
+        instance.updatePurse(percentage);
+        
     }
 
 }
