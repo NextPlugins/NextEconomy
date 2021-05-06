@@ -25,11 +25,11 @@ public final class UpdateRankingRunnable implements Runnable {
     public void run() {
 
         List<Account> accounts = Lists.newLinkedList(accountRepository.selectAll(
-                "ORDER BY balance DESC LIMIT 10" + RankingValue.get(RankingValue::rankingLimit)
+                "ORDER BY balance DESC LIMIT " + RankingValue.get(RankingValue::rankingLimit)
         ));
 
         List<Account> accountsMovimentation = Lists.newLinkedList(accountRepository.selectAll(
-                "ORDER BY movimentedBalance DESC LIMIT 10" + RankingValue.get(RankingValue::rankingLimit)
+                "ORDER BY movimentedBalance DESC LIMIT " + RankingValue.get(RankingValue::rankingLimit)
         ));
 
         if (!accounts.isEmpty()) {
@@ -69,12 +69,6 @@ public final class UpdateRankingRunnable implements Runnable {
             List<Account> accounts1 = rankingStorage.getRankByMovimentation();
             accounts1.addAll(accountsMovimentation);
         }
-
-        val updateDelayMillis = TimeUnit.SECONDS.toMillis(RankingValue.get(RankingValue::updateDelay));
-
-        rankingStorage.setNextUpdateMillis(
-                System.currentTimeMillis() + updateDelayMillis
-        );
 
     }
 

@@ -13,6 +13,7 @@ import com.nextplugins.economy.configuration.MessageValue;
 import com.nextplugins.economy.configuration.RankingValue;
 import com.nextplugins.economy.ranking.CustomRankingRegistry;
 import com.nextplugins.economy.ranking.manager.LocationManager;
+import com.nextplugins.economy.ranking.storage.RankingStorage;
 import com.nextplugins.economy.ranking.util.LocationUtil;
 import com.nextplugins.economy.util.ColorUtil;
 import com.nextplugins.economy.util.NumberUtils;
@@ -270,6 +271,14 @@ public final class MoneyCommand {
             async = true
     )
     public void moneyTopCommand(Context<Player> context) {
+
+        val rankingStorage = plugin.getRankingStorage();
+        if (rankingStorage.updateRanking()) {
+
+            context.getSender().sendMessage(ColorUtil.colored("&aAtualizando o ranking, aguarde alguns segundos."));
+            return;
+
+        }
 
         val rankingView = InventoryRegistry.getInstance().getRankingView();
         rankingView.openInventory(context.getSender());
