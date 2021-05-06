@@ -12,7 +12,10 @@ public final class MetricProvider {
     private final int PLUGIN_ID = 10041;
 
     public void register() {
+
         new Metrics(plugin, PLUGIN_ID);
+        plugin.getLogger().info("Métrica de uso habilitada com sucesso.");
+
     }
 
 }

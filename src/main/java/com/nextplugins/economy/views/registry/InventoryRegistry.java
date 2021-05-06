@@ -30,6 +30,8 @@ public final class InventoryRegistry {
         this.bankView = new BankView(plugin.getAccountStorage()).init();
         this.rankingView = new RankingView().init();
 
+        getPlugin().getLogger().info("Inventários registrados com sucesso");
+
     }
 
 }

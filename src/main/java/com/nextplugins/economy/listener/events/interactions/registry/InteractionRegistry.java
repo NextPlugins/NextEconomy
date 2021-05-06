@@ -1,5 +1,6 @@
 package com.nextplugins.economy.listener.events.interactions.registry;
 
+import com.nextplugins.economy.NextEconomy;
 import com.nextplugins.economy.listener.events.interactions.PayInteractionManager;
 import com.nextplugins.economy.listener.events.interactions.LookupInteractionManager;
 import lombok.Getter;
@@ -18,6 +19,8 @@ public final class InteractionRegistry {
 
         this.payInteractionManager = new PayInteractionManager().init();
         this.lookupInteractionManager = new LookupInteractionManager().init();
+
+        NextEconomy.getInstance().getLogger().info("Interações via chat registradas com sucesso.");
 
     }
 

@@ -3,8 +3,10 @@ package com.nextplugins.economy.command.registry;
 import com.nextplugins.economy.NextEconomy;
 import com.nextplugins.economy.command.CheckCommand;
 import com.nextplugins.economy.command.MoneyCommand;
+import com.nextplugins.economy.command.PurseCommand;
 import com.nextplugins.economy.configuration.FeatureValue;
 import com.nextplugins.economy.configuration.MessageValue;
+import com.nextplugins.economy.configuration.PurseValue;
 import lombok.Data;
 import me.saiintbrisson.bukkit.command.BukkitFrame;
 import me.saiintbrisson.minecraft.command.message.MessageHolder;
@@ -31,6 +33,12 @@ public final class CommandRegistry {
             if (FeatureValue.get(FeatureValue::checkSystemEnabled)) {
                 bukkitFrame.registerCommands(
                         new CheckCommand(plugin.getAccountStorage())
+                );
+            }
+
+            if (PurseValue.get(PurseValue::enable)) {
+                bukkitFrame.registerCommands(
+                        new PurseCommand()
                 );
             }
 
