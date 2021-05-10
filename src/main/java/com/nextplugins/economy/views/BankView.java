@@ -54,7 +54,7 @@ public class BankView extends SimpleInventory {
                 : "";
 
         String nextUpdate = PurseAPI.getInstance() != null
-                ? TimeUtils.formatTime(PurseAPI.getInstance().getNextUpdate() - System.currentTimeMillis())
+                ? TimeUtils.format(PurseAPI.getInstance().getNextUpdate() - System.currentTimeMillis())
                 : "";
 
         String transactionName = account.getTransactionsQuantity() == 1

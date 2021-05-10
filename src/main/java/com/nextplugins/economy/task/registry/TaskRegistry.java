@@ -7,7 +7,7 @@ import com.nextplugins.economy.configuration.PurseValue;
 import com.nextplugins.economy.task.AsyncAccountSaveTask;
 import com.nextplugins.economy.task.AsyncPurseUpdateTask;
 import lombok.Data;
-import org.bukkit.scheduler.BukkitScheduler;
+import lombok.val;
 
 @Data(staticConstructor = "of")
 public final class TaskRegistry {
@@ -16,11 +16,9 @@ public final class TaskRegistry {
 
     public void register() {
 
-        BukkitScheduler scheduler = plugin.getServer().getScheduler();
+        val scheduler = plugin.getServer().getScheduler();
 
-        // account save
-
-        int accountSaveDelay = FeatureValue.get(FeatureValue::saveDelay);
+        val accountSaveDelay = FeatureValue.get(FeatureValue::saveDelay);
 
         scheduler.runTaskTimerAsynchronously(
                 plugin,
@@ -29,11 +27,9 @@ public final class TaskRegistry {
                 accountSaveDelay * 20L
         );
 
-        // purse update
-
         if (PurseAPI.isAvaliable()) {
 
-            int purseUpdateDelay = PurseValue.get(PurseValue::nextUpdate);
+            val purseUpdateDelay = PurseValue.get(PurseValue::nextUpdate);
 
             scheduler.runTaskTimerAsynchronously(
                     plugin,
