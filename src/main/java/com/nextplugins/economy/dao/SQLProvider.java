@@ -5,12 +5,11 @@ import com.henryfabio.sqlprovider.connector.type.SQLDatabaseType;
 import com.henryfabio.sqlprovider.connector.type.impl.MySQLDatabaseType;
 import com.henryfabio.sqlprovider.connector.type.impl.SQLiteDatabaseType;
 import lombok.Data;
+import lombok.val;
 import org.bukkit.configuration.ConfigurationSection;
-import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.Plugin;
 
 import java.io.File;
-import java.util.logging.Logger;
 
 @Data(staticConstructor = "of")
 public final class SQLProvider {
@@ -19,12 +18,11 @@ public final class SQLProvider {
 
     public SQLConnector setup() {
 
-        FileConfiguration configuration = plugin.getConfig();
-        ConfigurationSection databaseConfiguration = configuration.getConfigurationSection("database");
+        val configuration = plugin.getConfig();
+        val databaseConfiguration = configuration.getConfigurationSection("database");
 
-        String sqlType = databaseConfiguration.getString("type");
-
-        Logger logger = plugin.getLogger();
+        val sqlType = databaseConfiguration.getString("type");
+        val logger = plugin.getLogger();
 
         SQLConnector sqlConnector;
 
