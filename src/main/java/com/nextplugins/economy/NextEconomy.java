@@ -22,7 +22,7 @@ import com.nextplugins.economy.views.registry.InventoryRegistry;
 import com.nextplugins.economy.dao.SQLProvider;
 import com.nextplugins.economy.api.model.account.storage.AccountStorage;
 import com.nextplugins.economy.ranking.storage.RankingStorage;
-import com.nextplugins.economy.task.AccountSaveTask;
+import com.nextplugins.economy.task.AsyncAccountSaveTask;
 import com.nextplugins.economy.task.registry.TaskRegistry;
 import com.nextplugins.economy.vault.registry.VaultHookRegistry;
 import lombok.Getter;
@@ -140,8 +140,8 @@ public final class NextEconomy extends JavaPlugin {
             }
         }
 
-        AccountSaveTask accountSaveTask = new AccountSaveTask(accountStorage, accountRepository);
-        accountSaveTask.run();
+        AsyncAccountSaveTask asyncAccountSaveTask = new AsyncAccountSaveTask(accountStorage, accountRepository);
+        asyncAccountSaveTask.run();
     }
 
     public static NextEconomy getInstance() {

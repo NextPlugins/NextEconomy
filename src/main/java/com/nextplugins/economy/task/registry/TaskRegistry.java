@@ -1,10 +1,11 @@
 package com.nextplugins.economy.task.registry;
 
 import com.nextplugins.economy.NextEconomy;
+import com.nextplugins.economy.api.PurseAPI;
 import com.nextplugins.economy.configuration.FeatureValue;
 import com.nextplugins.economy.configuration.PurseValue;
-import com.nextplugins.economy.task.AccountSaveTask;
-import com.nextplugins.economy.task.PurseUpdateTask;
+import com.nextplugins.economy.task.AsyncAccountSaveTask;
+import com.nextplugins.economy.task.AsyncPurseUpdateTask;
 import lombok.Data;
 import org.bukkit.scheduler.BukkitScheduler;
 
@@ -23,21 +24,25 @@ public final class TaskRegistry {
 
         scheduler.runTaskTimerAsynchronously(
                 plugin,
-                new AccountSaveTask(plugin.getAccountStorage(), plugin.getAccountRepository()),
+                new AsyncAccountSaveTask(plugin.getAccountStorage(), plugin.getAccountRepository()),
                 0,
                 accountSaveDelay * 20L
         );
 
         // purse update
 
-        int purseUpdateDelay = PurseValue.get(PurseValue::nextUpdate);
+        if (PurseAPI.isAvaliable()) {
 
-        scheduler.runTaskTimerAsynchronously(
-                plugin,
-                new PurseUpdateTask(),
-                0,
-                purseUpdateDelay * 20L
-        );
+            int purseUpdateDelay = PurseValue.get(PurseValue::nextUpdate);
+
+            scheduler.runTaskTimerAsynchronously(
+                    plugin,
+                    new AsyncPurseUpdateTask(),
+                    0,
+                    purseUpdateDelay * 20L
+            );
+
+        }
 
         plugin.getLogger().info("Tasks registradas com sucesso.");
 

@@ -11,21 +11,19 @@ import java.util.Random;
  * Github: https://github.com/Yuhtin
  */
 
-public final class PurseUpdateTask implements Runnable {
+public final class AsyncPurseUpdateTask implements Runnable {
 
-    private static final Random RANDOM = new Random();
+    private final Random RANDOM = new Random();
+    private final PurseAPI API = PurseAPI.getInstance();
 
     @Override
     public void run() {
-
-        val api = PurseAPI.getInstance();
-        if (api == null) return;
 
         val maxValue = PurseValue.get(PurseValue::maxValue);
         val minValue = PurseValue.get(PurseValue::minValue);
 
         val randomValue = RANDOM.ints(minValue, maxValue + 1).iterator().nextInt();
-        api.updatePurse(randomValue);
+        API.updatePurse(randomValue);
 
     }
 }
