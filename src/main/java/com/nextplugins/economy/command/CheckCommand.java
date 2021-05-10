@@ -5,7 +5,7 @@ import com.nextplugins.economy.api.model.account.storage.AccountStorage;
 import com.nextplugins.economy.api.model.account.transaction.TransactionType;
 import com.nextplugins.economy.configuration.FeatureValue;
 import com.nextplugins.economy.configuration.MessageValue;
-import com.nextplugins.economy.manager.CheckManager;
+import com.nextplugins.economy.util.CheckUtil;
 import com.nextplugins.economy.util.NumberUtils;
 import lombok.RequiredArgsConstructor;
 import me.saiintbrisson.minecraft.command.annotation.Command;
@@ -79,7 +79,7 @@ public final class CheckCommand {
                         .replace("$checkValue", NumberUtils.format(amount))
         );
 
-        final ItemStack checkItem = CheckManager.createCheck(amount);
+        final ItemStack checkItem = CheckUtil.createCheck(amount);
         if (target != null) {
 
             target.sendMessage(

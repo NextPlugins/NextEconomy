@@ -14,7 +14,7 @@ import com.nextplugins.economy.api.model.account.historic.BankHistoricComparator
 import com.nextplugins.economy.api.model.account.transaction.TransactionType;
 import com.nextplugins.economy.configuration.InventoryValue;
 import com.nextplugins.economy.api.model.account.storage.AccountStorage;
-import com.nextplugins.economy.util.DateFormat;
+import com.nextplugins.economy.util.DateFormatUtil;
 import com.nextplugins.economy.util.NumberUtils;
 import com.nextplugins.economy.views.button.InventoryButton;
 import lombok.val;
@@ -70,7 +70,7 @@ public class HistoricBankView extends PagedInventory {
 
         for (AccountBankHistoric transaction : account.getTransactions()) {
 
-            String date = DateFormat.of(transaction.getMilli());
+            String date = DateFormatUtil.of(transaction.getMilli());
             String transactionMessage = (transaction.getType() == TransactionType.WITHDRAW
                     ? InventoryValue.get(InventoryValue::withdrawMessage)
                     : InventoryValue.get(InventoryValue::depositMessage))
