@@ -3,8 +3,8 @@ package com.nextplugins.economy.api;
 import com.google.common.collect.Sets;
 import com.nextplugins.economy.NextEconomy;
 import com.nextplugins.economy.api.model.account.Account;
-import com.nextplugins.economy.dao.repository.AccountRepository;
 import com.nextplugins.economy.api.model.account.storage.AccountStorage;
+import com.nextplugins.economy.dao.repository.AccountRepository;
 import com.nextplugins.economy.ranking.storage.RankingStorage;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -12,7 +12,8 @@ import lombok.NoArgsConstructor;
 import org.bukkit.OfflinePlayer;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.Set;
+import java.util.LinkedHashSet;
+import java.util.concurrent.CompletableFuture;
 import java.util.function.Predicate;
 import java.util.stream.Stream;
 
@@ -37,7 +38,7 @@ public final class NextEconomyAPI {
      * @param filter custom filter to search
      * @return {@link Stream} aplicated with filter
      */
-    public Stream<Account> findAccountByFilter(Predicate<Account> filter) {
+    public Stream<CompletableFuture<Account>> findAccountByFilter(Predicate<CompletableFuture<Account>> filter) {
         return allAccounts().stream()
                 .filter(filter);
     }
@@ -71,8 +72,8 @@ public final class NextEconomyAPI {
      *
      * @return {@link java.util.Set} with accounts
      */
-    public Set<Account> allAccounts() {
-        return Sets.newLinkedHashSet(accountStorage.getAccounts().values());
+    public LinkedHashSet<CompletableFuture<Account>> allAccounts() {
+        return Sets.newLinkedHashSet(accountStorage.getCACHE().asMap().values());
     }
 
 }

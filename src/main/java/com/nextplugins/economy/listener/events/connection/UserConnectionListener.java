@@ -19,9 +19,4 @@ public final class UserConnectionListener implements Listener {
         accountStorage.findOnlineAccount(event.getPlayer());
     }
 
-    @EventHandler
-    public void onQuit(PlayerQuitEvent event) {
-        accountStorage.purge(event.getPlayer().getName());
-    }
-
 }

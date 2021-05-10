@@ -1,22 +1,33 @@
 package com.nextplugins.economy.api.model.account.storage;
 
-import com.google.common.collect.Maps;
+import com.github.benmanes.caffeine.cache.AsyncLoadingCache;
+import com.github.benmanes.caffeine.cache.Caffeine;
+import com.github.benmanes.caffeine.cache.RemovalCause;
 import com.nextplugins.economy.NextEconomy;
 import com.nextplugins.economy.api.model.account.Account;
 import com.nextplugins.economy.dao.repository.AccountRepository;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import lombok.val;
+import lombok.var;
 import org.bukkit.entity.Player;
-import org.jetbrains.annotations.Nullable;
+import org.checkerframework.checker.nullness.qual.NonNull;
+import org.jetbrains.annotations.NotNull;
 
-import java.util.Map;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.Executor;
+import java.util.concurrent.TimeUnit;
 
 @RequiredArgsConstructor
 public final class AccountStorage {
 
-    @Getter private final Map<String, Account> accounts = Maps.newLinkedHashMap();
-
     @Getter private final AccountRepository accountRepository;
+
+    @Getter private final AsyncLoadingCache<String, Account> CACHE = Caffeine.newBuilder()
+            .maximumSize(10000)
+            .expireAfterWrite(5, TimeUnit.MINUTES)
+            .removalListener(this::saveOne)
+            .buildAsync(this::selectOne);
 
     public void init() {
 
@@ -25,51 +36,43 @@ public final class AccountStorage {
 
     }
 
+    private void saveOne(String name, Account account, @NonNull RemovalCause removalCause) {
+        accountRepository.saveOne(account);
+    }
+
+    private @NotNull CompletableFuture<Account> selectOne(String s, @NonNull Executor executor) {
+        return CompletableFuture.completedFuture(accountRepository.selectOne(s));
+    }
+
     /**
      * Used to no cache account
      *
-     * @param userName player name
+     * @param username player name
      * @return {@link Account} found
      */
-    @Nullable
-    public Account findOfflineAccount(String userName) {
-
-        Account account = accounts.getOrDefault(userName, null);
-        if (account == null) account = accountRepository.selectOne(userName);
-
-        return account;
-
+    public Account findOfflineAccount(String username) {
+        try {
+            return CACHE.get(username).get();
+        } catch (Exception ignored) {
+            return null;
+        }
     }
 
     public Account findOnlineAccount(Player player) {
 
-        String userName = player.getName();
-        Account account = accounts.getOrDefault(userName, null);
+        val username = player.getName();
+        var account = findOfflineAccount(username);
+
         if (account == null) {
 
-            account = accountRepository.selectOne(userName);
+            account = Account.createDefault(username);
+            accountRepository.saveOne(account);
 
-            if (account == null) {
+            CACHE.put(player.getName(), account);
 
-                account = Account.createDefault(userName);
-                accountRepository.saveOne(account);
-
-            }
-
-            accounts.put(userName, account);
         }
 
         return account;
-    }
-
-    public void purge(String name) {
-
-        Account account = accounts.getOrDefault(name, null);
-        if (account == null) return;
-
-        accountRepository.saveOne(account);
-        accounts.remove(account.getUserName(), account);
-
     }
 
 }

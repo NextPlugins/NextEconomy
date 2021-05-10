@@ -4,16 +4,15 @@ import com.google.common.collect.Lists;
 import com.nextplugins.economy.api.model.account.historic.AccountBankHistoric;
 import com.nextplugins.economy.api.model.account.transaction.TransactionType;
 import com.nextplugins.economy.configuration.FeatureValue;
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.val;
+import lombok.*;
 
 import java.util.LinkedList;
+import java.util.concurrent.CompletableFuture;
 
+@EqualsAndHashCode(callSuper = true)
 @Data
 @AllArgsConstructor(access = AccessLevel.PROTECTED)
-public class Account {
+public class Account extends CompletableFuture<Account> {
 
     private final String userName;
     private double balance;
