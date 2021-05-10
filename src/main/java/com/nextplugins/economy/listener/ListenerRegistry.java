@@ -3,10 +3,8 @@ package com.nextplugins.economy.listener;
 import com.nextplugins.economy.NextEconomy;
 import com.nextplugins.economy.configuration.FeatureValue;
 import com.nextplugins.economy.configuration.PurseValue;
-import com.nextplugins.economy.configuration.RankingValue;
 import com.nextplugins.economy.listener.events.chat.LegendChatListener;
 import com.nextplugins.economy.listener.events.chat.OpeNChatListener;
-import com.nextplugins.economy.listener.events.chat.TycoonTagRegister;
 import com.nextplugins.economy.listener.events.check.CheckInteractListener;
 import com.nextplugins.economy.listener.events.connection.UserConnectionListener;
 import com.nextplugins.economy.listener.events.operation.AsyncPurseUpdateListener;
@@ -81,25 +79,17 @@ public final class ListenerRegistry {
                     plugin
             );
 
-            // tycoon tag
-
-            if (RankingValue.get(RankingValue::useTycoonTag)) {
-                pluginManager.registerEvents(
-                        new TycoonTagRegister(),
-                        plugin
-                );
-            }
-
             val interactionRegistry = getPlugin().getInteractionRegistry();
+            val rankingStorage = getPlugin().getRankingStorage();
 
             if (pluginManager.isPluginEnabled("nChat")) {
                 pluginManager.registerEvents(
-                        new OpeNChatListener(interactionRegistry),
+                        new OpeNChatListener(rankingStorage, interactionRegistry),
                         plugin
                 );
             } else if (pluginManager.isPluginEnabled("LegendChat")) {
                 pluginManager.registerEvents(
-                        new LegendChatListener(interactionRegistry),
+                        new LegendChatListener(rankingStorage, interactionRegistry),
                         plugin
                 );
             }

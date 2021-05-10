@@ -2,9 +2,13 @@ ranking:
   update-delay: 900 # delay de update do ranking (em segundos)
   limit: 10 # limite de contas que serão puxadas da database
   tycoon:
-    tag:
-      use: true
-      value: '&2[$] '
+    # Tag dada para o jogador mais rico
+    # Para desativar, apenas coloque o campo vazio
+    tag: '&2[$$] '
+    # Tag dada para os demais jogadores do money top (2 ao 10 ou o número configurado no limite)
+    # Para desativar apenas coloque o campo vazio
+    rich: '&a[$] '
+
   model:
     inventory:
       title: 'Ranking - Money'

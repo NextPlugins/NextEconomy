@@ -3,7 +3,6 @@ package com.nextplugins.economy.task.registry;
 import com.nextplugins.economy.NextEconomy;
 import com.nextplugins.economy.configuration.FeatureValue;
 import com.nextplugins.economy.configuration.PurseValue;
-import com.nextplugins.economy.configuration.RankingValue;
 import com.nextplugins.economy.task.AccountSaveTask;
 import com.nextplugins.economy.task.PurseUpdateTask;
 import lombok.Data;
@@ -27,17 +26,6 @@ public final class TaskRegistry {
                 new AccountSaveTask(plugin.getAccountStorage(), plugin.getAccountRepository()),
                 0,
                 accountSaveDelay * 20L
-        );
-
-        // ranking update
-
-        int accountRankingUpdateDelay = RankingValue.get(RankingValue::updateDelay);
-
-        scheduler.runTaskTimerAsynchronously(
-                plugin,
-                new UpdateRankingRunnable(plugin.getAccountRepository(), plugin.getRankingStorage()),
-                0,
-                accountRankingUpdateDelay * 20L
         );
 
         // purse update

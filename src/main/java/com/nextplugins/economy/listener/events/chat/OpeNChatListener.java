@@ -1,6 +1,9 @@
 package com.nextplugins.economy.listener.events.chat;
 
+import com.nextplugins.economy.api.model.account.Account;
+import com.nextplugins.economy.configuration.RankingValue;
 import com.nextplugins.economy.listener.events.interactions.registry.InteractionRegistry;
+import com.nextplugins.economy.ranking.storage.RankingStorage;
 import com.nickuc.chat.api.events.PublicMessageEvent;
 import lombok.RequiredArgsConstructor;
 import lombok.val;
@@ -11,6 +14,7 @@ import org.bukkit.event.Listener;
 @RequiredArgsConstructor
 public final class OpeNChatListener implements Listener {
 
+    private final RankingStorage rankingStorage;
     private final InteractionRegistry interactionRegistry;
 
     @EventHandler(priority = EventPriority.HIGH)
@@ -18,10 +22,22 @@ public final class OpeNChatListener implements Listener {
 
         if (event.isCancelled()) return;
 
+        val player = event.getSender();
+
         val users = interactionRegistry.getPayInteractionManager().getPlayers().keySet();
         users.addAll(interactionRegistry.getLookupInteractionManager().getUsersInOperation());
 
-        if (!users.contains(event.getSender().getName())) return;
+        if (!users.contains(player.getName())) {
+
+            if (rankingStorage.getRankByCoin().isEmpty()) return;
+
+            Account tycoonAccount = rankingStorage.getRankByCoin().get(0);
+            if (tycoonAccount == null || !player.getName().equals(tycoonAccount.getUserName())) return;
+
+            event.setTag("tycoon", RankingValue.get(RankingValue::tycoonTagValue));
+            return;
+
+        }
 
         event.setCancelled(true);
 

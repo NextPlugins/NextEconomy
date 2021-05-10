@@ -17,7 +17,6 @@ public final class EconomyPlaceholderHook extends PlaceholderExpansion {
 
     private final NextEconomy plugin;
     private final PurseAPI instance = PurseAPI.getInstance();
-    private final boolean useTycoon = RankingValue.get(RankingValue::useTycoonTag);
 
     @Override
     public @NotNull String getIdentifier() {
@@ -45,7 +44,7 @@ public final class EconomyPlaceholderHook extends PlaceholderExpansion {
             return balance;
         }
 
-        if (params.equalsIgnoreCase("tycoon") && useTycoon) {
+        if (params.equalsIgnoreCase("tycoon")) {
 
             val rankByCoin = NextEconomyAPI.getInstance().getRankingStorage().getRankByCoin();
             if (rankByCoin.isEmpty()) return "";
