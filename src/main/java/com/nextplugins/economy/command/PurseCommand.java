@@ -38,12 +38,12 @@ public class PurseCommand {
     @Command(
             name = "setbolsa",
             aliases = { "setbolsa", "setbag" },
-            usage = "setbolsa <porcentagem>. Exemplo: /setbolsa 150",
+            usage = "setbolsa <valor>. Exemplo: /setbolsa 150",
             permission = "nexteconomy.setpurse",
             target = CommandTarget.ALL,
             async = true
     )
-    public void onSetPurseCommand(Context<CommandSender> context, int percentage) {
+    public void onSetPurseCommand(Context<CommandSender> context, int number) {
 
         val instance = PurseAPI.getInstance();
         if (instance == null) {
@@ -53,7 +53,14 @@ public class PurseCommand {
 
         }
 
-        instance.updatePurse(percentage);
+        if (number <= 0 || Double.isNaN(number)) {
+
+            context.sendMessage(ColorUtil.colored("&cValor precisa ser positivo."));
+            return;
+
+        }
+
+        instance.updatePurse(number);
 
     }
 

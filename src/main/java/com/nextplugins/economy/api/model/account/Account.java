@@ -27,9 +27,7 @@ public class Account {
         return create(
                 name,
                 FeatureValue.get(FeatureValue::initialBalance),
-                0,
-                0,
-                Lists.newLinkedList()
+                0, 0, Lists.newLinkedList()
         );
 
     }
@@ -53,6 +51,8 @@ public class Account {
     public synchronized void createTransaction(String owner,
                                                double amount,
                                                TransactionType transactionType) {
+
+        if (amount < 1 || Double.isNaN(amount) || Double.isInfinite(amount)) return;
 
         if (transactionType == TransactionType.WITHDRAW) {
 
