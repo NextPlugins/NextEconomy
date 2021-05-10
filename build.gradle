@@ -42,6 +42,7 @@ dependencies {
     compileOnly 'com.gmail.filoghost.holographicdisplays:holographicdisplays-api:2.4.0'
     compileOnly 'net.citizensnpcs:citizens:2.0.27-SNAPSHOT'
     compileOnly 'com.github.MilkBowl:VaultAPI:1.7'
+    compileOnly 'br.net.fabiozumbi12:ultimatechat:1.9.1'
 
     implementation 'de.tr7zw:item-nbt-api:2.7.1'
     implementation 'com.github.HenryFabio:inventory-api:2.0.3'

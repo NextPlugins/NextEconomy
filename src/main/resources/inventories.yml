@@ -1,4 +1,5 @@
 inventory:
+  enable: true # Desabilite todos os menus do plugin (menos o de ranking)
   historic:
     config:
       name: 'Histórico de Transações'

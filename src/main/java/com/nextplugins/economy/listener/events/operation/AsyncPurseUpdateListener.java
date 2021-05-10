@@ -21,12 +21,12 @@ import java.util.stream.Collectors;
  */
 public class AsyncPurseUpdateListener implements Listener {
 
-    private static final PurseAPI purseAPI = PurseAPI.getInstance();
-
     @EventHandler(priority = EventPriority.MONITOR)
     public void onPurseUpdate(AsyncPurseUpdateEvent event) {
 
-        if (purseAPI == null) return;
+        if (!PurseAPI.isAvaliable()) return;
+
+        val purseAPI = PurseAPI.getInstance();
 
         purseAPI.setPurse(event.getNewValue());
         purseAPI.setNextUpdate(event.getNextUpdate());
