@@ -32,9 +32,11 @@ public final class LegendChatListener implements Listener {
             if (rankingStorage.getRankByCoin().isEmpty()) return;
 
             Account tycoonAccount = rankingStorage.getRankByCoin().get(0);
-            if (tycoonAccount == null || !player.getName().equals(tycoonAccount.getUserName())) return;
+            val tycoonTag = player.getName().equalsIgnoreCase(tycoonAccount.getUserName())
+                    ? RankingValue.get(RankingValue::tycoonTagValue)
+                    : RankingValue.get(RankingValue::tycoonRichTagValue);
 
-            event.setTagValue("tycoon", RankingValue.get(RankingValue::tycoonTagValue));
+            event.setTagValue("tycoon", tycoonTag);
             return;
 
         }
