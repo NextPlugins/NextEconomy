@@ -12,8 +12,7 @@ import lombok.NoArgsConstructor;
 import org.bukkit.OfflinePlayer;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.LinkedHashSet;
-import java.util.concurrent.CompletableFuture;
+import java.util.Set;
 import java.util.function.Predicate;
 import java.util.stream.Stream;
 
@@ -38,7 +37,7 @@ public final class NextEconomyAPI {
      * @param filter custom filter to search
      * @return {@link Stream} aplicated with filter
      */
-    public Stream<CompletableFuture<Account>> findAccountByFilter(Predicate<CompletableFuture<Account>> filter) {
+    public Stream<Account> findAccountByFilter(Predicate<Account> filter) {
         return allAccounts().stream()
                 .filter(filter);
     }
@@ -72,8 +71,8 @@ public final class NextEconomyAPI {
      *
      * @return {@link java.util.Set} with accounts
      */
-    public LinkedHashSet<CompletableFuture<Account>> allAccounts() {
-        return Sets.newLinkedHashSet(accountStorage.getCACHE().asMap().values());
+    public Set<Account> allAccounts() {
+        return Sets.newLinkedHashSet(accountStorage.getCACHE().synchronous().asMap().values());
     }
 
 }

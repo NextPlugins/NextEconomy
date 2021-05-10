@@ -14,7 +14,6 @@ import org.bukkit.entity.Player;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Executor;
 import java.util.concurrent.TimeUnit;
 
@@ -40,8 +39,8 @@ public final class AccountStorage {
         accountRepository.saveOne(account);
     }
 
-    private @NotNull CompletableFuture<Account> selectOne(String s, @NonNull Executor executor) {
-        return CompletableFuture.completedFuture(accountRepository.selectOne(s));
+    private @NotNull Account selectOne(String s, @NonNull Executor executor) {
+        return accountRepository.selectOne(s);
     }
 
     /**
