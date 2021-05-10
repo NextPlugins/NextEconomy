@@ -56,7 +56,10 @@ public class LookupInteractionManager {
 
             }
 
-            Bukkit.getScheduler().runTask(NextEconomy.getInstance(), () -> player.performCommand("money " + message));
+            Bukkit.getScheduler().runTask(
+                    NextEconomy.getInstance(),
+                    () -> player.performCommand("money ver " + message)
+            );
 
         };
 

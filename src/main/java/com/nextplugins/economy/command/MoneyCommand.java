@@ -20,14 +20,12 @@ import com.nextplugins.economy.views.registry.InventoryRegistry;
 import lombok.RequiredArgsConstructor;
 import lombok.val;
 import me.saiintbrisson.minecraft.command.annotation.Command;
-import me.saiintbrisson.minecraft.command.annotation.Optional;
 import me.saiintbrisson.minecraft.command.command.Context;
 import me.saiintbrisson.minecraft.command.target.CommandTarget;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.CommandSender;
-import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.Player;
 
 import java.io.IOException;
@@ -45,43 +43,45 @@ public final class MoneyCommand {
 
     @Command(
             name = "money",
-            usage = "/money [jogador]",
-            description = "Utilize para ver a sua quantia de Cash, ou a de outro jogador.",
+            description = "Abrir menu do sistema de economia",
+            target = CommandTarget.PLAYER,
             async = true
     )
-    public void moneyCommand(Context<CommandSender> context, @Optional OfflinePlayer target) {
+    public void moneyCommand(Context<Player> context) {
 
-        CommandSender player = context.getSender();
+        val inventory = InventoryRegistry.getInstance().getBankView();
+        inventory.openInventory(context.getSender());
+
+    }
+
+    @Command(
+            name = "money.ver",
+            description = "Ver o dinheiro de outro jogador",
+            usage = "/money ver {jogador}",
+            target = CommandTarget.PLAYER,
+            async = true
+    )
+    public void moneyViewCommand(Context<Player> context, OfflinePlayer target) {
 
         if (target == null) {
 
-            if (player instanceof ConsoleCommandSender) {
+            context.sendMessage(MessageValue.get(MessageValue::invalidTarget));
+            return;
 
-                player.sendMessage(ColorUtil.colored("&cOperação não suportada"));
-                return;
-
-            }
-
-            val inventory = InventoryRegistry.getInstance().getBankView();
-            inventory.openInventory((Player) player);
-
-        } else {
-
-            Account offlineAccount = accountStorage.findOfflineAccount(target.getName());
-            if (offlineAccount == null) {
-
-                player.sendMessage(MessageValue.get(MessageValue::invalidTarget));
-                return;
-
-            }
-
-            double targetBalance = offlineAccount.getBalance();
-
-            player.sendMessage(MessageValue.get(MessageValue::seeOtherBalance)
-                    .replace("$player", target.getName())
-                    .replace("$amount", NumberUtils.format(targetBalance))
-            );
         }
+
+        val offlineAccount = accountStorage.findOfflineAccount(target.getName());
+        if (offlineAccount == null) {
+
+            context.sendMessage(MessageValue.get(MessageValue::invalidTarget));
+            return;
+
+        }
+
+        context.sendMessage(MessageValue.get(MessageValue::seeOtherBalance)
+                .replace("$player", target.getName())
+                .replace("$amount", NumberUtils.format(offlineAccount.getBalance()))
+        );
 
     }
 

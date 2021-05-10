@@ -31,6 +31,8 @@ public class InventoryValue implements ConfigurationInjectable {
 
     // main inventory
 
+    @ConfigField("enable") private boolean enable;
+
     @ConfigField("historic.config.name") private String historicInventoryName;
 
     @ConfigField("historic.depositMessage") private String depositMessage;
