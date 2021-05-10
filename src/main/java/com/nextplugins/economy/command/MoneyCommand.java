@@ -9,6 +9,7 @@ import com.nextplugins.economy.api.event.transaction.TransactionRequestEvent;
 import com.nextplugins.economy.api.model.account.Account;
 import com.nextplugins.economy.api.model.account.old.OldAccount;
 import com.nextplugins.economy.api.model.account.storage.AccountStorage;
+import com.nextplugins.economy.configuration.InventoryValue;
 import com.nextplugins.economy.configuration.MessageValue;
 import com.nextplugins.economy.configuration.RankingValue;
 import com.nextplugins.economy.ranking.CustomRankingRegistry;
@@ -48,6 +49,14 @@ public final class MoneyCommand {
             async = true
     )
     public void moneyCommand(Context<Player> context) {
+
+        // disable inventory option
+        if (!InventoryValue.get(InventoryValue::enable)) {
+
+            context.getSender().performCommand("money help");
+            return;
+
+        }
 
         val inventory = InventoryRegistry.getInstance().getBankView();
         inventory.openInventory(context.getSender());

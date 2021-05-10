@@ -1,11 +1,12 @@
 package com.nextplugins.economy.vault;
 
-import com.nextplugins.economy.NextEconomy;
 import com.nextplugins.economy.api.NextEconomyAPI;
 import com.nextplugins.economy.api.model.account.Account;
 import com.nextplugins.economy.api.model.account.transaction.TransactionType;
 import com.nextplugins.economy.configuration.MessageValue;
 import com.nextplugins.economy.util.NumberUtils;
+import lombok.val;
+import lombok.var;
 import net.milkbowl.vault.economy.Economy;
 import net.milkbowl.vault.economy.EconomyResponse;
 import org.bukkit.OfflinePlayer;
@@ -13,6 +14,8 @@ import org.bukkit.OfflinePlayer;
 import java.util.List;
 
 public class VaultEconomyHook implements Economy {
+
+    private static final NextEconomyAPI API = NextEconomyAPI.getInstance();
 
     @Override
     public boolean isEnabled() {
@@ -51,7 +54,7 @@ public class VaultEconomyHook implements Economy {
 
     @Override
     public boolean hasAccount(String playerName) {
-        return NextEconomyAPI.getInstance().findAccountByName(playerName) != null;
+        return API.findAccountByName(playerName) != null;
     }
 
     @Override
@@ -72,7 +75,7 @@ public class VaultEconomyHook implements Economy {
     @Override
     public double getBalance(String playerName) {
 
-        Account account = NextEconomyAPI.getInstance().findAccountByName(playerName);
+        val account = API.findAccountByName(playerName);
         if (account != null) return account.getBalance();
 
         return 0;
@@ -97,7 +100,7 @@ public class VaultEconomyHook implements Economy {
     @Override
     public boolean has(String playerName, double amount) {
 
-        Account account = NextEconomyAPI.getInstance().findAccountByName(playerName);
+        val account = API.findAccountByName(playerName);
         if (account != null) return account.hasAmount(amount);
 
         return false;
@@ -121,8 +124,8 @@ public class VaultEconomyHook implements Economy {
 
     @Override
     public EconomyResponse withdrawPlayer(String playerName, double amount) {
-        Account account = NextEconomyAPI.getInstance().findAccountByName(playerName);
 
+        val account = API.findAccountByName(playerName);
         if (account != null) {
             if (has(playerName, amount)) {
 
@@ -137,6 +140,7 @@ public class VaultEconomyHook implements Economy {
                         EconomyResponse.ResponseType.SUCCESS,
                         "Operação realizada com sucesso."
                 );
+
             } else {
                 return new EconomyResponse(amount,
                         account.getBalance(),
@@ -167,8 +171,8 @@ public class VaultEconomyHook implements Economy {
 
     @Override
     public EconomyResponse depositPlayer(String playerName, double amount) {
-        Account account = NextEconomyAPI.getInstance().findAccountByName(playerName);
 
+        val account = API.findAccountByName(playerName);
         if (account != null) {
 
             account.createTransaction(
@@ -182,6 +186,7 @@ public class VaultEconomyHook implements Economy {
                     EconomyResponse.ResponseType.SUCCESS,
                     "Operação realizada com sucesso."
             );
+
         }
 
         return null;
@@ -265,12 +270,12 @@ public class VaultEconomyHook implements Economy {
     @Override
     public boolean createPlayerAccount(String playerName) {
 
-        Account account = NextEconomyAPI.getInstance().findAccountByName(playerName);
+        var account = API.findAccountByName(playerName);
         if (account != null) return false;
 
         account = Account.createDefault(playerName);
 
-        NextEconomy.getInstance().getAccountRepository().saveOne(account);
+        API.getAccountRepository().saveOne(account);
         return true;
     }
 
