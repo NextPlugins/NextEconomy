@@ -1,6 +1,6 @@
 package com.nextplugins.economy.listener.events.update;
 
-import com.nextplugins.economy.api.event.operations.MoneyTopPlayerUpdateEvent;
+import com.nextplugins.economy.api.event.operations.MoneyTopPlayerChangedEvent;
 import com.nextplugins.economy.configuration.MessageValue;
 import com.nextplugins.economy.util.TitleUtils;
 import org.bukkit.Bukkit;
@@ -19,19 +19,18 @@ import java.util.List;
 public class MoneyTopUpdateListener implements Listener {
 
     @EventHandler(priority = EventPriority.MONITOR)
-    public void onTopUpdate(MoneyTopPlayerUpdateEvent event) {
+    public void onTopUpdate(MoneyTopPlayerChangedEvent event) {
 
         if (event.isCancelled() || !MessageValue.get(MessageValue::enableMoneyTopMessage)) return;
 
-        String userName = event.getMoneyTop().getUserName();
+        String username = event.getMoneyTop().getUserName();
 
         String title = MessageValue.get(MessageValue::moneyTopTitle)
-                .replace("$player", userName);
+                .replace("$player", username);
 
         List<String> message = new ArrayList<>();
         for (String line : MessageValue.get(MessageValue::moneyTopMessage)) {
-            String $player = line.replace("$player", userName);
-            message.add($player);
+            message.add(line.replace("$player", username));
         }
 
         Object[] titlePackets = TitleUtils.buildTitlePackets(title, 20, 20, 20);

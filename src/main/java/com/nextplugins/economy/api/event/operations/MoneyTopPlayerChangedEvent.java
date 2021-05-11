@@ -17,7 +17,7 @@ import java.time.Instant;
 @Builder
 @Data
 @EqualsAndHashCode(callSuper = true)
-public final class MoneyTopPlayerUpdateEvent extends EconomyEvent implements Cancellable {
+public final class MoneyTopPlayerChangedEvent extends EconomyEvent implements Cancellable {
 
     private final Account lastMoneyTop;
     private final Account moneyTop;

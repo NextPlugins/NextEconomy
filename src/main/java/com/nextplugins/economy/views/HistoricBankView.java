@@ -83,8 +83,10 @@ public class HistoricBankView extends PagedInventory {
                     .nickname(InventoryValue.get(InventoryValue::historicSkullName))
                     .lore(InventoryValue.get(InventoryValue::historicLore).stream()
                             .map(line -> line
+                                    .replace("@player", player.getName())
+                                    .replace("@target", transaction.getTarget())
                                     .replace("@date", date)
-                                    .replace("@type", transaction.getType().getMessage())
+                                    .replace("@action", transaction.getType().getMessage())
                                     .replace("@message", transactionMessage)
                                     .replace("@amount", NumberUtils.format(transaction.getAmount()))
                             )

@@ -1,4 +1,4 @@
-package com.nextplugins.economy.listener.events.operation;
+package com.nextplugins.economy.listener.events.update;
 
 import com.nextplugins.economy.api.PurseAPI;
 import com.nextplugins.economy.api.event.operations.AsyncPurseUpdateEvent;

@@ -22,7 +22,6 @@ import com.nextplugins.economy.views.registry.InventoryRegistry;
 import com.nextplugins.economy.dao.SQLProvider;
 import com.nextplugins.economy.api.model.account.storage.AccountStorage;
 import com.nextplugins.economy.ranking.storage.RankingStorage;
-import com.nextplugins.economy.task.registry.TaskRegistry;
 import com.nextplugins.economy.vault.registry.VaultHookRegistry;
 import lombok.Getter;
 import me.bristermitten.pdm.PluginDependencyManager;
@@ -97,7 +96,6 @@ public final class NextEconomy extends JavaPlugin {
                     ConfigurationRegistry.of(this).register();
                     ListenerRegistry.of(this).register();
                     CommandRegistry.of(this).register();
-                    TaskRegistry.of(this).register();
                     VaultHookRegistry.of(this).register();
                     MetricProvider.of(this).register();
                     InventoryRegistry.of(this).register();

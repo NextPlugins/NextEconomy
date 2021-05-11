@@ -6,13 +6,13 @@ import com.nextplugins.economy.listener.events.chat.OpeNChatListener;
 import com.nextplugins.economy.listener.events.chat.UltimateChatListener;
 import com.nextplugins.economy.listener.events.check.CheckInteractListener;
 import com.nextplugins.economy.listener.events.connection.UserConnectionListener;
-import com.nextplugins.economy.listener.events.operation.AsyncPurseUpdateListener;
+import com.nextplugins.economy.listener.events.update.AsyncPurseUpdateListener;
 import com.nextplugins.economy.listener.events.operation.MoneyGiveListener;
 import com.nextplugins.economy.listener.events.operation.MoneySetListener;
 import com.nextplugins.economy.listener.events.operation.MoneyWithdrawListener;
 import com.nextplugins.economy.listener.events.transaction.TransactionRequestListener;
 import com.nextplugins.economy.listener.events.update.MoneyTopUpdateListener;
-import com.nextplugins.economy.listener.events.update.RankingUpdateListener;
+import com.nextplugins.economy.listener.events.update.AsyncRankingUpdateListener;
 import lombok.Data;
 import lombok.val;
 import org.bukkit.Bukkit;
@@ -40,7 +40,7 @@ public final class ListenerRegistry {
                     new AsyncPurseUpdateListener(),
                     new TransactionRequestListener(),
                     new MoneyTopUpdateListener(),
-                    new RankingUpdateListener(accountRepository, rankingStorage),
+                    new AsyncRankingUpdateListener(accountRepository, rankingStorage),
                     new OpeNChatListener(rankingStorage, interactionRegistry),
                     new LegendChatListener(rankingStorage, interactionRegistry),
                     new UltimateChatListener(rankingStorage, interactionRegistry),

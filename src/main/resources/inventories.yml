@@ -3,16 +3,19 @@ inventory:
   historic:
     config:
       name: 'Histórico de Transações'
-    depositMessage: '&c@target &2➡ &a@player'
-    withdrawMessage: '&c@player &2➡ &a@target'
+    depositMessage: '&eTransação de @target'
+    withdrawMessage: '&eTransação para @target'
     item:
       skullName: '@player'
       displayName: '@message'
       lore:
+        # @player @target @amount (valor) @date (data) @message (Transação de/para ...) @action (Recebeu ou Enviou)
         - ''
-        - ' &eAção: &f@type'
-        - ' &eQuantia: &f@amount'
-        - ' &eData: &f@date'
+        - ' &fDe: &a@player'
+        - ' &fPara: &a@target'
+        - ''
+        - ' &fQuantia: &6@amount'
+        - ' &fData: &6@date'
         - ''
   main:
     config:
