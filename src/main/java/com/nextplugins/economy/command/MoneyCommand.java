@@ -6,7 +6,6 @@ import com.nextplugins.economy.api.event.operations.MoneyGiveEvent;
 import com.nextplugins.economy.api.event.operations.MoneySetEvent;
 import com.nextplugins.economy.api.event.operations.MoneyWithdrawEvent;
 import com.nextplugins.economy.api.event.transaction.TransactionRequestEvent;
-import com.nextplugins.economy.api.model.account.Account;
 import com.nextplugins.economy.api.model.account.old.OldAccount;
 import com.nextplugins.economy.api.model.account.storage.AccountStorage;
 import com.nextplugins.economy.configuration.InventoryValue;
@@ -31,8 +30,6 @@ import org.bukkit.entity.Player;
 
 import java.io.IOException;
 import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
 
 @RequiredArgsConstructor
 public final class MoneyCommand {
@@ -104,9 +101,10 @@ public final class MoneyCommand {
             async = true
     )
     public void moneyPayCommand(Context<Player> context, OfflinePlayer target, String amount) {
-        Player player = context.getSender();
 
-        double parse = NumberUtils.parse(amount);
+        val player = context.getSender();
+
+        val parse = NumberUtils.parse(amount);
         if (parse < 1) {
 
             player.sendMessage(MessageValue.get(MessageValue::invalidMoney));
@@ -114,7 +112,7 @@ public final class MoneyCommand {
 
         }
 
-        Account account = accountStorage.findOfflineAccount(target.getName());
+        val account = accountStorage.findOfflineAccount(target.getName());
         if (account == null) {
 
             player.sendMessage(MessageValue.get(MessageValue::invalidTarget));
@@ -122,7 +120,7 @@ public final class MoneyCommand {
 
         }
 
-        TransactionRequestEvent transactionRequestEvent = new TransactionRequestEvent(player, target, parse);
+        val transactionRequestEvent = new TransactionRequestEvent(player, target, parse);
         Bukkit.getPluginManager().callEvent(transactionRequestEvent);
 
     }
@@ -135,8 +133,8 @@ public final class MoneyCommand {
             async = true
     )
     public void moneyHelpCommand(Context<CommandSender> context) {
-        CommandSender sender = context.getSender();
 
+        val sender = context.getSender();
         if (sender.hasPermission("nexteconomy.command.help.staff")) {
             for (String s : ColorUtil.colored(MessageValue.get(MessageValue::helpCommandStaff))) {
                 sender.sendMessage(s);
@@ -146,6 +144,7 @@ public final class MoneyCommand {
                 sender.sendMessage(s);
             }
         }
+
     }
 
     @Command(
@@ -157,9 +156,10 @@ public final class MoneyCommand {
             async = true
     )
     public void moneySetCommand(Context<CommandSender> context, OfflinePlayer target, String amount) {
-        CommandSender sender = context.getSender();
 
-        double parse = NumberUtils.parse(amount);
+        val sender = context.getSender();
+        val parse = NumberUtils.parse(amount);
+
         if (parse < 1) {
 
             sender.sendMessage(MessageValue.get(MessageValue::invalidMoney));
@@ -167,7 +167,7 @@ public final class MoneyCommand {
 
         }
 
-        Account account = accountStorage.findOfflineAccount(target.getName());
+        val account = accountStorage.findOfflineAccount(target.getName());
         if (account == null) {
 
             sender.sendMessage(MessageValue.get(MessageValue::invalidTarget));
@@ -175,7 +175,7 @@ public final class MoneyCommand {
 
         }
 
-        MoneySetEvent moneySetEvent = new MoneySetEvent(sender, target, parse);
+        val moneySetEvent = new MoneySetEvent(sender, target, parse);
         Bukkit.getPluginManager().callEvent(moneySetEvent);
 
     }
@@ -189,9 +189,10 @@ public final class MoneyCommand {
             async = true
     )
     public void moneyAddCommand(Context<CommandSender> context, OfflinePlayer target, String amount) {
-        CommandSender sender = context.getSender();
 
-        double parse = NumberUtils.parse(amount);
+        val sender = context.getSender();
+        val parse = NumberUtils.parse(amount);
+
         if (parse < 1) {
 
             sender.sendMessage(MessageValue.get(MessageValue::invalidMoney));
@@ -199,7 +200,7 @@ public final class MoneyCommand {
 
         }
 
-        Account account = accountStorage.findOfflineAccount(target.getName());
+        val account = accountStorage.findOfflineAccount(target.getName());
         if (account == null) {
 
             sender.sendMessage(MessageValue.get(MessageValue::invalidTarget));
@@ -207,7 +208,7 @@ public final class MoneyCommand {
 
         }
 
-        MoneyGiveEvent moneyGiveEvent = new MoneyGiveEvent(sender, target, parse);
+        val moneyGiveEvent = new MoneyGiveEvent(sender, target, parse);
         Bukkit.getPluginManager().callEvent(moneyGiveEvent);
     }
 
@@ -220,9 +221,10 @@ public final class MoneyCommand {
             async = true
     )
     public void moneyRemoveCommand(Context<CommandSender> context, OfflinePlayer target, String amount) {
-        CommandSender sender = context.getSender();
 
-        double parse = NumberUtils.parse(amount);
+        val sender = context.getSender();
+        val parse = NumberUtils.parse(amount);
+
         if (parse < 1) {
 
             sender.sendMessage(MessageValue.get(MessageValue::invalidMoney));
@@ -230,7 +232,7 @@ public final class MoneyCommand {
 
         }
 
-        Account account = accountStorage.findOfflineAccount(target.getName());
+        val account = accountStorage.findOfflineAccount(target.getName());
         if (account == null) {
 
             sender.sendMessage(MessageValue.get(MessageValue::invalidTarget));
@@ -238,7 +240,7 @@ public final class MoneyCommand {
 
         }
 
-        MoneyWithdrawEvent moneyWithdrawEvent = new MoneyWithdrawEvent(sender, target, parse);
+        val moneyWithdrawEvent = new MoneyWithdrawEvent(sender, target, parse);
         Bukkit.getPluginManager().callEvent(moneyWithdrawEvent);
 
     }
@@ -252,9 +254,10 @@ public final class MoneyCommand {
             async = true
     )
     public void moneyResetCommand(Context<CommandSender> context, OfflinePlayer target) {
-        CommandSender sender = context.getSender();
 
-        Account account = accountStorage.findOfflineAccount(target.getName());
+        val sender = context.getSender();
+        val account = accountStorage.findOfflineAccount(target.getName());
+
         if (account == null) {
 
             sender.sendMessage(MessageValue.get(MessageValue::invalidTarget));
@@ -302,11 +305,13 @@ public final class MoneyCommand {
             async = true
     )
     public void npcCommand(Context<Player> context) {
-        Player player = context.getSender();
+
+        val player = context.getSender();
 
         for (String s : ColorUtil.colored(MessageValue.get(MessageValue::npcHelp))) {
             player.sendMessage(s);
         }
+
     }
 
     @Command(
@@ -319,7 +324,8 @@ public final class MoneyCommand {
             async = true
     )
     public void npcAddCommand(Context<Player> context, int position) throws IOException {
-        Player player = context.getSender();
+
+        val player = context.getSender();
 
         if (!CustomRankingRegistry.isEnabled()) {
             player.sendMessage(ChatColor.RED + "O ranking em NPC foi desabilitado por falta de dependências.");
@@ -331,7 +337,7 @@ public final class MoneyCommand {
             return;
         }
 
-        int limit = RankingValue.get(RankingValue::rankingLimit);
+        val limit = RankingValue.get(RankingValue::rankingLimit);
 
         if (position > limit) {
             player.sendMessage(MessageValue.get(MessageValue::positionReachedLimit)
@@ -347,7 +353,7 @@ public final class MoneyCommand {
 
         locationManager.getLocationMap().put(position, player.getLocation());
 
-        List<String> locations = plugin.getNpcConfig().getStringList("npc.locations");
+        val locations = plugin.getNpcConfig().getStringList("npc.locations");
         locations.add(position + " " + LocationUtil.byLocationNoBlock(player.getLocation()));
 
         plugin.getNpcConfig().set("npc.locations", locations);
@@ -368,7 +374,7 @@ public final class MoneyCommand {
             async = true
     )
     public void npcRemoveCommand(Context<Player> context, int position) throws Exception {
-        Player player = context.getSender();
+        val player = context.getSender();
 
         if (!CustomRankingRegistry.isEnabled()) {
             player.sendMessage(ChatColor.RED + "O ranking em NPC foi desabilitado por falta de dependências.");
@@ -380,7 +386,7 @@ public final class MoneyCommand {
             return;
         }
 
-        int limit = RankingValue.get(RankingValue::rankingLimit);
+        val limit = RankingValue.get(RankingValue::rankingLimit);
 
         if (position > limit) {
             player.sendMessage(MessageValue.get(MessageValue::positionReachedLimit)
@@ -394,7 +400,7 @@ public final class MoneyCommand {
             return;
         }
 
-        List<String> locations = plugin.getNpcConfig().getStringList("npc.locations");
+        val locations = plugin.getNpcConfig().getStringList("npc.locations");
         locations.remove(position + " " + LocationUtil.byLocationNoBlock(locationManager.getLocation(position)));
 
         plugin.getNpcConfig().set("npc.locations", locations);
@@ -422,10 +428,10 @@ public final class MoneyCommand {
 
         }
 
-        long initial = System.currentTimeMillis();
+        val initial = System.currentTimeMillis();
         conversorManager.setConverting(true);
 
-        final Set<OldAccount> oldAccounts = new HashSet<>();
+        val oldAccounts = new HashSet<OldAccount>();
         for (OldAccount oldAccount : accountStorage.getAccountRepository().selectAllOld()) {
             if (oldAccount != null) {
                 oldAccounts.add(oldAccount);

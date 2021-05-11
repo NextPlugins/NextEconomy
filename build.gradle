@@ -15,7 +15,6 @@ tasks.build.dependsOn('pdm', 'shadowJar')
 repositories {
     mavenCentral()
     mavenLocal()
-    jcenter()
 
     // spigot
 

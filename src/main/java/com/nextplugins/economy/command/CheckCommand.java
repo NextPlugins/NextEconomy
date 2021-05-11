@@ -1,6 +1,5 @@
 package com.nextplugins.economy.command;
 
-import com.nextplugins.economy.api.model.account.Account;
 import com.nextplugins.economy.api.model.account.storage.AccountStorage;
 import com.nextplugins.economy.api.model.account.transaction.TransactionType;
 import com.nextplugins.economy.configuration.FeatureValue;
@@ -8,6 +7,7 @@ import com.nextplugins.economy.configuration.MessageValue;
 import com.nextplugins.economy.util.CheckUtil;
 import com.nextplugins.economy.util.NumberUtils;
 import lombok.RequiredArgsConstructor;
+import lombok.val;
 import me.saiintbrisson.minecraft.command.annotation.Command;
 import me.saiintbrisson.minecraft.command.annotation.Optional;
 import me.saiintbrisson.minecraft.command.command.Context;
@@ -16,7 +16,6 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
-import java.util.List;
 import java.util.Map;
 
 @RequiredArgsConstructor
@@ -32,9 +31,10 @@ public final class CheckCommand {
             async = true
     )
     public void checkCommand(Context<CommandSender> context) {
-        final List<String> helpMessage = MessageValue.get(MessageValue::checkHelpCommand);
 
+        val helpMessage = MessageValue.get(MessageValue::checkHelpCommand);
         helpMessage.forEach(context::sendMessage);
+
     }
 
     @Command(
@@ -47,12 +47,11 @@ public final class CheckCommand {
             async = true
     )
     public void createCheckCommand(Context<Player> context, String value, @Optional Player target) {
-        final Player player = context.getSender();
 
-        final double amount = NumberUtils.parse(value);
+        val player = context.getSender();
+        val amount = NumberUtils.parse(value);
 
-        final double minValue = FeatureValue.get(FeatureValue::checkMinimumValue);
-
+        val minValue = FeatureValue.get(FeatureValue::checkMinimumValue);
         if (amount < minValue) {
             player.sendMessage(
                     MessageValue.get(MessageValue::checkMinimumValue)
@@ -61,8 +60,7 @@ public final class CheckCommand {
             return;
         }
 
-        final Account account = accountStorage.findOnlineAccount(player);
-
+        val account = accountStorage.findOnlineAccount(player);
         if (!account.hasAmount(amount)) {
             player.sendMessage(MessageValue.get(MessageValue::checkInsufficientValue));
             return;
@@ -79,7 +77,7 @@ public final class CheckCommand {
                         .replace("$checkValue", NumberUtils.format(amount))
         );
 
-        final ItemStack checkItem = CheckUtil.createCheck(amount);
+        val checkItem = CheckUtil.createCheck(amount);
         if (target != null) {
 
             target.sendMessage(
