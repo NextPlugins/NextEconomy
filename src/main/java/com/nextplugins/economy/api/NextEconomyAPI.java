@@ -1,6 +1,5 @@
 package com.nextplugins.economy.api;
 
-import com.google.common.collect.Sets;
 import com.nextplugins.economy.NextEconomy;
 import com.nextplugins.economy.api.model.account.Account;
 import com.nextplugins.economy.api.model.account.storage.AccountStorage;
@@ -12,9 +11,8 @@ import lombok.NoArgsConstructor;
 import org.bukkit.OfflinePlayer;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.Set;
-import java.util.function.Predicate;
-import java.util.stream.Stream;
+import java.util.Collection;
+import java.util.concurrent.CompletableFuture;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
@@ -32,17 +30,6 @@ public final class NextEconomyAPI {
     private final AccountStorage accountStorage = NextEconomy.getInstance().getAccountStorage();
 
     /**
-     * Search all accounts in cache to look for one with the entered custom filter.
-     *
-     * @param filter custom filter to search
-     * @return {@link Stream} aplicated with filter
-     */
-    public Stream<Account> findAccountByFilter(Predicate<Account> filter) {
-        return allAccounts().stream()
-                .filter(filter);
-    }
-
-    /**
      * Search player in cache and sql
      * Can be null if player not exists in database
      *
@@ -55,6 +42,7 @@ public final class NextEconomyAPI {
     }
 
     /**
+     *
      * Search player in cache and sql
      * Can be null if player not exists in database
      *
@@ -69,10 +57,10 @@ public final class NextEconomyAPI {
     /**
      * Retrieve all accounts loaded in cache.
      *
-     * @return {@link java.util.Set} with accounts
+     * @return {@link java.util.Collection} with accounts
      */
-    public Set<Account> allAccounts() {
-        return Sets.newLinkedHashSet(accountStorage.getCache().synchronous().asMap().values());
+    public Collection<CompletableFuture<Account>> allAccounts() {
+        return accountStorage.getCache().asMap().values();
     }
 
 }
