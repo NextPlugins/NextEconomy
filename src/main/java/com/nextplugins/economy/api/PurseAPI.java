@@ -14,6 +14,7 @@ import org.bukkit.plugin.PluginManager;
 import org.jetbrains.annotations.Nullable;
 
 import java.time.Instant;
+import java.util.Random;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -30,6 +31,8 @@ public class PurseAPI {
      */
     @Getter @Nullable private static PurseAPI instance;
 
+    private final Random RANDOM = new Random();
+
     private int purse;
     private double purseMultiplier;
     @Setter private long nextUpdate;
@@ -45,6 +48,24 @@ public class PurseAPI {
 
     public static boolean isAvaliable() {
         return instance != null;
+    }
+
+    public int getPurse() {
+
+        if (nextUpdate < System.currentTimeMillis()) {
+
+            val maxValue = PurseValue.get(PurseValue::maxValue);
+            val minValue = PurseValue.get(PurseValue::minValue);
+
+            val randomValue = RANDOM.ints(minValue, maxValue + 1).iterator().nextInt();
+            updatePurse(randomValue);
+
+            return randomValue;
+
+        }
+
+        return purse;
+
     }
 
     public void setPurse(int purse) {
