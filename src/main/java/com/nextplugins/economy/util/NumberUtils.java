@@ -1,6 +1,5 @@
 package com.nextplugins.economy.util;
 
-import com.nextplugins.economy.configuration.FeatureValue;
 import com.nextplugins.economy.configuration.MessageValue;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
@@ -16,19 +15,7 @@ public final class NumberUtils {
 
     private final static DecimalFormat DECIMAL_FORMAT = new DecimalFormat("#.##");
 
-    public static String format(double number) {
-        return isLetterFormat() ? letterFormat(number) : decimalFormat(number);
-    }
-
-    private static String decimalFormat(double number) {
-        return DECIMAL_FORMAT.format(number);
-    }
-
-    private static boolean isLetterFormat() {
-        return FeatureValue.get(FeatureValue::formatType).equalsIgnoreCase("letter");
-    }
-
-    private static String letterFormat(double value) {
+    public static String format(double value) {
 
         int index = 0;
 

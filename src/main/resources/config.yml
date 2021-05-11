@@ -34,8 +34,6 @@ plugin:
     # Dinheiro mínimo necessário para enviar a um jogador
     # Evitar flodarem /money pay <jogador> 1
     min-value: 1000000
-    # opções válidas: 'DECIMAL' e 'LETTER'
-    format-type: 'LETTER' # letter = 1K, 1M etc... decimal = 1.000,00, 1.000.000,00 etc...
     # delay de salvamento das contas online (em segundos)
     save-delay: 300
     # Sistema de cheques

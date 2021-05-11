@@ -4,10 +4,10 @@ ranking:
   tycoon: # Placeholder: {tycoon} ou %tycoon%
     # Tag dada para o jogador mais rico
     # Para desativar, apenas coloque o campo vazio
-    tag: '&2[$$] '
+    tag: '&2[$] '
     # Tag dada para os demais jogadores do money top (2 ao 10 ou o número configurado no limite)
     # Para desativar apenas coloque o campo vazio
-    rich: '&a[$] '
+    rich: '&a[Rico] '
 
   model:
     inventory:
@@ -40,4 +40,4 @@ ranking:
       lines:
         - '&f$positionº'
         - '&e$player'
-        - '&7(&2&f$amount&7)'
+        - '&7(&2R$&f$amount&7)'

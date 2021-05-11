@@ -27,7 +27,6 @@ public final class FeatureValue implements ConfigurationInjectable {
 
     @ConfigField("initial-balance") private double initialBalance;
     @ConfigField("min-value") private double minTransactionValue;
-    @ConfigField("format-type") private String formatType;
     @ConfigField("save-delay") private int saveDelay;
 
     // check
