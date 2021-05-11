@@ -1,4 +1,4 @@
-package com.nextplugins.economy.listener.events.interactions;
+package com.nextplugins.economy.api.model.interactions.manager;
 
 import com.google.common.collect.Lists;
 import com.nextplugins.economy.NextEconomy;

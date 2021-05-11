@@ -17,7 +17,7 @@ import com.nextplugins.economy.ranking.CustomRankingRegistry;
 import com.nextplugins.economy.ranking.manager.LocationManager;
 import com.nextplugins.economy.ranking.runnable.ArmorStandRunnable;
 import com.nextplugins.economy.ranking.runnable.NPCRunnable;
-import com.nextplugins.economy.listener.events.interactions.registry.InteractionRegistry;
+import com.nextplugins.economy.api.model.interactions.registry.InteractionRegistry;
 import com.nextplugins.economy.views.registry.InventoryRegistry;
 import com.nextplugins.economy.dao.SQLProvider;
 import com.nextplugins.economy.api.model.account.storage.AccountStorage;

@@ -5,7 +5,6 @@ import com.nextplugins.economy.listener.events.chat.LegendChatListener;
 import com.nextplugins.economy.listener.events.chat.OpeNChatListener;
 import com.nextplugins.economy.listener.events.chat.UltimateChatListener;
 import com.nextplugins.economy.listener.events.check.CheckInteractListener;
-import com.nextplugins.economy.listener.events.connection.UserConnectionListener;
 import com.nextplugins.economy.listener.events.update.AsyncPurseUpdateListener;
 import com.nextplugins.economy.listener.events.operation.MoneyGiveListener;
 import com.nextplugins.economy.listener.events.operation.MoneySetListener;

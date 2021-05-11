@@ -1,8 +1,8 @@
-package com.nextplugins.economy.listener.events.interactions.registry;
+package com.nextplugins.economy.api.model.interactions.registry;
 
 import com.nextplugins.economy.NextEconomy;
-import com.nextplugins.economy.listener.events.interactions.PayInteractionManager;
-import com.nextplugins.economy.listener.events.interactions.LookupInteractionManager;
+import com.nextplugins.economy.api.model.interactions.manager.PayInteractionManager;
+import com.nextplugins.economy.api.model.interactions.manager.LookupInteractionManager;
 import lombok.Getter;
 
 /**

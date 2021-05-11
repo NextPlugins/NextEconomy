@@ -2,7 +2,7 @@ package com.nextplugins.economy.listener.events.chat;
 
 import com.nextplugins.economy.api.model.account.Account;
 import com.nextplugins.economy.configuration.RankingValue;
-import com.nextplugins.economy.listener.events.interactions.registry.InteractionRegistry;
+import com.nextplugins.economy.api.model.interactions.registry.InteractionRegistry;
 import com.nextplugins.economy.ranking.storage.RankingStorage;
 import com.nickuc.chat.api.events.PublicMessageEvent;
 import lombok.RequiredArgsConstructor;

@@ -24,7 +24,7 @@ public class AsyncPurseUpdateListener implements Listener {
     @EventHandler(priority = EventPriority.MONITOR)
     public void onPurseUpdate(AsyncPurseUpdateEvent event) {
 
-        if (!PurseAPI.isAvaliable()) return;
+        if (event.isCancelled() || !PurseAPI.isAvaliable()) return;
 
         val purseAPI = PurseAPI.getInstance();
 

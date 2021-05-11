@@ -21,6 +21,8 @@ public final class CheckInteractListener implements Listener {
     @EventHandler
     public void onCheckInteract(PlayerInteractEvent event) {
 
+        if (event.isCancelled()) return;
+
         val player = event.getPlayer();
         val item = player.getItemInHand();
 

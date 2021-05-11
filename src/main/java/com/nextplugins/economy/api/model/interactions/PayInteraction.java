@@ -1,4 +1,4 @@
-package com.nextplugins.economy.listener.events.interactions;
+package com.nextplugins.economy.api.model.interactions;
 
 import lombok.Data;
 import org.bukkit.OfflinePlayer;

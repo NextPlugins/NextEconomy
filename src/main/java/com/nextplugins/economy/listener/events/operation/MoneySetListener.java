@@ -2,12 +2,10 @@ package com.nextplugins.economy.listener.events.operation;
 
 import com.nextplugins.economy.NextEconomy;
 import com.nextplugins.economy.api.event.operations.MoneySetEvent;
-import com.nextplugins.economy.api.model.account.Account;
-import com.nextplugins.economy.configuration.MessageValue;
 import com.nextplugins.economy.api.model.account.storage.AccountStorage;
+import com.nextplugins.economy.configuration.MessageValue;
 import com.nextplugins.economy.util.NumberUtils;
-import org.bukkit.OfflinePlayer;
-import org.bukkit.command.CommandSender;
+import lombok.val;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
@@ -19,11 +17,13 @@ public final class MoneySetListener implements Listener {
     @EventHandler(priority = EventPriority.MONITOR)
     public void onSet(MoneySetEvent event) {
 
-        CommandSender sender = event.getSender();
-        OfflinePlayer target = event.getTarget();
-        double amount = event.getAmount();
+        if (event.isCancelled()) return;
 
-        Account targetAccount = accountStorage.findOfflineAccount(target.getName());
+        val sender = event.getSender();
+        val target = event.getTarget();
+        val amount = event.getAmount();
+
+        val targetAccount = accountStorage.findOfflineAccount(target.getName());
         if (targetAccount == null) {
 
             sender.sendMessage(MessageValue.get(MessageValue::invalidTarget));

@@ -2,15 +2,12 @@ package com.nextplugins.economy.listener.events.transaction;
 
 import com.nextplugins.economy.NextEconomy;
 import com.nextplugins.economy.api.event.transaction.TransactionRequestEvent;
-import com.nextplugins.economy.api.model.account.Account;
 import com.nextplugins.economy.api.model.account.transaction.TransactionType;
 import com.nextplugins.economy.configuration.FeatureValue;
 import com.nextplugins.economy.configuration.MessageValue;
 import com.nextplugins.economy.api.model.account.storage.AccountStorage;
 import com.nextplugins.economy.util.NumberUtils;
 import lombok.val;
-import org.bukkit.OfflinePlayer;
-import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
@@ -21,17 +18,20 @@ public final class TransactionRequestListener implements Listener {
 
     @EventHandler(priority = EventPriority.MONITOR)
     public void onRequest(TransactionRequestEvent event) {
-        Player player = event.getPlayer();
-        OfflinePlayer target = event.getTarget();
-        double amount = event.getAmount();
+
+        if (event.isCancelled()) return;
+
+        val player = event.getPlayer();
+        val target = event.getTarget();
+        val amount = event.getAmount();
 
         if (target.equals(player)) {
             player.sendMessage(MessageValue.get(MessageValue::isYourself));
             return;
         }
 
-        Account account = accountStorage.findOnlineAccount(player);
-        Account targetAccount = accountStorage.findOfflineAccount(target.getName());
+        val account = accountStorage.findOnlineAccount(player);
+        val targetAccount = accountStorage.findOfflineAccount(target.getName());
         if (targetAccount == null) {
 
             player.sendMessage(MessageValue.get(MessageValue::invalidTarget));
