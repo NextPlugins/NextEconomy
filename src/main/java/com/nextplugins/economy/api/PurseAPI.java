@@ -29,9 +29,9 @@ public class PurseAPI {
     /**
      * Can be null if the user desactivate system
      */
-    @Getter @Nullable private static PurseAPI instance;
+    @Nullable private static PurseAPI instance;
 
-    private final Random RANDOM = new Random();
+    private static final Random RANDOM = new Random();
 
     private int purse;
     private double purseMultiplier;
@@ -42,7 +42,6 @@ public class PurseAPI {
         if (!PurseValue.get(PurseValue::enable)) return false;
 
         instance = new PurseAPI();
-        instance.getPurse();
         return true;
 
     }
@@ -51,21 +50,19 @@ public class PurseAPI {
         return instance != null;
     }
 
-    public int getPurse() {
+    public static PurseAPI getInstance() {
 
-        if (nextUpdate < System.currentTimeMillis()) {
+        if (instance != null && instance.getPurse() < System.currentTimeMillis()) {
 
             val maxValue = PurseValue.get(PurseValue::maxValue);
             val minValue = PurseValue.get(PurseValue::minValue);
 
             val randomValue = RANDOM.ints(minValue, maxValue + 1).iterator().nextInt();
-            updatePurse(randomValue);
-
-            return randomValue;
+            instance.updatePurse(randomValue);
 
         }
 
-        return purse;
+        return instance;
 
     }
 

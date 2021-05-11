@@ -14,6 +14,7 @@ import com.nextplugins.economy.util.ItemBuilder;
 import com.nextplugins.economy.util.NumberUtils;
 import com.nextplugins.economy.util.TimeUtils;
 import com.nextplugins.economy.views.button.InventoryButton;
+import lombok.val;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
@@ -42,19 +43,16 @@ public class BankView extends SimpleInventory {
     @Override
     protected void configureInventory(Viewer viewer, InventoryEditor editor) {
 
-        Player player = viewer.getPlayer();
-        Account account = accountStorage.findOnlineAccount(player);
+        val player = viewer.getPlayer();
+        val account = accountStorage.findOnlineAccount(player);
+        val instance = PurseAPI.getInstance();
 
-        String purse = PurseAPI.getInstance() != null
-                ? PurseAPI.getInstance().getPurseFormated()
-                : "";
+        String purse = instance != null ? instance.getPurseFormated() : "";
 
-        String isHigh = PurseAPI.getInstance() != null
-                ? PurseAPI.getInstance().isHigh()
-                : "";
+        String isHigh = instance != null ? instance.isHigh() : "";
 
-        String nextUpdate = PurseAPI.getInstance() != null
-                ? TimeUtils.format(PurseAPI.getInstance().getNextUpdate() - System.currentTimeMillis())
+        String nextUpdate = instance != null
+                ? TimeUtils.format(instance.getNextUpdate() - System.currentTimeMillis())
                 : "";
 
         String transactionName = account.getTransactionsQuantity() == 1

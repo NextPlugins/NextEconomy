@@ -15,6 +15,7 @@ import com.nextplugins.economy.configuration.RankingValue;
 import com.nextplugins.economy.ranking.storage.RankingStorage;
 import com.nextplugins.economy.util.ItemBuilder;
 import com.nextplugins.economy.util.NumberUtils;
+import com.nextplugins.economy.util.TimeUtils;
 import lombok.val;
 import org.bukkit.Material;
 
@@ -99,6 +100,7 @@ public final class RankingView extends SimpleInventory {
             position++;
         }
 
+        editor.setItem(0, restTimeUpdate());
         editor.setItem(40, sortRankingItem(viewer));
         editor.setItem(36, DefaultItem.BACK.toInventoryItem(viewer));
 
@@ -107,6 +109,17 @@ public final class RankingView extends SimpleInventory {
     @Override
     protected void update(Viewer viewer, InventoryEditor editor) {
         configureInventory(viewer, editor);
+    }
+
+    private InventoryItem restTimeUpdate() {
+
+        return InventoryItem.of(new ItemBuilder("MHF_QUESTION")
+                .name("&6Próxima atualização")
+                .setLore("&7A próxima atualização do ranking será em", "&f" + TimeUtils.format(rankingStorage.getNextUpdateMillis() - System.currentTimeMillis()))
+                .wrap()
+        );
+
+
     }
 
     private InventoryItem sortRankingItem(Viewer viewer) {

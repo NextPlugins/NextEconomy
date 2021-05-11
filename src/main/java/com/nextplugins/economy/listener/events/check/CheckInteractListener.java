@@ -18,16 +18,13 @@ public final class CheckInteractListener implements Listener {
 
     private final AccountStorage accountStorage;
 
-
-    @EventHandler
+    @EventHandler(ignoreCancelled = true)
     public void onCheckInteract(PlayerInteractEvent event) {
 
-        if (event.isCancelled()) return;
+        val item = event.getItem();
+        if (item == null || item.getType() == Material.AIR) return;
 
         val player = event.getPlayer();
-        val item = player.getItemInHand();
-
-        if (item.getType() == Material.AIR) return;
 
         val checkField = "value";
 
