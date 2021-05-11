@@ -43,9 +43,9 @@ dependencies {
     compileOnly 'com.github.MilkBowl:VaultAPI:1.7'
     compileOnly 'br.net.fabiozumbi12:ultimatechat:1.9.1'
 
-    implementation 'com.github.HenryFabio:configuration-injector:main-SNAPSHOT'
+    pdm 'com.github.HenryFabio:configuration-injector:main-SNAPSHOT'
+    implementation 'org.bstats:bstats-bukkit:1.8'
 
-    pdm 'org.bstats:bstats-bukkit:1.8'
     pdm 'de.tr7zw:item-nbt-api:2.7.1'
     pdm 'com.github.HenryFabio:inventory-api:2.0.3'
     pdm 'com.github.HenryFabio:sql-provider:9561f20fd2'
@@ -71,11 +71,7 @@ bukkit {
 
 shadowJar {
     archiveName("${project.name}-${project.version}.jar")
-    relocate 'com.henryfabio.minecraft.inventoryapi', 'com.nextplugins.economy.libs.inventoryapi'
-    relocate 'com.henryfabio.sqlprovider', 'com.nextplugins.economy.libs.sqlprovider'
     relocate 'com.henryfabio.minecraft.configinjector', 'com.nextplugins.economy.libs.configinjector'
-    relocate 'de.tr7zw.changeme.nbtapi', 'com.nextplugins.economy.libs.nbtapi'
-    relocate 'org.bstats', 'com.nextplugins.economy.libs.bstats'
 }
 
 compileJava {

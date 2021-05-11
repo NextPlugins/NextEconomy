@@ -10,10 +10,9 @@ import com.nextplugins.economy.ranking.manager.LocationManager;
 import com.nextplugins.economy.ranking.storage.RankingStorage;
 import com.nextplugins.economy.util.NumberUtils;
 import lombok.RequiredArgsConstructor;
+import lombok.val;
 import net.citizensnpcs.api.CitizensAPI;
 import net.citizensnpcs.api.npc.NPC;
-import net.citizensnpcs.api.npc.NPCRegistry;
-import org.bukkit.Location;
 import org.bukkit.entity.EntityType;
 
 import java.util.List;
@@ -31,42 +30,44 @@ public final class NPCRunnable implements Runnable {
 
     @Override
     public void run() {
-        List<Account> accounts = rankingStorage.getRankByCoin();
 
-        if (accounts.size() <= 0) return;
+        val accounts = rankingStorage.getRankByCoin();
+        if (accounts.isEmpty()) return;
 
         NPCS.forEach(NPC::destroy);
         HOLOGRAM.forEach(Hologram::delete);
 
-        NPCRegistry npcRegistry = CitizensAPI.getNPCRegistry();
+        val npcRegistry = CitizensAPI.getNPCRegistry();
+        val position = new AtomicInteger(1);
 
-        AtomicInteger position = new AtomicInteger(1);
+        val hologramLines = RankingValue.get(RankingValue::hologramLines);
+        val hologramHeight = RankingValue.get(RankingValue::hologramHeight);
 
         for (Account account : accounts) {
+
             if (!locationManager.getLocationMap().containsKey(position.get())) return;
 
-            Location location = locationManager.getLocation(position.get());
-            List<String> hologramLines = RankingValue.get(RankingValue::hologramLines);
-            double hologramHeight = RankingValue.get(RankingValue::hologramHeight);
+            val location = locationManager.getLocation(position.get());
 
             if (!hologramLines.isEmpty()) {
-                Location hologramLocation = location.clone().add(0, hologramHeight, 0);
-                Hologram hologram = HologramsAPI.createHologram(plugin, hologramLocation);
+                val hologramLocation = location.clone().add(0, hologramHeight, 0);
+                val hologram = HologramsAPI.createHologram(plugin, hologramLocation);
 
                 for (int i = 0; i < hologramLines.size(); i++) {
-                    String replacedLine = hologramLines.get(i);
 
-                    replacedLine = replacedLine.replace("$position", String.valueOf(position.get()));
-                    replacedLine = replacedLine.replace("$player", account.getUserName());
-                    replacedLine = replacedLine.replace("$amount", NumberUtils.format(account.getBalance()));
+                    val replacedLine = hologramLines.get(i)
+                            .replace("$position", String.valueOf(position.get()))
+                            .replace("$player", account.getUserName())
+                            .replace("$amount", NumberUtils.format(account.getBalance()));
 
                     hologram.insertTextLine(i, replacedLine);
+
                 }
 
                 HOLOGRAM.add(hologram);
             }
 
-            NPC npc = npcRegistry.createNPC(EntityType.PLAYER, "");
+            val npc = npcRegistry.createNPC(EntityType.PLAYER, "");
             npc.data().set("player-skin-name", account.getUserName());
             npc.setProtected(true);
             npc.spawn(location);
