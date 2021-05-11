@@ -1,11 +1,13 @@
 package com.nextplugins.economy.listener.events.update;
 
 import com.google.common.collect.Lists;
+import com.nextplugins.economy.NextEconomy;
 import com.nextplugins.economy.api.event.operations.AsyncRankingUpdateEvent;
 import com.nextplugins.economy.api.event.operations.MoneyTopPlayerUpdateEvent;
 import com.nextplugins.economy.api.model.account.Account;
 import com.nextplugins.economy.configuration.RankingValue;
 import com.nextplugins.economy.dao.repository.AccountRepository;
+import com.nextplugins.economy.ranking.CustomRankingRegistry;
 import com.nextplugins.economy.ranking.storage.RankingStorage;
 import lombok.RequiredArgsConstructor;
 import lombok.val;
@@ -79,6 +81,11 @@ public class RankingUpdateListener implements Listener {
             List<Account> accounts1 = rankingStorage.getRankByMovimentation();
             accounts1.addAll(accountsMovimentation);
         }
+
+        if (!CustomRankingRegistry.isEnabled()) return;
+
+        // Leave from async. Entities can't be spawned in async.
+        Bukkit.getScheduler().runTask(NextEconomy.getInstance(), CustomRankingRegistry.getRunnable());
 
     }
 

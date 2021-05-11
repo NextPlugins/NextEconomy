@@ -64,19 +64,9 @@ public class CustomRankingRegistry {
 
         LocationLoader.of(plugin, plugin.getLocationManager()).loadLocations();
 
-        int updateDelay = RankingValue.get(RankingValue::updateDelay);
-
         runnable = isNpc
                 ? new NPCRunnable(plugin, plugin.getLocationManager(), plugin.getRankingStorage())
                 : new ArmorStandRunnable(plugin, plugin.getLocationManager(), plugin.getRankingStorage());
-
-        BukkitScheduler scheduler = Bukkit.getScheduler();
-        scheduler.runTaskTimer(
-                plugin,
-                runnable,
-                15,
-                updateDelay * 20L
-        );
 
         enabled = true;
         plugin.getLogger().info("Sistema de NPC e ArmorStand registrado com sucesso.");
