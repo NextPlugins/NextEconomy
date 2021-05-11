@@ -50,6 +50,7 @@ As dependências de desenvolvimento serão baixadas automáticamente quando o pl
 
 **APIs e Frameworks**
 
+-   [caffeine](https://github.com/ben-manes/caffeine) - Uma biblioteca de cache de alto desempenho (Async & Sync).
 -   [command-framework](https://github.com/SaiintBrisson/command-framework) - Framework para criação e gerenciamento de comandos.
 -   [inventory-api](https://github.com/HenryFabio/inventory-api) - API para criação e o gerenciamento de inventários customizados.
 -   [sql-provider](https://github.com/henryfabio/sql-provider) - Provê a conexão com o banco de dados.
