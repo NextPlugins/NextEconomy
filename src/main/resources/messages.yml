@@ -1,4 +1,33 @@
+# Mensagens gerais do sistema
 messages:
+  # Coloque infinitos formatos aqui
+  currency-format:
+    - ''
+    - 'k'
+    - 'M'
+    - 'B'
+    - 'T'
+    - 'Q'
+    - 'QQ'
+    - 'S'
+    - 'SS'
+    - 'O'
+    - 'N'
+    - 'D'
+    - 'UN'
+    - 'DD'
+    - 'TR'
+    - 'QT'
+    - 'QN'
+    - 'SD'
+    - 'SPD'
+    - 'OD'
+    - 'ND'
+    - 'VG'
+    - 'UVG'
+    - 'DVG'
+    - 'TVG'
+    - 'QTV'
   currency:
     one: 'coin'
     more: 'coins'
