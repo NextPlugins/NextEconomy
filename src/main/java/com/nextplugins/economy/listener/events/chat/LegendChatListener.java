@@ -27,21 +27,23 @@ public final class LegendChatListener implements Listener {
         val users = interactionRegistry.getPayInteractionManager().getPlayers().keySet();
         users.addAll(interactionRegistry.getLookupInteractionManager().getUsersInOperation());
 
-        if (!users.contains(player.getName())) {
+        if (users.contains(player.getName())) {
 
-            if (rankingStorage.getRankByCoin().isEmpty()) return;
+            event.setCancelled(true);
 
-            Account tycoonAccount = rankingStorage.getRankByCoin().get(0);
-            val tycoonTag = player.getName().equalsIgnoreCase(tycoonAccount.getUserName())
-                    ? RankingValue.get(RankingValue::tycoonTagValue)
-                    : RankingValue.get(RankingValue::tycoonRichTagValue);
-
-            event.setTagValue("tycoon", tycoonTag);
             return;
 
         }
 
-        event.setCancelled(true);
+        if (rankingStorage.getRankByCoin().isEmpty()) return;
+
+        val tycoonAccount = rankingStorage.getRankByCoin().get(0);
+        val tycoonTag = player.getName().equalsIgnoreCase(tycoonAccount.getUserName())
+                ? RankingValue.get(RankingValue::tycoonTagValue)
+                : RankingValue.get(RankingValue::tycoonRichTagValue);
+
+        event.setTagValue("tycoon", tycoonTag);
+
 
     }
 

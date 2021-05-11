@@ -43,13 +43,12 @@ public final class EconomyPlaceholderHook extends PlaceholderExpansion {
 
         if (params.equalsIgnoreCase("tycoon")) {
 
-            val rankByCoin = NextEconomyAPI.getInstance().getRankingStorage().getRankByCoin();
-            if (rankByCoin.isEmpty()) return "";
+            val rankingStorage = NextEconomyAPI.getInstance().getRankingStorage();
 
-            val topAccount = rankByCoin.get(0);
-            if (!topAccount.getUserName().equals(player.getName())) return "";
-
-            return RankingValue.get(RankingValue::tycoonTagValue);
+            val tycoonAccount = rankingStorage.getRankByCoin().get(0);
+            return player.getName().equalsIgnoreCase(tycoonAccount.getUserName())
+                    ? RankingValue.get(RankingValue::tycoonTagValue)
+                    : RankingValue.get(RankingValue::tycoonRichTagValue);
 
         }
 

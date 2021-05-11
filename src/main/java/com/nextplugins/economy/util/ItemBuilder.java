@@ -35,7 +35,7 @@ public class ItemBuilder {
 
     public ItemBuilder(String name) {
 
-        item = new ItemStack(Material.getMaterial(397), 1, (short) 3);
+        item = new ItemStack(TypeUtil.getType("SKULL_ITEM", "LEGACY_SKULL_ITEM"), 1, (short) 3);
 
         SkullMeta meta = (SkullMeta) item.getItemMeta();
         meta.setOwner(name);
