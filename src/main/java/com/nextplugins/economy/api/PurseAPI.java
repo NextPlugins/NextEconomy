@@ -42,6 +42,7 @@ public class PurseAPI {
         if (!PurseValue.get(PurseValue::enable)) return false;
 
         instance = new PurseAPI();
+        instance.getPurse();
         return true;
 
     }

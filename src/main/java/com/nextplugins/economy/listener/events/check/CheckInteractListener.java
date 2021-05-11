@@ -18,6 +18,7 @@ public final class CheckInteractListener implements Listener {
 
     private final AccountStorage accountStorage;
 
+
     @EventHandler
     public void onCheckInteract(PlayerInteractEvent event) {
 
@@ -26,25 +27,28 @@ public final class CheckInteractListener implements Listener {
         val player = event.getPlayer();
         val item = player.getItemInHand();
 
-        if (item == null || item.getType() == Material.AIR) return;
+        if (item.getType() == Material.AIR) return;
+
+        val checkField = "value";
 
         val nbtItem = new NBTItem(item);
-        if (!nbtItem.hasKey("value")) return;
+        if (!nbtItem.hasKey(checkField)) return;
 
         player.setItemInHand(null);
 
-        var value = nbtItem.getDouble("value") * item.getAmount();
+        var value = nbtItem.getDouble(checkField) * item.getAmount();
         if (player.isSneaking()) {
 
             val contents = player.getInventory().getContents();
             for (int i = 0; i < contents.length; i++) {
 
                 val content = contents[i];
+                if (content == null || content.getType() == Material.AIR) continue;
 
                 val contentNbt = new NBTItem(content);
-                if (!contentNbt.hasKey("value")) return;
+                if (!contentNbt.hasKey(checkField)) continue;
 
-                value += contentNbt.getDouble("value") * content.getAmount();
+                value += contentNbt.getDouble(checkField) * content.getAmount();
                 contents[i] = null;
 
             }

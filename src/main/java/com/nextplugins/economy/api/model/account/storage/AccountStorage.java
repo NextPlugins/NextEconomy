@@ -14,6 +14,8 @@ import org.bukkit.entity.Player;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Executor;
 import java.util.concurrent.TimeUnit;
 
@@ -22,7 +24,7 @@ public final class AccountStorage {
 
     @Getter private final AccountRepository accountRepository;
 
-    @Getter private final AsyncLoadingCache<String, Account> CACHE = Caffeine.newBuilder()
+    @Getter private final AsyncLoadingCache<String, Account> cache = Caffeine.newBuilder()
             .maximumSize(10000)
             .expireAfterWrite(5, TimeUnit.MINUTES)
             .removalListener(this::saveOne)
@@ -39,8 +41,8 @@ public final class AccountStorage {
         accountRepository.saveOne(account);
     }
 
-    private @NotNull Account selectOne(String s, @NonNull Executor executor) {
-        return accountRepository.selectOne(s);
+    private @NotNull CompletableFuture<Account> selectOne(String s, @NonNull Executor executor) {
+        return CompletableFuture.completedFuture(accountRepository.selectOne(s));
     }
 
     /**
@@ -51,8 +53,8 @@ public final class AccountStorage {
      */
     public Account findOfflineAccount(String username) {
         try {
-            return CACHE.get(username).get();
-        } catch (Exception ignored) {
+            return cache.get(username).get();
+        } catch (InterruptedException | ExecutionException ignored) {
             return null;
         }
     }
@@ -67,7 +69,7 @@ public final class AccountStorage {
             account = Account.createDefault(username);
             accountRepository.saveOne(account);
 
-            CACHE.put(player.getName(), account);
+            cache.put(player.getName(), CompletableFuture.completedFuture(account));
 
         }
 

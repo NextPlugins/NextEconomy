@@ -7,6 +7,7 @@ import com.nextplugins.economy.api.model.account.old.adapter.OldAccountAdapter;
 import com.nextplugins.economy.dao.repository.adapter.AccountAdapter;
 import com.nextplugins.economy.util.LinkedListHelper;
 import lombok.RequiredArgsConstructor;
+import lombok.var;
 
 import java.util.Set;
 import java.util.UUID;
@@ -30,11 +31,17 @@ public final class AccountRepository {
     }
 
     public Account selectOne(String owner) {
-        return sqlExecutor.resultOneQuery(
+
+
+        var account = sqlExecutor.resultOneQuery(
                 "SELECT * FROM " + TABLE + " WHERE owner = ?",
                 statement -> statement.set(1, owner),
                 AccountAdapter.class
         );
+
+        if (account == null) account = Account.createDefault(owner);
+
+        return account;
     }
 
     public Set<OldAccount> selectAllOld() {

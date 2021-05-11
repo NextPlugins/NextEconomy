@@ -72,7 +72,7 @@ public final class NextEconomyAPI {
      * @return {@link java.util.Set} with accounts
      */
     public Set<Account> allAccounts() {
-        return Sets.newLinkedHashSet(accountStorage.getCACHE().synchronous().asMap().values());
+        return Sets.newLinkedHashSet(accountStorage.getCache().synchronous().asMap().values());
     }
 
 }

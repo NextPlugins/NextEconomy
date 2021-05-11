@@ -142,7 +142,7 @@ public final class NextEconomy extends JavaPlugin {
             }
         }
 
-        accountStorage.getCACHE().synchronous().invalidateAll();
+        accountStorage.getCache().synchronous().invalidateAll();
 
     }
 

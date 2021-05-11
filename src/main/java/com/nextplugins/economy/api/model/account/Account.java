@@ -9,10 +9,9 @@ import lombok.*;
 import java.util.LinkedList;
 import java.util.concurrent.CompletableFuture;
 
-@EqualsAndHashCode(callSuper = true)
 @Data
 @AllArgsConstructor(access = AccessLevel.PROTECTED)
-public class Account extends CompletableFuture<Account> {
+public class Account {
 
     private final String userName;
     private double balance;
