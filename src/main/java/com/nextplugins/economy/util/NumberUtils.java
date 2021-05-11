@@ -13,7 +13,7 @@ public final class NumberUtils {
 
     private static final Pattern PATTERN = Pattern.compile("^(\\d+\\.?\\d*)(\\D+)");
 
-    private final static DecimalFormat DECIMAL_FORMAT = new DecimalFormat("#.##");
+    private static final DecimalFormat DECIMAL_FORMAT = new DecimalFormat("#.##");
 
     public static String format(double value) {
 

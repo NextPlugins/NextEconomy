@@ -50,7 +50,7 @@ dependencies {
     implementation 'org.bstats:bstats-bukkit:1.8'
 
     pdm 'com.github.ben-manes.caffeine:caffeine:2.9.0' // 3.0.0 or higher is for java 11+
-    pdm 'com.github.SaiintBrisson:command-framework:1.1.0'
+    pdm 'com.github.SaiintBrisson:command-framework:1.2.0'
 
     def lombok = 'org.projectlombok:lombok:1.18.16'
     compileOnly lombok

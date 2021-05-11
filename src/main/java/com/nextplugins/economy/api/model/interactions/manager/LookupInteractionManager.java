@@ -35,7 +35,7 @@ public class LookupInteractionManager {
                 })
                 .filter(event -> event.getPlayer().getName().equals(player.getName()))
                 .thenAccept(consumer)
-                .await(false);
+                .await(true);
 
     }
 

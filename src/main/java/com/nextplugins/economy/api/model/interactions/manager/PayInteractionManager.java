@@ -10,7 +10,6 @@ import com.nextplugins.economy.util.NumberUtils;
 import lombok.Getter;
 import lombok.val;
 import org.bukkit.Bukkit;
-import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 
@@ -66,7 +65,7 @@ public class PayInteractionManager {
                 })
                 .filter(event -> event.getPlayer().getName().equals(player.getName()))
                 .thenAccept(consumer)
-                .await(false);
+                .await(true);
 
     }
 
@@ -91,14 +90,14 @@ public class PayInteractionManager {
 
             }
 
-            PayInteraction payInteraction = players.get(player.getName());
-            PayInteractionStep step = payInteraction.getStep();
+            val payInteraction = players.get(player.getName());
+            val step = payInteraction.getStep();
 
             switch (step) {
 
                 case PLAYER_NAME: {
 
-                    OfflinePlayer offlinePlayer = Bukkit.getOfflinePlayer(message);
+                    val offlinePlayer = Bukkit.getOfflinePlayer(message);
                     if (offlinePlayer == null) {
 
                         player.sendMessage(MessageValue.get(MessageValue::invalidTarget));
@@ -118,15 +117,15 @@ public class PayInteractionManager {
 
                 default: {
 
-                    double parse = NumberUtils.parse(message);
-                    if (parse < 1) {
+                    val number = NumberUtils.parse(message);
+                    if (number < 1) {
 
                         player.sendMessage(MessageValue.get(MessageValue::invalidMoney));
                         return;
 
                     }
 
-                    payInteraction.setAmount(parse);
+                    payInteraction.setAmount(number);
                     payInteraction.setStep(PayInteractionStep.CONFIRM);
 
                     for (String line : MessageValue.get(MessageValue::interactionConfirm)) {

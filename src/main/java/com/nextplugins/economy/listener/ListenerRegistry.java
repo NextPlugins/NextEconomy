@@ -32,7 +32,6 @@ public final class ListenerRegistry {
             val interactionRegistry = getPlugin().getInteractionRegistry();
 
             val listeners = Arrays.asList(
-                    new UserConnectionListener(plugin.getAccountStorage()),
                     new MoneyGiveListener(),
                     new MoneySetListener(),
                     new MoneyWithdrawListener(),
