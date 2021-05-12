@@ -30,7 +30,6 @@ public final class LegendChatListener implements Listener {
         if (users.contains(player.getName())) {
 
             event.setCancelled(true);
-
             return;
 
         }

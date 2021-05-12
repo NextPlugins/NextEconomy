@@ -5,8 +5,6 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.bukkit.event.Cancellable;
 
-import java.time.Instant;
-
 /**
  * @author Yuhtin
  * Github: https://github.com/Yuhtin
@@ -18,8 +16,7 @@ public final class AsyncPurseUpdateEvent extends EconomyEvent implements Cancell
 
     private final int newValue;
     private final int lastValue;
-    private final Instant instant;
-    private final long nextUpdate;
+    private final long updateMillis;
     private boolean cancelled;
 
     private final boolean async = true;

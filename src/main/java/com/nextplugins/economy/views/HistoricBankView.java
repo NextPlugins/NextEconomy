@@ -18,6 +18,7 @@ import com.nextplugins.economy.util.DateFormatUtil;
 import com.nextplugins.economy.util.NumberUtils;
 import com.nextplugins.economy.views.button.InventoryButton;
 import lombok.val;
+import lombok.var;
 import org.bukkit.Material;
 import org.bukkit.material.MaterialData;
 
@@ -29,7 +30,7 @@ import java.util.stream.Collectors;
  * @author Yuhtin
  * Github: https://github.com/Yuhtin
  */
-public class HistoricBankView extends PagedInventory {
+public final class HistoricBankView extends PagedInventory {
 
     private final AccountStorage accountStorage;
 
@@ -70,12 +71,18 @@ public class HistoricBankView extends PagedInventory {
 
         for (AccountBankHistoric transaction : account.getTransactions()) {
 
-            String date = DateFormatUtil.of(transaction.getMilli());
-            String transactionMessage = (transaction.getType() == TransactionType.WITHDRAW
+            val name = transaction.getType() == TransactionType.WITHDRAW
+                    ? player.getName() : transaction.getTarget();
+
+            val targetName = transaction.getType() == TransactionType.WITHDRAW
+                    ? transaction.getTarget() : player.getName();
+
+            val date = DateFormatUtil.of(transaction.getMilli());
+            val transactionMessage = (transaction.getType() == TransactionType.WITHDRAW
                     ? InventoryValue.get(InventoryValue::withdrawMessage)
                     : InventoryValue.get(InventoryValue::depositMessage))
-                    .replace("@target", transaction.getTarget())
-                    .replace("@player", player.getName());
+                    .replace("@target", targetName)
+                    .replace("@player", name);
 
             val item = InventoryButton.builder()
                     .materialData(new MaterialData(Material.AIR))
@@ -83,8 +90,8 @@ public class HistoricBankView extends PagedInventory {
                     .nickname(InventoryValue.get(InventoryValue::historicSkullName))
                     .lore(InventoryValue.get(InventoryValue::historicLore).stream()
                             .map(line -> line
-                                    .replace("@player", player.getName())
-                                    .replace("@target", transaction.getTarget())
+                                    .replace("@player", name)
+                                    .replace("@target", targetName)
                                     .replace("@date", date)
                                     .replace("@action", transaction.getType().getMessage())
                                     .replace("@message", transactionMessage)
@@ -97,7 +104,7 @@ public class HistoricBankView extends PagedInventory {
 
             items.add(() -> {
 
-                String target = transaction.getTarget();
+                var target = transaction.getTarget();
                 if (target.equalsIgnoreCase("Banco")) target = "MrSnowDK";
                 if (target.equalsIgnoreCase("Cheque")) target = "Tom25W";
 

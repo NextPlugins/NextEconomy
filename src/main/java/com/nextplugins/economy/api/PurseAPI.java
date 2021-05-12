@@ -93,16 +93,17 @@ public class PurseAPI {
 
     public void updatePurse(int newValue) {
 
-        Bukkit.getScheduler().runTaskAsynchronously(NextEconomy.getInstance(), () -> {
+        val lastNextUpdate = nextUpdate;
 
-            val duration = PurseValue.get(PurseValue::nextUpdate);
-            val nextUpdate = System.currentTimeMillis() + TimeUnit.SECONDS.toMillis(duration);
+        val duration = PurseValue.get(PurseValue::nextUpdate);
+        setNextUpdate(System.currentTimeMillis() + TimeUnit.SECONDS.toMillis(duration));
+
+        Bukkit.getScheduler().runTaskAsynchronously(NextEconomy.getInstance(), () -> {
 
             AsyncPurseUpdateEvent asyncPurseUpdateEvent = new AsyncPurseUpdateEvent(
                     newValue,
                     purse,
-                    Instant.now(),
-                    nextUpdate
+                    lastNextUpdate
             );
 
             PluginManager pluginManager = Bukkit.getPluginManager();
