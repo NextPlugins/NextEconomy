@@ -44,7 +44,7 @@ public class BankView extends SimpleInventory {
     protected void configureInventory(Viewer viewer, InventoryEditor editor) {
 
         val player = viewer.getPlayer();
-        val account = accountStorage.findOnlineAccount(player);
+        val account = accountStorage.findAccount(player.getName(), true);
         val instance = PurseAPI.getInstance();
 
         String purse = instance != null ? instance.getPurseFormated() : "";

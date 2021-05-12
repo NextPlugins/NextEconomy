@@ -38,7 +38,7 @@ public final class NextEconomyAPI {
      */
     @Nullable
     public Account findAccountByPlayer(OfflinePlayer player) {
-        return findAccountByName(player.getName());
+        return accountStorage.findAccount(player.getName(), player.isOnline());
     }
 
     /**
@@ -51,7 +51,7 @@ public final class NextEconomyAPI {
      */
     @Nullable
     public Account findAccountByName(String name) {
-        return accountStorage.findOfflineAccount(name);
+        return accountStorage.findAccount(name, false);
     }
 
     /**

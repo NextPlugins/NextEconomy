@@ -30,8 +30,8 @@ public final class TransactionRequestListener implements Listener {
             return;
         }
 
-        val account = accountStorage.findOnlineAccount(player);
-        val targetAccount = accountStorage.findOfflineAccount(target.getName());
+        val account = accountStorage.findAccount(player.getName(), true);
+        val targetAccount = accountStorage.findAccount(target.getName(), target.isOnline());
         if (targetAccount == null) {
 
             player.sendMessage(MessageValue.get(MessageValue::invalidTarget));

@@ -24,7 +24,7 @@ public final class MoneyGiveListener implements Listener {
         val target = event.getTarget();
         val amount = event.getAmount();
 
-        val targetAccount = accountStorage.findOfflineAccount(target.getName());
+        val targetAccount = accountStorage.findAccount(target.getName(), target.isOnline());
         if (targetAccount == null) {
 
             sender.sendMessage(MessageValue.get(MessageValue::invalidTarget));

@@ -57,8 +57,6 @@ public final class AccountStorage {
             if (account == null && online) {
 
                 account = Account.createDefault(username);
-                accountRepository.saveOne(account);
-
                 cache.put(username, CompletableFuture.completedFuture(account));
 
             }

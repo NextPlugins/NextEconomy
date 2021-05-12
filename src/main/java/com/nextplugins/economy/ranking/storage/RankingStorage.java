@@ -21,7 +21,7 @@ public final class RankingStorage {
 
     public boolean updateRanking() {
 
-        if (nextUpdateMillis < System.currentTimeMillis()) return false;
+        if (nextUpdateMillis > System.currentTimeMillis()) return false;
 
         val plugin = NextEconomy.getInstance();
 
