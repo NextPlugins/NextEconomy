@@ -1,6 +1,7 @@
 package com.nextplugins.economy.command;
 
 import com.nextplugins.economy.NextEconomy;
+import com.nextplugins.economy.api.PurseAPI;
 import com.nextplugins.economy.api.conversor.ConversorManager;
 import com.nextplugins.economy.api.event.operations.MoneyGiveEvent;
 import com.nextplugins.economy.api.event.operations.MoneySetEvent;

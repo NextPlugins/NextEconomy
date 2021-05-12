@@ -1,6 +1,7 @@
 package com.nextplugins.economy;
 
 import com.gmail.filoghost.holographicdisplays.api.Hologram;
+import com.google.common.base.Stopwatch;
 import com.henryfabio.minecraft.inventoryapi.manager.InventoryManager;
 import com.henryfabio.sqlprovider.connector.SQLConnector;
 import com.henryfabio.sqlprovider.executor.SQLExecutor;
@@ -24,6 +25,7 @@ import com.nextplugins.economy.api.model.account.storage.AccountStorage;
 import com.nextplugins.economy.ranking.storage.RankingStorage;
 import com.nextplugins.economy.vault.registry.VaultHookRegistry;
 import lombok.Getter;
+import lombok.val;
 import me.bristermitten.pdm.PluginDependencyManager;
 import net.citizensnpcs.api.npc.NPC;
 import org.bukkit.Bukkit;
@@ -33,6 +35,7 @@ import org.bukkit.entity.ArmorStand;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
+import java.util.logging.Level;
 
 @Getter
 public final class NextEconomy extends JavaPlugin {
@@ -65,7 +68,12 @@ public final class NextEconomy extends JavaPlugin {
     @Override
     public void onEnable() {
 
-        PluginDependencyManager.of(this).loadAllDependencies()
+        getLogger().info("Baixando e carregando dependências necessárias...");;
+
+        val downloadTime = Stopwatch.createStarted();
+
+        PluginDependencyManager.of(this)
+                .loadAllDependencies()
                 .exceptionally(throwable -> {
 
                     throwable.printStackTrace();
@@ -76,45 +84,53 @@ public final class NextEconomy extends JavaPlugin {
                     return null;
 
                 })
-                .thenRun(() -> {
+                .join();
 
-                    sqlConnector = SQLProvider.of(this).setup();
-                    sqlExecutor = new SQLExecutor(sqlConnector);
+        downloadTime.stop();
 
-                    accountRepository = new AccountRepository(sqlExecutor);
-                    accountStorage = new AccountStorage(accountRepository);
-                    conversorManager = new ConversorManager(accountRepository);
-                    rankingStorage = new RankingStorage();
-                    locationManager = new LocationManager();
-                    interactionRegistry = new InteractionRegistry();
+        getLogger().log(Level.INFO, "Dependências carregadas com sucesso! ({0})", downloadTime);
+        getLogger().info("Iniciando carregamento do plugin.");
 
-                    accountStorage.init();
-                    interactionRegistry.init();
+        val loadTime = Stopwatch.createStarted();
 
-                    InventoryManager.enable(this);
+        sqlConnector = SQLProvider.of(this).setup();
+        sqlExecutor = new SQLExecutor(sqlConnector);
 
-                    ConfigurationRegistry.of(this).register();
-                    ListenerRegistry.of(this).register();
-                    CommandRegistry.of(this).register();
-                    VaultHookRegistry.of(this).register();
-                    MetricProvider.of(this).register();
-                    InventoryRegistry.of(this).register();
-                    PlaceholderRegistry.of(this).register();
+        accountRepository = new AccountRepository(sqlExecutor);
+        accountStorage = new AccountStorage(accountRepository);
+        conversorManager = new ConversorManager(accountRepository);
+        rankingStorage = new RankingStorage();
+        locationManager = new LocationManager();
+        interactionRegistry = new InteractionRegistry();
 
-                    Bukkit.getScheduler().runTaskLater(this, () -> {
+        accountStorage.init();
+        interactionRegistry.init();
 
-                        CustomRankingRegistry.of(this).register();
+        InventoryManager.enable(this);
 
-                        // bump money top one time and add, if enabled, stands/npcs
-                        rankingStorage.updateRanking();
+        ConfigurationRegistry.of(this).register();
+        ListenerRegistry.of(this).register();
+        CommandRegistry.of(this).register();
+        VaultHookRegistry.of(this).register();
+        MetricProvider.of(this).register();
+        InventoryRegistry.of(this).register();
+        PlaceholderRegistry.of(this).register();
 
-                    }, 100L);
+        Bukkit.getScheduler().runTaskLater(this, () -> {
 
-                    if (!PurseAPI.init()) getLogger().info("Sistema de bolsa de valores desativado.");
+            CustomRankingRegistry.of(this).register();
 
-                    getLogger().info("Plugin inicializado com sucesso!");
+            // bump money top one time and add, if enabled, stands/npcs
+            rankingStorage.updateRanking();
 
-                });
+        }, 100L);
+
+        if (!PurseAPI.init()) getLogger().info("Sistema de bolsa de valores desativado.");
+        else PurseAPI.getInstance().forceUpdate();
+
+        loadTime.stop();
+        getLogger().log(Level.INFO, "Plugin inicializado com sucesso. ({0})", loadTime);
+
     }
 
     @Override

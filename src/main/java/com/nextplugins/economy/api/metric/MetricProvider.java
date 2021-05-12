@@ -13,6 +13,9 @@ public final class MetricProvider {
 
     public void register() {
 
+        // bstats with pdm (without relocate)
+        System.setProperty("bstats.relocatecheck", "false");
+
         new Metrics(plugin, PLUGIN_ID);
         plugin.getLogger().info("Métrica de uso habilitada com sucesso.");
 

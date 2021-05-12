@@ -27,6 +27,8 @@ public final class ListenerRegistry {
         val logger = plugin.getLogger();
         try {
 
+            val pluginManager = Bukkit.getPluginManager();
+
             val rankingStorage = getPlugin().getRankingStorage();
             val accountRepository = getPlugin().getAccountRepository();
             val interactionRegistry = getPlugin().getInteractionRegistry();
@@ -39,14 +41,37 @@ public final class ListenerRegistry {
                     new TransactionRequestListener(),
                     new MoneyTopUpdateListener(),
                     new AsyncRankingUpdateListener(accountRepository, rankingStorage),
-                    new OpeNChatListener(rankingStorage, interactionRegistry),
-                    new LegendChatListener(rankingStorage, interactionRegistry),
-                    new UltimateChatListener(rankingStorage, interactionRegistry),
                     new CheckInteractListener(plugin.getAccountStorage())
             );
 
-            val pluginManager = Bukkit.getPluginManager();
-            listeners.forEach($ -> pluginManager.registerEvents($, plugin));
+            if (pluginManager.isPluginEnabled("nChat")) {
+
+                pluginManager.registerEvents(
+                        new OpeNChatListener(rankingStorage, interactionRegistry),
+                        plugin
+                );
+
+            }
+
+            if (pluginManager.isPluginEnabled("LegendChat")) {
+
+                pluginManager.registerEvents(
+                        new LegendChatListener(rankingStorage, interactionRegistry),
+                        plugin
+                );
+
+            }
+
+            if (pluginManager.isPluginEnabled("UltimateChat")) {
+
+                pluginManager.registerEvents(
+                        new UltimateChatListener(rankingStorage, interactionRegistry),
+                        plugin
+                );
+
+            }
+
+            listeners.forEach(listener -> pluginManager.registerEvents(listener, plugin));
 
             logger.info("Foram registrados " + listeners.size() + " listeners com sucesso!");
         } catch (Throwable t) {

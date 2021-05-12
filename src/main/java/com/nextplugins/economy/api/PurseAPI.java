@@ -52,17 +52,18 @@ public class PurseAPI {
 
     public static PurseAPI getInstance() {
 
-        if (instance != null && instance.getPurse() < System.currentTimeMillis()) {
-
-            val maxValue = PurseValue.get(PurseValue::maxValue);
-            val minValue = PurseValue.get(PurseValue::minValue);
-
-            val randomValue = RANDOM.ints(minValue, maxValue + 1).iterator().nextInt();
-            instance.updatePurse(randomValue);
-
-        }
-
+        if (instance != null && instance.getNextUpdate() < System.currentTimeMillis()) instance.forceUpdate();
         return instance;
+
+    }
+
+    public void forceUpdate() {
+
+        val maxValue = PurseValue.get(PurseValue::maxValue);
+        val minValue = PurseValue.get(PurseValue::minValue);
+
+        val randomValue = RANDOM.ints(minValue, maxValue + 1).iterator().nextInt();
+        updatePurse(randomValue);
 
     }
 
