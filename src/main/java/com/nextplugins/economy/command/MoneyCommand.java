@@ -1,7 +1,6 @@
 package com.nextplugins.economy.command;
 
 import com.nextplugins.economy.NextEconomy;
-import com.nextplugins.economy.api.PurseAPI;
 import com.nextplugins.economy.api.conversor.ConversorManager;
 import com.nextplugins.economy.api.event.operations.MoneyGiveEvent;
 import com.nextplugins.economy.api.event.operations.MoneySetEvent;
@@ -77,7 +76,7 @@ public final class MoneyCommand {
 
         }
 
-        val offlineAccount = accountStorage.findOfflineAccount(target.getName());
+        val offlineAccount = accountStorage.findAccount(target.getName(), target.isOnline());
         if (offlineAccount == null) {
 
             context.sendMessage(MessageValue.get(MessageValue::invalidTarget));
@@ -113,8 +112,8 @@ public final class MoneyCommand {
 
         }
 
-        val account = accountStorage.findOfflineAccount(target.getName());
-        if (account == null) {
+        val offlineAccount = accountStorage.findAccount(target.getName(), target.isOnline());
+        if (offlineAccount == null) {
 
             player.sendMessage(MessageValue.get(MessageValue::invalidTarget));
             return;
@@ -168,8 +167,8 @@ public final class MoneyCommand {
 
         }
 
-        val account = accountStorage.findOfflineAccount(target.getName());
-        if (account == null) {
+        val offlineAccount = accountStorage.findAccount(target.getName(), target.isOnline());
+        if (offlineAccount == null) {
 
             sender.sendMessage(MessageValue.get(MessageValue::invalidTarget));
             return;
@@ -201,8 +200,8 @@ public final class MoneyCommand {
 
         }
 
-        val account = accountStorage.findOfflineAccount(target.getName());
-        if (account == null) {
+        val offlineAccount = accountStorage.findAccount(target.getName(), target.isOnline());
+        if (offlineAccount == null) {
 
             sender.sendMessage(MessageValue.get(MessageValue::invalidTarget));
             return;
@@ -233,8 +232,8 @@ public final class MoneyCommand {
 
         }
 
-        val account = accountStorage.findOfflineAccount(target.getName());
-        if (account == null) {
+        val offlineAccount = accountStorage.findAccount(target.getName(), target.isOnline());
+        if (offlineAccount == null) {
 
             sender.sendMessage(MessageValue.get(MessageValue::invalidTarget));
             return;
@@ -257,16 +256,16 @@ public final class MoneyCommand {
     public void moneyResetCommand(Context<CommandSender> context, OfflinePlayer target) {
 
         val sender = context.getSender();
-        val account = accountStorage.findOfflineAccount(target.getName());
+        val offlineAccount = accountStorage.findAccount(target.getName(), target.isOnline());
 
-        if (account == null) {
+        if (offlineAccount == null) {
 
             sender.sendMessage(MessageValue.get(MessageValue::invalidTarget));
             return;
 
         }
 
-        account.setBalance(0);
+        offlineAccount.setBalance(0);
 
         sender.sendMessage(MessageValue.get(MessageValue::resetBalance)
                 .replace("$player", target.getName())
@@ -374,7 +373,7 @@ public final class MoneyCommand {
             target = CommandTarget.PLAYER,
             async = true
     )
-    public void npcRemoveCommand(Context<Player> context, int position) throws Exception {
+    public void npcRemoveCommand(Context<Player> context, int position) {
         val player = context.getSender();
 
         if (!CustomRankingRegistry.isEnabled()) {
@@ -401,16 +400,20 @@ public final class MoneyCommand {
             return;
         }
 
-        val locations = plugin.getNpcConfig().getStringList("npc.locations");
-        locations.remove(position + " " + LocationUtil.byLocationNoBlock(locationManager.getLocation(position)));
+        try {
+            val locations = plugin.getNpcConfig().getStringList("npc.locations");
+            locations.remove(position + " " + LocationUtil.byLocationNoBlock(locationManager.getLocation(position)));
 
-        plugin.getNpcConfig().set("npc.locations", locations);
-        plugin.getNpcConfig().save(plugin.getNpcFile());
+            plugin.getNpcConfig().set("npc.locations", locations);
+            plugin.getNpcConfig().save(plugin.getNpcFile());
 
-        locationManager.getLocationMap().remove(position);
+            locationManager.getLocationMap().remove(position);
 
-        player.sendMessage(MessageValue.get(MessageValue::positionSuccessfulRemoved).replace("$position", String.valueOf(position)));
-        CustomRankingRegistry.getRunnable().run();
+            player.sendMessage(MessageValue.get(MessageValue::positionSuccessfulRemoved).replace("$position", String.valueOf(position)));
+            CustomRankingRegistry.getRunnable().run();
+        } catch (Exception exception) {
+            player.sendMessage(ColorUtil.colored("&cOcorreu um erro ao salvar o arquivo de localizações."));
+        }
 
     }
 

@@ -8,9 +8,7 @@ import com.nextplugins.economy.api.model.account.Account;
 import com.nextplugins.economy.dao.repository.AccountRepository;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
-import lombok.val;
 import lombok.var;
-import org.bukkit.entity.Player;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.jetbrains.annotations.NotNull;
 
@@ -25,7 +23,7 @@ public final class AccountStorage {
     @Getter private final AccountRepository accountRepository;
 
     @Getter private final AsyncLoadingCache<String, Account> cache = Caffeine.newBuilder()
-            .maximumSize(10000)
+            .maximumSize(10_000)
             .expireAfterWrite(5, TimeUnit.MINUTES)
             .removalListener(this::saveOne)
             .buildAsync(this::selectOne);
@@ -46,34 +44,31 @@ public final class AccountStorage {
     }
 
     /**
-     * Used to no cache account
+     * Used to get accounts
      *
      * @param username player name
+     * @param online if player is online, can't return a null account
      * @return {@link Account} found
      */
-    public Account findOfflineAccount(String username) {
+    public Account findAccount(String username, boolean online) {
         try {
-            return cache.get(username).get();
+
+            var account = cache.get(username).get();
+            if (account == null && online) {
+
+                account = Account.createDefault(username);
+                accountRepository.saveOne(account);
+
+                cache.put(username, CompletableFuture.completedFuture(account));
+
+            }
+
+            return account;
+
         } catch (InterruptedException | ExecutionException ignored) {
+            Thread.currentThread().interrupt();
             return null;
         }
-    }
-
-    public Account findOnlineAccount(Player player) {
-
-        val username = player.getName();
-        var account = findOfflineAccount(username);
-
-        if (account == null) {
-
-            account = Account.createDefault(username);
-            accountRepository.saveOne(account);
-
-            cache.put(player.getName(), CompletableFuture.completedFuture(account));
-
-        }
-
-        return account;
     }
 
 }

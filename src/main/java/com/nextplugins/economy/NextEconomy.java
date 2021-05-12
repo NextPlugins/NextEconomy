@@ -68,7 +68,7 @@ public final class NextEconomy extends JavaPlugin {
     @Override
     public void onEnable() {
 
-        getLogger().info("Baixando e carregando dependências necessárias...");;
+        getLogger().info("Baixando e carregando dependências necessárias...");
 
         val downloadTime = Stopwatch.createStarted();
 

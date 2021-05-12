@@ -31,17 +31,11 @@ public final class AccountRepository {
     }
 
     public Account selectOne(String owner) {
-
-
-        var account = sqlExecutor.resultOneQuery(
+        return sqlExecutor.resultOneQuery(
                 "SELECT * FROM " + TABLE + " WHERE owner = ?",
                 statement -> statement.set(1, owner),
                 AccountAdapter.class
         );
-
-        if (account == null) account = Account.createDefault(owner);
-
-        return account;
     }
 
     public Set<OldAccount> selectAllOld() {
