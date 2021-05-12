@@ -4,7 +4,11 @@ import com.google.common.collect.Lists;
 import com.nextplugins.economy.api.model.account.historic.AccountBankHistoric;
 import com.nextplugins.economy.api.model.account.transaction.TransactionType;
 import com.nextplugins.economy.configuration.FeatureValue;
-import lombok.*;
+import lombok.val;
+import lombok.var;
+import lombok.Data;
+import lombok.AllArgsConstructor;
+import lombok.AccessLevel;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
