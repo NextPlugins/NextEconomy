@@ -327,7 +327,7 @@ public final class MoneyCommand {
 
         val player = context.getSender();
 
-        if (!CustomRankingRegistry.isEnabled()) {
+        if (!CustomRankingRegistry.getInstance().isEnabled()) {
             player.sendMessage(ChatColor.RED + "O ranking em NPC foi desabilitado por falta de dependências.");
             return;
         }
@@ -360,7 +360,7 @@ public final class MoneyCommand {
         plugin.getNpcConfig().save(plugin.getNpcFile());
 
         player.sendMessage(MessageValue.get(MessageValue::positionSuccessfulCreated).replace("$position", String.valueOf(position)));
-        CustomRankingRegistry.getRunnable().run();
+        CustomRankingRegistry.getInstance().getRunnable().run();
 
     }
 
@@ -376,7 +376,7 @@ public final class MoneyCommand {
     public void npcRemoveCommand(Context<Player> context, int position) {
         val player = context.getSender();
 
-        if (!CustomRankingRegistry.isEnabled()) {
+        if (!CustomRankingRegistry.getInstance().isEnabled()) {
             player.sendMessage(ChatColor.RED + "O ranking em NPC foi desabilitado por falta de dependências.");
             return;
         }
@@ -410,7 +410,7 @@ public final class MoneyCommand {
             locationManager.getLocationMap().remove(position);
 
             player.sendMessage(MessageValue.get(MessageValue::positionSuccessfulRemoved).replace("$position", String.valueOf(position)));
-            CustomRankingRegistry.getRunnable().run();
+            CustomRankingRegistry.getInstance().getRunnable().run();
         } catch (Exception exception) {
             player.sendMessage(ColorUtil.colored("&cOcorreu um erro ao salvar o arquivo de localizações."));
         }

@@ -1,7 +1,6 @@
 package com.nextplugins.economy.listener.events.chat;
 
 import br.com.devpaulo.legendchat.api.events.ChatMessageEvent;
-import com.nextplugins.economy.api.model.account.Account;
 import com.nextplugins.economy.configuration.RankingValue;
 import com.nextplugins.economy.api.model.interactions.registry.InteractionRegistry;
 import com.nextplugins.economy.ranking.storage.RankingStorage;

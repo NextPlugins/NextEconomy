@@ -2,13 +2,14 @@ package com.nextplugins.economy.dao.repository;
 
 import com.henryfabio.sqlprovider.executor.SQLExecutor;
 import com.nextplugins.economy.api.model.account.Account;
+import com.nextplugins.economy.api.model.account.historic.AccountBankHistoric;
 import com.nextplugins.economy.api.model.account.old.OldAccount;
 import com.nextplugins.economy.api.model.account.old.adapter.OldAccountAdapter;
 import com.nextplugins.economy.dao.repository.adapter.AccountAdapter;
 import com.nextplugins.economy.util.LinkedListHelper;
 import lombok.RequiredArgsConstructor;
-import lombok.var;
 
+import java.util.LinkedList;
 import java.util.Set;
 import java.util.UUID;
 
@@ -47,10 +48,6 @@ public final class AccountRepository {
         );
     }
 
-    public Set<Account> selectAll() {
-        return selectAll("");
-    }
-
     public Set<Account> selectAll(String query) {
         return sqlExecutor.resultManyQuery(
                 "SELECT * FROM " + TABLE + " " + query,
@@ -70,7 +67,7 @@ public final class AccountRepository {
                     statement.set(2, account.getBalance());
                     statement.set(3, account.getMovimentedBalance());
                     statement.set(4, account.getTransactionsQuantity());
-                    statement.set(5, LinkedListHelper.toJson(account.getTransactions()));
+                    statement.set(5, LinkedListHelper.toJson((LinkedList<AccountBankHistoric>) account.getTransactions()));
 
                 }
         );
@@ -80,12 +77,6 @@ public final class AccountRepository {
     public void deleteOldByUUID(UUID uuid) {
         sqlExecutor.updateQuery(
                 "DELETE FROM economy_data WHERE owner = '" + uuid.toString() + "'"
-        );
-    }
-
-    public void deleteOne(Account account) {
-        sqlExecutor.updateQuery(
-                "DELETE FROM " + TABLE + " WHERE owner = '" + account.getUserName() + "'"
         );
     }
 

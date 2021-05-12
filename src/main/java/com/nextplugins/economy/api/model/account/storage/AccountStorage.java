@@ -23,7 +23,7 @@ public final class AccountStorage {
     @Getter private final AccountRepository accountRepository;
 
     @Getter private final AsyncLoadingCache<String, Account> cache = Caffeine.newBuilder()
-            .maximumSize(10_000)
+            .maximumSize(10000)
             .expireAfterWrite(5, TimeUnit.MINUTES)
             .removalListener(this::saveOne)
             .buildAsync(this::selectOne);

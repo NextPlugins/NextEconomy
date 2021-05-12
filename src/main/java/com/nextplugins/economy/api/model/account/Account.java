@@ -5,9 +5,10 @@ import com.nextplugins.economy.api.model.account.historic.AccountBankHistoric;
 import com.nextplugins.economy.api.model.account.transaction.TransactionType;
 import com.nextplugins.economy.configuration.FeatureValue;
 import lombok.*;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
-import java.util.LinkedList;
-import java.util.concurrent.CompletableFuture;
+import java.util.List;
 
 @Data
 @AllArgsConstructor(access = AccessLevel.PROTECTED)
@@ -18,7 +19,7 @@ public class Account {
     private double movimentedBalance;
     private int transactionsQuantity;
 
-    private LinkedList<AccountBankHistoric> transactions;
+    private List<AccountBankHistoric> transactions;
 
     public static Account createDefault(String name) {
 
@@ -34,7 +35,7 @@ public class Account {
                                  double balance,
                                  double movimentedBalance,
                                  int transactionsQuantity,
-                                 LinkedList<AccountBankHistoric> transactions) {
+                                 List<AccountBankHistoric> transactions) {
 
         return new Account(
                 name,
@@ -46,10 +47,11 @@ public class Account {
 
     }
 
-    public synchronized void createTransaction(String owner,
-                                               double amount,
-                                               TransactionType transactionType) {
+    public synchronized void createTransaction(@Nullable String owner,
+                                               double quantity,
+                                               @NotNull TransactionType transactionType) {
 
+        var amount = quantity;
         if (amount < 1 || Double.isNaN(amount) || Double.isInfinite(amount)) return;
 
         if (transactionType == TransactionType.WITHDRAW) {

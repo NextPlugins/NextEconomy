@@ -136,7 +136,7 @@ public final class NextEconomy extends JavaPlugin {
     @Override
     public void onDisable() {
 
-        if (CustomRankingRegistry.isEnabled()) {
+        if (CustomRankingRegistry.getInstance().isEnabled()) {
             String type = RankingValue.get(RankingValue::npcType);
             if (type.equalsIgnoreCase("npc")) {
 

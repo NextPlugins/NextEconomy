@@ -33,19 +33,20 @@ public final class EconomyPlaceholderHook extends PlaceholderExpansion {
     }
 
     @Override
-    public String onPlaceholderRequest(Player player, @NotNull String params) {
-        if (player == null) return "&cOcorreu um erro!";
+    public String onPlaceholderRequest(@NotNull Player player, @NotNull String params) {
 
         val account = NextEconomyAPI.getInstance().findAccountByPlayer(player);
-        val balance = account == null ? "&cOcorreu um erro!" : NumberUtils.format(account.getBalance());
+        if (account == null) return "&cOcorreu um erro!";
 
-        if (params.equalsIgnoreCase("amount")) return balance;
+        if (params.equalsIgnoreCase("amount")) {
+            return NumberUtils.format(account.getBalance());
+        }
 
         if (params.equalsIgnoreCase("tycoon")) {
 
             val rankingStorage = NextEconomyAPI.getInstance().getRankingStorage();
-
             val tycoonAccount = rankingStorage.getRankByCoin().get(0);
+
             return player.getName().equalsIgnoreCase(tycoonAccount.getUserName())
                     ? RankingValue.get(RankingValue::tycoonTagValue)
                     : RankingValue.get(RankingValue::tycoonRichTagValue);
@@ -53,17 +54,16 @@ public final class EconomyPlaceholderHook extends PlaceholderExpansion {
         }
 
         if (instance != null) {
-            if (params.equalsIgnoreCase("purse")) {
-                return instance.getPurseFormated();
+
+            switch (params) {
+
+                case "purse": return instance.getPurseFormated();
+                case "purse_only_value": return String.valueOf(instance.getPurse());
+                case "purse_with_icon": return instance.getPurseFormatedWithIcon();
+                default: return "Placeholder inválida";
+
             }
 
-            if (params.equalsIgnoreCase("purse_only_value")) {
-                return String.valueOf(instance.getPurse());
-            }
-
-            if (params.equalsIgnoreCase("purse_with_icon")) {
-                return instance.getPurseFormatedWithIcon();
-            }
         }
 
         return "Placeholder inválida";
