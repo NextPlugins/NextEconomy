@@ -11,17 +11,25 @@ public final class AccountAdapter implements SQLResultAdapter<Account> {
     public Account adaptResult(SimpleResultSet resultSet) {
 
         String accountOwner = resultSet.get("owner");
+        String transactions = resultSet.get("transactions");
+
         double accountBalance = resultSet.get("balance");
+
         double movimentedBalance = resultSet.get("movimentedBalance");
         int transactionsQuantity = resultSet.get("transactionsQuantity");
-        String transactions = resultSet.get("transactions");
+
+        long discordId = 0;
+
+        try { discordId = resultSet.get("discordId"); }
+        catch (NullPointerException ignored) {}
 
         return Account.create(
                 accountOwner,
                 accountBalance,
                 movimentedBalance,
                 transactionsQuantity,
-                LinkedListHelper.fromJson(transactions)
+                LinkedListHelper.fromJson(transactions),
+                discordId
         );
 
     }

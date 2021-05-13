@@ -21,16 +21,18 @@ public class Account {
     private final String userName;
     private double balance;
     private double movimentedBalance;
-    private int transactionsQuantity;
 
+    private int transactionsQuantity;
     private List<AccountBankHistoric> transactions;
+
+    private long discordId;
 
     public static Account createDefault(String name) {
 
         return create(
                 name,
                 FeatureValue.get(FeatureValue::initialBalance),
-                0, 0, Lists.newLinkedList()
+                0, 0, Lists.newLinkedList(), -1
         );
 
     }
@@ -39,14 +41,16 @@ public class Account {
                                  double balance,
                                  double movimentedBalance,
                                  int transactionsQuantity,
-                                 List<AccountBankHistoric> transactions) {
+                                 List<AccountBankHistoric> transactions,
+                                 long discordId) {
 
         return new Account(
                 name,
                 balance,
                 movimentedBalance,
                 transactionsQuantity,
-                transactions
+                transactions,
+                discordId
         );
 
     }

@@ -57,7 +57,7 @@ public final class AccountStorage {
             if (account == null && online) {
 
                 account = Account.createDefault(username);
-                cache.put(username, CompletableFuture.completedFuture(account));
+                put(account);
 
             }
 
@@ -67,6 +67,10 @@ public final class AccountStorage {
             Thread.currentThread().interrupt();
             return null;
         }
+    }
+
+    public void put(Account account) {
+        cache.put(account.getUserName(), CompletableFuture.completedFuture(account));
     }
 
 }
