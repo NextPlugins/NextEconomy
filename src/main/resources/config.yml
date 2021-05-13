@@ -20,9 +20,9 @@ database:
     file: 'database/database.db'
 
 plugin:
-  # Habilitar backups quando servidor reinicia
-  backups: true
   configuration:
+    # Habilitar backups quando servidor reinicia
+    backups: true
     # Sistema de bolsa de valores
     purse:
       enable: true # usar o sistema
