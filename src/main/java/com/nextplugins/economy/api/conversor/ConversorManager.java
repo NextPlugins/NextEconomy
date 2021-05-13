@@ -32,7 +32,9 @@ public class ConversorManager {
     private boolean converting;
     private int actionBarTaskID;
 
-    public boolean checkConversorAvaility(CommandSender sender) {
+    public boolean checkConversorAvaility(@Nullable CommandSender sender) {
+
+        if (sender == null) return !converting && Bukkit.getOnlinePlayers().isEmpty();
 
         if (converting) {
 

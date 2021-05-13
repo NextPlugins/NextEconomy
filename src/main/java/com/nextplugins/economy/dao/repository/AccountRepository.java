@@ -8,13 +8,13 @@ import com.nextplugins.economy.util.LinkedListHelper;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
-import java.util.LinkedList;
 import java.util.Set;
 
 @RequiredArgsConstructor
 public final class AccountRepository {
 
     private static final String TABLE = "nexteconomy_data";
+    private static final LinkedListHelper<AccountBankHistoric> PARSER = new LinkedListHelper<>();
 
     @Getter private final SQLExecutor sqlExecutor;
 
@@ -35,6 +35,10 @@ public final class AccountRepository {
         } catch (Exception ignored) {
         }
 
+    }
+
+    public void truncateTable() {
+        sqlExecutor.updateQuery("TRUNCATE TABLE " + TABLE);
     }
 
     private Account selectOneQuery(String query) {
@@ -73,7 +77,7 @@ public final class AccountRepository {
                     statement.set(2, account.getBalance());
                     statement.set(3, account.getMovimentedBalance());
                     statement.set(4, account.getTransactionsQuantity());
-                    statement.set(5, LinkedListHelper.toJson((LinkedList<AccountBankHistoric>) account.getTransactions()));
+                    statement.set(5, PARSER.toJson(account.getTransactions()));
                     statement.set(6, account.getDiscordId());
 
                 }

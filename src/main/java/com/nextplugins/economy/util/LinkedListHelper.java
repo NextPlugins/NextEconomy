@@ -3,24 +3,37 @@ package com.nextplugins.economy.util;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
-import com.nextplugins.economy.api.model.account.historic.AccountBankHistoric;
 
+import java.io.FileReader;
+import java.io.FileWriter;
 import java.lang.reflect.Type;
 import java.util.LinkedList;
+import java.util.List;
 
-public final class LinkedListHelper {
+public class LinkedListHelper<T> {
 
-    private static final Gson gson = new GsonBuilder().create();
+    private static final Gson GSON = new GsonBuilder().setPrettyPrinting().create();
 
-    public static LinkedList<AccountBankHistoric> fromJson(String data) {
+    public List<T> fromJson(String data) {
 
-        Type typeOfHashMap = new TypeToken<LinkedList<AccountBankHistoric>>() {}.getType();
-        return gson.fromJson(data, typeOfHashMap);
+        Type typeOfHashMap = new TypeToken<LinkedList<T>>() {}.getType();
+        return GSON.fromJson(data, typeOfHashMap);
 
     }
 
-    public static String toJson(LinkedList<AccountBankHistoric> data) {
-        return gson.toJson(data);
+    public List<T> fromJson(FileReader reader) {
+
+        Type typeOfHashMap = new TypeToken<LinkedList<T>>() {}.getType();
+        return GSON.fromJson(reader, typeOfHashMap);
+
+    }
+
+    public String toJson(List<T> data) {
+        return GSON.toJson(data);
+    }
+
+    public void toJson(List<T> data, FileWriter writer) {
+        GSON.toJson(data, writer);
     }
 
 }

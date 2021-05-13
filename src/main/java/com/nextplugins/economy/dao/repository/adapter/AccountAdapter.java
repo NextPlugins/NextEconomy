@@ -3,9 +3,13 @@ package com.nextplugins.economy.dao.repository.adapter;
 import com.henryfabio.sqlprovider.executor.adapter.SQLResultAdapter;
 import com.henryfabio.sqlprovider.executor.result.SimpleResultSet;
 import com.nextplugins.economy.api.model.account.Account;
+import com.nextplugins.economy.api.model.account.historic.AccountBankHistoric;
 import com.nextplugins.economy.util.LinkedListHelper;
+import lombok.val;
 
 public final class AccountAdapter implements SQLResultAdapter<Account> {
+
+    private static final LinkedListHelper<AccountBankHistoric> PARSER = new LinkedListHelper<>();
 
     @Override
     public Account adaptResult(SimpleResultSet resultSet) {
@@ -23,12 +27,13 @@ public final class AccountAdapter implements SQLResultAdapter<Account> {
         try { discordId = resultSet.get("discordId"); }
         catch (NullPointerException ignored) {}
 
+
         return Account.create(
                 accountOwner,
                 accountBalance,
                 movimentedBalance,
                 transactionsQuantity,
-                LinkedListHelper.fromJson(transactions),
+                PARSER.fromJson(transactions),
                 discordId
         );
 
