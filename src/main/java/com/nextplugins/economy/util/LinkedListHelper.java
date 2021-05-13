@@ -14,21 +14,21 @@ public class LinkedListHelper<T> {
 
     private static final Gson GSON = new GsonBuilder().setPrettyPrinting().create();
 
-    public List<T> fromJson(String data) {
+    public LinkedList<T> fromJson(String data) {
 
         Type typeOfHashMap = new TypeToken<LinkedList<T>>() {}.getType();
         return GSON.fromJson(data, typeOfHashMap);
 
     }
 
-    public List<T> fromJson(FileReader reader) {
+    public LinkedList<T> fromJson(FileReader reader) {
 
         Type typeOfHashMap = new TypeToken<LinkedList<T>>() {}.getType();
         return GSON.fromJson(reader, typeOfHashMap);
 
     }
 
-    public String toJson(List<T> data) {
+    public String toJson(LinkedList<T> data) {
         return GSON.toJson(data);
     }
 

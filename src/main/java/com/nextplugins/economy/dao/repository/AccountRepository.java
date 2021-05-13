@@ -31,7 +31,7 @@ public final class AccountRepository {
         );
 
         try {
-            sqlExecutor.updateQuery("ALTER TABLE " + TABLE + " ADD COLUMN discordId LONG NOT NULL");
+            sqlExecutor.updateQuery("ALTER TABLE " + TABLE + " ADD COLUMN discordId LONG default null");
         } catch (Exception ignored) {
         }
 

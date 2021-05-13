@@ -1,5 +1,6 @@
 package com.nextplugins.economy.api.backup;
 
+import com.henryfabio.sqlprovider.connector.utils.FileUtils;
 import com.nextplugins.economy.NextEconomy;
 import com.nextplugins.economy.api.backup.runnable.BackupCreatorRunnable;
 import com.nextplugins.economy.api.backup.runnable.BackupReaderRunnable;
@@ -33,6 +34,7 @@ public final class BackupManager {
      * @param async operation mode
      * @return {@link File} created
      */
+    @Nullable
     public CompletableFuture<File> createBackup(@Nullable String name,
                                           List<Account> accounts,
                                           boolean restaurationPoint,
@@ -51,14 +53,16 @@ public final class BackupManager {
         if (restaurationPoint) fileName = "restauration/" + fileName;
 
         val file = new File(plugin.getDataFolder(), "backups/" + fileName + ".json");
-        try { if (!file.createNewFile()) throw new Exception(); }
-        catch (Exception exception) {
+        plugin.getLogger().info("Criando backup para o local '" + file.getPath() + "'.");
 
-            exception.printStackTrace();
-            plugin.getLogger().severe("Não foi possível criar o arquivo de backup.");
+        if (file.exists()) {
+
+            plugin.getLogger().info("O nome inserido no arquivo de backup já existe.");
             return null;
 
         }
+
+        FileUtils.createFileIfNotExists(file);
 
         val runnable = new BackupCreatorRunnable(this, file, accounts);
 

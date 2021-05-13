@@ -4,15 +4,11 @@ import com.google.common.collect.Lists;
 import com.nextplugins.economy.api.model.account.historic.AccountBankHistoric;
 import com.nextplugins.economy.api.model.account.transaction.TransactionType;
 import com.nextplugins.economy.configuration.FeatureValue;
-import lombok.val;
-import lombok.var;
-import lombok.Data;
-import lombok.AllArgsConstructor;
-import lombok.AccessLevel;
+import lombok.*;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.List;
+import java.util.LinkedList;
 
 @Data
 @AllArgsConstructor(access = AccessLevel.PROTECTED)
@@ -23,7 +19,7 @@ public class Account {
     private double movimentedBalance;
 
     private int transactionsQuantity;
-    private List<AccountBankHistoric> transactions;
+    private LinkedList<AccountBankHistoric> transactions;
 
     private long discordId;
 
@@ -41,7 +37,7 @@ public class Account {
                                  double balance,
                                  double movimentedBalance,
                                  int transactionsQuantity,
-                                 List<AccountBankHistoric> transactions,
+                                 LinkedList<AccountBankHistoric> transactions,
                                  long discordId) {
 
         return new Account(

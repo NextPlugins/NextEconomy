@@ -58,7 +58,14 @@ public final class NextEconomyCommand {
         val accounts = accountRepository.selectAll("");
 
         context.sendMessage(ColorUtil.colored("&aIniciando criação do backup."));
-        backupManager.createBackup(name, Lists.newArrayList(accounts), false, true);
+
+        val backup = backupManager.createBackup(name, Lists.newArrayList(accounts), false, true);
+        if (backup != null) return;
+
+        context.sendMessage(ColorUtil.colored(
+                "&cJá existe um backup com este nome",
+                "&a&LDICA: &fDeixe o nome vazio para gerar um backup com a data e hora atual."
+        ));
 
     }
 
