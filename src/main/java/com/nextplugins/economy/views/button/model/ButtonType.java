@@ -54,12 +54,7 @@ public enum ButtonType {
 
     }),
 
-    TOP_MONEY(callback -> {
-
-        val rankingInventory = InventoryRegistry.getInstance().getRankingView();
-        rankingInventory.openInventory(callback.getPlayer());
-
-    });
+    TOP_MONEY(callback -> callback.getPlayer().performCommand("money top"));
 
     @Getter private final Consumer<CustomInventoryClickEvent> action;
 

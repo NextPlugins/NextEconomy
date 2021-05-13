@@ -16,12 +16,12 @@ public final class SQLProvider {
 
     private final Plugin plugin;
 
-    public SQLConnector setup() {
+    public SQLConnector setup(String forceType) {
 
         val configuration = plugin.getConfig();
         val databaseConfiguration = configuration.getConfigurationSection("database");
 
-        val sqlType = databaseConfiguration.getString("type");
+        val sqlType = forceType != null ? forceType : databaseConfiguration.getString("type");
         val logger = plugin.getLogger();
 
         SQLConnector sqlConnector;

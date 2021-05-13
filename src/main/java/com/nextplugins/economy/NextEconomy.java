@@ -7,6 +7,7 @@ import com.henryfabio.sqlprovider.connector.SQLConnector;
 import com.henryfabio.sqlprovider.executor.SQLExecutor;
 import com.nextplugins.economy.api.PurseAPI;
 import com.nextplugins.economy.command.registry.CommandRegistry;
+import com.nextplugins.economy.configuration.FeatureValue;
 import com.nextplugins.economy.configuration.registry.ConfigurationRegistry;
 import com.nextplugins.economy.configuration.RankingValue;
 import com.nextplugins.economy.dao.repository.AccountRepository;
@@ -93,7 +94,7 @@ public final class NextEconomy extends JavaPlugin {
 
         val loadTime = Stopwatch.createStarted();
 
-        sqlConnector = SQLProvider.of(this).setup();
+        sqlConnector = SQLProvider.of(this).setup(null);
         sqlExecutor = new SQLExecutor(sqlConnector);
 
         accountRepository = new AccountRepository(sqlExecutor);
@@ -159,6 +160,12 @@ public final class NextEconomy extends JavaPlugin {
         }
 
         accountStorage.getCache().synchronous().invalidateAll();
+
+        if (FeatureValue.get(FeatureValue::backups)) {
+
+            val accounts = accountRepository.selectAll("");
+
+        }
 
     }
 

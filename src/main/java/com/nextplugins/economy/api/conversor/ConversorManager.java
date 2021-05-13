@@ -1,12 +1,11 @@
 package com.nextplugins.economy.api.conversor;
 
+import com.google.common.base.Stopwatch;
 import com.nextplugins.economy.NextEconomy;
-import com.nextplugins.economy.api.model.account.old.OldAccount;
-import com.nextplugins.economy.dao.repository.AccountRepository;
 import com.nextplugins.economy.api.model.account.Account;
+import com.nextplugins.economy.dao.repository.AccountRepository;
 import com.nextplugins.economy.util.ActionBarUtils;
 import com.nextplugins.economy.util.ColorUtil;
-import com.nextplugins.economy.util.TimeUtils;
 import lombok.Data;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
@@ -64,12 +63,12 @@ public class ConversorManager {
      * @param sender requested the conversion (can be null)
      * @param accounts to save
      * @param conversorName name of conversor (can be null)
-     * @param initial time in milliseconds that the conversion was requested
+     * @param stopwatch to get eplased time
      */
     public void startConversion(@Nullable CommandSender sender,
-                                @NotNull Set<OldAccount> accounts,
+                                @NotNull Set<Account> accounts,
                                 @Nullable String conversorName,
-                                long initial) {
+                                Stopwatch stopwatch) {
 
         AtomicInteger converted = new AtomicInteger();
 
@@ -77,16 +76,17 @@ public class ConversorManager {
                 NextEconomy.getInstance(),
                 () -> {
 
-                    for (OldAccount account : accounts) {
+                    for (Account account : accounts) {
 
-                        accountRepository.deleteOldByUUID(account.getUuid());
-                        accountRepository.saveOne(account.toAccount());
+                        accountRepository.saveOne(account);
                         converted.incrementAndGet();
 
                     }
 
+                    stopwatch.stop();
+
                     if (sender != null) sender.sendMessage(ColorUtil.colored(
-                            "&aConversão terminada em &2" + TimeUtils.format(System.currentTimeMillis() - initial) + "&a.",
+                            "&aConversão terminada em &2" + stopwatch + "&a.",
                             "&aVocê &lnão &aprecisa &areiniciar o servidor para salvar as alterações."
                     ));
 
@@ -108,7 +108,7 @@ public class ConversorManager {
                     conversorName,
                     converted,
                     accounts.size(),
-                    TimeUtils.format(System.currentTimeMillis() - initial)
+                    stopwatch
             ));
 
             ActionBarUtils.sendActionBar(

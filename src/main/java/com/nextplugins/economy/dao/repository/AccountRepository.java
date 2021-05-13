@@ -7,6 +7,7 @@ import com.nextplugins.economy.api.model.account.old.OldAccount;
 import com.nextplugins.economy.api.model.account.old.adapter.OldAccountAdapter;
 import com.nextplugins.economy.dao.repository.adapter.AccountAdapter;
 import com.nextplugins.economy.util.LinkedListHelper;
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
 import java.util.LinkedList;
@@ -18,7 +19,7 @@ public final class AccountRepository {
 
     private static final String TABLE = "nexteconomy_data";
 
-    private final SQLExecutor sqlExecutor;
+    @Getter private final SQLExecutor sqlExecutor;
 
     public void createTable() {
         sqlExecutor.updateQuery("CREATE TABLE IF NOT EXISTS " + TABLE + "(" +
