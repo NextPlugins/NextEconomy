@@ -24,8 +24,12 @@ public final class AccountAdapter implements SQLResultAdapter<Account> {
 
         long discordId = 0;
 
-        try { discordId = resultSet.get("discordId"); }
-        catch (NullPointerException ignored) {}
+        try {
+
+            Integer discord = resultSet.get("discordId");
+            discordId = discord.longValue();
+
+        } catch (NullPointerException ignored) { }
 
 
         return Account.create(

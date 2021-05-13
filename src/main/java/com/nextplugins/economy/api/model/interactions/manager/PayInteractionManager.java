@@ -78,7 +78,6 @@ public class PayInteractionManager {
         consumer = event -> {
 
             event.setCancelled(true);
-            event.setMessage("");
 
             val player = event.getPlayer();
             val message = event.getMessage();

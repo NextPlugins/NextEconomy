@@ -44,7 +44,6 @@ public class LookupInteractionManager {
         consumer = event -> {
 
             event.setCancelled(true);
-            event.setMessage("");
 
             val player = event.getPlayer();
             usersInOperation.remove(player.getName());
