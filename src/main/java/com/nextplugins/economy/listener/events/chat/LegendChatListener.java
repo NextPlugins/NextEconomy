@@ -24,9 +24,9 @@ public final class LegendChatListener implements Listener {
         val player = event.getSender();
 
         val users = interactionRegistry.getPayInteractionManager().getPlayers().keySet();
-        users.addAll(interactionRegistry.getLookupInteractionManager().getUsersInOperation());
+        val usersInOperation = interactionRegistry.getLookupInteractionManager().getUsersInOperation();
 
-        if (users.contains(player.getName())) {
+        if (users.contains(player.getName()) || usersInOperation.contains(player.getName())) {
 
             event.setCancelled(true);
             return;

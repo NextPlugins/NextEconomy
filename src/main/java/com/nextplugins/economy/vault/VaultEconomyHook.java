@@ -1,14 +1,17 @@
 package com.nextplugins.economy.vault;
 
 import com.nextplugins.economy.api.NextEconomyAPI;
+import com.nextplugins.economy.api.PurseAPI;
 import com.nextplugins.economy.api.model.account.Account;
 import com.nextplugins.economy.api.model.account.transaction.TransactionType;
 import com.nextplugins.economy.configuration.MessageValue;
+import com.nextplugins.economy.configuration.PurseValue;
 import com.nextplugins.economy.util.NumberUtils;
 import lombok.val;
 import lombok.var;
 import net.milkbowl.vault.economy.Economy;
 import net.milkbowl.vault.economy.EconomyResponse;
+import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 
 import java.util.List;
@@ -99,17 +102,17 @@ public class VaultEconomyHook implements Economy {
 
     @Override
     public boolean has(String playerName, double amount) {
-
-        val account = API.findAccountByName(playerName);
-        if (account != null) return account.hasAmount(amount);
-
-        return false;
-
+        return has(Bukkit.getOfflinePlayer(playerName), amount);
     }
 
     @Override
     public boolean has(OfflinePlayer player, double amount) {
-        return has(player.getName(), amount);
+
+        val account = API.getAccountStorage().findAccount(player.getName(), player.isOnline());
+        if (account != null) return account.hasAmount(amount);
+
+        return false;
+
     }
 
     @Override
@@ -119,15 +122,19 @@ public class VaultEconomyHook implements Economy {
 
     @Override
     public boolean has(OfflinePlayer player, String worldName, double amount) {
-        return has(player.getName(), amount);
+        return has(player, amount);
     }
 
     @Override
     public EconomyResponse withdrawPlayer(String playerName, double amount) {
+        return withdrawPlayer(Bukkit.getOfflinePlayer(playerName), amount);
+    }
 
-        val account = API.findAccountByName(playerName);
+    @Override
+    public EconomyResponse withdrawPlayer(OfflinePlayer player, double amount) {
+        val account = API.getAccountStorage().findAccount(player.getName(), player.isOnline());
         if (account != null) {
-            if (has(playerName, amount)) {
+            if (account.hasAmount(amount)) {
 
                 account.createTransaction(
                         null,
@@ -151,12 +158,12 @@ public class VaultEconomyHook implements Economy {
             }
         }
 
-        return null;
-    }
-
-    @Override
-    public EconomyResponse withdrawPlayer(OfflinePlayer player, double amount) {
-        return withdrawPlayer(player.getName(), amount);
+        return new EconomyResponse(
+                amount,
+                0,
+                EconomyResponse.ResponseType.FAILURE,
+                "Conta inválida"
+        );
     }
 
     @Override
@@ -166,22 +173,31 @@ public class VaultEconomyHook implements Economy {
 
     @Override
     public EconomyResponse withdrawPlayer(OfflinePlayer player, String worldName, double amount) {
-        return withdrawPlayer(player.getName(), amount);
+        return withdrawPlayer(player, amount);
     }
 
     @Override
     public EconomyResponse depositPlayer(String playerName, double amount) {
+        return depositPlayer(Bukkit.getOfflinePlayer(playerName), amount);
+    }
 
-        val account = API.findAccountByName(playerName);
+    @Override
+    public EconomyResponse depositPlayer(OfflinePlayer player, double amount) {
+        val account = API.getAccountStorage().findAccount(player.getName(), player.isOnline());
         if (account != null) {
+
+            val purseEnabled = PurseValue.get(PurseValue::enable) && PurseValue.get(PurseValue::applyInAll);
+            val purse = purseEnabled ? PurseAPI.getInstance().getPurseMultiplier() : 1;
+
+            val newAmount = amount * purse;
 
             account.createTransaction(
                     null,
-                    amount,
+                    newAmount,
                     TransactionType.DEPOSIT
             );
 
-            return new EconomyResponse(amount,
+            return new EconomyResponse(newAmount,
                     account.getBalance(),
                     EconomyResponse.ResponseType.SUCCESS,
                     "Operação realizada com sucesso."
@@ -189,12 +205,12 @@ public class VaultEconomyHook implements Economy {
 
         }
 
-        return null;
-    }
-
-    @Override
-    public EconomyResponse depositPlayer(OfflinePlayer player, double amount) {
-        return depositPlayer(player.getName(), amount);
+        return new EconomyResponse(
+                amount,
+                0,
+                EconomyResponse.ResponseType.FAILURE,
+                "Conta inválida"
+        );
     }
 
     @Override
@@ -204,7 +220,7 @@ public class VaultEconomyHook implements Economy {
 
     @Override
     public EconomyResponse depositPlayer(OfflinePlayer player, String worldName, double amount) {
-        return depositPlayer(player.getName(), amount);
+        return depositPlayer(player, amount);
     }
 
     @Override
@@ -274,9 +290,10 @@ public class VaultEconomyHook implements Economy {
         if (account != null) return false;
 
         account = Account.createDefault(playerName);
+        API.getAccountStorage().put(account);
 
-        API.getAccountRepository().saveOne(account);
         return true;
+
     }
 
     @Override

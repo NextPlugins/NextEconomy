@@ -28,6 +28,7 @@ public final class PurseValue implements ConfigurationInjectable {
     @Getter private static final PurseValue instance = new PurseValue();
 
     @ConfigField("enable") private boolean enable;
+    @ConfigField("useInAll") private boolean applyInAll;
 
     @ConfigField("media") private int media;
     @ConfigField("minValue") private int minValue;

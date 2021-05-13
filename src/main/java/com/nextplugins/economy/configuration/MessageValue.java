@@ -104,6 +104,7 @@ public final class MessageValue implements ConfigurationInjectable {
     @ConfigField("commands.no-permission") private String noPermission;
     @ConfigField("commands.help-command") private List<String> helpCommand;
     @ConfigField("commands.help-command-staff") private List<String> helpCommandStaff;
+    @ConfigField("commands.admin-command") private List<String> adminCommand;
     @ConfigField("commands.check-help-command") private List<String> checkHelpCommand;
 
     // check system

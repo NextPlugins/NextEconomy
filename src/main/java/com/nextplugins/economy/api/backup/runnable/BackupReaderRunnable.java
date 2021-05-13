@@ -15,7 +15,6 @@ import org.bukkit.command.CommandSender;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.Random;
 import java.util.concurrent.ExecutionException;
 
 /**
@@ -31,6 +30,7 @@ public final class BackupReaderRunnable implements Runnable {
     private final CommandSender commandSender;
     private final ConversorManager conversorManager;
     private final BackupManager backupManager;
+    private final boolean restauration;
     private final File file;
 
     @Override
@@ -43,18 +43,26 @@ public final class BackupReaderRunnable implements Runnable {
 
             val accountRepository = NextEconomy.getInstance().getAccountRepository();
 
-            logger.info("Criando um ponto de restauração para caso ocorra um erro.");
+            if (!restauration) {
 
-            restaurationFile = backupManager.createBackup(
-                    null,
-                    Lists.newArrayList(accountRepository.selectAll("")),
-                    true, true
-            ).get();
+                logger.info("Criando um ponto de restauração para caso ocorra um erro.");
 
-            logger.info("O ponto '" + restaurationFile.getName() + "' de restauração foi criado com sucesso");
+                restaurationFile = backupManager.createBackup(
+                        null,
+                        Lists.newArrayList(accountRepository.selectAll("")),
+                        true, true
+                ).get();
+
+                logger.info("O ponto '" + restaurationFile.getName() + "' de restauração foi criado com sucesso");
+
+            }
 
             accountRepository.truncateTable();
             logger.warning("Tabela com as contas do servidor foi apagada!");
+
+            String type = restauration ? "ponto de restauração" : "backup";
+
+            logger.info("Iniciando leitura do " + type + ".");
 
             val stopwatch = Stopwatch.createStarted();
             val accounts = PARSER.fromJson(new FileReader(this.file));
@@ -66,10 +74,12 @@ public final class BackupReaderRunnable implements Runnable {
                     stopwatch
             );
 
-            logger.info("A leitura do backup '" + this.file.getName() + "' foi finalizada e os valores da tabela alterados. (" + stopwatch + ")");
+            logger.info("A leitura do " + type + " '" + this.file.getName() + "' foi finalizada e os valores da tabela alterados. (" + stopwatch + ")");
             backupManager.setBackuping(false);
 
         } catch (InterruptedException | ExecutionException | IOException exception) {
+
+            backupManager.setBackuping(false);
 
             Thread.currentThread().interrupt();
 
@@ -79,7 +89,7 @@ public final class BackupReaderRunnable implements Runnable {
             if (restaurationFile != null) {
 
                 logger.severe("Tentando utilizar o backup de restauração!");
-                backupManager.loadBackup(commandSender, restaurationFile, true);
+                backupManager.loadBackup(commandSender, restaurationFile, true, true);
 
             }
 

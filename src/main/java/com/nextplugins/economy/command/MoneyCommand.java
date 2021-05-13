@@ -1,20 +1,15 @@
 package com.nextplugins.economy.command;
 
-import com.google.common.base.Stopwatch;
-import com.henryfabio.sqlprovider.executor.SQLExecutor;
 import com.nextplugins.economy.NextEconomy;
 import com.nextplugins.economy.api.conversor.ConversorManager;
 import com.nextplugins.economy.api.event.operations.MoneyGiveEvent;
 import com.nextplugins.economy.api.event.operations.MoneySetEvent;
 import com.nextplugins.economy.api.event.operations.MoneyWithdrawEvent;
 import com.nextplugins.economy.api.event.transaction.TransactionRequestEvent;
-import com.nextplugins.economy.api.model.account.Account;
 import com.nextplugins.economy.api.model.account.storage.AccountStorage;
 import com.nextplugins.economy.configuration.InventoryValue;
 import com.nextplugins.economy.configuration.MessageValue;
 import com.nextplugins.economy.configuration.RankingValue;
-import com.nextplugins.economy.dao.SQLProvider;
-import com.nextplugins.economy.dao.repository.AccountRepository;
 import com.nextplugins.economy.ranking.CustomRankingRegistry;
 import com.nextplugins.economy.ranking.manager.LocationManager;
 import com.nextplugins.economy.ranking.util.LocationUtil;
@@ -33,7 +28,6 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import java.io.IOException;
-import java.util.HashSet;
 
 @RequiredArgsConstructor
 public final class MoneyCommand {
@@ -41,7 +35,6 @@ public final class MoneyCommand {
     private final NextEconomy plugin;
     private final AccountStorage accountStorage;
     private final LocationManager locationManager;
-    private final ConversorManager conversorManager;
 
     @Command(
             name = "money",
@@ -418,87 +411,6 @@ public final class MoneyCommand {
         } catch (Exception exception) {
             player.sendMessage(ColorUtil.colored("&cOcorreu um erro ao salvar o arquivo de localizações."));
         }
-
-    }
-
-    @Command(
-            name = "money.converter",
-            permission = "nexteconomy.converter",
-            usage = "/money converter <tomysql, tosqlite>"
-    )
-    public void onConverterCommand(Context<CommandSender> context,
-                                   String option) {
-
-        if (!conversorManager.checkConversorAvaility(context.getSender())) {
-
-            context.sendMessage(ColorUtil.colored(
-                    "&cNenhum jogador pode estar online para efetuar esta ação."
-            ));
-            return;
-
-        }
-
-        if (!option.equalsIgnoreCase("tomysql") && !option.equalsIgnoreCase("tosqlite")) {
-
-            context.sendMessage(ColorUtil.colored(
-                    "&cConversores válidos: tomysql, tosqlite"
-            ));
-            return;
-
-        }
-
-        val stopwatch = Stopwatch.createStarted();
-        conversorManager.setConverting(true);
-
-        val jdbcUrl = accountStorage.getAccountRepository()
-                .getSqlExecutor()
-                .getSqlConnector()
-                .getDatabaseType()
-                .getJdbcUrl();
-
-        if (jdbcUrl.contains("sqlite") && option.equalsIgnoreCase("tomysql")) {
-
-            context.sendMessage(ColorUtil.colored(
-                    "&cVocê precisa habilitar o mysql na config e reiniciar o servidor antes."
-            ));
-            return;
-
-        } else if (jdbcUrl.contains("mysql") && option.equalsIgnoreCase("tosqlite")) {
-
-            context.sendMessage(ColorUtil.colored(
-                    "&cVocê precisa desabilitar o mysql na config e reiniciar o servidor antes."
-            ));
-            return;
-
-        }
-
-        val sqlProvider = SQLProvider.of(NextEconomy.getInstance());
-        val sqlConnector = sqlProvider.setup(option.replace("to", ""));
-        val repository = new AccountRepository(new SQLExecutor(sqlConnector));
-
-        val accounts = new HashSet<Account>();
-        for (Account account : repository.selectAll("")) {
-
-            if (account == null) continue;
-            accounts.add(account);
-
-        }
-
-        if (accounts.isEmpty()) {
-
-            context.sendMessage(ColorUtil.colored(
-                    "&aNão tem nenhum dado para converter."
-            ));
-            return;
-
-        }
-
-        conversorManager.startConversion(
-                context.getSender(),
-                accounts,
-                option,
-                stopwatch
-        );
 
     }
 

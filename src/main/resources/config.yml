@@ -26,6 +26,15 @@ plugin:
     # Sistema de bolsa de valores
     purse:
       enable: true # usar o sistema
+      # Atenção!
+      # Caso ative esta opção, a bolsa irá afetar em todas as operações de venda!
+      # Vender itens por placa, vender drops, etc.
+      # Afetará todos os plugins do servidor.
+      #
+      # Não recomendo o uso dessa função caso tenha um servidor com plugins próprios
+      # peça para o desenvolvedor dos seus plugins, caso tenha um, implementar nosso sistema de bolsa
+      # no seu plugin próprio, a api é visivel em nosso github https://github.com/NextPlugins/NextEconomy
+      useInAll: false
       media: 40 # um valor maior que esse significa que a bolsa está em alta
       minValue: 10 # valor mínimo da bolsa
       maxValue: 90 # valor máximo da bolsa

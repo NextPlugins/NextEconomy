@@ -3,6 +3,7 @@ package com.nextplugins.economy.command.registry;
 import com.nextplugins.economy.NextEconomy;
 import com.nextplugins.economy.command.CheckCommand;
 import com.nextplugins.economy.command.MoneyCommand;
+import com.nextplugins.economy.command.NextEconomyCommand;
 import com.nextplugins.economy.command.PurseCommand;
 import com.nextplugins.economy.configuration.FeatureValue;
 import com.nextplugins.economy.configuration.MessageValue;
@@ -25,7 +26,11 @@ public final class CommandRegistry {
                     new MoneyCommand(
                             plugin,
                             plugin.getAccountStorage(),
-                            plugin.getLocationManager(),
+                            plugin.getLocationManager()
+                    ),
+                    new NextEconomyCommand(
+                            plugin.getBackupManager(),
+                            plugin.getAccountRepository(),
                             plugin.getConversorManager()
                     )
             );

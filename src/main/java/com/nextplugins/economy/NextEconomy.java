@@ -2,10 +2,12 @@ package com.nextplugins.economy;
 
 import com.gmail.filoghost.holographicdisplays.api.Hologram;
 import com.google.common.base.Stopwatch;
+import com.google.common.collect.Lists;
 import com.henryfabio.minecraft.inventoryapi.manager.InventoryManager;
 import com.henryfabio.sqlprovider.connector.SQLConnector;
 import com.henryfabio.sqlprovider.executor.SQLExecutor;
 import com.nextplugins.economy.api.PurseAPI;
+import com.nextplugins.economy.api.backup.BackupManager;
 import com.nextplugins.economy.command.registry.CommandRegistry;
 import com.nextplugins.economy.configuration.FeatureValue;
 import com.nextplugins.economy.configuration.registry.ConfigurationRegistry;
@@ -45,10 +47,14 @@ public final class NextEconomy extends JavaPlugin {
     private SQLExecutor sqlExecutor;
 
     private AccountRepository accountRepository;
+
     private AccountStorage accountStorage;
     private RankingStorage rankingStorage;
-    private ConversorManager conversorManager;
+
+    private BackupManager backupManager;
     private LocationManager locationManager;
+    private ConversorManager conversorManager;
+
     private InteractionRegistry interactionRegistry;
 
     private File npcFile;
@@ -101,6 +107,7 @@ public final class NextEconomy extends JavaPlugin {
         accountStorage = new AccountStorage(accountRepository);
         conversorManager = new ConversorManager(accountRepository);
         rankingStorage = new RankingStorage();
+        backupManager = new BackupManager();
         locationManager = new LocationManager();
         interactionRegistry = new InteractionRegistry();
 
@@ -164,6 +171,7 @@ public final class NextEconomy extends JavaPlugin {
         if (FeatureValue.get(FeatureValue::backups)) {
 
             val accounts = accountRepository.selectAll("");
+            backupManager.createBackup(null, Lists.newArrayList(accounts), false, true);
 
         }
 

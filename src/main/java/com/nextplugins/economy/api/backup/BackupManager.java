@@ -38,6 +38,8 @@ public final class BackupManager {
                                           boolean restaurationPoint,
                                           boolean async) {
 
+        if (backuping) return null;
+
         backuping = true;
 
         val plugin = NextEconomy.getInstance();
@@ -77,7 +79,10 @@ public final class BackupManager {
      */
     public void loadBackup(@Nullable CommandSender sender,
                            File file,
+                           boolean restauration,
                            boolean async) {
+
+        if (backuping) return;
 
         val conversorManager = NextEconomy.getInstance().getConversorManager();
         conversorManager.checkConversorAvaility(sender);
@@ -87,6 +92,7 @@ public final class BackupManager {
                 sender,
                 conversorManager,
                 this,
+                restauration,
                 file
         );
 

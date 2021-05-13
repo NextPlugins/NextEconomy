@@ -1,7 +1,6 @@
 package com.nextplugins.economy.listener.events.chat;
 
 import br.net.fabiozumbi12.UltimateChat.Bukkit.API.SendChannelMessageEvent;
-import com.nextplugins.economy.api.model.account.Account;
 import com.nextplugins.economy.configuration.RankingValue;
 import com.nextplugins.economy.api.model.interactions.registry.InteractionRegistry;
 import com.nextplugins.economy.ranking.storage.RankingStorage;
@@ -29,23 +28,23 @@ public final class UltimateChatListener implements Listener {
         val player = event.getSender();
 
         val users = interactionRegistry.getPayInteractionManager().getPlayers().keySet();
-        users.addAll(interactionRegistry.getLookupInteractionManager().getUsersInOperation());
+        val usersInOperation = interactionRegistry.getLookupInteractionManager().getUsersInOperation();
 
-        if (!users.contains(player.getName())) {
+        if (users.contains(player.getName()) || usersInOperation.contains(player.getName())) {
 
-            if (rankingStorage.getRankByCoin().isEmpty()) return;
-
-            Account tycoonAccount = rankingStorage.getRankByCoin().get(0);
-            val tycoonTag = player.getName().equalsIgnoreCase(tycoonAccount.getUserName())
-                    ? RankingValue.get(RankingValue::tycoonTagValue)
-                    : RankingValue.get(RankingValue::tycoonRichTagValue);
-
-            event.addTag("tycoon", tycoonTag);
+            event.setCancelled(true);
             return;
 
         }
 
-        event.setCancelled(true);
+        if (rankingStorage.getRankByCoin().isEmpty()) return;
+
+        val tycoonAccount = rankingStorage.getRankByCoin().get(0);
+        val tycoonTag = player.getName().equalsIgnoreCase(tycoonAccount.getUserName())
+                ? RankingValue.get(RankingValue::tycoonTagValue)
+                : RankingValue.get(RankingValue::tycoonRichTagValue);
+
+        event.addTag("tycoon", tycoonTag);
 
     }
 
