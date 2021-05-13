@@ -34,6 +34,7 @@ inventory:
           - ' &7Coins: &e$money'
           - ' &7Transações: &e$transactions'
           - ' &7Dinheiro movimentado: &e$movimentedMoney'
+          - ' &7Discord: &9$discord'
           - ''
           - '&eClique aqui para ver suas transações'
       topMoney:

@@ -38,6 +38,7 @@ import org.bukkit.entity.ArmorStand;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
+import java.util.concurrent.CompletableFuture;
 import java.util.logging.Level;
 
 @Getter
@@ -171,7 +172,9 @@ public final class NextEconomy extends JavaPlugin {
         if (FeatureValue.get(FeatureValue::backups)) {
 
             val accounts = accountRepository.selectAll("");
-            backupManager.createBackup(null, Lists.newArrayList(accounts), false, true);
+            CompletableFuture.completedFuture(
+                    backupManager.createBackup(null, Lists.newArrayList(accounts), false, true)
+            ).join(); // freeze thread
 
         }
 

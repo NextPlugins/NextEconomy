@@ -69,6 +69,7 @@ public final class BankView extends SimpleInventory {
                                     .replace("$money", NumberUtils.format(account.getBalance()))
                                     .replace("$transactions", account.getTransactionsQuantity() + " " + transactionName)
                                     .replace("$movimentedMoney", NumberUtils.format(account.getMovimentedBalance()))
+                                    .replace("$discord", "Yuhtin#9147")
                                     .replace("$value", purse)
                                     .replace("$status", isHigh)
                                     .replace("$time", nextUpdate)

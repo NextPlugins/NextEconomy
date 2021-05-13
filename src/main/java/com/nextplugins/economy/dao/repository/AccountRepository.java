@@ -1,12 +1,14 @@
 package com.nextplugins.economy.dao.repository;
 
 import com.henryfabio.sqlprovider.executor.SQLExecutor;
+import com.nextplugins.economy.NextEconomy;
 import com.nextplugins.economy.api.model.account.Account;
 import com.nextplugins.economy.api.model.account.historic.AccountBankHistoric;
 import com.nextplugins.economy.dao.repository.adapter.AccountAdapter;
 import com.nextplugins.economy.util.LinkedListHelper;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import lombok.val;
 
 import java.util.Set;
 
@@ -30,9 +32,17 @@ public final class AccountRepository {
                 ");"
         );
 
-        try {
-            sqlExecutor.updateQuery("ALTER TABLE " + TABLE + " ADD COLUMN discordId LONG default null");
-        } catch (Exception ignored) {
+        val config = NextEconomy.getInstance().getConfig();
+        if (!config.contains("database.version")) {
+
+            try {
+                sqlExecutor.updateQuery("ALTER TABLE " + TABLE + " ADD discordId LONG NOT NULL default '-1'");
+            } catch (Exception ignored) {
+            }
+
+            config.set("database.version", "2.0");
+            NextEconomy.getInstance().saveConfig();
+
         }
 
     }
