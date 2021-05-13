@@ -115,7 +115,10 @@ public final class RankingView extends SimpleInventory {
 
         return InventoryItem.of(new ItemBuilder("MHF_QUESTION")
                 .name("&6Próxima atualização")
-                .setLore("&7A próxima atualização do ranking será em", "&f" + TimeUtils.format(rankingStorage.getNextUpdateMillis() - System.currentTimeMillis()))
+                .setLore(
+                        "&7A próxima atualização do ranking será em",
+                        "&e" + TimeUtils.format(rankingStorage.getNextUpdateMillis() - System.currentTimeMillis())
+                )
                 .wrap()
         );
 
