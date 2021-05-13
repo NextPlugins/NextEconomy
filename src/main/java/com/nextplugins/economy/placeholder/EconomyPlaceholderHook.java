@@ -55,13 +55,8 @@ public final class EconomyPlaceholderHook extends PlaceholderExpansion {
 
         if (instance != null) {
 
-            switch (params) {
-
-                case "purse": return instance.getPurseFormated();
-                case "purse_with_icon": return instance.getPurseFormatedWithIcon();
-                default: return "Placeholder inválida";
-
-            }
+            if (params.equalsIgnoreCase("purse_with_icon")) return instance.getPurseFormatedWithIcon();
+            else return instance.getPurseFormated();
 
         }
 
