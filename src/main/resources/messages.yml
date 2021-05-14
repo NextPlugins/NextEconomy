@@ -172,7 +172,7 @@ messages:
       - '&a/ne &8- &7Exibir esta mensagem'
       - '&a/ne converter (tipo) &8- &7Converta os dados entre mysql e sqlite'
       - '&a/ne backup [nome] &8- &7Criar um novo backup'
-      - '&a/ne readbackup (nome) &8- &7Ler um backup criado anteriormente'
+      - '&a/ne readbackup (nome) (backup ou restaurar) &8- &7Ler um backup criado anteriormente'
       - ''
       - ' &cAo ler um backup, todos os dados de jogadores serão apagados,'
       - ' &ce os dados do backup serão utilizados.'

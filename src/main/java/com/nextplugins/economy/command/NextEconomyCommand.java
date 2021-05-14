@@ -78,18 +78,29 @@ public final class NextEconomyCommand {
     @Command(
             name = "nexteconomy.readbackup",
             permission = "nexteconomy.admin",
-            usage = "/ne readbackup (nome)",
+            usage = "/ne readbackup (nome) (backup ou restaurar)",
             async = true
     )
     public void onReadBackupCommand(Context<CommandSender> context,
-                                    String name) {
+                                    String name,
+                                    String type) {
+
+        if (!type.equalsIgnoreCase("backup") && !type.equalsIgnoreCase("restaurar")) {
+
+            context.sendMessage(ColorUtil.colored("&cTipo inválido."));
+            return;
+
+        }
+
+        var folderName = "backups";
+        if (type.equalsIgnoreCase("restaurar")) folderName = "restauration";
 
         var fileName = name.endsWith(".json") ? name : name + ".json";
 
-        val file = new File(NextEconomy.getInstance().getDataFolder(), "backups/" + fileName);
+        val file = new File(NextEconomy.getInstance().getDataFolder() + folderName, fileName);
         if (!file.exists()) {
 
-            val folder = new File(NextEconomy.getInstance().getDataFolder(), "backups/");
+            val folder = new File(NextEconomy.getInstance().getDataFolder(), folderName);
             val files = folder.list();
             if (files == null) {
 
@@ -101,7 +112,7 @@ public final class NextEconomyCommand {
             }
 
             context.sendMessage(ColorUtil.colored(
-                    "&cO nome de backup inserido é inválido, valores válidos:",
+                    "&cO nome do backup inserido é inválido, valores válidos:",
                     "&e" + Arrays.asList(files)
             ));
             return;
@@ -124,7 +135,7 @@ public final class NextEconomyCommand {
     public void onConverterCommand(Context<CommandSender> context,
                                    String option) {
 
-        if (!conversorManager.checkConversorAvaility(context.getSender())) return;
+        if (!conversorManager.checkConversorAvailability(context.getSender())) return;
 
         if (!option.equalsIgnoreCase("tomysql") && !option.equalsIgnoreCase("tosqlite")) {
 
@@ -159,8 +170,10 @@ public final class NextEconomyCommand {
 
         }
 
+        val type = option.equalsIgnoreCase("tomysql") ? "SQLite" : "MySQL";
+
         val sqlProvider = SQLProvider.of(NextEconomy.getInstance());
-        val sqlConnector = sqlProvider.setup(option.replace("to", ""));
+        val sqlConnector = sqlProvider.setup(type);
         val repository = new AccountRepository(new SQLExecutor(sqlConnector));
 
         val accounts = new HashSet<Account>();
@@ -183,7 +196,7 @@ public final class NextEconomyCommand {
         conversorManager.startConversion(
                 context.getSender(),
                 accounts,
-                option,
+                "Enviando para " + type,
                 stopwatch
         );
 

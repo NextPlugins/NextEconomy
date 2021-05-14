@@ -51,9 +51,9 @@ public final class BackupManager {
         var fileName = name == null ? getTimeAsString() : name;
         if (fileName.contains(".")) fileName = fileName.split("\\.")[0];
 
-        if (restaurationPoint) fileName = "restauration/" + fileName;
+        fileName = restaurationPoint ? "restauration/" + fileName : "backups/" + fileName;
 
-        val file = new File(plugin.getDataFolder(), "backups/" + fileName + ".json");
+        val file = new File(plugin.getDataFolder(), fileName + ".json");
         plugin.getLogger().info("Criando backup para o local '" + file.getPath() + "'.");
 
         if (file.exists()) {
@@ -90,8 +90,7 @@ public final class BackupManager {
         if (backuping) return;
 
         val conversorManager = NextEconomy.getInstance().getConversorManager();
-        if (!conversorManager.checkConversorAvaility(sender)) return;
-        conversorManager.setConverting(true);
+        if (!conversorManager.checkConversorAvailability(sender)) return;
 
         val runnable = new BackupReaderRunnable(
                 sender,
