@@ -90,7 +90,7 @@ public final class BackupManager {
         if (backuping) return;
 
         val conversorManager = NextEconomy.getInstance().getConversorManager();
-        conversorManager.checkConversorAvaility(sender);
+        if (!conversorManager.checkConversorAvaility(sender)) return;
         conversorManager.setConverting(true);
 
         val runnable = new BackupReaderRunnable(

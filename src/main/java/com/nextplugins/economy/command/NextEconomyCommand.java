@@ -124,14 +124,7 @@ public final class NextEconomyCommand {
     public void onConverterCommand(Context<CommandSender> context,
                                    String option) {
 
-        if (!conversorManager.checkConversorAvaility(context.getSender())) {
-
-            context.sendMessage(ColorUtil.colored(
-                    "&cNenhum jogador pode estar online para efetuar esta ação."
-            ));
-            return;
-
-        }
+        if (!conversorManager.checkConversorAvaility(context.getSender())) return;
 
         if (!option.equalsIgnoreCase("tomysql") && !option.equalsIgnoreCase("tosqlite")) {
 
