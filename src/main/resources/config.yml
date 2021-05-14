@@ -10,7 +10,7 @@
 #               https://nextplugins.com.br/discord                 #
 
 database:
-  version: '2.0'
+  version: '1.1.4'
   type: 'sqlite' # Opções válidas: 'sqlite' e 'mysql'
   mysql:
     address: 'localhost:3306'

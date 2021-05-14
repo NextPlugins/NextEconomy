@@ -18,8 +18,7 @@ public final class AccountRepository {
     private static final String TABLE = "nexteconomy_data";
     private static final LinkedListHelper<AccountBankHistoric> PARSER = new LinkedListHelper<>();
 
-    @Getter
-    private final SQLExecutor sqlExecutor;
+    @Getter private final SQLExecutor sqlExecutor;
 
     public void createTable() {
 
@@ -28,8 +27,7 @@ public final class AccountRepository {
                 "balance DOUBLE NOT NULL," +
                 "movimentedBalance DOUBLE NOT NULL," +
                 "transactionsQuantity INTEGER NOT NULL," +
-                "transactions LONGTEXT NOT NULL," +
-                "discordId LONG NOT NULL DEFAULT -1" +
+                "transactions LONGTEXT NOT NULL" +
                 ");"
         );
 

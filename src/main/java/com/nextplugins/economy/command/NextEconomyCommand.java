@@ -97,7 +97,7 @@ public final class NextEconomyCommand {
 
         var fileName = name.endsWith(".json") ? name : name + ".json";
 
-        val file = new File(NextEconomy.getInstance().getDataFolder() + "/" + folderName, fileName);
+        val file = new File(NextEconomy.getInstance().getDataFolder(), folderName + "/" + fileName);
         if (!file.exists()) {
 
             val folder = new File(NextEconomy.getInstance().getDataFolder(), folderName);
