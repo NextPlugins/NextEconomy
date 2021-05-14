@@ -39,8 +39,11 @@ public final class BackupCreatorRunnable implements Runnable {
             logger.info("Iniciando criação do backup '" + file.getName() + "'.");
 
             val stopwatch = Stopwatch.createStarted();
-            PARSER.toJson(accounts, new FileWriter(file));
 
+            val writer = new FileWriter(file);
+            PARSER.toJson(accounts, writer);
+
+            writer.flush();
             stopwatch.stop();
 
             logger.info("O backup '" + file.getName() + "' foi finalizado. (" + stopwatch + ")");

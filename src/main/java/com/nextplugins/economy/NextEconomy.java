@@ -173,7 +173,7 @@ public final class NextEconomy extends JavaPlugin {
 
             val accounts = accountRepository.selectAll("");
             CompletableFuture.completedFuture(
-                    backupManager.createBackup(null, Lists.newArrayList(accounts), false, true)
+                    backupManager.createBackup(null, null, Lists.newArrayList(accounts), false, true)
             ).join(); // freeze thread
 
         }

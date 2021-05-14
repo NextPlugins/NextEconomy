@@ -48,7 +48,7 @@ public final class BackupReaderRunnable implements Runnable {
                 logger.info("Criando um ponto de restauração para caso ocorra um erro.");
 
                 restaurationFile = backupManager.createBackup(
-                        null,
+                        null, null,
                         Lists.newArrayList(accountRepository.selectAll("")),
                         true, true
                 ).get();
