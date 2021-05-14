@@ -4,9 +4,11 @@ import com.google.common.base.Stopwatch;
 import com.nextplugins.economy.NextEconomy;
 import com.nextplugins.economy.api.backup.BackupManager;
 import com.nextplugins.economy.api.model.account.Account;
+import com.nextplugins.economy.util.ColorUtil;
 import com.nextplugins.economy.util.LinkedListHelper;
 import lombok.RequiredArgsConstructor;
 import lombok.val;
+import org.bukkit.command.CommandSender;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -23,6 +25,7 @@ public final class BackupCreatorRunnable implements Runnable {
 
     private static final LinkedListHelper<Account> PARSER = new LinkedListHelper<>();
 
+    private final CommandSender sender;
     private final BackupManager backupManager;
     private final File file;
     private final List<Account> accounts;
@@ -42,6 +45,10 @@ public final class BackupCreatorRunnable implements Runnable {
 
             logger.info("O backup '" + file.getName() + "' foi finalizado. (" + stopwatch + ")");
             backupManager.setBackuping(false);
+
+            if (sender != null) sender.sendMessage(ColorUtil.colored(
+                    "&aBackup '" + file.getName() + "' criado com sucesso!"
+            ));
 
         } catch (IOException exception) {
 

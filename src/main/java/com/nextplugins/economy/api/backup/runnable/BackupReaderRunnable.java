@@ -57,7 +57,7 @@ public final class BackupReaderRunnable implements Runnable {
 
             }
 
-            accountRepository.truncateTable();
+            accountRepository.recreateTable();
             logger.warning("Tabela com as contas do servidor foi apagada!");
 
             String type = restauration ? "ponto de restauração" : "backup";

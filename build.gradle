@@ -73,7 +73,7 @@ bukkit {
     depend = ['Vault']
     apiVersion = '1.16'
     load = 'STARTUP'
-    softDepend = ['Citizens', 'HolographicDisplays', 'PlaceholderAPI', 'Legendchat']
+    softDepend = ['Citizens', 'HolographicDisplays', 'PlaceholderAPI', 'Legendchat', 'nChat']
 }
 
 shadowJar {

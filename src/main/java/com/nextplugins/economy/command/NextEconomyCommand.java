@@ -59,7 +59,13 @@ public final class NextEconomyCommand {
 
         context.sendMessage(ColorUtil.colored("&aIniciando criação do backup."));
 
-        val backup = backupManager.createBackup(name, Lists.newArrayList(accounts), false, true);
+        val backup = backupManager.createBackup(
+                context.getSender(),
+                name,
+                Lists.newArrayList(accounts),
+                false, true
+        );
+
         if (backup != null) return;
 
         context.sendMessage(ColorUtil.colored(
@@ -80,7 +86,7 @@ public final class NextEconomyCommand {
 
         var fileName = name.endsWith(".json") ? name : name + ".json";
 
-        val file = new File(NextEconomy.getInstance().getDataFolder(), "backups/" + name);
+        val file = new File(NextEconomy.getInstance().getDataFolder(), "backups/" + fileName);
         if (!file.exists()) {
 
             val folder = new File(NextEconomy.getInstance().getDataFolder(), "backups/");
@@ -96,7 +102,7 @@ public final class NextEconomyCommand {
 
             context.sendMessage(ColorUtil.colored(
                     "&cO nome de backup inserido é inválido, valores válidos:",
-                    Arrays.asList(files).toString()
+                    "&e" + Arrays.asList(files)
             ));
             return;
 

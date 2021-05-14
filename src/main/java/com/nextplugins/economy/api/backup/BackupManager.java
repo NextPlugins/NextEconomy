@@ -29,16 +29,17 @@ public final class BackupManager {
     /**
      * Create a bakcup
      *
-     * @param name of backup (if null, use the current time)
+     * @param name     of backup (if null, use the current time)
      * @param accounts to backup
-     * @param async operation mode
+     * @param async    operation mode
      * @return {@link File} created
      */
     @Nullable
-    public CompletableFuture<File> createBackup(@Nullable String name,
-                                          List<Account> accounts,
-                                          boolean restaurationPoint,
-                                          boolean async) {
+    public CompletableFuture<File> createBackup(@Nullable CommandSender sender,
+                                                @Nullable String name,
+                                                List<Account> accounts,
+                                                boolean restaurationPoint,
+                                                boolean async) {
 
         if (backuping) return null;
 
@@ -64,7 +65,7 @@ public final class BackupManager {
 
         FileUtils.createFileIfNotExists(file);
 
-        val runnable = new BackupCreatorRunnable(this, file, accounts);
+        val runnable = new BackupCreatorRunnable(sender, this, file, accounts);
 
         if (async) scheduler.runTaskAsynchronously(plugin, runnable);
         else scheduler.runTask(plugin, runnable);
@@ -78,8 +79,8 @@ public final class BackupManager {
      * Warning: All users will be deleted and replaced by backup
      *
      * @param sender executing command (can be null)
-     * @param file backup to read
-     * @param async operation mode
+     * @param file   backup to read
+     * @param async  operation mode
      */
     public void loadBackup(@Nullable CommandSender sender,
                            File file,

@@ -18,7 +18,8 @@ public final class AccountRepository {
     private static final String TABLE = "nexteconomy_data";
     private static final LinkedListHelper<AccountBankHistoric> PARSER = new LinkedListHelper<>();
 
-    @Getter private final SQLExecutor sqlExecutor;
+    @Getter
+    private final SQLExecutor sqlExecutor;
 
     public void createTable() {
 
@@ -28,27 +29,30 @@ public final class AccountRepository {
                 "movimentedBalance DOUBLE NOT NULL," +
                 "transactionsQuantity INTEGER NOT NULL," +
                 "transactions LONGTEXT NOT NULL," +
-                "discordId LONG NOT NULL" +
+                "discordId LONG NOT NULL DEFAULT -1" +
                 ");"
         );
 
         val config = NextEconomy.getInstance().getConfig();
-        if (!config.contains("database.version")) {
+        val version = config.getString("database.version", "1.1.4");
+
+        if (version.equalsIgnoreCase("1.1.4")) {
 
             try {
-                sqlExecutor.updateQuery("ALTER TABLE " + TABLE + " ADD discordId LONG NOT NULL default '-1'");
-            } catch (Exception ignored) {
-            }
+                sqlExecutor.updateQuery("ALTER TABLE " + TABLE + " ADD COLUMN discordId LONG NOT NULL DEFAULT -1");
+            } catch (Exception ignored) { }
 
-            config.set("database.version", "2.0");
-            NextEconomy.getInstance().saveConfig();
+            config.set("database.version", "2.0.0");
 
         }
 
+        NextEconomy.getInstance().saveConfig();
+
     }
 
-    public void truncateTable() {
-        sqlExecutor.updateQuery("TRUNCATE TABLE " + TABLE);
+    public void recreateTable() {
+        sqlExecutor.updateQuery("DELETE FROM " + TABLE);
+        createTable();
     }
 
     private Account selectOneQuery(String query) {
