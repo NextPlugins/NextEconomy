@@ -150,14 +150,14 @@ public final class NextEconomyCommand {
                 .getDatabaseType()
                 .getJdbcUrl();
 
-        if (jdbcUrl.contains("sqlite") && option.equalsIgnoreCase("tomysql")) {
+        if (option.equalsIgnoreCase("tomysql") && !jdbcUrl.contains("mysql")) {
 
             context.sendMessage(ColorUtil.colored(
                     "&cVocê precisa habilitar o mysql na config e reiniciar o servidor antes."
             ));
             return;
 
-        } else if (jdbcUrl.contains("mysql") && option.equalsIgnoreCase("tosqlite")) {
+        } else if (option.equalsIgnoreCase("tosqlite") && !jdbcUrl.contains("sqlite")) {
 
             context.sendMessage(ColorUtil.colored(
                     "&cVocê precisa desabilitar o mysql na config e reiniciar o servidor antes."
