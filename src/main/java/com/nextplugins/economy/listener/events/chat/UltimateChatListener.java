@@ -20,7 +20,7 @@ public final class UltimateChatListener implements Listener {
     private final RankingStorage rankingStorage;
     private final InteractionRegistry interactionRegistry;
 
-    @EventHandler(priority = EventPriority.HIGH)
+    @EventHandler(priority = EventPriority.LOW)
     public void onPlayerChat(SendChannelMessageEvent event) {
 
         if (event.isCancelled()) return;

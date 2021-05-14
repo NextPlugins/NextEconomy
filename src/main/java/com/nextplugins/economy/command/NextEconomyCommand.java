@@ -92,12 +92,12 @@ public final class NextEconomyCommand {
 
         }
 
-        var folderName = "backups";
-        if (type.equalsIgnoreCase("restaurar")) folderName = "restauration";
+        var folderName = type.equalsIgnoreCase("restaurar") ? "restauration" : "backups";
+        var typeFancy = type.equalsIgnoreCase("restaurar") ? "ponto de restauração" : "backup";
 
         var fileName = name.endsWith(".json") ? name : name + ".json";
 
-        val file = new File(NextEconomy.getInstance().getDataFolder() + folderName, fileName);
+        val file = new File(NextEconomy.getInstance().getDataFolder() + "/" + folderName, fileName);
         if (!file.exists()) {
 
             val folder = new File(NextEconomy.getInstance().getDataFolder(), folderName);
@@ -105,14 +105,14 @@ public final class NextEconomyCommand {
             if (files == null) {
 
                 context.sendMessage(ColorUtil.colored(
-                        "&cVocê não possui nenhum backup criado."
+                        "&cVocê não possui nenhum " + typeFancy + " criado."
                 ));
                 return;
 
             }
 
             context.sendMessage(ColorUtil.colored(
-                    "&cO nome do backup inserido é inválido, valores válidos:",
+                    "&cO nome do " + typeFancy + " inserido é inválido, valores válidos:",
                     "&e" + Arrays.asList(files)
             ));
             return;
@@ -120,10 +120,10 @@ public final class NextEconomyCommand {
         }
 
         context.sendMessage(ColorUtil.colored(
-                "&aIniciando leitura do backup &2" + fileName + "&a."
+                "&aIniciando leitura do " + typeFancy + " &2" + fileName + "&a."
         ));
 
-        backupManager.loadBackup(context.getSender(), file, false, true);
+        backupManager.loadBackup(context.getSender(), file, type.equalsIgnoreCase("restaurar"), true);
 
     }
 
@@ -171,9 +171,18 @@ public final class NextEconomyCommand {
         }
 
         val type = option.equalsIgnoreCase("tomysql") ? "SQLite" : "MySQL";
-
         val sqlProvider = SQLProvider.of(NextEconomy.getInstance());
+
         val sqlConnector = sqlProvider.setup(type);
+        if (sqlConnector == null) {
+
+            context.sendMessage(ColorUtil.colored(
+                    "&cVocê não configurou a conexão do " + type + " corretamente."
+            ));
+            return;
+
+        }
+
         val repository = new AccountRepository(new SQLExecutor(sqlConnector));
 
         val accounts = new HashSet<Account>();

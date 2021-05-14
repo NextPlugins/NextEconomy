@@ -16,7 +16,7 @@ public final class OpeNChatListener implements Listener {
     private final RankingStorage rankingStorage;
     private final InteractionRegistry interactionRegistry;
 
-    @EventHandler(priority = EventPriority.HIGHEST)
+    @EventHandler(priority = EventPriority.LOW)
     public void onPlayerChat(PublicMessageEvent event) {
 
         if (event.isCancelled()) return;

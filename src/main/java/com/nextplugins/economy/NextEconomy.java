@@ -118,7 +118,6 @@ public final class NextEconomy extends JavaPlugin {
         InventoryManager.enable(this);
 
         ConfigurationRegistry.of(this).register();
-        ListenerRegistry.of(this).register();
         CommandRegistry.of(this).register();
         VaultHookRegistry.of(this).register();
         MetricProvider.of(this).register();
@@ -128,6 +127,7 @@ public final class NextEconomy extends JavaPlugin {
 
             PlaceholderRegistry.of(this).register();
             CustomRankingRegistry.of(this).register();
+            ListenerRegistry.of(this).register();
 
             // bump money top one time and add, if enabled, stands/npcs
             rankingStorage.updateRanking();
@@ -173,7 +173,7 @@ public final class NextEconomy extends JavaPlugin {
 
             val accounts = accountRepository.selectAll("");
             CompletableFuture.completedFuture(
-                    backupManager.createBackup(null, null, Lists.newArrayList(accounts), false, true)
+                    backupManager.createBackup(null, null, Lists.newArrayList(accounts), false, false)
             ).join(); // freeze thread
 
         }

@@ -70,7 +70,7 @@ public final class BackupReaderRunnable implements Runnable {
             conversorManager.startConversion(
                     commandSender,
                     Sets.newHashSet(accounts),
-                    "Lendo backup",
+                    "Lendo " + type,
                     stopwatch
             );
 
