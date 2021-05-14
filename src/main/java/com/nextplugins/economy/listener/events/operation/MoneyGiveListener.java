@@ -40,6 +40,7 @@ public final class MoneyGiveListener implements Listener {
         }
 
         targetAccount.createTransaction(
+                target.isOnline() ? target.getPlayer() : null,
                 null,
                 amount,
                 TransactionType.DEPOSIT

@@ -1,11 +1,13 @@
 package com.nextplugins.economy.listener.events.operation;
 
 import com.nextplugins.economy.NextEconomy;
+import com.nextplugins.economy.api.event.operations.MoneyChangeEvent;
 import com.nextplugins.economy.api.event.operations.MoneySetEvent;
 import com.nextplugins.economy.api.model.account.storage.AccountStorage;
 import com.nextplugins.economy.configuration.MessageValue;
 import com.nextplugins.economy.util.NumberUtils;
 import lombok.val;
+import org.bukkit.Bukkit;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
@@ -44,6 +46,19 @@ public final class MoneySetListener implements Listener {
                 .replace("$player", target.getName())
                 .replace("$amount", NumberUtils.format(amount))
         );
+
+        if (!target.isOnline()) return;
+
+        val player = target.getPlayer();
+        val moneyChangeEvent = new MoneyChangeEvent(
+                player,
+                targetAccount,
+                targetAccount.getBalance(),
+                NumberUtils.format(targetAccount.getBalance())
+        );
+
+        Bukkit.getPluginManager().callEvent(moneyChangeEvent);
+
     }
 
 }

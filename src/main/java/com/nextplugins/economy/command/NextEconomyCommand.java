@@ -149,7 +149,7 @@ public final class NextEconomyCommand {
         val stopwatch = Stopwatch.createStarted();
         conversorManager.setConverting(true);
 
-        val jdbcUrl = accountRepository.getSqlExecutor()
+        val jdbcUrl = NextEconomy.getInstance()
                 .getSqlConnector()
                 .getDatabaseType()
                 .getJdbcUrl();

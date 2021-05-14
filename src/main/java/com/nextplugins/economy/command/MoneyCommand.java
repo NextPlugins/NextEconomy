@@ -1,7 +1,7 @@
 package com.nextplugins.economy.command;
 
 import com.nextplugins.economy.NextEconomy;
-import com.nextplugins.economy.api.conversor.ConversorManager;
+import com.nextplugins.economy.api.event.operations.MoneyChangeEvent;
 import com.nextplugins.economy.api.event.operations.MoneyGiveEvent;
 import com.nextplugins.economy.api.event.operations.MoneySetEvent;
 import com.nextplugins.economy.api.event.operations.MoneyWithdrawEvent;
@@ -267,6 +267,18 @@ public final class MoneyCommand {
         sender.sendMessage(MessageValue.get(MessageValue::resetBalance)
                 .replace("$player", target.getName())
         );
+
+        if (!target.isOnline()) return;
+
+        val player = target.getPlayer();
+        val moneyChangeEvent = new MoneyChangeEvent(
+                player,
+                offlineAccount,
+                offlineAccount.getBalance(),
+                NumberUtils.format(offlineAccount.getBalance())
+        );
+
+        Bukkit.getPluginManager().callEvent(moneyChangeEvent);
 
     }
 

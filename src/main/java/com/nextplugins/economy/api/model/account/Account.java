@@ -1,10 +1,14 @@
 package com.nextplugins.economy.api.model.account;
 
 import com.google.common.collect.Lists;
+import com.nextplugins.economy.api.event.operations.MoneyChangeEvent;
 import com.nextplugins.economy.api.model.account.historic.AccountBankHistoric;
 import com.nextplugins.economy.api.model.account.transaction.TransactionType;
 import com.nextplugins.economy.configuration.FeatureValue;
+import com.nextplugins.economy.util.NumberUtils;
 import lombok.*;
+import org.bukkit.Bukkit;
+import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -51,7 +55,20 @@ public class Account {
 
     }
 
-    public synchronized void createTransaction(@Nullable String owner,
+    public synchronized double getBalance() {
+        return this.balance;
+    }
+
+    public synchronized void setBalance(double quantity) {
+        this.balance = quantity;
+    }
+
+    public synchronized void deposit(double quantity) {
+        this.balance += quantity;
+    }
+
+    public synchronized void createTransaction(@Nullable Player player,
+                                               @Nullable String owner,
                                                double quantity,
                                                @NotNull TransactionType transactionType) {
 
@@ -65,7 +82,7 @@ public class Account {
 
         }
 
-        this.balance += amount;
+        deposit(amount);
         if (this.balance < 0) this.balance = 0;
 
         if (owner != null) {
@@ -82,6 +99,17 @@ public class Account {
             transactions.add(historic);
 
         }
+
+        if (player == null) return;
+
+        val moneyChangeEvent = new MoneyChangeEvent(
+                player,
+                this,
+                balance,
+                NumberUtils.format(balance)
+        );
+
+        Bukkit.getPluginManager().callEvent(moneyChangeEvent);
 
     }
 

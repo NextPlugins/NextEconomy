@@ -137,6 +137,7 @@ public class VaultEconomyHook implements Economy {
             if (account.hasAmount(amount)) {
 
                 account.createTransaction(
+                        player.isOnline() ? player.getPlayer() : null,
                         null,
                         amount,
                         TransactionType.WITHDRAW
@@ -192,6 +193,7 @@ public class VaultEconomyHook implements Economy {
             val newAmount = amount * purse;
 
             account.createTransaction(
+                    player.isOnline() ? player.getPlayer() : null,
                     null,
                     newAmount,
                     TransactionType.DEPOSIT

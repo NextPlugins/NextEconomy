@@ -67,6 +67,7 @@ public final class CheckCommand {
         }
 
         account.createTransaction(
+                player,
                 "Cheque",
                 amount,
                 TransactionType.WITHDRAW

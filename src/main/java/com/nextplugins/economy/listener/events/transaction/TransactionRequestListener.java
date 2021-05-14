@@ -59,12 +59,14 @@ public final class TransactionRequestListener implements Listener {
         if (account.hasAmount(amount)) {
 
             targetAccount.createTransaction(
+                    target.isOnline() ? target.getPlayer() : null,
                     player.getName(),
                     amount,
                     TransactionType.DEPOSIT
             );
 
             account.createTransaction(
+                    player,
                     target.getName(),
                     amount,
                     TransactionType.WITHDRAW
