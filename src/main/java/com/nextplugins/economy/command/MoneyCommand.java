@@ -89,6 +89,19 @@ public final class MoneyCommand {
     }
 
     @Command(
+            name = "money.toggle",
+            aliases = {"recebimento"},
+            description = "Desative/ative o recebimento de coins",
+            target = CommandTarget.PLAYER,
+            async = true
+    )
+    public void toggleMoney(Context<Player> context) {
+
+        accountStorage.findAccount()
+
+    }
+
+    @Command(
             name = "money.pay",
             aliases = {"enviar"},
             usage = "/money enviar {jogador} {quantia}",

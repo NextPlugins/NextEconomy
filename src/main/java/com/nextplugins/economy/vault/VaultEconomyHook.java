@@ -108,7 +108,7 @@ public class VaultEconomyHook implements Economy {
     @Override
     public boolean has(OfflinePlayer player, double amount) {
 
-        val account = API.getAccountStorage().findAccount(player.getName(), player.isOnline());
+        val account = API.getAccountStorage().findAccount(player);
         if (account != null) return account.hasAmount(amount);
 
         return false;
@@ -132,7 +132,7 @@ public class VaultEconomyHook implements Economy {
 
     @Override
     public EconomyResponse withdrawPlayer(OfflinePlayer player, double amount) {
-        val account = API.getAccountStorage().findAccount(player.getName(), player.isOnline());
+        val account = API.getAccountStorage().findAccount(player);
         if (account != null) {
             if (account.hasAmount(amount)) {
 
@@ -184,7 +184,7 @@ public class VaultEconomyHook implements Economy {
 
     @Override
     public EconomyResponse depositPlayer(OfflinePlayer player, double amount) {
-        val account = API.getAccountStorage().findAccount(player.getName(), player.isOnline());
+        val account = API.getAccountStorage().findAccount(player);
         if (account != null) {
 
             val purseEnabled = PurseValue.get(PurseValue::enable) && PurseValue.get(PurseValue::applyInAll);

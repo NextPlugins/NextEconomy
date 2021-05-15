@@ -9,8 +9,10 @@ import com.nextplugins.economy.dao.repository.AccountRepository;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.var;
+import org.bukkit.OfflinePlayer;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
@@ -45,27 +47,47 @@ public final class AccountStorage {
     }
 
     /**
-     * Used to get accounts
+     * Used to get created accounts by name
      *
-     * @param username player name
-     * @param online if player is online, can't return a null account
+     * @param name player name
      * @return {@link Account} found
      */
-    public Account findAccount(String username, boolean online) {
+    @Nullable
+    public Account findAccountByName(String name) {
+
+        try { return cache.get(name).get(); } catch (InterruptedException | ExecutionException exception) {
+            Thread.currentThread().interrupt();
+            exception.printStackTrace();
+            return null;
+        }
+
+    }
+
+    /**
+     * Used to get accounts
+     * If player is online and no have account, we will create a new for them
+     * but, if is offline, will return null
+     *
+     * @param offlinePlayer player
+     * @return {@link Account} found
+     */
+    @Nullable
+    public Account findAccount(@NotNull OfflinePlayer offlinePlayer) {
         try {
 
-            var account = cache.get(username).get();
-            if (account == null && online) {
+            var account = cache.get(offlinePlayer.getName()).get();
+            if (account == null && offlinePlayer.isOnline()) {
 
-                account = Account.createDefault(username);
+                account = Account.createDefault(offlinePlayer.getName());
                 put(account);
 
             }
 
             return account;
 
-        } catch (InterruptedException | ExecutionException ignored) {
+        } catch (InterruptedException | ExecutionException exception) {
             Thread.currentThread().interrupt();
+            exception.printStackTrace();
             return null;
         }
     }
