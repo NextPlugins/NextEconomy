@@ -63,7 +63,7 @@ public final class HistoricBankView extends PagedInventory {
     protected List<InventoryItemSupplier> createPageItems(PagedViewer viewer) {
 
         val player = viewer.getPlayer();
-        val account = accountStorage.findAccount(player.getName(), true);
+        val account = accountStorage.findAccount(player);
 
         List<InventoryItemSupplier> items = new LinkedList<>();
 

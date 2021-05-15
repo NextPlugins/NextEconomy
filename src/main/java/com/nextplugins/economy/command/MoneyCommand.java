@@ -73,7 +73,7 @@ public final class MoneyCommand {
 
         }
 
-        val offlineAccount = accountStorage.findAccount(target.getName(), target.isOnline());
+        val offlineAccount = accountStorage.findAccount(target);
         if (offlineAccount == null) {
 
             context.sendMessage(MessageValue.get(MessageValue::invalidTarget));
@@ -97,7 +97,8 @@ public final class MoneyCommand {
     )
     public void toggleMoney(Context<Player> context) {
 
-        accountStorage.findAccount()
+        val account = accountStorage.findAccount(context.getSender());
+
 
     }
 
@@ -122,7 +123,7 @@ public final class MoneyCommand {
 
         }
 
-        val offlineAccount = accountStorage.findAccount(target.getName(), target.isOnline());
+        val offlineAccount = accountStorage.findAccount(target);
         if (offlineAccount == null) {
 
             player.sendMessage(MessageValue.get(MessageValue::invalidTarget));
@@ -177,7 +178,7 @@ public final class MoneyCommand {
 
         }
 
-        val offlineAccount = accountStorage.findAccount(target.getName(), target.isOnline());
+        val offlineAccount = accountStorage.findAccount(target);
         if (offlineAccount == null) {
 
             sender.sendMessage(MessageValue.get(MessageValue::invalidTarget));
@@ -210,7 +211,7 @@ public final class MoneyCommand {
 
         }
 
-        val offlineAccount = accountStorage.findAccount(target.getName(), target.isOnline());
+        val offlineAccount = accountStorage.findAccount(target);
         if (offlineAccount == null) {
 
             sender.sendMessage(MessageValue.get(MessageValue::invalidTarget));
@@ -242,7 +243,7 @@ public final class MoneyCommand {
 
         }
 
-        val offlineAccount = accountStorage.findAccount(target.getName(), target.isOnline());
+        val offlineAccount = accountStorage.findAccount(target);
         if (offlineAccount == null) {
 
             sender.sendMessage(MessageValue.get(MessageValue::invalidTarget));
@@ -266,7 +267,7 @@ public final class MoneyCommand {
     public void moneyResetCommand(Context<CommandSender> context, OfflinePlayer target) {
 
         val sender = context.getSender();
-        val offlineAccount = accountStorage.findAccount(target.getName(), target.isOnline());
+        val offlineAccount = accountStorage.findAccount(target);
 
         if (offlineAccount == null) {
 

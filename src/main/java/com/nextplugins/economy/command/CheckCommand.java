@@ -60,7 +60,7 @@ public final class CheckCommand {
             return;
         }
 
-        val account = accountStorage.findAccount(player.getName(), true);
+        val account = accountStorage.findAccount(player);
         if (!account.hasAmount(amount)) {
             player.sendMessage(MessageValue.get(MessageValue::checkInsufficientValue));
             return;

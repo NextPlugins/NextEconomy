@@ -56,7 +56,7 @@ public final class CheckInteractListener implements Listener {
 
         }
 
-        val account = accountStorage.findAccount(player.getName(), true);
+        val account = accountStorage.findAccount(player);
 
         account.createTransaction(
                 player,

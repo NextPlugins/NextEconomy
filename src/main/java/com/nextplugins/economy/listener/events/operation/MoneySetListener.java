@@ -25,7 +25,7 @@ public final class MoneySetListener implements Listener {
         val target = event.getTarget();
         val amount = event.getAmount();
 
-        val targetAccount = accountStorage.findAccount(target.getName(), target.isOnline());
+        val targetAccount = accountStorage.findAccount(target);
         if (targetAccount == null) {
 
             sender.sendMessage(MessageValue.get(MessageValue::invalidTarget));

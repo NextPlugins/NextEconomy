@@ -10,6 +10,7 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.var;
 import org.bukkit.OfflinePlayer;
+import org.bukkit.entity.Player;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -55,7 +56,9 @@ public final class AccountStorage {
     @Nullable
     public Account findAccountByName(String name) {
 
-        try { return cache.get(name).get(); } catch (InterruptedException | ExecutionException exception) {
+        try {
+            return cache.get(name).get();
+        } catch (InterruptedException | ExecutionException exception) {
             Thread.currentThread().interrupt();
             exception.printStackTrace();
             return null;
@@ -73,23 +76,31 @@ public final class AccountStorage {
      */
     @Nullable
     public Account findAccount(@NotNull OfflinePlayer offlinePlayer) {
-        try {
 
-            var account = cache.get(offlinePlayer.getName()).get();
-            if (account == null && offlinePlayer.isOnline()) {
+        if (offlinePlayer.isOnline()) return findAccount(offlinePlayer.getPlayer());
+        return findAccountByName(offlinePlayer.getName());
 
-                account = Account.createDefault(offlinePlayer.getName());
-                put(account);
+    }
 
-            }
+    /**
+     * Used to get accounts
+     *
+     * @param player player to search
+     * @return {@link Account} found
+     */
+    @NotNull
+    public Account findAccount(@NotNull Player player) {
 
-            return account;
+        var account = findAccountByName(player.getName());
+        if (account == null) {
 
-        } catch (InterruptedException | ExecutionException exception) {
-            Thread.currentThread().interrupt();
-            exception.printStackTrace();
-            return null;
+            account = Account.createDefault(player.getName());
+            put(account);
+
         }
+
+        return account;
+
     }
 
     public void put(Account account) {
