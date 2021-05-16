@@ -92,6 +92,7 @@ public final class MoneyCommand {
             name = "money.toggle",
             aliases = {"recebimento"},
             description = "Desative/ative o recebimento de coins",
+            permission = "nexteconomy.togglecoins",
             target = CommandTarget.PLAYER,
             async = true
     )
@@ -107,6 +108,19 @@ public final class MoneyCommand {
         context.sendMessage(MessageValue.get(MessageValue::receiveCoinsToggled)
                 .replace("$toggleMessage", toggleMessage)
         );
+
+    }
+
+    @Command(
+            name = "money.vincular",
+            description = "Vincular sua conta com o discord",
+            permission = "nexteconomy.syncdiscord",
+            target = CommandTarget.PLAYER,
+            async = true
+    )
+    public void syncDiscordCommand(Context<Player> context) {
+
+        // TODO
 
     }
 
