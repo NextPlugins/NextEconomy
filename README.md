@@ -29,6 +29,10 @@ Você pode encontrar o plugin pronto para baixar [**aqui**](https://github.com/N
 
 O plugin conta com vários arquivos de configuração, em que se pode configurar quase tudo que você quiser.
 
+## Permissões adicionais
+
+-   nexteconony.bypass ~ Poder enviar dinheiro a um jogador que desativou o recebimento de coins.
+
 ## Placeholders
 
 ### PlaceholderAPI
