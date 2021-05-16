@@ -73,7 +73,7 @@ public final class ArmorStandRunnable implements Runnable {
                     String replacedLine = hologramLines.get(i);
 
                     replacedLine = replacedLine.replace("$position", String.valueOf(position.get()));
-                    replacedLine = replacedLine.replace("$player", account.getUserName());
+                    replacedLine = replacedLine.replace("$player", account.getUsername());
                     replacedLine = replacedLine.replace("$amount", format);
 
                     hologram.insertTextLine(i, replacedLine);
@@ -94,7 +94,7 @@ public final class ArmorStandRunnable implements Runnable {
             Material sword = SWORDS[swordNumber - 1];
             stand.setItemInHand(new ItemStack(sword));
 
-            stand.setHelmet(new ItemBuilder(account.getUserName()).wrap());
+            stand.setHelmet(new ItemBuilder(account.getUsername()).wrap());
             stand.setChestplate(createDyeItem(Material.LEATHER_CHESTPLATE, getColorByHex(RankingValue.get(RankingValue::chestplateRGB))));
             stand.setLeggings(createDyeItem(Material.LEATHER_LEGGINGS, getColorByHex(RankingValue.get(RankingValue::leggingsRGB))));
             stand.setBoots(createDyeItem(Material.LEATHER_BOOTS, getColorByHex(RankingValue.get(RankingValue::bootsRGB))));

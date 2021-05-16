@@ -90,6 +90,13 @@ messages:
       - '&2&L[$] &fO jogador &a$player &fé o novo &amagnata &fdo servidor.'
       - ''
     title: '&2&lMAGNATA<nl>&a$player &fé o novo &amagnata'
+  receiveCoins:
+    # Caso o jogador que está tentando enviar tenha a permissão nexteconony.bypass
+    # poderá enviar moedas para o jogador mesmo que ele tenha desativado
+    disabled: '&cEste jogador está com o recebimento de moedas desativado.'
+    message: '&6&LBANCO &fVocê $toggleMessage &fo recebimento de moedas.'
+    on: '&a&LATIVOU'
+    off: '&c&LDESATIVOU'
   operations:
     see: '&6&LBANCO &fVocê possui &e$amount&f de dinheiro.'
     see-other: '&6&LBANCO &fO jogador &e$player&f possui&e $amount&f de dinheiro.'

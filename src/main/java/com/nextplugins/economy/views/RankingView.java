@@ -61,7 +61,7 @@ public final class RankingView extends SimpleInventory {
 
         for (Account account : rankingAccounts) {
 
-            String name = account.getUserName();
+            String name = account.getUsername();
 
             String replacedDisplayName = (position == 1
                     ? RankingValue.get(RankingValue::inventoryModelHeadDisplayNameTop)
@@ -91,7 +91,7 @@ public final class RankingView extends SimpleInventory {
             if (slot == 25) break;
 
             editor.setItem(slot, InventoryItem.of(
-                    new ItemBuilder(account.getUserName())
+                    new ItemBuilder(account.getUsername())
                             .name(replacedDisplayName)
                             .setLore(replacedLore)
                             .wrap()

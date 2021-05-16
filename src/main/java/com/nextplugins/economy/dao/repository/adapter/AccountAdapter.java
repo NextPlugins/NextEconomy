@@ -5,7 +5,6 @@ import com.henryfabio.sqlprovider.executor.result.SimpleResultSet;
 import com.nextplugins.economy.api.model.account.Account;
 import com.nextplugins.economy.api.model.account.historic.AccountBankHistoric;
 import com.nextplugins.economy.util.LinkedListHelper;
-import lombok.val;
 
 public final class AccountAdapter implements SQLResultAdapter<Account> {
 
@@ -22,24 +21,27 @@ public final class AccountAdapter implements SQLResultAdapter<Account> {
         double movimentedBalance = resultSet.get("movimentedBalance");
         int transactionsQuantity = resultSet.get("transactionsQuantity");
 
-        long discordId = 0;
+        long discordId = -1;
+        boolean receiveCoins = true;
 
         try {
 
             Integer discord = resultSet.get("discordId");
             discordId = discord.longValue();
 
+            receiveCoins = resultSet.get("receiveCoins");
+
         } catch (NullPointerException ignored) { }
 
-
-        return Account.create(
-                accountOwner,
-                accountBalance,
-                movimentedBalance,
-                transactionsQuantity,
-                PARSER.fromJson(transactions),
-                discordId
-        );
+        return Account.generate()
+                .username(accountOwner)
+                .balance(accountBalance)
+                .receiveCoins(receiveCoins)
+                .movimentedBalance(movimentedBalance)
+                .transactionsQuantity(transactionsQuantity)
+                .transactions(PARSER.fromJson(transactions))
+                .discordId(discordId)
+                .result();
 
     }
 

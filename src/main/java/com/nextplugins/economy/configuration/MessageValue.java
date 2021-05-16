@@ -36,6 +36,13 @@ public final class MessageValue implements ConfigurationInjectable {
     @ConfigField("requests.invalid-money") private String invalidMoney;
     @ConfigField("request.no-time") private String noTime;
 
+    // receive coins
+
+    @ConfigField("receiveCoins.disabled") private String disabledCoins;
+    @ConfigField("receiveCoins.message") private String receiveCoinsToggled;
+    @ConfigField("receiveCoins.on") private String enabledReceiveCoins;
+    @ConfigField("receiveCoins.off") private String disabledReceiveCoins;
+
     // operations
 
     @ConfigField("operations.set") private String setAmount;

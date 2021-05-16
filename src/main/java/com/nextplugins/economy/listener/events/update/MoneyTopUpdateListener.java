@@ -23,7 +23,7 @@ public class MoneyTopUpdateListener implements Listener {
 
         if (event.isCancelled() || !MessageValue.get(MessageValue::enableMoneyTopMessage)) return;
 
-        String username = event.getMoneyTop().getUserName();
+        String username = event.getMoneyTop().getUsername();
 
         String title = MessageValue.get(MessageValue::moneyTopTitle)
                 .replace("$player", username);

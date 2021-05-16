@@ -15,34 +15,47 @@ import org.jetbrains.annotations.Nullable;
 import java.util.LinkedList;
 
 @Data
+@Builder(builderMethodName = "generate", buildMethodName = "result")
 @AllArgsConstructor(access = AccessLevel.PROTECTED)
 public class Account {
 
-    private final String userName;
+    private final String username;
     private double balance;
     private double movimentedBalance;
 
     private int transactionsQuantity;
-    private LinkedList<AccountBankHistoric> transactions;
+    @Builder.Default private LinkedList<AccountBankHistoric> transactions = Lists.newLinkedList();
 
-    private long discordId;
+    @Builder.Default private long discordId = -1L;
+    @Builder.Default private boolean receiveCoins = true;
 
     public static Account createDefault(String name) {
 
-        return create(
-                name,
-                FeatureValue.get(FeatureValue::initialBalance),
-                0, 0, Lists.newLinkedList(), -1
-        );
+        return Account.generate()
+                .username(name)
+                .balance(FeatureValue.get(FeatureValue::initialBalance))
+                .result();
 
     }
 
+    /**
+     * Create account
+     *
+     * @deprecated Since 2.0.0
+     *
+     * @param name of player
+     * @param balance start balance
+     * @param movimentedBalance balance used
+     * @param transactionsQuantity performed
+     * @param transactions info
+     * @return a new {@link Account}
+     */
+    @Deprecated
     public static Account create(String name,
                                  double balance,
                                  double movimentedBalance,
                                  int transactionsQuantity,
-                                 LinkedList<AccountBankHistoric> transactions,
-                                 long discordId) {
+                                 LinkedList<AccountBankHistoric> transactions) {
 
         return new Account(
                 name,
@@ -50,7 +63,7 @@ public class Account {
                 movimentedBalance,
                 transactionsQuantity,
                 transactions,
-                discordId
+                0, true
         );
 
     }

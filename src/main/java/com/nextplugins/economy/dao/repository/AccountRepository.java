@@ -38,6 +38,7 @@ public final class AccountRepository {
 
             try {
                 sqlExecutor.updateQuery("ALTER TABLE " + TABLE + " ADD COLUMN discordId LONG NOT NULL DEFAULT -1");
+                sqlExecutor.updateQuery("ALTER TABLE " + TABLE + " ADD COLUMN receiveCoins BOOLEAN NOT NULL DEFAULT true");
             } catch (Exception ignored) { }
 
             config.set("database.version", "2.0.0");
@@ -85,7 +86,7 @@ public final class AccountRepository {
                 String.format("REPLACE INTO %s VALUES(?,?,?,?,?,?)", TABLE),
                 statement -> {
 
-                    statement.set(1, account.getUserName());
+                    statement.set(1, account.getUsername());
                     statement.set(2, account.getBalance());
                     statement.set(3, account.getMovimentedBalance());
                     statement.set(4, account.getTransactionsQuantity());

@@ -59,7 +59,7 @@ public class AsyncRankingUpdateListener implements Listener {
             if (lastAccount != null) {
 
                 Account topAccount = rankingStorage.getRankByCoin().get(0);
-                if (lastAccount.getUserName().equals(topAccount.getUserName())) return;
+                if (lastAccount.getUsername().equals(topAccount.getUsername())) return;
 
                 pluginManager.callEvent(
                         MoneyTopPlayerChangedEvent.builder()

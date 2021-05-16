@@ -56,9 +56,7 @@ public final class AccountStorage {
     @Nullable
     public Account findAccountByName(String name) {
 
-        try {
-            return cache.get(name).get();
-        } catch (InterruptedException | ExecutionException exception) {
+        try { return cache.get(name).get(); } catch (InterruptedException | ExecutionException exception) {
             Thread.currentThread().interrupt();
             exception.printStackTrace();
             return null;
@@ -104,7 +102,7 @@ public final class AccountStorage {
     }
 
     public void put(Account account) {
-        cache.put(account.getUserName(), CompletableFuture.completedFuture(account));
+        cache.put(account.getUsername(), CompletableFuture.completedFuture(account));
     }
 
 }

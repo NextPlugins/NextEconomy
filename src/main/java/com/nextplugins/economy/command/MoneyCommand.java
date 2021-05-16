@@ -98,7 +98,15 @@ public final class MoneyCommand {
     public void toggleMoney(Context<Player> context) {
 
         val account = accountStorage.findAccount(context.getSender());
+        account.setReceiveCoins(!account.isReceiveCoins());
 
+        val toggleMessage = account.isReceiveCoins()
+                ? MessageValue.get(MessageValue::enabledReceiveCoins)
+                : MessageValue.get(MessageValue::disabledReceiveCoins);
+
+        context.sendMessage(MessageValue.get(MessageValue::receiveCoinsToggled)
+                .replace("$toggleMessage", toggleMessage)
+        );
 
     }
 
@@ -127,6 +135,13 @@ public final class MoneyCommand {
         if (offlineAccount == null) {
 
             player.sendMessage(MessageValue.get(MessageValue::invalidTarget));
+            return;
+
+        }
+
+        if (!player.hasPermission("nexteconony.bypass") && !offlineAccount.isReceiveCoins()) {
+
+            player.sendMessage(MessageValue.get(MessageValue::disabledCoins));
             return;
 
         }

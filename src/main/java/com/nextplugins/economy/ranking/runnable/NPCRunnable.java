@@ -57,7 +57,7 @@ public final class NPCRunnable implements Runnable {
 
                     val replacedLine = hologramLines.get(i)
                             .replace("$position", String.valueOf(position.get()))
-                            .replace("$player", account.getUserName())
+                            .replace("$player", account.getUsername())
                             .replace("$amount", NumberUtils.format(account.getBalance()));
 
                     hologram.insertTextLine(i, replacedLine);
@@ -68,7 +68,7 @@ public final class NPCRunnable implements Runnable {
             }
 
             val npc = npcRegistry.createNPC(EntityType.PLAYER, "");
-            npc.data().set("player-skin-name", account.getUserName());
+            npc.data().set("player-skin-name", account.getUsername());
             npc.setProtected(true);
             npc.spawn(location);
 
