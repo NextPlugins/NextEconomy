@@ -45,7 +45,8 @@ O plugin conta com vários arquivos de configuração, em que se pode configurar
 -   "{placeholderapi_nexteconomy_purse_with_icon}" ~ valor da bolsa -> Ex.: (48% ↗ em alta)
 -   "{placeholderapi_nexteconomy_tycoon}" ~ caso o jogador seja o mais rico, irá retornar a tag magnata 
 
-LegendChat: "{tycoon}" ~ tag magnata
+### LegendChat
+-   "{tycoon}" ~ tag magnata
 
 ## Dependências
 O NextEconomy necessita do [Citizens](https://dev.bukkit.org/projects/citizens) para o sistema de NPCs, [PlaceholderAPI](https://www.spigotmc.org/resources/placeholderapi.6245/) para suporte a placeholders, [HolographicDisplays](https://dev.bukkit.org/projects/holographic-displays) para hologramas (utilizado no sistema de ranking por NPC)! OBS: todas essas são dependências opicionais.
