@@ -38,7 +38,7 @@ public final class AccountRepository {
 
             try {
                 sqlExecutor.updateQuery("ALTER TABLE " + TABLE + " ADD COLUMN discordId LONG NOT NULL DEFAULT -1");
-                sqlExecutor.updateQuery("ALTER TABLE " + TABLE + " ADD COLUMN receiveCoins BOOLEAN NOT NULL DEFAULT true");
+                sqlExecutor.updateQuery("ALTER TABLE " + TABLE + " ADD COLUMN receiveCoins INTEGER NOT NULL DEFAULT 1");
             } catch (Exception ignored) { }
 
             config.set("database.version", "2.0.0");
