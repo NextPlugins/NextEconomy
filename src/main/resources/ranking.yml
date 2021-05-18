@@ -24,7 +24,7 @@ ranking:
     # ARMORSTAND - Mini bonecos com cabeça de cada jogador
     # NPC - Boneco da altua e mesma skin do jogador
     # NOTHING - Desativar ArmorStand e NPC
-    type: ARMORSTAND
+    type: NPC
     # Configuração das cores da armadura de couro (apenas top armorstand)
     # Todas as cores aqui são em HEX, procure no google para achar o código HEX da cor que quer colocar
     armor:
