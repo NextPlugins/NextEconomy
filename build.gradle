@@ -26,8 +26,8 @@ repositories {
     maven { url = 'https://repo.codemc.org/repository/maven-public/' }
     maven { url = 'https://repo.citizensnpcs.co/' }
     maven { url = 'https://m2.dv8tion.net/releases' }
-
     maven { url = 'https://jitpack.io/' }
+    maven { url = 'https://repo.nickuc.com/maven2/' }
 }
 
 dependencies {
@@ -39,7 +39,7 @@ dependencies {
     compileOnly 'net.citizensnpcs:citizens:2.0.27-SNAPSHOT'
     compileOnly 'com.github.MilkBowl:VaultAPI:1.7'
     compileOnly 'br.net.fabiozumbi12:ultimatechat:1.9.1'
-    compileOnly 'com.nickuc:chat:1.0.0'
+    compileOnly 'com.nickuc.chat:nchat-api:4.2'
 
     implementation 'com.github.HenryFabio.configuration-injector:common:main-SNAPSHOT'
     implementation 'com.github.HenryFabio.configuration-injector:bukkit:main-SNAPSHOT'
