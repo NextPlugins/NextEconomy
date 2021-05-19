@@ -2,18 +2,23 @@ package com.nextplugins.economy.api.backup;
 
 import com.henryfabio.sqlprovider.connector.utils.FileUtils;
 import com.nextplugins.economy.NextEconomy;
+import com.nextplugins.economy.api.backup.response.BackupResponse;
+import com.nextplugins.economy.api.backup.response.ResponseType;
 import com.nextplugins.economy.api.backup.runnable.BackupCreatorRunnable;
 import com.nextplugins.economy.api.backup.runnable.BackupReaderRunnable;
 import com.nextplugins.economy.api.model.account.Account;
 import com.nextplugins.economy.util.DateFormatUtil;
-import lombok.*;
+import lombok.Data;
+import lombok.RequiredArgsConstructor;
+import lombok.val;
+import lombok.var;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.io.File;
 import java.util.List;
-import java.util.concurrent.CompletableFuture;
 
 /**
  * @author Yuhtin
@@ -34,16 +39,16 @@ public final class BackupManager {
      * @param async    operation mode
      * @return {@link File} created
      */
-    @Nullable
-    public CompletableFuture<File> createBackup(@Nullable CommandSender sender,
-                                                @Nullable String name,
-                                                List<Account> accounts,
-                                                boolean restaurationPoint,
-                                                boolean async) {
+    @NotNull
+    public synchronized BackupResponse createBackup(@Nullable CommandSender sender,
+                                                    @Nullable String name,
+                                                    List<Account> accounts,
+                                                    boolean restaurationPoint,
+                                                    boolean async) {
 
-        if (backuping) return null;
+        if (backuping) return new BackupResponse(null, ResponseType.BACKUP_IN_PROGRESS);
 
-        backuping = true;
+        setBackuping(true);
 
         val plugin = NextEconomy.getInstance();
         val scheduler = Bukkit.getScheduler();
@@ -59,7 +64,7 @@ public final class BackupManager {
         if (file.exists()) {
 
             plugin.getLogger().info("O nome inserido no arquivo de backup já existe.");
-            return null;
+            return new BackupResponse(null, ResponseType.NAME_IN_USE);
 
         }
 
@@ -70,7 +75,7 @@ public final class BackupManager {
         if (async) scheduler.runTaskAsynchronously(plugin, runnable);
         else scheduler.runTask(plugin, runnable);
 
-        return CompletableFuture.completedFuture(file);
+        return new BackupResponse(file, ResponseType.SUCCESS);
 
     }
 
@@ -82,7 +87,7 @@ public final class BackupManager {
      * @param file   backup to read
      * @param async  operation mode
      */
-    public void loadBackup(@Nullable CommandSender sender,
+    public synchronized void loadBackup(@Nullable CommandSender sender,
                            File file,
                            boolean restauration,
                            boolean async) {
@@ -91,6 +96,8 @@ public final class BackupManager {
 
         val conversorManager = NextEconomy.getInstance().getConversorManager();
         if (!conversorManager.checkConversorAvailability(sender)) return;
+
+        setBackuping(true);
 
         val runnable = new BackupReaderRunnable(
                 sender,

@@ -28,8 +28,7 @@ public final class NextEconomyAPI {
      * Access {@link AccountRepository} to make operations direct to/from sql
      */
 
-    @Getter
-    private static final NextEconomyAPI instance = new NextEconomyAPI();
+    @Getter private static final NextEconomyAPI instance = new NextEconomyAPI();
 
     private final AccountRepository accountRepository = NextEconomy.getInstance().getAccountRepository();
     private final RankingStorage rankingStorage = NextEconomy.getInstance().getRankingStorage();

@@ -56,6 +56,9 @@ dependencies {
         exclude module: 'opus-java'
     }
 
+    pdm 'com.fasterxml.jackson.core:jackson-core:2.12.3'
+    pdm 'com.fasterxml.jackson.core:jackson-annotations:2.12.3'
+
     pdm 'com.github.SaiintBrisson.command-framework:bukkit:1.2.0'
     pdm 'com.github.SaiintBrisson.command-framework:shared:1.2.0'
 
