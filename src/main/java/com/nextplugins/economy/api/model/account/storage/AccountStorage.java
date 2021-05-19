@@ -2,7 +2,7 @@ package com.nextplugins.economy.api.model.account.storage;
 
 import com.github.benmanes.caffeine.cache.AsyncLoadingCache;
 import com.github.benmanes.caffeine.cache.Caffeine;
-import com.github.benmanes.caffeine.cache.RemovalCause;
+import com.github.benmanes.caffeine.cache.RemovalListener;
 import com.nextplugins.economy.NextEconomy;
 import com.nextplugins.economy.api.model.account.Account;
 import com.nextplugins.economy.dao.repository.AccountRepository;
@@ -11,13 +11,11 @@ import lombok.RequiredArgsConstructor;
 import lombok.var;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
-import org.checkerframework.checker.nullness.qual.NonNull;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
-import java.util.concurrent.Executor;
 import java.util.concurrent.TimeUnit;
 
 @RequiredArgsConstructor
@@ -29,8 +27,8 @@ public final class AccountStorage {
             .ticker(System::nanoTime)
             .maximumSize(10000)
             .expireAfterWrite(5, TimeUnit.MINUTES)
-            .removalListener(this::saveOne)
-            .buildAsync(this::selectOne);
+            .removalListener((RemovalListener<String, Account>) (key, value, cause) -> saveOne(value))
+            .buildAsync((key, executor) -> CompletableFuture.completedFuture(selectOne(key)));
 
     public void init() {
 
@@ -39,12 +37,12 @@ public final class AccountStorage {
 
     }
 
-    private void saveOne(String name, Account account, @NonNull RemovalCause removalCause) {
+    private void saveOne(Account account) {
         accountRepository.saveOne(account);
     }
 
-    private @NotNull CompletableFuture<Account> selectOne(String s, @NonNull Executor executor) {
-        return CompletableFuture.completedFuture(accountRepository.selectOne(s));
+    private Account selectOne(String owner) {
+        return accountRepository.selectOne(owner);
     }
 
     /**
