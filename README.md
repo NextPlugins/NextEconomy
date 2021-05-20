@@ -23,6 +23,7 @@ Um sistema simples e completo de uma economia principal para servidores de Minec
 |/money npc       |Veja a ajuda para o sistema de NPCs.|`nexteconomy.command.npc.help`|
 |/money npc add   |Adicione uma localização de spawn de NPC.|`nexteconomy.command.npc.add`|
 |/money npc remove|Remova uma localização de spawn de NPC.|`nexteconomy.command.npc.remove`|
+|/nexteconomy     |Comandos administrativos.|`nexteconomy.admin`|
 
 ## Download
 
