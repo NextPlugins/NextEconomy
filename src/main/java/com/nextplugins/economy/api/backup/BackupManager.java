@@ -73,7 +73,7 @@ public final class BackupManager {
         val runnable = new BackupCreatorRunnable(sender, this, file, accounts);
 
         if (async) scheduler.runTaskAsynchronously(plugin, runnable);
-        else scheduler.runTask(plugin, runnable);
+        else runnable.run();
 
         return new BackupResponse(file, ResponseType.SUCCESS);
 
@@ -111,7 +111,7 @@ public final class BackupManager {
         val scheduler = Bukkit.getScheduler();
 
         if (async) scheduler.runTaskAsynchronously(plugin, runnable);
-        else scheduler.runTask(plugin, runnable);
+        else runnable.run();
 
     }
 

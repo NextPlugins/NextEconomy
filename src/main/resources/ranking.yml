@@ -36,7 +36,7 @@ ranking:
       boots: '#c43d31' # Vermelho
     hologram:
       # altura do holograma, em blocos (começando do chão)
-      height: 2.15 # Recomendado 3 para NPC e 2.15 para ArmorStand
+      height: 3 # Recomendado 3 para NPC e 2.15 para ArmorStand
       lines:
         - '&f$positionº'
         - '&e$player'

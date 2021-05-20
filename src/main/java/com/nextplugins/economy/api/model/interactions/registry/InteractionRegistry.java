@@ -5,12 +5,18 @@ import com.nextplugins.economy.api.model.interactions.manager.PayInteractionMana
 import com.nextplugins.economy.api.model.interactions.manager.LookupInteractionManager;
 import lombok.Getter;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * @author Yuhtin
  * Github: https://github.com/Yuhtin
  */
 @Getter
 public final class InteractionRegistry {
+
+    // mega pog
+    private final List<String> waitingForCancel = new ArrayList<>();
 
     private PayInteractionManager payInteractionManager;
     private LookupInteractionManager lookupInteractionManager;

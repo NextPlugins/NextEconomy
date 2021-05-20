@@ -11,7 +11,7 @@ public final class PlaceholderRegistry {
     private final NextEconomy plugin;
 
     public void register() {
-        if (Bukkit.getPluginManager().isPluginEnabled("PlaceholderAPI")) {
+        if (!Bukkit.getPluginManager().isPluginEnabled("PlaceholderAPI")) {
             plugin.getLogger().warning(
                     "Dependência não encontrada (PlaceholderAPI). A placeholder não poderá ser usada."
             );

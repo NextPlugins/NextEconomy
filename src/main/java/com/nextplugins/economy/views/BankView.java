@@ -44,18 +44,20 @@ public final class BankView extends SimpleInventory {
         val player = viewer.getPlayer();
         val account = accountStorage.findAccount(player);
         val instance = PurseAPI.getInstance();
+        val receiveCoinsMessage = account.isReceiveCoins() ? "&aativado" : "&cdesativado";
 
-        String purse = instance != null ? instance.getPurseFormated() : "";
+        val purse = instance != null ? instance.getPurseFormated() : "";
+        val isHigh = instance != null ? instance.isHigh() : "";
 
-        String isHigh = instance != null ? instance.isHigh() : "";
-
-        String nextUpdate = instance != null
+        val nextUpdate = instance != null
                 ? TimeUtils.format(instance.getNextUpdate() - System.currentTimeMillis())
                 : "";
 
-        String transactionName = account.getTransactionsQuantity() == 1
+        val transactionName = account.getTransactionsQuantity() == 1
                 ? MessageValue.get(MessageValue::singularTransaction)
                 : MessageValue.get(MessageValue::pluralTransaction);
+
+        val transactionsMessage = account.getTransactionsQuantity() + " " + transactionName;
 
         for (InventoryButton value : BUTTONS.values()) {
 
@@ -67,8 +69,9 @@ public final class BankView extends SimpleInventory {
                             .stream()
                             .map(line -> line
                                     .replace("$money", NumberUtils.format(account.getBalance()))
-                                    .replace("$transactions", account.getTransactionsQuantity() + " " + transactionName)
+                                    .replace("$transactions", transactionsMessage)
                                     .replace("$movimentedMoney", NumberUtils.format(account.getMovimentedBalance()))
+                                    .replace("$toggleMessage", receiveCoinsMessage)
                                     .replace("$discord", "Yuhtin#9147")
                                     .replace("$value", purse)
                                     .replace("$status", isHigh)

@@ -82,6 +82,10 @@ public class PayInteractionManager {
             val player = event.getPlayer();
             val message = event.getMessage();
 
+            val interactionRegistry = NextEconomy.getInstance().getInteractionRegistry();
+            interactionRegistry.getWaitingForCancel().add(player.getName());
+
+
             if (message.equalsIgnoreCase("cancelar")) {
 
                 players.remove(player.getName());

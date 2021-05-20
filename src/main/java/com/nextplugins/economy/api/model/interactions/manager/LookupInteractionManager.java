@@ -46,10 +46,14 @@ public class LookupInteractionManager {
             event.setCancelled(true);
 
             val player = event.getPlayer();
+            val interactionRegistry = NextEconomy.getInstance().getInteractionRegistry();
+            interactionRegistry.getWaitingForCancel().add(player.getName());
+
             usersInOperation.remove(player.getName());
 
             String message = event.getMessage();
             if (message.equalsIgnoreCase("cancelar")) {
+
 
                 player.sendMessage(MessageValue.get(MessageValue::interactionCancelled));
                 return;

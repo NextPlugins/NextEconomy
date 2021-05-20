@@ -21,22 +21,13 @@ public final class AccountAdapter implements SQLResultAdapter<Account> {
         double movimentedBalance = resultSet.get("movimentedBalance");
         int transactionsQuantity = resultSet.get("transactionsQuantity");
 
-        long discordId = -1;
-        boolean receiveCoins = true;
-
-        try {
-
-            Integer discord = resultSet.get("discordId");
-            discordId = discord.longValue();
-
-            receiveCoins = resultSet.get("receiveCoins");
-
-        } catch (NullPointerException ignored) { }
+        int discordId = resultSet.get("discordId");
+        int receiveCoins = resultSet.get("receiveCoins");
 
         return Account.generate()
                 .username(accountOwner)
                 .balance(accountBalance)
-                .receiveCoins(receiveCoins)
+                .receiveCoins(receiveCoins != 0)
                 .movimentedBalance(movimentedBalance)
                 .transactionsQuantity(transactionsQuantity)
                 .transactions(PARSER.fromJson(transactions))

@@ -26,11 +26,9 @@ public final class UltimateChatListener implements Listener {
         if (event.isCancelled()) return;
 
         val player = event.getSender();
+        if (interactionRegistry.getWaitingForCancel().contains(player.getName())) {
 
-        val users = interactionRegistry.getPayInteractionManager().getPlayers().keySet();
-        val usersInOperation = interactionRegistry.getLookupInteractionManager().getUsersInOperation();
-
-        if (users.contains(player.getName()) || usersInOperation.contains(player.getName())) {
+            interactionRegistry.getWaitingForCancel().remove(player.getName());
 
             event.setCancelled(true);
             return;
