@@ -99,7 +99,12 @@ public final class AccountStorage {
 
     }
 
-    public void put(Account account) {
+    /**
+     * Put account directly in cache (will be sync to database automaticly)
+     *
+     * @param account of player
+     */
+    public void put(@NotNull Account account) {
         cache.put(account.getUsername(), CompletableFuture.completedFuture(account));
     }
 

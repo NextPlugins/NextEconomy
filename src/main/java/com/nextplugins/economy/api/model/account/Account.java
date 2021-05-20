@@ -20,6 +20,8 @@ import java.util.LinkedList;
 public class Account {
 
     private final String username;
+    private String discordName;
+
     private double balance;
     private double movimentedBalance;
 
@@ -59,6 +61,7 @@ public class Account {
 
         return new Account(
                 name,
+                "Nenhum configurado",
                 balance,
                 movimentedBalance,
                 transactionsQuantity,

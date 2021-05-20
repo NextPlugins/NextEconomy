@@ -47,7 +47,7 @@ public final class BankView extends SimpleInventory {
         val receiveCoinsMessage = account.isReceiveCoins() ? "&aativado" : "&cdesativado";
 
         val purse = instance != null ? instance.getPurseFormated() : "";
-        val isHigh = instance != null ? instance.isHigh() : "";
+        val isHigh = instance != null ? instance.getHighMessage() : "";
 
         val nextUpdate = instance != null
                 ? TimeUtils.format(instance.getNextUpdate() - System.currentTimeMillis())

@@ -45,17 +45,31 @@ public class PurseAPI {
 
     }
 
+    /**
+     * Check if purse is enabled by user
+     *
+     * @return {@link Boolean} with response
+     */
     public static boolean isAvaliable() {
         return instance != null;
     }
 
-    public static PurseAPI getInstance() {
+    /**
+     * Get purse instance
+     *
+     * @return A instance of {@link PurseAPI}. If disabled by user, return null.
+     */
+    public static @Nullable PurseAPI getInstance() {
 
         if (instance != null && instance.getNextUpdate() < System.currentTimeMillis()) instance.forceUpdate();
         return instance;
 
     }
 
+    /**
+     * Force generate random value for purse
+     * The update time will be updated
+     */
     public void forceUpdate() {
 
         val maxValue = PurseValue.get(PurseValue::maxValue);
@@ -66,20 +80,40 @@ public class PurseAPI {
 
     }
 
+    /**
+     * Change purse value without announces and change update time
+     *
+     * @param purse value
+     */
     public void setPurse(int purse) {
         this.purse = purse;
         this.purseMultiplier = purse / 100.0;
     }
 
+    /**
+     * Get purse value
+     *
+     * @return the actual purse. Example: '23%'
+     */
     public String getPurseFormated() {
         return purse + "%";
     }
 
+    /**
+     * Get purse value
+     *
+     * @return the actual purse. Example: '23% > em alta'
+     */
     public String getPurseFormatedWithIcon() {
-        return purse + "% " + isHigh();
+        return purse + "% " + getHighMessage();
     }
 
-    public String isHigh() {
+    /**
+     * Catch high message based in purse value
+     *
+     * @return Example '> on rise' or '< in down'
+     */
+    public String getHighMessage() {
 
         val media = PurseValue.get(PurseValue::media);
         if (purse >= media) {
@@ -90,6 +124,11 @@ public class PurseAPI {
 
     }
 
+    /**
+     * Change purse value with messages and calling event (Better way)
+     *
+     * @param newValue to purse
+     */
     public void updatePurse(int newValue) {
 
         val lastNextUpdate = nextUpdate;

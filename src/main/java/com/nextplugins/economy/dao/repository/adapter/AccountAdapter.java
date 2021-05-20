@@ -26,6 +26,7 @@ public final class AccountAdapter implements SQLResultAdapter<Account> {
 
         return Account.generate()
                 .username(accountOwner)
+                .discordName("Nenhum configurado") // TODO get username by discordId
                 .balance(accountBalance)
                 .receiveCoins(receiveCoins != 0)
                 .movimentedBalance(movimentedBalance)

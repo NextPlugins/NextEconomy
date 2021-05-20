@@ -10,6 +10,7 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.bukkit.OfflinePlayer;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Collection;
@@ -42,8 +43,7 @@ public final class NextEconomyAPI {
      * @param player an online player
      * @return {@link Account} the account found
      */
-    @Nullable
-    public Account findAccountByPlayer(OfflinePlayer player) {
+    public @Nullable Account findAccountByPlayer(@NotNull OfflinePlayer player) {
         return accountStorage.findAccount(player);
     }
 
@@ -54,8 +54,7 @@ public final class NextEconomyAPI {
      * @param name player name
      * @return {@link Account} the account found
      */
-    @Nullable
-    public Account findAccountByName(String name) {
+    public @Nullable Account findAccountByName(@NotNull String name) {
         return accountStorage.findAccountByName(name);
     }
 
@@ -64,23 +63,24 @@ public final class NextEconomyAPI {
      *
      * @return {@link Collection} with accounts
      */
-    public Collection<CompletableFuture<Account>> retrieveCachedAccounts() {
+    public @NotNull Collection<CompletableFuture<Account>> retrieveCachedAccounts() {
         return accountStorage.getCache().asMap().values();
     }
 
     /**
      * Search all accounts in cache to look for one with the entered custom filter.
      *
-     * @deprecated Since 2.0.0
      * @param filter custom filter to search
      * @return {@link Stream} aplicated with filter
+     * @deprecated Since 2.0.0
      */
-    @Deprecated
-    public Stream<Account> findAccountByFilter(Predicate<Account> filter) {
+    public @Deprecated @NotNull Stream<Account> findAccountByFilter(@NotNull Predicate<Account> filter) {
         return retrieveCachedAccounts().stream()
                 .map(future -> {
 
-                    try { return future.get(); } catch (InterruptedException | ExecutionException exception) {
+                    try {
+                        return future.get();
+                    } catch (InterruptedException | ExecutionException exception) {
                         Thread.currentThread().interrupt();
                         return null;
                     }
@@ -92,11 +92,10 @@ public final class NextEconomyAPI {
     /**
      * Retrieve all accounts loaded in cache.
      *
-     * @deprecated Since 2.0.0
      * @return {@link Set} with accounts
+     * @deprecated Since 2.0.0
      */
-    @Deprecated
-    public Set<CompletableFuture<Account>> allAccounts() {
+    public @Deprecated @NotNull Set<CompletableFuture<Account>> allAccounts() {
         return Sets.newHashSet(retrieveCachedAccounts());
     }
 
