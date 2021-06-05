@@ -12,6 +12,7 @@ import org.bukkit.Material;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
+import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
 
 @RequiredArgsConstructor
@@ -22,10 +23,13 @@ public final class CheckInteractListener implements Listener {
     @EventHandler(ignoreCancelled = true, priority = EventPriority.HIGHEST)
     public void onCheckInteract(PlayerInteractEvent event) {
 
-        val item = event.getItem();
-        if (item == null || item.getType() == Material.AIR) return;
-
         val player = event.getPlayer();
+
+        val item = player.getItemInHand();
+        if (event.getAction() != Action.RIGHT_CLICK_AIR
+                && event.getAction() != Action.RIGHT_CLICK_BLOCK
+                || item == null
+                || item.getType() == Material.AIR) return;
 
         val checkField = "value";
 
