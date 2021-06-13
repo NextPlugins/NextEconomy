@@ -28,7 +28,6 @@ public final class CheckInteractListener implements Listener {
         val item = player.getItemInHand();
         if (event.getAction() != Action.RIGHT_CLICK_AIR
                 && event.getAction() != Action.RIGHT_CLICK_BLOCK
-                || item == null
                 || item.getType() == Material.AIR) return;
 
         val checkField = "value";
