@@ -145,28 +145,6 @@ public final class NextEconomy extends JavaPlugin {
     @Override
     public void onDisable() {
 
-        if (CustomRankingRegistry.getInstance().isEnabled()) {
-            String type = RankingValue.get(RankingValue::npcType);
-            if (type.equalsIgnoreCase("npc")) {
-
-                NPCRunnable.NPCS.forEach(NPC::destroy);
-                NPCRunnable.HOLOGRAM.forEach(Hologram::delete);
-
-            }
-
-            if (type.equalsIgnoreCase("armorstand")) {
-
-                for (ArmorStand STAND : ArmorStandRunnable.STANDS) {
-                    STAND.remove();
-                }
-
-                for (Hologram hologram : ArmorStandRunnable.HOLOGRAM) {
-                    hologram.delete();
-                }
-
-            }
-        }
-
         accountStorage.getCache().synchronous().invalidateAll();
 
         if (FeatureValue.get(FeatureValue::backups)) {
@@ -176,6 +154,33 @@ public final class NextEconomy extends JavaPlugin {
                     backupManager.createBackup(null, null, Lists.newArrayList(accounts), false, false)
             ).join(); // freeze thread
 
+        }
+
+        if (CustomRankingRegistry.getInstance().isEnabled()) {
+            String type = RankingValue.get(RankingValue::npcType);
+            if (type.equalsIgnoreCase("npc")) {
+
+                for (NPC npc : NPCRunnable.NPCS) {
+                    npc.destroy();
+                }
+
+                for (Hologram hologram : NPCRunnable.HOLOGRAM) {
+                    hologram.delete();
+                }
+
+            }
+
+            if (type.equalsIgnoreCase("armorstand")) {
+
+                for (ArmorStand stand : ArmorStandRunnable.STANDS) {
+                    stand.remove();
+                }
+
+                for (Hologram hologram : ArmorStandRunnable.HOLOGRAM) {
+                    hologram.delete();
+                }
+
+            }
         }
 
     }

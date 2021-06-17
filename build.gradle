@@ -28,6 +28,7 @@ repositories {
     maven { url = 'https://m2.dv8tion.net/releases' }
     maven { url = 'https://jitpack.io/' }
     maven { url = 'https://repo.nickuc.com/maven2/' }
+    maven { url 'https://nexus.scarsz.me/content/groups/public/' }
 }
 
 dependencies {
@@ -43,21 +44,13 @@ dependencies {
 
     implementation 'com.github.HenryFabio.configuration-injector:common:main-SNAPSHOT'
     implementation 'com.github.HenryFabio.configuration-injector:bukkit:main-SNAPSHOT'
+    implementation 'com.github.ben-manes.caffeine:caffeine:2.9.0' // 3.0.0 or higher is for java 11+
 
     pdm 'de.tr7zw:item-nbt-api:2.7.1'
     pdm 'org.bstats:bstats-bukkit:1.8'
 
     pdm 'com.github.HenryFabio:inventory-api:2.0.3'
     pdm 'com.github.HenryFabio:sql-provider:9561f20fd2'
-
-    pdm 'com.github.ben-manes.caffeine:caffeine:2.9.0' // 3.0.0 or higher is for java 11+
-
-    pdm ('net.dv8tion:JDA:4.2.1_259') {
-        exclude module: 'opus-java'
-    }
-
-    pdm 'com.fasterxml.jackson.core:jackson-core:2.12.3'
-    pdm 'com.fasterxml.jackson.core:jackson-annotations:2.12.3'
 
     pdm 'com.github.SaiintBrisson.command-framework:bukkit:1.2.0'
     pdm 'com.github.SaiintBrisson.command-framework:shared:1.2.0'
@@ -76,12 +69,13 @@ bukkit {
     depend = ['Vault']
     apiVersion = '1.16'
     load = 'STARTUP'
-    softDepend = ['Citizens', 'HolographicDisplays', 'PlaceholderAPI', 'Legendchat', 'nChat']
+    softDepend = ['Citizens', 'HolographicDisplays', 'PlaceholderAPI', 'Legendchat', 'nChat', 'DiscordSRV']
 }
 
 shadowJar {
     archiveName("${project.name}-${project.version}.jar")
     relocate('com.henryfabio.minecraft.configinjector', 'com.nextplugins.economy.libs.configinjector')
+    relocate 'com.github.benmanes', 'com.happy.spawners.libs'
 }
 
 compileJava {
