@@ -41,19 +41,17 @@ dependencies {
     compileOnly 'com.github.MilkBowl:VaultAPI:1.7'
     compileOnly 'br.net.fabiozumbi12:ultimatechat:1.9.1'
     compileOnly 'com.nickuc.chat:nchat-api:4.2'
+    compileOnly 'com.discordsrv:discordsrv:1.23.0'
 
-    implementation 'com.github.HenryFabio.configuration-injector:common:main-SNAPSHOT'
     implementation 'com.github.HenryFabio.configuration-injector:bukkit:main-SNAPSHOT'
     implementation 'com.github.ben-manes.caffeine:caffeine:2.9.0' // 3.0.0 or higher is for java 11+
+    implementation 'com.github.SaiintBrisson.command-framework:bukkit:1.2.0'
 
     pdm 'de.tr7zw:item-nbt-api:2.7.1'
     pdm 'org.bstats:bstats-bukkit:1.8'
 
     pdm 'com.github.HenryFabio:inventory-api:2.0.3'
     pdm 'com.github.HenryFabio:sql-provider:9561f20fd2'
-
-    pdm 'com.github.SaiintBrisson.command-framework:bukkit:1.2.0'
-    pdm 'com.github.SaiintBrisson.command-framework:shared:1.2.0'
 
     def lombok = 'org.projectlombok:lombok:1.18.16'
     compileOnly lombok
@@ -76,6 +74,7 @@ shadowJar {
     archiveName("${project.name}-${project.version}.jar")
     relocate('com.henryfabio.minecraft.configinjector', 'com.nextplugins.economy.libs.configinjector')
     relocate 'com.github.benmanes', 'com.happy.spawners.libs'
+    relocate('com.saiintbrisoon.command-framework', 'com.nextplugins.economy.libs.command')
 }
 
 compileJava {

@@ -28,14 +28,13 @@ inventory:
         displayName: '&6Seu perfil'
         inventorySlot: 10
         lore:
-          - '&8Aqui você pode ver o seu'
-          - '&8perfil no banco do servidor'
           - ''
-          - ' &7Coins: &e$money'
-          - ' &7Transações: &e$transactions'
-          - ' &7Dinheiro movimentado: &e$movimentedMoney'
-          - ' &7Recebimento de coins: $toggleMessage'
-          - ' &7Discord: &9$discord'
+          - ' &fCoins: &a$$money'
+          - ' &fDinheiro movimentado: &a$$movimentedMoney'
+          - ' &fTransações: &b$transactions transações.'
+          - ''
+          - ' &fRecebimento de coins: $toggleMessage'
+          - ' &fDiscord: &9$discord'
           - ''
           - '&eClique aqui para ver suas transações'
       topMoney:
@@ -45,8 +44,9 @@ inventory:
         inventorySlot: 11
         displayName: '&6Mais ricos do servidor'
         lore:
-          - '&8Veja os jogadores mais'
-          - '&8ricos do servidor'
+          - ''
+          - ' &8Veja os jogadores mais'
+          - ' &8ricos do servidor'
           - ''
           - '&eClique aqui para ver'
       purse:
@@ -58,8 +58,9 @@ inventory:
         inventorySlot: 14
         displayName: '&6Bolsa de valores'
         lore:
-          - '&8Veja a informação da'
-          - '&8bolsa de valores atualmente'
+          - ''
+          - ' &8Veja a informação da'
+          - ' &8bolsa de valores atualmente'
           - ''
           - ' &7Valor atual: &e$value'
           - ' &7Status: &e$status'
@@ -72,10 +73,11 @@ inventory:
         inventorySlot: 15
         displayName: '&6Enviar dinheiro'
         lore:
-          - '&8Clique aqui para enviar'
-          - '&8dinheiro à um jogador'
           - ''
-          - '&cEsta ação é irreversível'
+          - ' &8Envie dinheiro para qualquer jogador'
+          - ' &8do servidor, mesmo com ele offline'
+          - ''
+          - '&eClique aqui para enviar'
       viewPlayerMoney:
         identifier: VIEW_MONEY
         material: SIGN

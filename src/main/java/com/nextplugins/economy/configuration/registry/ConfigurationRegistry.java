@@ -2,11 +2,7 @@ package com.nextplugins.economy.configuration.registry;
 
 import com.henryfabio.minecraft.configinjector.bukkit.injector.BukkitConfigurationInjector;
 import com.nextplugins.economy.NextEconomy;
-import com.nextplugins.economy.configuration.FeatureValue;
-import com.nextplugins.economy.configuration.MessageValue;
-import com.nextplugins.economy.configuration.RankingValue;
-import com.nextplugins.economy.configuration.InventoryValue;
-import com.nextplugins.economy.configuration.PurseValue;
+import com.nextplugins.economy.configuration.*;
 import lombok.Data;
 
 @Data(staticConstructor = "of")
@@ -26,6 +22,7 @@ public final class ConfigurationRegistry {
 
         configurationInjector.injectConfiguration(
                 FeatureValue.instance(),
+                DiscordIntegrationValue.instance(),
                 MessageValue.instance(),
                 RankingValue.instance(),
                 InventoryValue.instance(),

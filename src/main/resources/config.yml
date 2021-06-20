@@ -24,6 +24,11 @@ plugin:
   configuration:
     # Habilitar backups quando servidor reinicia
     backups: true
+    # Configurar integração com o discord usando o DiscordSRV
+    # Não sabe como fazer? Veja este vídeo: TODO
+    discord:
+      # Habilitar integração
+      enable: true
     # Sistema de bolsa de valores
     purse:
       enable: true # usar o sistema

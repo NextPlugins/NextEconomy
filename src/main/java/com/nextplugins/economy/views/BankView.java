@@ -7,11 +7,9 @@ import com.henryfabio.minecraft.inventoryapi.viewer.Viewer;
 import com.nextplugins.economy.api.PurseAPI;
 import com.nextplugins.economy.configuration.InventoryValue;
 import com.nextplugins.economy.configuration.MessageValue;
+import com.nextplugins.economy.util.*;
 import com.nextplugins.economy.views.button.registry.InventoryButtonRegistry;
 import com.nextplugins.economy.api.model.account.storage.AccountStorage;
-import com.nextplugins.economy.util.ItemBuilder;
-import com.nextplugins.economy.util.NumberUtils;
-import com.nextplugins.economy.util.TimeUtils;
 import com.nextplugins.economy.views.button.InventoryButton;
 import lombok.val;
 import org.bukkit.inventory.ItemStack;
@@ -44,7 +42,8 @@ public final class BankView extends SimpleInventory {
         val player = viewer.getPlayer();
         val account = accountStorage.findAccount(player);
         val instance = PurseAPI.getInstance();
-        val receiveCoinsMessage = account.isReceiveCoins() ? "&aativado" : "&cdesativado";
+        val receiveCoinsMessage = ColorUtil.colored(account.isReceiveCoins() ? "&aativado" : "&cdesativado");
+        val discordName = ColorUtil.colored(DiscordSyncUtil.getUserTag(player));
 
         val purse = instance != null ? instance.getPurseFormated() : "";
         val isHigh = instance != null ? instance.getHighMessage() : "";
@@ -72,7 +71,7 @@ public final class BankView extends SimpleInventory {
                                     .replace("$transactions", transactionsMessage)
                                     .replace("$movimentedMoney", NumberUtils.format(account.getMovimentedBalance()))
                                     .replace("$toggleMessage", receiveCoinsMessage)
-                                    .replace("$discord", "Yuhtin#9147")
+                                    .replace("$discord", discordName)
                                     .replace("$value", purse)
                                     .replace("$status", isHigh)
                                     .replace("$time", nextUpdate)
