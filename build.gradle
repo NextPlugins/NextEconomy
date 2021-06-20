@@ -10,7 +10,7 @@ plugins {
 group 'com.nextplugins'
 version '2.0.0-TEST-VERSION'
 
-tasks.build.dependsOn('pdm', 'shadowJar')
+tasks.build.dependsOn 'pdm', 'shadowJar'
 
 repositories {
     mavenCentral()
@@ -28,7 +28,7 @@ repositories {
     maven { url = 'https://m2.dv8tion.net/releases' }
     maven { url = 'https://jitpack.io/' }
     maven { url = 'https://repo.nickuc.com/maven2/' }
-    maven { url 'https://nexus.scarsz.me/content/groups/public/' }
+    maven { url = 'https://nexus.scarsz.me/content/groups/public/' }
 }
 
 dependencies {
@@ -71,15 +71,15 @@ bukkit {
 }
 
 shadowJar {
-    archiveName("${project.name}-${project.version}.jar")
-    relocate('com.henryfabio.minecraft.configinjector', 'com.nextplugins.economy.libs.configinjector')
+    archiveName "${project.name}-${project.version}.jar"
+    relocate 'com.henryfabio.minecraft.configinjector', 'com.nextplugins.economy.libs.configinjector'
     relocate 'com.github.benmanes.caffeine', 'com.nextplugins.economy.libs.caffeine'
-    relocate('me.saiintbrisson.bukkit.command', 'com.nextplugins.economy.libs.command')
+    relocate 'me.saiintbrisson.bukkit.command', 'com.nextplugins.economy.libs.command'
 }
 
 compileJava {
-    options.encoding('UTF-8')
+    options.encoding 'UTF-8'
 
-    sourceCompatibility('1.8')
-    targetCompatibility('1.8')
+    sourceCompatibility '1.8'
+    targetCompatibility '1.8'
 }
