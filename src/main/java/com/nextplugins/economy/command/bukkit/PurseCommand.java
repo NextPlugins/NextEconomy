@@ -1,4 +1,4 @@
-package com.nextplugins.economy.command;
+package com.nextplugins.economy.command.bukkit;
 
 import com.nextplugins.economy.api.PurseAPI;
 import com.nextplugins.economy.util.ColorUtil;

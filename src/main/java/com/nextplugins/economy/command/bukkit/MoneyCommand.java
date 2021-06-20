@@ -1,4 +1,4 @@
-package com.nextplugins.economy.command;
+package com.nextplugins.economy.command.bukkit;
 
 import com.nextplugins.economy.NextEconomy;
 import com.nextplugins.economy.api.event.operations.MoneyChangeEvent;

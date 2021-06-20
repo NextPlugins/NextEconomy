@@ -1,4 +1,4 @@
-package com.nextplugins.economy.command;
+package com.nextplugins.economy.command.bukkit;
 
 import com.google.common.base.Stopwatch;
 import com.google.common.collect.Lists;

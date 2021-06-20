@@ -29,6 +29,8 @@ plugin:
     discord:
       # Habilitar integração
       enable: true
+      # Prefix dos comandos
+      prefix: "coins!"
     # Sistema de bolsa de valores
     purse:
       enable: true # usar o sistema

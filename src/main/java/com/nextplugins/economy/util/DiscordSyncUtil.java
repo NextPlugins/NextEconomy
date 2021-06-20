@@ -6,6 +6,7 @@ import github.scarsz.discordsrv.util.DiscordUtil;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import lombok.val;
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
 /**
@@ -16,7 +17,7 @@ import org.bukkit.entity.Player;
 public final class DiscordSyncUtil {
 
     public static boolean isEnable() {
-        return DiscordIntegrationValue.get(DiscordIntegrationValue::enable);
+        return DiscordIntegrationValue.get(DiscordIntegrationValue::enable) && Bukkit.getPluginManager().isPluginEnabled("DiscordSRV");
     }
 
     public static String getUserTag(Player player) {

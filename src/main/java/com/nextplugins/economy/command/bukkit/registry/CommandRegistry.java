@@ -1,10 +1,10 @@
-package com.nextplugins.economy.command.registry;
+package com.nextplugins.economy.command.bukkit.registry;
 
 import com.nextplugins.economy.NextEconomy;
-import com.nextplugins.economy.command.CheckCommand;
-import com.nextplugins.economy.command.MoneyCommand;
-import com.nextplugins.economy.command.NextEconomyCommand;
-import com.nextplugins.economy.command.PurseCommand;
+import com.nextplugins.economy.command.bukkit.CheckCommand;
+import com.nextplugins.economy.command.bukkit.MoneyCommand;
+import com.nextplugins.economy.command.bukkit.NextEconomyCommand;
+import com.nextplugins.economy.command.bukkit.PurseCommand;
 import com.nextplugins.economy.configuration.FeatureValue;
 import com.nextplugins.economy.configuration.MessageValue;
 import com.nextplugins.economy.configuration.PurseValue;

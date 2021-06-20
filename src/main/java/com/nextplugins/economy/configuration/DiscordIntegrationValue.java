@@ -30,6 +30,8 @@ public final class DiscordIntegrationValue implements ConfigurationInjectable {
 
     @ConfigField("enable") private boolean enable;
 
+    @ConfigField("prefix") private String prefix;
+
     public static <T> T get(Function<DiscordIntegrationValue, T> function) {
         return function.apply(instance);
     }

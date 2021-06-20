@@ -1,4 +1,4 @@
-package com.nextplugins.economy.command;
+package com.nextplugins.economy.command.bukkit;
 
 import com.nextplugins.economy.api.model.account.storage.AccountStorage;
 import com.nextplugins.economy.api.model.account.transaction.TransactionType;
