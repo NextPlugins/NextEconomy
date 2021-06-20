@@ -59,11 +59,8 @@ inventory:
         displayName: '&6Bolsa de valores'
         lore:
           - ''
-          - ' &8Veja a informação da'
-          - ' &8bolsa de valores atualmente'
-          - ''
-          - ' &7Valor atual: &e$value'
-          - ' &7Status: &e$status'
+          - ' &fValor atual: &3$value'
+          - ' &fStatus: &e$status'
           - ''
           - '&ePróxima atualização em &6$time'
       sendMoney:
@@ -83,9 +80,10 @@ inventory:
         material: SIGN
         data: 0
         inventorySlot: 16
-        displayName: '&6Ver banco de outro jogador'
+        displayName: '&6Ver dinheiro de outro jogador'
         lore:
-          - '&8Clique aqui para ver'
-          - '&8o money de outro jogador'
+          - ''
+          - ' &8Clique aqui para ver'
+          - ' &8o money de outro jogador'
           - ''
           - '&eClique aqui para ver'

@@ -63,7 +63,7 @@ public final class BankView extends SimpleInventory {
             int inventorySlot = value.getInventorySlot();
             if (inventorySlot == -1) continue;
 
-            ItemStack valueItem = new ItemBuilder(value.getItemStack(player.getName()))
+            val valueItem = new ItemBuilder(value.getItemStack(player.getName()))
                     .setLore(value.getLore()
                             .stream()
                             .map(line -> line

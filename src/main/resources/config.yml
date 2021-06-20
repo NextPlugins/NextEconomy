@@ -41,9 +41,9 @@ plugin:
       # peça para o desenvolvedor dos seus plugins, caso tenha um, implementar nosso sistema de bolsa
       # no seu plugin próprio, a api é visivel em nosso github https://github.com/NextPlugins/NextEconomy
       useInAll: false
-      media: 40 # um valor maior que esse significa que a bolsa está em alta
-      minValue: 10 # valor mínimo da bolsa
-      maxValue: 90 # valor máximo da bolsa
+      media: 100 # um valor maior que esse significa que a bolsa está em alta
+      minValue: 65 # valor mínimo da bolsa
+      maxValue: 150 # valor máximo da bolsa
       nextUpdate: 600 # tempo para atualizar em segundos
     # Valor inicial
     # Quando um jogador entra no servidor, começa com essa quantia
