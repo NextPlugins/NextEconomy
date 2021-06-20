@@ -8,7 +8,6 @@ import com.henryfabio.sqlprovider.connector.SQLConnector;
 import com.henryfabio.sqlprovider.executor.SQLExecutor;
 import com.nextplugins.economy.api.PurseAPI;
 import com.nextplugins.economy.api.backup.BackupManager;
-import com.nextplugins.economy.command.bukkit.registry.CommandRegistry;
 import com.nextplugins.economy.configuration.FeatureValue;
 import com.nextplugins.economy.configuration.registry.ConfigurationRegistry;
 import com.nextplugins.economy.configuration.RankingValue;
@@ -16,7 +15,7 @@ import com.nextplugins.economy.dao.repository.AccountRepository;
 import com.nextplugins.economy.listener.ListenerRegistry;
 import com.nextplugins.economy.api.conversor.ConversorManager;
 import com.nextplugins.economy.api.metric.MetricProvider;
-import com.nextplugins.economy.listener.events.discord.DiscordListener;
+import com.nextplugins.economy.command.discord.registry.DiscordCommandRegistry;
 import com.nextplugins.economy.placeholder.registry.PlaceholderRegistry;
 import com.nextplugins.economy.ranking.CustomRankingRegistry;
 import com.nextplugins.economy.ranking.manager.LocationManager;
@@ -58,6 +57,7 @@ public final class NextEconomy extends JavaPlugin {
     private ConversorManager conversorManager;
 
     private InteractionRegistry interactionRegistry;
+    private DiscordCommandRegistry discordCommandRegistry;
 
     private File npcFile;
     private FileConfiguration npcConfig;
@@ -112,18 +112,18 @@ public final class NextEconomy extends JavaPlugin {
         backupManager = new BackupManager();
         locationManager = new LocationManager();
         interactionRegistry = new InteractionRegistry();
+        discordCommandRegistry = new DiscordCommandRegistry();
 
         accountStorage.init();
         interactionRegistry.init();
+        discordCommandRegistry.init();
 
         InventoryManager.enable(this);
 
         ConfigurationRegistry.of(this).register();
-        CommandRegistry.of(this).register();
         VaultHookRegistry.of(this).register();
         MetricProvider.of(this).register();
         InventoryRegistry.of(this).register();
-        DiscordListener.of(this).register();
 
         Bukkit.getScheduler().runTaskLater(this, () -> {
 
