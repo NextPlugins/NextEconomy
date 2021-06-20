@@ -74,7 +74,7 @@ shadowJar {
     archiveName("${project.name}-${project.version}.jar")
     relocate('com.henryfabio.minecraft.configinjector', 'com.nextplugins.economy.libs.configinjector')
     relocate 'com.github.benmanes', 'com.happy.spawners.libs'
-    relocate('com.saiintbrisoon.command-framework', 'com.nextplugins.economy.libs.command')
+    relocate('me.saiintbrisson.bukkit.command', 'com.nextplugins.economy.libs.command')
 }
 
 compileJava {
