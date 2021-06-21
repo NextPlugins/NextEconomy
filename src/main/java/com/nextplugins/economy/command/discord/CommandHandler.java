@@ -17,12 +17,12 @@ public final class CommandHandler {
         val contentDisplay = event.getMessage().getContentDisplay();
 
         val commands = commandMap.getCommands();
-        val key = contentDisplay.split(" ")[0];
+        val args = contentDisplay.split(" ");
 
-        val command = commands.getOrDefault(key, null);
+        val command = commands.getOrDefault(args[0], null);
         if (command == null) return;
 
-        command.execute(event, contentDisplay.split(" "));
+        command.execute(event, args[1].split(" "));
 
     }
 

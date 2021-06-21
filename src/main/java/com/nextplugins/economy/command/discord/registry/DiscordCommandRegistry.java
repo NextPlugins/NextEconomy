@@ -17,10 +17,11 @@ import java.util.logging.Level;
  * Github: https://github.com/Yuhtin
  */
 
+@Getter
 @NoArgsConstructor
 public final class DiscordCommandRegistry implements Listener {
 
-    private CommandHandler commandHandler;
+    private Object commandHandler;
 
     public void init() {
 

@@ -8,6 +8,7 @@ import com.henryfabio.sqlprovider.connector.SQLConnector;
 import com.henryfabio.sqlprovider.executor.SQLExecutor;
 import com.nextplugins.economy.api.PurseAPI;
 import com.nextplugins.economy.api.backup.BackupManager;
+import com.nextplugins.economy.configuration.DiscordIntegrationValue;
 import com.nextplugins.economy.configuration.FeatureValue;
 import com.nextplugins.economy.configuration.registry.ConfigurationRegistry;
 import com.nextplugins.economy.configuration.RankingValue;
@@ -27,6 +28,7 @@ import com.nextplugins.economy.dao.SQLProvider;
 import com.nextplugins.economy.api.model.account.storage.AccountStorage;
 import com.nextplugins.economy.ranking.storage.RankingStorage;
 import com.nextplugins.economy.vault.registry.VaultHookRegistry;
+import github.scarsz.discordsrv.DiscordSRV;
 import lombok.Getter;
 import lombok.val;
 import me.bristermitten.pdm.PluginDependencyManager;
@@ -146,6 +148,13 @@ public final class NextEconomy extends JavaPlugin {
 
     @Override
     public void onDisable() {
+
+        if (DiscordIntegrationValue.get(DiscordIntegrationValue::enable)) {
+
+            val discordAPI = DiscordSRV.api;
+            discordAPI.unsubscribe(discordCommandRegistry.getCommandHandler());
+
+        }
 
         accountStorage.getCache().synchronous().invalidateAll();
 
