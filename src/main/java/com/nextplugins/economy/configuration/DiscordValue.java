@@ -2,7 +2,6 @@ package com.nextplugins.economy.configuration;
 
 import com.henryfabio.minecraft.configinjector.common.annotations.ConfigField;
 import com.henryfabio.minecraft.configinjector.common.annotations.ConfigFile;
-import com.henryfabio.minecraft.configinjector.common.annotations.ConfigSection;
 import com.henryfabio.minecraft.configinjector.common.annotations.TranslateColors;
 import com.henryfabio.minecraft.configinjector.common.injector.ConfigurationInjectable;
 import lombok.AccessLevel;
@@ -19,20 +18,25 @@ import java.util.function.Function;
 @Getter
 @TranslateColors
 @Accessors(fluent = true)
-@ConfigSection("plugin.configuration.discord")
-@ConfigFile("config.yml")
+@ConfigFile("discord.yml")
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
-public final class DiscordIntegrationValue implements ConfigurationInjectable {
+public final class DiscordValue implements ConfigurationInjectable {
 
-    @Getter private static final DiscordIntegrationValue instance = new DiscordIntegrationValue();
+    @Getter private static final DiscordValue instance = new DiscordValue();
 
     // configuration
 
-    @ConfigField("enable") private boolean enable;
+    @ConfigField("config.enable") private boolean enable;
+    @ConfigField("config.prefix") private String prefix;
 
-    @ConfigField("prefix") private String prefix;
+    // emojis
 
-    public static <T> T get(Function<DiscordIntegrationValue, T> function) {
+    @ConfigField("emojis.error") private String errorEmoji;
+    @ConfigField("emojis.invalid") private String invalidEmoji;
+    @ConfigField("emojis.loading") private String loadingEmoji;
+    @ConfigField("emojis.success") private String successEmoji;
+
+    public static <T> T get(Function<DiscordValue, T> function) {
         return function.apply(instance);
     }
 

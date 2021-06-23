@@ -25,7 +25,7 @@ public final class FeatureValue implements ConfigurationInjectable {
 
     // configuration
 
-    @ConfigField("backups") private boolean backups;
+    @ConfigField("autobackup") private boolean autoBackup;
 
     @ConfigField("initial-balance") private double initialBalance;
     @ConfigField("min-value") private double minTransactionValue;

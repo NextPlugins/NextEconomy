@@ -1,0 +1,40 @@
+######################################
+#                                    #
+#              ATENÇÃO               #
+#                                    #
+######################################
+
+# Esta integração utiliza um plugin à parte, o DiscordSRV
+# Resumidamente, é um plugin que simplifica a vinculação de contas com o seu servidor
+# Fazendo assim ter apenas um comando de vinculação para todos os plugins
+# A quantidade de pessoas pedindo suporte ao plugin foi gigantesca, então decidimos tornar obrigatório usar
+# Caso não queira usar a integração via discord, apenas desabilite logo abaixo
+# Não sabe como fazer? Veja este vídeo: TODO
+
+# Configuração geral do sistema
+config:
+  # Habilitar/desabilitar integração com o discord
+  enable: true
+  # Prefix dos comandos
+  prefix: "coins!"
+
+# Configuração dos emojis
+# Para colocar um emoji do seu servidor (pode ser até gif), envie uma mensagem em qualquer canal
+# com o seguinte conteúdo: '\:nomedoemoji:'
+# você terá enviado algo parecido com <nomedoemoji:19128219219>
+# pegue esta mensagem e coloque no campo que deseja
+emojis:
+  # Emoji de erro
+  error: ":x:"
+  # Emoji de argumento inválido
+  invalid: ":exclamation:"
+  # Emoji de carregamento
+  loading: ":compass:"
+  # Emoji de sucesso
+  success: ":white_check_mark:"
+
+embed:
+  title: 'Perfil de $player'
+  footer: '© NextPlugins 2021, Todos os direitos reservados'
+  date: true
+  color: '36bfa6'

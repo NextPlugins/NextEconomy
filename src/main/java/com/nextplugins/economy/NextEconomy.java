@@ -8,7 +8,7 @@ import com.henryfabio.sqlprovider.connector.SQLConnector;
 import com.henryfabio.sqlprovider.executor.SQLExecutor;
 import com.nextplugins.economy.api.PurseAPI;
 import com.nextplugins.economy.api.backup.BackupManager;
-import com.nextplugins.economy.configuration.DiscordIntegrationValue;
+import com.nextplugins.economy.configuration.DiscordValue;
 import com.nextplugins.economy.configuration.FeatureValue;
 import com.nextplugins.economy.configuration.registry.ConfigurationRegistry;
 import com.nextplugins.economy.configuration.RankingValue;
@@ -149,7 +149,7 @@ public final class NextEconomy extends JavaPlugin {
     @Override
     public void onDisable() {
 
-        if (DiscordIntegrationValue.get(DiscordIntegrationValue::enable)) {
+        if (DiscordValue.get(DiscordValue::enable)) {
 
             val discordAPI = DiscordSRV.api;
             discordAPI.unsubscribe(discordCommandRegistry.getCommandHandler());
@@ -158,7 +158,7 @@ public final class NextEconomy extends JavaPlugin {
 
         accountStorage.getCache().synchronous().invalidateAll();
 
-        if (FeatureValue.get(FeatureValue::backups)) {
+        if (FeatureValue.get(FeatureValue::autoBackup)) {
 
             val accounts = accountRepository.selectAll("");
             CompletableFuture.completedFuture(

@@ -1,10 +1,9 @@
 package com.nextplugins.economy.command.discord;
 
-
-import github.scarsz.discordsrv.api.events.DiscordGuildMessageReceivedEvent;
+import github.scarsz.discordsrv.dependencies.jda.api.entities.Message;
 
 public interface Command {
 
-    void execute(DiscordGuildMessageReceivedEvent event, String[] args);
+    void execute(Message event, String[] args);
 
 }

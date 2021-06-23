@@ -22,7 +22,7 @@ public final class CommandHandler {
         val command = commands.getOrDefault(args[0], null);
         if (command == null) return;
 
-        command.execute(event, args[1].split(" "));
+        command.execute(event.getMessage(), args[1].split(" "));
 
     }
 

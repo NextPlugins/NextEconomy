@@ -22,7 +22,7 @@ public final class ConfigurationRegistry {
 
         configurationInjector.injectConfiguration(
                 FeatureValue.instance(),
-                DiscordIntegrationValue.instance(),
+                DiscordValue.instance(),
                 MessageValue.instance(),
                 RankingValue.instance(),
                 InventoryValue.instance(),

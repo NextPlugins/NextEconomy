@@ -4,7 +4,7 @@ import com.nextplugins.economy.NextEconomy;
 import com.nextplugins.economy.command.discord.CommandHandler;
 import com.nextplugins.economy.command.discord.CommandMap;
 import com.nextplugins.economy.command.discord.impl.ViewMoneyCommand;
-import com.nextplugins.economy.configuration.DiscordIntegrationValue;
+import com.nextplugins.economy.configuration.DiscordValue;
 import github.scarsz.discordsrv.DiscordSRV;
 import lombok.*;
 import org.bukkit.Bukkit;
@@ -25,7 +25,7 @@ public final class DiscordCommandRegistry implements Listener {
 
     public void init() {
 
-        if (!DiscordIntegrationValue.get(DiscordIntegrationValue::enable)) return;
+        if (!DiscordValue.get(DiscordValue::enable)) return;
 
         if (!Bukkit.getPluginManager().isPluginEnabled("DiscordSRV")) {
 
@@ -37,7 +37,7 @@ public final class DiscordCommandRegistry implements Listener {
 
         }
 
-        val commandMap = new CommandMap(DiscordIntegrationValue.get(DiscordIntegrationValue::prefix));
+        val commandMap = new CommandMap(DiscordValue.get(DiscordValue::prefix));
         commandMap.register("money", new ViewMoneyCommand());
 
         commandHandler = new CommandHandler(commandMap);
