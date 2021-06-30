@@ -73,6 +73,8 @@ public class ViewMoneyCommand implements Command {
         val embedBuilder = new EmbedBuilder()
                 .setTitle("")
                 .setTimestamp(Instant.now())
+                .setAuthor("", null, "")
+                .setImage("")
                 .setColor(12);
 
         message.reply(embedBuilder.build()).queue();

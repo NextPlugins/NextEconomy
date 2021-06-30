@@ -34,7 +34,8 @@ emojis:
   success: ":white_check_mark:"
 
 embed:
-  title: 'Perfil de $player'
+  title: 'Banco de $player'
+  image: 'https://nextplugins.com.br/icons/next-logo.png'
   footer: '© NextPlugins 2021, Todos os direitos reservados'
   date: true
   color: '36bfa6'

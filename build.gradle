@@ -61,7 +61,7 @@ dependencies {
 
 bukkit {
     main = 'com.nextplugins.economy.NextEconomy'
-    authors = ['NextPlugins']
+    authors = ['Henry_Fabio', 'Eike', 'Gabriel Santos', 'Yuhtin']
     website = 'https://nextplugins.com.br'
     version = "${project.version}"
     depend = ['Vault']

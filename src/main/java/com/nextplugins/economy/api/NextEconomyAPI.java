@@ -28,7 +28,6 @@ public final class NextEconomyAPI {
      * Only for cached accounts
      * Access {@link AccountRepository} to make operations direct to/from sql
      */
-
     @Getter private static final NextEconomyAPI instance = new NextEconomyAPI();
 
     private final AccountRepository accountRepository = NextEconomy.getInstance().getAccountRepository();
@@ -49,7 +48,7 @@ public final class NextEconomyAPI {
 
     /**
      * Search player in cache and sql
-     * Can be null if player not exists in database
+     * Can be null if player not present in cache
      *
      * @param name player name
      * @return {@link Account} the account found
@@ -61,10 +60,19 @@ public final class NextEconomyAPI {
     /**
      * Retrieve all accounts loaded in cache.
      *
+     * @return {@link Collection} with {@link CompletableFuture} accounts
+     */
+    public synchronized @NotNull Collection<CompletableFuture<Account>> retrieveCachedAccountsAsync() {
+        return accountStorage.getCache().asMap().values();
+    }
+
+    /**
+     * Retrieve all accounts loaded in cache.
+     *
      * @return {@link Collection} with accounts
      */
-    public @NotNull Collection<CompletableFuture<Account>> retrieveCachedAccounts() {
-        return accountStorage.getCache().asMap().values();
+    public @NotNull Collection<Account> retrieveCachedAccountsSync() {
+        return accountStorage.getCache().synchronous().asMap().values();
     }
 
     /**
@@ -75,7 +83,7 @@ public final class NextEconomyAPI {
      * @deprecated Since 2.0.0
      */
     public @Deprecated @NotNull Stream<Account> findAccountByFilter(@NotNull Predicate<Account> filter) {
-        return retrieveCachedAccounts().stream()
+        return retrieveCachedAccountsAsync().stream()
                 .map(future -> {
 
                     try {
@@ -96,7 +104,7 @@ public final class NextEconomyAPI {
      * @deprecated Since 2.0.0
      */
     public @Deprecated @NotNull Set<CompletableFuture<Account>> allAccounts() {
-        return Sets.newHashSet(retrieveCachedAccounts());
+        return Sets.newHashSet(retrieveCachedAccountsAsync());
     }
 
 }
