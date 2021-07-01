@@ -8,6 +8,7 @@ import com.nextplugins.economy.api.model.account.Account;
 import com.nextplugins.economy.dao.repository.AccountRepository;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import lombok.val;
 import lombok.var;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
@@ -73,7 +74,13 @@ public final class AccountStorage {
     @Nullable
     public Account findAccount(@NotNull OfflinePlayer offlinePlayer) {
 
-        if (offlinePlayer.isOnline()) return findAccount(offlinePlayer.getPlayer());
+        if (offlinePlayer.isOnline()) {
+
+            val player = offlinePlayer.getPlayer();
+            if (player != null) return findAccount(player);
+
+        }
+        
         return findAccountByName(offlinePlayer.getName());
 
     }
