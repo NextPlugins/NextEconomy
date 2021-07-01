@@ -64,7 +64,7 @@ public class ItemBuilder {
     public ItemBuilder setLore(List<String> lore) {
         return changeItemMeta(it -> it.setLore(lore));
     }
-    
+
     public ItemStack wrap() {
         return item;
     }

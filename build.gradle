@@ -46,10 +46,9 @@ dependencies {
     implementation 'com.github.HenryFabio.configuration-injector:bukkit:main-SNAPSHOT'
     implementation 'com.github.ben-manes.caffeine:caffeine:2.9.0' // 3.0.0 or higher is for java 11+
     implementation 'com.github.SaiintBrisson.command-framework:bukkit:1.2.0'
+    implementation 'org.bstats:bstats-bukkit:1.8'
 
     pdm 'de.tr7zw:item-nbt-api:2.8.0'
-    pdm 'org.bstats:bstats-bukkit:1.8'
-
     pdm 'com.github.HenryFabio:inventory-api:2.0.3'
     pdm 'com.github.HenryFabio:sql-provider:9561f20fd2'
 
@@ -61,7 +60,7 @@ dependencies {
 
 bukkit {
     main = 'com.nextplugins.economy.NextEconomy'
-    authors = ['Henry_Fabio', 'Eike', 'Gabriel Santos', 'Yuhtin']
+    authors = ['NextPlugins']
     website = 'https://nextplugins.com.br'
     version = "${project.version}"
     depend = ['Vault']
@@ -75,6 +74,7 @@ shadowJar {
     relocate 'com.henryfabio.minecraft.configinjector', 'com.nextplugins.economy.libs.configinjector'
     relocate 'com.github.benmanes.caffeine', 'com.nextplugins.economy.libs.caffeine'
     relocate 'me.saiintbrisson.bukkit.command', 'com.nextplugins.economy.libs.command'
+    relocate 'org.bstats', 'com.nextplugins.economy.libs.bstats'
 }
 
 compileJava {
