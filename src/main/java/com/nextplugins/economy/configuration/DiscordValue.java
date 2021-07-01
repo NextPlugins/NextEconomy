@@ -36,6 +36,13 @@ public final class DiscordValue implements ConfigurationInjectable {
     @ConfigField("emojis.loading") private String loadingEmoji;
     @ConfigField("emojis.success") private String successEmoji;
 
+    @ConfigField("embed.title") private String embedTitle;
+    @ConfigField("embed.image") private String embedImage;
+    @ConfigField("embed.imagefooter") private String embedFooterImage;
+    @ConfigField("embed.footer") private String embedFooter;
+    @ConfigField("embed.color") private String embedColor;
+    @ConfigField("embed.date") private boolean embedDate;
+
     public static <T> T get(Function<DiscordValue, T> function) {
         return function.apply(instance);
     }

@@ -32,19 +32,19 @@ public final class MoneyWithdrawListener implements Listener {
 
         }
 
-        if (Double.isNaN(amount) || amount < 1) {
-
-            sender.sendMessage(MessageValue.get(MessageValue::invalidMoney));
-            return;
-
-        }
-
-        targetAccount.createTransaction(
+        val response = targetAccount.createTransaction(
                 target.isOnline() ? target.getPlayer() : null,
                 null,
                 amount,
                 TransactionType.WITHDRAW
         );
+
+        if (!response.transactionSuccess()) {
+
+            sender.sendMessage(MessageValue.get(MessageValue::invalidMoney));
+            return;
+
+        }
 
         sender.sendMessage(MessageValue.get(MessageValue::removeAmount)
                 .replace("$player", target.getName())

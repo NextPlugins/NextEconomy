@@ -34,8 +34,26 @@ emojis:
   success: ":white_check_mark:"
 
 embed:
+  # Título do embed (suporta o placeholder $player)
   title: 'Banco de $player'
-  image: 'https://nextplugins.com.br/icons/next-logo.png'
+  # Imagem do embed (suporta o placeholder $player)
+  image: 'https://minotar.net/avatar/$player'
+  # Imagem do footer (suporta o placeholder $player)
+  imagefooter: 'https://nextplugins.com.br/icons/next-logo.png'
+  # Mensagem do footer (suporta o placeholder $player)
   footer: '© NextPlugins 2021, Todos os direitos reservados'
+  # Adicionar data no footer
   date: true
+  # Cor do embed
   color: '36bfa6'
+  # Corpo do texto
+  fields:
+    # Aqui você pode adicionar quantos campos quiser
+    money:
+      inline: false
+      title: 'Dinheiro no banco'
+      text: '$money'
+    transactions:
+      inline: false
+      title: 'Dinheiro movimentado'
+      text: '$transactionsmoney ($transactions transações)'

@@ -61,12 +61,19 @@ public final class CheckInteractListener implements Listener {
 
         val account = accountStorage.findAccount(player);
 
-        account.createTransaction(
+        val response = account.createTransaction(
                 player,
                 "Cheque",
                 value,
                 TransactionType.DEPOSIT
         );
+
+        if (!response.transactionSuccess()) {
+
+            player.sendMessage(MessageValue.get(MessageValue::invalidMoney));
+            return;
+
+        }
 
         player.sendMessage(
                 MessageValue.get(MessageValue::checkUsed)

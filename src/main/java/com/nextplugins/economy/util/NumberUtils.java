@@ -3,6 +3,7 @@ package com.nextplugins.economy.util;
 import com.nextplugins.economy.configuration.MessageValue;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
+import lombok.val;
 
 import java.text.DecimalFormat;
 import java.util.regex.Matcher;
@@ -17,6 +18,8 @@ public final class NumberUtils {
 
     public static String format(double value) {
 
+        if (isInvalid(value)) return "0";
+        
         int index = 0;
 
         double tmp;
@@ -31,8 +34,12 @@ public final class NumberUtils {
 
     public static double parse(String string) {
         try {
-            return Double.parseDouble(string);
-        } catch (Exception ignored) {}
+
+            val value = Double.parseDouble(string);
+            return isInvalid(value) ? 0 : value;
+
+        } catch (Exception ignored) {
+        }
 
         Matcher matcher = PATTERN.matcher(string);
         if (!matcher.find()) return -1;
@@ -42,7 +49,13 @@ public final class NumberUtils {
 
         int index = MessageValue.get(MessageValue::currencyFormat).indexOf(suffix.toUpperCase());
 
-        return amount * Math.pow(1000, index);
+        val value = amount * Math.pow(1000, index);
+        return isInvalid(value) ? 0 : value;
+
+    }
+
+    public static boolean isInvalid(double value) {
+        return value < 1 || Double.isNaN(value) || Double.isInfinite(value);
     }
 
 }

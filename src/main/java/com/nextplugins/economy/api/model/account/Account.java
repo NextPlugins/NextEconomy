@@ -7,6 +7,7 @@ import com.nextplugins.economy.api.model.account.transaction.TransactionType;
 import com.nextplugins.economy.configuration.FeatureValue;
 import com.nextplugins.economy.util.NumberUtils;
 import lombok.*;
+import net.milkbowl.vault.economy.EconomyResponse;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
@@ -26,10 +27,11 @@ public class Account {
     private double movimentedBalance;
 
     private int transactionsQuantity;
-    @Builder.Default private LinkedList<AccountBankHistoric> transactions = Lists.newLinkedList();
+    @Builder.Default
+    private LinkedList<AccountBankHistoric> transactions = Lists.newLinkedList();
 
-    @Builder.Default private long discordId = -1L;
-    @Builder.Default private boolean receiveCoins = true;
+    @Builder.Default
+    private boolean receiveCoins = true;
 
     public static Account createDefault(String name) {
 
@@ -43,14 +45,13 @@ public class Account {
     /**
      * Create account
      *
-     * @deprecated Since 2.0.0
-     *
-     * @param name of player
-     * @param balance start balance
-     * @param movimentedBalance balance used
+     * @param name                 of player
+     * @param balance              start balance
+     * @param movimentedBalance    balance used
      * @param transactionsQuantity performed
-     * @param transactions info
+     * @param transactions         info
      * @return a new {@link Account}
+     * @deprecated Since 2.0.0
      */
     @Deprecated
     public static Account create(String name,
@@ -66,7 +67,7 @@ public class Account {
                 movimentedBalance,
                 transactionsQuantity,
                 transactions,
-                0, true
+                true
         );
 
     }
@@ -76,22 +77,44 @@ public class Account {
     }
 
     public synchronized void setBalance(double quantity) {
+
+        if (quantity < 1 || Double.isNaN(quantity) || Double.isInfinite(quantity)) return;
         this.balance = quantity;
+
     }
 
     public synchronized void deposit(double quantity) {
+
+        if (NumberUtils.isInvalid(quantity)) return;
         this.balance += quantity;
+
     }
 
-    public synchronized void createTransaction(@Nullable Player player,
-                                               @Nullable String owner,
-                                               double quantity,
-                                               @NotNull TransactionType transactionType) {
+    public synchronized EconomyResponse createTransaction(@Nullable Player player,
+                                                          @Nullable String owner,
+                                                          double quantity,
+                                                          @NotNull TransactionType transactionType) {
 
         var amount = quantity;
-        if (amount < 1 || Double.isNaN(amount) || Double.isInfinite(amount)) return;
+        if (NumberUtils.isInvalid(quantity)) {
+            return new EconomyResponse(
+                    quantity, balance,
+                    EconomyResponse.ResponseType.FAILURE,
+                    "O valor inserido é inválido."
+            );
+        }
 
         if (transactionType == TransactionType.WITHDRAW) {
+
+            if (!hasAmount(amount)) {
+
+                return new EconomyResponse(
+                        quantity, balance, EconomyResponse.ResponseType.FAILURE,
+                        "Não foi possível terminar esta operação. " +
+                                "(A conta requisitada não possui quantia suficiente para completar esta transação)."
+                );
+
+            }
 
             movimentedBalance += amount;
             amount *= -1;
@@ -116,16 +139,19 @@ public class Account {
 
         }
 
-        if (player == null) return;
+        if (player != null) {
 
-        val moneyChangeEvent = new MoneyChangeEvent(
-                player,
-                this,
-                balance,
-                NumberUtils.format(balance)
-        );
+            val moneyChangeEvent = new MoneyChangeEvent(
+                    player,
+                    this,
+                    balance,
+                    NumberUtils.format(balance)
+            );
 
-        Bukkit.getPluginManager().callEvent(moneyChangeEvent);
+            Bukkit.getPluginManager().callEvent(moneyChangeEvent);
+
+        }
+        return new EconomyResponse(quantity, balance, EconomyResponse.ResponseType.SUCCESS, "Operação realizada com sucesso.");
 
     }
 

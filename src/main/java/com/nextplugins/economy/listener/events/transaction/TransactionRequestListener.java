@@ -39,7 +39,7 @@ public final class TransactionRequestListener implements Listener {
 
         }
 
-        if (Double.isNaN(amount) || amount < 1) {
+        if (NumberUtils.isInvalid(amount)) {
 
             player.sendMessage(MessageValue.get(MessageValue::invalidMoney));
             return;

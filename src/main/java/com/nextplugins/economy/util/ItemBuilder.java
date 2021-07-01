@@ -1,8 +1,10 @@
 package com.nextplugins.economy.util;
 
+import org.bukkit.Color;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.inventory.meta.LeatherArmorMeta;
 import org.bukkit.inventory.meta.SkullMeta;
 
 import java.util.Arrays;
@@ -41,6 +43,15 @@ public class ItemBuilder {
         meta.setOwner(name);
 
         item.setItemMeta(meta);
+    }
+
+    public ItemBuilder(Material type, Color color) {
+        item = new ItemStack(type);
+
+        LeatherArmorMeta meta = (LeatherArmorMeta) item.getItemMeta();
+        meta.setColor(color);
+        item.setItemMeta(meta);
+
     }
 
     public ItemBuilder changeItemMeta(Consumer<ItemMeta> consumer) {

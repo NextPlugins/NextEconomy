@@ -2,7 +2,9 @@ package com.nextplugins.economy.util;
 
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
+import lombok.val;
 import org.bukkit.ChatColor;
+import org.bukkit.Color;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -27,6 +29,17 @@ public final class ColorUtil {
         return description.stream()
                 .map(ColorUtil::colored)
                 .collect(Collectors.toList());
+
+    }
+
+    public static java.awt.Color getColorByHex(String hex) {
+        return java.awt.Color.decode(hex);
+    }
+
+    public static Color getBukkitColorByHex(String hex) {
+
+        val decode = getColorByHex(hex);
+        return Color.fromRGB(decode.getRed(), decode.getGreen(), decode.getBlue());
 
     }
 

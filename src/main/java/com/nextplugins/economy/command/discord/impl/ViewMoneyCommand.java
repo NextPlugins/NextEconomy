@@ -3,6 +3,7 @@ package com.nextplugins.economy.command.discord.impl;
 import com.nextplugins.economy.api.model.account.storage.AccountStorage;
 import com.nextplugins.economy.command.discord.Command;
 import com.nextplugins.economy.configuration.DiscordValue;
+import com.nextplugins.economy.util.ColorUtil;
 import github.scarsz.discordsrv.DiscordSRV;
 import github.scarsz.discordsrv.dependencies.jda.api.EmbedBuilder;
 import github.scarsz.discordsrv.dependencies.jda.api.entities.Message;
@@ -12,7 +13,6 @@ import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 
 import java.time.Instant;
-import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -36,6 +36,15 @@ public class ViewMoneyCommand implements Command {
             if (!member.getUser().isBot()) {
 
                 val uuid = DiscordSRV.getPlugin().getAccountLinkManager().getUuid(member.getId());
+                if (uuid == null) {
+
+                    message.reply(DiscordValue.get(DiscordValue::invalidEmoji) +
+                            " Este usuário não vinculou a conta no servidor."
+                    ).queue();
+                    return;
+
+                }
+
                 player = Bukkit.getOfflinePlayer(uuid);
 
             }
@@ -64,18 +73,26 @@ public class ViewMoneyCommand implements Command {
         if (account == null) {
 
             message.reply(DiscordValue.get(DiscordValue::errorEmoji) +
-                    " O jogador não foi encontrado em nosso servidor."
+                    " O jogador informado não foi encontrado na tabela de dados."
             ).queue();
             return;
 
         }
 
+        val name = account.getUsername();
+
         val embedBuilder = new EmbedBuilder()
-                .setTitle("")
-                .setTimestamp(Instant.now())
-                .setAuthor("", null, "")
-                .setImage("")
-                .setColor(12);
+                .setTitle(DiscordValue.get(DiscordValue::embedTitle).replace("$player", name))
+                .setImage(DiscordValue.get(DiscordValue::embedImage).replace("$player", name))
+                .setFooter(
+                        DiscordValue.get(DiscordValue::embedFooter).replace("$player", name),
+                        DiscordValue.get(DiscordValue::embedFooterImage).replace("$player", name)
+                )
+                .setColor(ColorUtil.getColorByHex(DiscordValue.get(DiscordValue::embedColor)));
+
+        if (DiscordValue.get(DiscordValue::embedDate)) {
+            embedBuilder.setTimestamp(Instant.now());
+        }
 
         message.reply(embedBuilder.build()).queue();
 

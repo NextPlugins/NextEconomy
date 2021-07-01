@@ -66,12 +66,22 @@ public final class CheckCommand {
             return;
         }
 
-        account.createTransaction(
+        val response = account.createTransaction(
                 player,
                 "Cheque",
                 amount,
                 TransactionType.WITHDRAW
         );
+
+        if (!response.transactionSuccess()) {
+
+            player.sendMessage(
+                    MessageValue.get(MessageValue::checkMinimumValue)
+                            .replace("$amount", NumberUtils.format(minValue))
+            );
+            return;
+
+        }
 
         player.sendMessage(
                 MessageValue.get(MessageValue::checkCreated)
