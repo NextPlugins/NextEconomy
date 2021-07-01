@@ -27,14 +27,6 @@ public class ItemBuilder {
         this(new ItemStack(type, 1, (short) data));
     }
 
-    public ItemBuilder(Material type, int amount, int data) {
-        this(new ItemStack(type, amount, (short) data));
-    }
-
-    public ItemBuilder(Material type, int quantity, short data) {
-        this(new ItemStack(type, quantity, data));
-    }
-
     public ItemBuilder(String name) {
 
         item = new ItemStack(TypeUtil.getType("SKULL_ITEM", "LEGACY_SKULL_ITEM"), 1, (short) 3);
@@ -61,11 +53,6 @@ public class ItemBuilder {
         return this;
     }
 
-    public ItemBuilder changeItem(Consumer<ItemStack> consumer) {
-        consumer.accept(item);
-        return this;
-    }
-
     public ItemBuilder name(String name) {
         return changeItemMeta(it -> it.setDisplayName(ColorUtil.colored(name)));
     }
@@ -77,17 +64,7 @@ public class ItemBuilder {
     public ItemBuilder setLore(List<String> lore) {
         return changeItemMeta(it -> it.setLore(lore));
     }
-
-    public ItemBuilder addLore(List<String> lore) {
-        if (lore == null || lore.isEmpty()) return this;
-
-        return changeItemMeta(meta -> {
-            List<String> list = meta.getLore();
-            list.addAll(lore);
-            meta.setLore(list);
-        });
-    }
-
+    
     public ItemStack wrap() {
         return item;
     }
