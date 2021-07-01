@@ -80,7 +80,7 @@ public final class AccountStorage {
             if (player != null) return findAccount(player);
 
         }
-        
+
         return findAccountByName(offlinePlayer.getName());
 
     }

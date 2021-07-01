@@ -24,9 +24,9 @@ public final class AccountRepository {
 
         sqlExecutor.updateQuery("CREATE TABLE IF NOT EXISTS " + TABLE + "(" +
                 "owner CHAR(16) NOT NULL PRIMARY KEY," +
-                "balance DOUBLE NOT NULL," +
-                "movimentedBalance DOUBLE NOT NULL," +
-                "transactionsQuantity INTEGER NOT NULL," +
+                "balance DOUBLE NOT NULL DEFAULT 0," +
+                "movimentedBalance DOUBLE NOT NULL DEFAULT 0," +
+                "transactionsQuantity INTEGER NOT NULL DEFAULT 0," +
                 "transactions LONGTEXT NOT NULL" +
                 ");"
         );
@@ -37,7 +37,6 @@ public final class AccountRepository {
         if (version.equalsIgnoreCase("1.1.4")) {
 
             try {
-                sqlExecutor.updateQuery("ALTER TABLE " + TABLE + " ADD COLUMN discordName LONGTEXT NOT NULL DEFAULT Nenhum dado");
                 sqlExecutor.updateQuery("ALTER TABLE " + TABLE + " ADD COLUMN receiveCoins INTEGER NOT NULL DEFAULT 1");
             } catch (Exception ignored) { }
 
