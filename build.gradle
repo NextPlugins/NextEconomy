@@ -73,7 +73,8 @@ shadowJar {
     archiveName "${project.name}-${project.version}.jar"
     relocate 'com.henryfabio.minecraft.configinjector', 'com.nextplugins.economy.libs.configinjector'
     relocate 'com.github.benmanes.caffeine', 'com.nextplugins.economy.libs.caffeine'
-    relocate 'me.saiintbrisson.bukkit.command', 'com.nextplugins.economy.libs.command'
+    relocate 'me.saiintbrisson.minecraft.command', 'com.nextplugins.economy.libs.command.common'
+    relocate 'me.saiintbrisson.bukkit.command', 'com.nextplugins.economy.libs.command.bukkit'
     relocate 'org.bstats', 'com.nextplugins.economy.libs.bstats'
 }
 

@@ -42,7 +42,7 @@ public final class DiscordValue implements ConfigurationInjectable {
     @ConfigField("embed.imagefooter") private String embedFooterImage;
     @ConfigField("embed.footer") private String embedFooter;
     @ConfigField("embed.color") private String embedColor;
-    @ConfigField("embed.date") private Boolean embedDate;
+    @ConfigField("embed.date") private boolean embedDate;
 
     @ConfigField("embed.fields") private ConfigurationSection embedFields;
 

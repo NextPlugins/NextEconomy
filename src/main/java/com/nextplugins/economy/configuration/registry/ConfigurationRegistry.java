@@ -17,7 +17,8 @@ public final class ConfigurationRegistry {
                 plugin,
                 "messages.yml",
                 "ranking.yml",
-                "inventories.yml"
+                "inventories.yml",
+                "discord.yml"
         );
 
         configurationInjector.injectConfiguration(
