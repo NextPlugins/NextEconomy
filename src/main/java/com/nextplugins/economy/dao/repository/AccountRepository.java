@@ -37,7 +37,7 @@ public final class AccountRepository {
         if (version.equalsIgnoreCase("1.1.4")) {
 
             try {
-                sqlExecutor.updateQuery("ALTER TABLE " + TABLE + " ADD COLUMN discordId LONG NOT NULL DEFAULT -1");
+                sqlExecutor.updateQuery("ALTER TABLE " + TABLE + " ADD COLUMN discordName LONGTEXT NOT NULL DEFAULT Nenhum dado");
                 sqlExecutor.updateQuery("ALTER TABLE " + TABLE + " ADD COLUMN receiveCoins INTEGER NOT NULL DEFAULT 1");
             } catch (Exception ignored) { }
 
@@ -67,10 +67,6 @@ public final class AccountRepository {
         return selectOneQuery("WHERE owner = '" + owner + "'");
     }
 
-    public Account selectByDiscord(long discord) {
-        return selectOneQuery("WHERE discordId = '" + discord + "'");
-    }
-
     public Set<Account> selectAll(String query) {
         return sqlExecutor.resultManyQuery(
                 "SELECT * FROM " + TABLE + " " + query,
@@ -91,7 +87,7 @@ public final class AccountRepository {
                     statement.set(3, account.getMovimentedBalance());
                     statement.set(4, account.getTransactionsQuantity());
                     statement.set(5, PARSER.toJson(account.getTransactions()));
-                    statement.set(6, account.getDiscordId());
+                    statement.set(6, account.getDiscordName());
                     statement.set(7, account.isReceiveCoins() ? 1 : 0);
 
                 }

@@ -1,16 +1,19 @@
 package com.nextplugins.economy.command.discord.impl;
 
 import com.nextplugins.economy.api.model.account.storage.AccountStorage;
+import com.nextplugins.economy.api.model.account.transaction.TransactionType;
 import com.nextplugins.economy.command.discord.Command;
 import com.nextplugins.economy.configuration.DiscordValue;
-import com.nextplugins.economy.configuration.FeatureValue;
 import com.nextplugins.economy.configuration.MessageValue;
 import com.nextplugins.economy.util.ColorUtil;
+import com.nextplugins.economy.util.DateFormatUtil;
+import com.nextplugins.economy.util.NumberUtils;
 import github.scarsz.discordsrv.DiscordSRV;
 import github.scarsz.discordsrv.dependencies.jda.api.EmbedBuilder;
 import github.scarsz.discordsrv.dependencies.jda.api.entities.Message;
 import lombok.AllArgsConstructor;
 import lombok.val;
+import lombok.var;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 
@@ -24,7 +27,7 @@ import java.util.concurrent.TimeUnit;
 @AllArgsConstructor
 public class ViewMoneyCommand implements Command {
 
-    private AccountStorage accountStorage;
+    private final AccountStorage accountStorage;
 
     @Override
     public void execute(Message message, String[] args) {
@@ -96,6 +99,30 @@ public class ViewMoneyCommand implements Command {
             embedBuilder.setTimestamp(Instant.now());
         }
 
+        val receiveCoins = account.isReceiveCoins()
+                ? DiscordValue.get(DiscordValue::successEmoji) + " Habilitado"
+                : DiscordValue.get(DiscordValue::errorEmoji) + " Desativado";
+
+        val accountBankHistoric = account.getTransactions().isEmpty() ? null
+                : account.getTransactions().get(0);
+
+        var transaction = "Este jogador nunca fez/recebeu uma transação";
+        if (accountBankHistoric != null) {
+
+            val typeMessage = accountBankHistoric.getType() == TransactionType.WITHDRAW ? "Enviou" : "Recebeu";
+            val sendMessage = accountBankHistoric.getType() == TransactionType.WITHDRAW ? "para" : "de";
+
+            transaction = String.format(
+                    "%s %s %s %s em %s",
+                    typeMessage,
+                    NumberUtils.format(accountBankHistoric.getAmount()),
+                    sendMessage,
+                    accountBankHistoric.getTarget(),
+                    DateFormatUtil.of(accountBankHistoric.getMilli())
+            );
+
+        }
+
         val section = DiscordValue.get(DiscordValue::embedFields);
         for (String key : section.getKeys(false)) {
 
@@ -109,12 +136,21 @@ public class ViewMoneyCommand implements Command {
 
             }
 
-            val title = keySection.getString("title", "???")
-                    .replace("$coinName", MessageValue.get(MessageValue::coinsCurrency));
+            var title = keySection.getString("title", null);
+            if (title != null) title = title
+                    .replace("$coinName", MessageValue.get(MessageValue::coinsCurrency))
+                    .replace("$player", account.getUsername());
 
-            val text = keySection.getString("text", "????")
-                    .replace("$money", account.getBalanceFormated());
+            var text = keySection.getString("text", null);
+            if (text != null) text = text.replace("$player", account.getUsername())
+                    .replace("$money", account.getBalanceFormated())
+                    .replace("$coinName", MessageValue.get(MessageValue::coinsCurrency))
+                    .replace("$transactionsmoney", NumberUtils.format(account.getMovimentedBalance()))
+                    .replace("$transactions", String.valueOf(account.getTransactionsQuantity()))
+                    .replace("$abletoCoins", receiveCoins)
+                    .replace("$lastTransactionMessage", transaction);
 
+            embedBuilder.addField(title, text, inline);
 
         }
 

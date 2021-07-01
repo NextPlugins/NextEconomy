@@ -45,26 +45,28 @@ embed:
   # Adicionar data no footer
   date: true
   # Cor do embed
-  color: '36bfa6'
+  color: '#36bfa6'
   # Corpo do texto
   fields:
     # Aqui você pode adicionar quantos campos quiser
+    # Placeholders para title $coinName e $player
+    # Placeholders para text $money $player $coinName $transactionsmoney $transactions $lastTransactionMessage
     money:
       inline: false
-      title: 'Dinheiro no banco'
-      text: '$money'
+      title: 'Dinheiro no banco' # Para remover do embed, apague o campo
+      text: '$money' # Para remover do embed, apague o campo
     transactions:
       inline: false
-      title: 'Dinheiro movimentado'
-      text: '$transactionsmoney ($transactions transações)'
+      title: 'Dinheiro movimentado' # Para remover do embed, apague o campo
+      text: '$transactionsmoney ($transactions transações)' # Para remover do embed, apague o campo
     receiveMoney:
       inline: false
-      title: 'Recebimento de $coinName'
-      text: '$ableToCoins'
+      title: 'Recebimento de $coinName' # Para remover do embed, apague o campo
+      text: '$ableToCoins' # Para remover do embed, apague o campo
     blankLine:
       inline: false
       blank: true
     lastTransaction:
       inline: false
-      title: 'Última transação'
-      text: '$lastTransactionMessage'
+      title: 'Última transação' # Para remover do embed, apague o campo
+      text: '$lastTransactionMessage' # Para remover do embed, apague o campo

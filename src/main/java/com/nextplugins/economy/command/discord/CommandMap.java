@@ -12,10 +12,15 @@ public final class CommandMap {
 
     private Map<String, Command> commands = new HashMap<>();
 
-    public void register(String key, Command value) {
+    public void register(String key, Command value, String... aliases) {
         if (!key.startsWith(prefix)) key = prefix + key;
 
         commands.put(key, value);
+
+        for (String alias : aliases) {
+            commands.put(alias, value);
+        }
+
     }
 
 }

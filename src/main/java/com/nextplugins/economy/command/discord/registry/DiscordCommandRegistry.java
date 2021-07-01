@@ -27,9 +27,10 @@ public final class DiscordCommandRegistry implements Listener {
 
         if (!DiscordValue.get(DiscordValue::enable)) return;
 
+        val plugin = NextEconomy.getInstance();
         if (!Bukkit.getPluginManager().isPluginEnabled("DiscordSRV")) {
 
-            NextEconomy.getInstance().getLogger().log(Level.WARNING,
+            plugin.getLogger().log(Level.WARNING,
                     "Dependência não encontrada ({0}) A integração com o discord não será usada.",
                     "DiscordSRV"
             );
@@ -38,7 +39,7 @@ public final class DiscordCommandRegistry implements Listener {
         }
 
         val commandMap = new CommandMap(DiscordValue.get(DiscordValue::prefix));
-        commandMap.register("money", new ViewMoneyCommand());
+        commandMap.register("money", new ViewMoneyCommand(plugin.getAccountStorage()), "coins", "vermoney", "ver", "coin");
 
         commandHandler = new CommandHandler(commandMap);
         DiscordSRV.api.subscribe(commandHandler);
