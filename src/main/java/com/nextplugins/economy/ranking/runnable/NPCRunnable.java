@@ -58,7 +58,7 @@ public final class NPCRunnable implements Runnable {
                     val replacedLine = hologramLines.get(i)
                             .replace("$position", String.valueOf(position.get()))
                             .replace("$player", account.getUsername())
-                            .replace("$amount", NumberUtils.format(account.getBalance()));
+                            .replace("$amount", account.getBalanceFormated());
 
                     hologram.insertTextLine(i, replacedLine);
 

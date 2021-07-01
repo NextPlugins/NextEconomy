@@ -83,7 +83,7 @@ public final class MoneyCommand {
 
         context.sendMessage(MessageValue.get(MessageValue::seeOtherBalance)
                 .replace("$player", target.getName())
-                .replace("$amount", NumberUtils.format(offlineAccount.getBalance()))
+                .replace("$amount", offlineAccount.getBalanceFormated())
         );
 
     }
@@ -318,7 +318,7 @@ public final class MoneyCommand {
                 player,
                 offlineAccount,
                 offlineAccount.getBalance(),
-                NumberUtils.format(offlineAccount.getBalance())
+                offlineAccount.getBalanceFormated()
         );
 
         Bukkit.getPluginManager().callEvent(moneyChangeEvent);

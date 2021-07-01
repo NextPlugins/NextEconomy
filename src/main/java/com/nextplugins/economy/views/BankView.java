@@ -67,7 +67,7 @@ public final class BankView extends SimpleInventory {
                     .setLore(value.getLore()
                             .stream()
                             .map(line -> line
-                                    .replace("$money", NumberUtils.format(account.getBalance()))
+                                    .replace("$money", account.getBalanceFormated())
                                     .replace("$transactions", transactionsMessage)
                                     .replace("$movimentedMoney", NumberUtils.format(account.getMovimentedBalance()))
                                     .replace("$toggleMessage", receiveCoinsMessage)

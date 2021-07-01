@@ -79,7 +79,7 @@ public final class RankingView extends SimpleInventory {
 
             for (String lore : headLore) {
                 replacedLore.add(lore
-                        .replace("$amount", NumberUtils.format(account.getBalance()))
+                        .replace("$amount", account.getBalanceFormated())
                         .replace("$transactions", account.getTransactions().size() + " " + transactionName)
                         .replace("$movimentation", NumberUtils.format(account.getMovimentedBalance()))
                         .replace("$position", String.valueOf(position))

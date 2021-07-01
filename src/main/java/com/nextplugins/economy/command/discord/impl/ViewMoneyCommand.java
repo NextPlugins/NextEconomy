@@ -3,6 +3,8 @@ package com.nextplugins.economy.command.discord.impl;
 import com.nextplugins.economy.api.model.account.storage.AccountStorage;
 import com.nextplugins.economy.command.discord.Command;
 import com.nextplugins.economy.configuration.DiscordValue;
+import com.nextplugins.economy.configuration.FeatureValue;
+import com.nextplugins.economy.configuration.MessageValue;
 import com.nextplugins.economy.util.ColorUtil;
 import github.scarsz.discordsrv.DiscordSRV;
 import github.scarsz.discordsrv.dependencies.jda.api.EmbedBuilder;
@@ -92,6 +94,28 @@ public class ViewMoneyCommand implements Command {
 
         if (DiscordValue.get(DiscordValue::embedDate)) {
             embedBuilder.setTimestamp(Instant.now());
+        }
+
+        val section = DiscordValue.get(DiscordValue::embedFields);
+        for (String key : section.getKeys(false)) {
+
+            val keySection = section.getConfigurationSection(key);
+            val inline = keySection.getBoolean("inline", false);
+
+            if (keySection.getBoolean("blank", false)) {
+
+                embedBuilder.addBlankField(inline);
+                continue;
+
+            }
+
+            val title = keySection.getString("title", "???")
+                    .replace("$coinName", MessageValue.get(MessageValue::coinsCurrency));
+
+            val text = keySection.getString("text", "????")
+                    .replace("$money", account.getBalanceFormated());
+
+
         }
 
         message.reply(embedBuilder.build()).queue();

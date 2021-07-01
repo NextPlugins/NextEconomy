@@ -39,7 +39,7 @@ public final class EconomyPlaceholderHook extends PlaceholderExpansion {
         if (account == null) return "&cOcorreu um erro!";
 
         if (params.equalsIgnoreCase("amount")) {
-            return NumberUtils.format(account.getBalance());
+            return account.getBalanceFormated();
         }
 
         if (params.equalsIgnoreCase("tycoon")) {

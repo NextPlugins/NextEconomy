@@ -47,7 +47,7 @@ dependencies {
     implementation 'com.github.ben-manes.caffeine:caffeine:2.9.0' // 3.0.0 or higher is for java 11+
     implementation 'com.github.SaiintBrisson.command-framework:bukkit:1.2.0'
 
-    pdm 'de.tr7zw:item-nbt-api:2.7.1'
+    pdm 'de.tr7zw:item-nbt-api:2.8.0'
     pdm 'org.bstats:bstats-bukkit:1.8'
 
     pdm 'com.github.HenryFabio:inventory-api:2.0.3'

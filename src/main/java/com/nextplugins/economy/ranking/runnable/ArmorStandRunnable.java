@@ -67,7 +67,7 @@ public final class ArmorStandRunnable implements Runnable {
                 val hologramLocation = location.clone().add(0, hologramHeight, 0);
                 val hologram = HologramsAPI.createHologram(plugin, hologramLocation);
 
-                val format = NumberUtils.format(account.getBalance());
+                val format = account.getBalanceFormated();
                 for (int i = 0; i < hologramLines.size(); i++) {
                     var replacedLine = hologramLines.get(i);
 
@@ -97,17 +97,17 @@ public final class ArmorStandRunnable implements Runnable {
 
             stand.setChestplate(new ItemBuilder(
                     Material.LEATHER_CHESTPLATE,
-                    ColorUtil.getColorByHex(RankingValue.get(RankingValue::chestplateRGB))
+                    ColorUtil.getBukkitColorByHex(RankingValue.get(RankingValue::chestplateRGB))
             ).wrap());
 
             stand.setLeggings(new ItemBuilder(
                     Material.LEATHER_LEGGINGS,
-                    ColorUtil.getColorByHex(RankingValue.get(RankingValue::leggingsRGB))
+                    ColorUtil.getBukkitColorByHex(RankingValue.get(RankingValue::leggingsRGB))
                     ).wrap());
 
             stand.setBoots(new ItemBuilder(
                     Material.LEATHER_BOOTS,
-                    ColorUtil.getColorByHex(RankingValue.get(RankingValue::bootsRGB))
+                    ColorUtil.getBukkitColorByHex(RankingValue.get(RankingValue::bootsRGB))
             ).wrap());
 
             stand.setVisible(true); // configuration finished, show stand

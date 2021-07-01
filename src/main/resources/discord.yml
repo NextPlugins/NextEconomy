@@ -57,3 +57,14 @@ embed:
       inline: false
       title: 'Dinheiro movimentado'
       text: '$transactionsmoney ($transactions transações)'
+    receiveMoney:
+      inline: false
+      title: 'Recebimento de $coinName'
+      text: '$ableToCoins'
+    blankLine:
+      inline: false
+      blank: true
+    lastTransaction:
+      inline: false
+      title: 'Última transação'
+      text: '$lastTransactionMessage'

@@ -8,6 +8,7 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
+import org.bukkit.configuration.ConfigurationSection;
 
 import java.util.function.Function;
 
@@ -42,6 +43,8 @@ public final class DiscordValue implements ConfigurationInjectable {
     @ConfigField("embed.footer") private String embedFooter;
     @ConfigField("embed.color") private String embedColor;
     @ConfigField("embed.date") private boolean embedDate;
+
+    @ConfigField("embed.fields") private ConfigurationSection embedFields;
 
     public static <T> T get(Function<DiscordValue, T> function) {
         return function.apply(instance);

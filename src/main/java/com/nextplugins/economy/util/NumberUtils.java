@@ -19,7 +19,7 @@ public final class NumberUtils {
     public static String format(double value) {
 
         if (isInvalid(value)) return "0";
-        
+
         int index = 0;
 
         double tmp;

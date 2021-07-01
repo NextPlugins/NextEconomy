@@ -76,6 +76,10 @@ public class Account {
         return this.balance;
     }
 
+    public synchronized String getBalanceFormated() {
+        return NumberUtils.format(getBalance());
+    }
+
     public synchronized void setBalance(double quantity) {
 
         if (quantity < 1 || Double.isNaN(quantity) || Double.isInfinite(quantity)) return;
