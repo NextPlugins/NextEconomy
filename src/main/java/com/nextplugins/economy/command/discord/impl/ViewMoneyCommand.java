@@ -1,5 +1,6 @@
 package com.nextplugins.economy.command.discord.impl;
 
+import com.nextplugins.economy.api.model.account.historic.AccountBankHistoric;
 import com.nextplugins.economy.api.model.account.storage.AccountStorage;
 import com.nextplugins.economy.api.model.account.transaction.TransactionType;
 import com.nextplugins.economy.command.discord.Command;

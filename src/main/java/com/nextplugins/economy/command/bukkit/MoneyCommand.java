@@ -160,7 +160,7 @@ public final class MoneyCommand {
 
         }
 
-        val transactionRequestEvent = new TransactionRequestEvent(player, target, parse);
+        val transactionRequestEvent = new TransactionRequestEvent(player, target, offlineAccount, parse);
         Bukkit.getPluginManager().callEvent(transactionRequestEvent);
 
     }

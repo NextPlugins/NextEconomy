@@ -10,7 +10,6 @@ import com.nextplugins.economy.ranking.manager.LocationManager;
 import com.nextplugins.economy.ranking.storage.RankingStorage;
 import com.nextplugins.economy.util.ColorUtil;
 import com.nextplugins.economy.util.ItemBuilder;
-import com.nextplugins.economy.util.NumberUtils;
 import com.nextplugins.economy.util.TypeUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.val;
@@ -57,8 +56,15 @@ public final class ArmorStandRunnable implements Runnable {
             if (!locationManager.getLocationMap().containsKey(position.get())) return;
 
             val location = locationManager.getLocation(position.get());
+            if (location == null || location.getWorld() == null) {
+
+                plugin.getLogger().warning("A localização " + position + " do ranking é inválida.");
+                continue;
+
+            }
+
             val chunk = location.getChunk();
-            if (!chunk.isLoaded()) chunk.load();
+            if (!chunk.isLoaded()) chunk.load(true);
 
             val hologramLines = RankingValue.get(RankingValue::hologramLines);
             double hologramHeight = RankingValue.get(RankingValue::hologramHeight);

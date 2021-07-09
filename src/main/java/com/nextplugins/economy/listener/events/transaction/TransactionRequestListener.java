@@ -23,6 +23,7 @@ public final class TransactionRequestListener implements Listener {
 
         val player = event.getPlayer();
         val target = event.getTarget();
+        val targetAccount = event.getAccount();
         val amount = event.getAmount();
 
         if (target.equals(player)) {
@@ -31,14 +32,6 @@ public final class TransactionRequestListener implements Listener {
         }
 
         val account = accountStorage.findAccount(player);
-        val targetAccount = accountStorage.findAccount(target);
-        if (targetAccount == null) {
-
-            player.sendMessage(MessageValue.get(MessageValue::invalidTarget));
-            return;
-
-        }
-
         if (NumberUtils.isInvalid(amount)) {
 
             player.sendMessage(MessageValue.get(MessageValue::invalidMoney));

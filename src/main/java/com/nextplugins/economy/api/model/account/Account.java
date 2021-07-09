@@ -125,7 +125,7 @@ public class Account {
 
         }
 
-        deposit(amount);
+        this.balance += quantity;
         if (this.balance < 0) this.balance = 0;
 
         if (owner != null) {
@@ -155,6 +155,7 @@ public class Account {
             Bukkit.getPluginManager().callEvent(moneyChangeEvent);
 
         }
+
         return new EconomyResponse(quantity, balance, EconomyResponse.ResponseType.SUCCESS, "Operação realizada com sucesso.");
 
     }

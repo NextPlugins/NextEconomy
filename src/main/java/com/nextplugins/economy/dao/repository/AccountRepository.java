@@ -78,7 +78,7 @@ public final class AccountRepository {
     public void saveOne(Account account) {
 
         this.sqlExecutor.updateQuery(
-                String.format("REPLACE INTO %s VALUES(?,?,?,?,?,?,?)", TABLE),
+                String.format("REPLACE INTO %s VALUES(?,?,?,?,?,?)", TABLE),
                 statement -> {
 
                     statement.set(1, account.getUsername());
@@ -86,8 +86,7 @@ public final class AccountRepository {
                     statement.set(3, account.getMovimentedBalance());
                     statement.set(4, account.getTransactionsQuantity());
                     statement.set(5, PARSER.toJson(account.getTransactions()));
-                    statement.set(6, account.getDiscordName());
-                    statement.set(7, account.isReceiveCoins() ? 1 : 0);
+                    statement.set(6, account.isReceiveCoins() ? 1 : 0);
 
                 }
         );

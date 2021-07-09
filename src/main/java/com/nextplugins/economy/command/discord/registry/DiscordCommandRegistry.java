@@ -44,6 +44,8 @@ public final class DiscordCommandRegistry implements Listener {
         commandHandler = new CommandHandler(commandMap);
         DiscordSRV.api.subscribe(commandHandler);
 
+        plugin.getLogger().info("A integração com o discord foi realizada com sucesso.");
+
     }
 
 }

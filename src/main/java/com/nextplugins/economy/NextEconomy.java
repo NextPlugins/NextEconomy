@@ -108,6 +108,8 @@ public final class NextEconomy extends JavaPlugin {
         sqlConnector = SQLProvider.of(this).setup(null);
         sqlExecutor = new SQLExecutor(sqlConnector);
 
+        ConfigurationRegistry.of(this).register();
+
         accountRepository = new AccountRepository(sqlExecutor);
         accountStorage = new AccountStorage(accountRepository);
         conversorManager = new ConversorManager(accountRepository);
@@ -124,7 +126,6 @@ public final class NextEconomy extends JavaPlugin {
         InventoryManager.enable(this);
 
         CommandRegistry.of(this).register();
-        ConfigurationRegistry.of(this).register();
         VaultHookRegistry.of(this).register();
         MetricProvider.of(this).register();
         InventoryRegistry.of(this).register();
