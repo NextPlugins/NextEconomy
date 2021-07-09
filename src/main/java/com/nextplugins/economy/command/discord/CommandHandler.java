@@ -15,11 +15,7 @@ public final class CommandHandler {
     public void onGuildMessageReceived(DiscordGuildMessageReceivedEvent event) {
 
         val logger = NextEconomy.getInstance().getLogger();
-        logger.info("Testing 1");
-
         val contentDisplay = event.getMessage().getContentDisplay();
-
-        logger.info("Message -: " + contentDisplay);
 
         val commands = commandMap.getCommands();
         val args = contentDisplay.split(" ");

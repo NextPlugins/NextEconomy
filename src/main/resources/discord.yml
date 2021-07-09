@@ -37,7 +37,7 @@ embed:
   # Título do embed (suporta o placeholder $player)
   title: 'Banco de $player'
   # Imagem do embed (suporta o placeholder $player)
-  image: 'https://cravatar.net/helmavatar/$player/128.png'
+  image: 'https://minotar.net/avatar/$player'
   # Imagem do footer (suporta o placeholder $player)
   imagefooter: 'https://nextplugins.com.br/icons/next-logo.png'
   # Mensagem do footer (suporta o placeholder $player)

@@ -18,7 +18,10 @@ public final class CommandMap {
         commands.put(key, value);
 
         for (String alias : aliases) {
+
+            if (!key.startsWith(prefix)) alias = prefix + alias;
             commands.put(alias, value);
+
         }
 
     }

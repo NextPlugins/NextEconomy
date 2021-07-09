@@ -55,7 +55,7 @@ public class ViewMoneyCommand implements Command {
 
             }
 
-        } else if (args.length > 0) {
+        } else if (args.length > 0 && !args[0].equals("")) {
 
             val memberName = args[0];
             player = Bukkit.getOfflinePlayer(memberName);
@@ -148,7 +148,7 @@ public class ViewMoneyCommand implements Command {
                     .replace("$coinName", MessageValue.get(MessageValue::coinsCurrency))
                     .replace("$transactionsmoney", NumberUtils.format(account.getMovimentedBalance()))
                     .replace("$transactions", String.valueOf(account.getTransactionsQuantity()))
-                    .replace("$abletoCoins", receiveCoins)
+                    .replace("$ableToCoins", receiveCoins)
                     .replace("$lastTransactionMessage", transaction);
 
             embedBuilder.addField(title, text, inline);

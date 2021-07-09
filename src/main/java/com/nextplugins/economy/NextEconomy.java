@@ -108,8 +108,6 @@ public final class NextEconomy extends JavaPlugin {
         sqlConnector = SQLProvider.of(this).setup(null);
         sqlExecutor = new SQLExecutor(sqlConnector);
 
-        ConfigurationRegistry.of(this).register();
-
         accountRepository = new AccountRepository(sqlExecutor);
         accountStorage = new AccountStorage(accountRepository);
         conversorManager = new ConversorManager(accountRepository);
@@ -121,10 +119,10 @@ public final class NextEconomy extends JavaPlugin {
 
         accountStorage.init();
         interactionRegistry.init();
-        discordCommandRegistry.init();
 
         InventoryManager.enable(this);
 
+        ConfigurationRegistry.of(this).register();
         CommandRegistry.of(this).register();
         VaultHookRegistry.of(this).register();
         MetricProvider.of(this).register();
@@ -138,6 +136,7 @@ public final class NextEconomy extends JavaPlugin {
 
             // bump money top one time and add, if enabled, stands/npcs
             rankingStorage.updateRanking();
+            discordCommandRegistry.init();
 
         }, 150L);
 
@@ -155,7 +154,9 @@ public final class NextEconomy extends JavaPlugin {
         if (DiscordValue.get(DiscordValue::enable)) {
 
             val discordAPI = DiscordSRV.api;
-            discordAPI.unsubscribe(discordCommandRegistry.getCommandHandler());
+
+            val commandHandler = discordCommandRegistry.getCommandHandler();
+            if (commandHandler != null) discordAPI.unsubscribe(commandHandler);
 
         }
 
