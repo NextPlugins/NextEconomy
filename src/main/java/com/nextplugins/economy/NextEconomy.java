@@ -8,6 +8,7 @@ import com.henryfabio.sqlprovider.connector.SQLConnector;
 import com.henryfabio.sqlprovider.executor.SQLExecutor;
 import com.nextplugins.economy.api.PurseAPI;
 import com.nextplugins.economy.api.backup.BackupManager;
+import com.nextplugins.economy.command.bukkit.registry.CommandRegistry;
 import com.nextplugins.economy.configuration.DiscordValue;
 import com.nextplugins.economy.configuration.FeatureValue;
 import com.nextplugins.economy.configuration.registry.ConfigurationRegistry;
@@ -122,6 +123,7 @@ public final class NextEconomy extends JavaPlugin {
 
         InventoryManager.enable(this);
 
+        CommandRegistry.of(this).register();
         ConfigurationRegistry.of(this).register();
         VaultHookRegistry.of(this).register();
         MetricProvider.of(this).register();
