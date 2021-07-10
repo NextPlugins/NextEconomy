@@ -11,9 +11,6 @@ inventory:
       lore:
         # @player @target @amount (valor) @date (data) @message (Transação de/para ...) @action (Recebeu ou Enviou)
         - ''
-        - ' &fDe: &a@player'
-        - ' &fPara: &a@target'
-        - ''
         - ' &fQuantia: &6@amount'
         - ' &fData: &6@date'
         - ''

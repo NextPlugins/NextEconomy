@@ -21,7 +21,7 @@ config:
 # Configuração dos emojis
 # Para colocar um emoji do seu servidor (pode ser até gif), envie uma mensagem em qualquer canal
 # com o seguinte conteúdo: '\:nomedoemoji:'
-# você terá enviado algo parecido com <nomedoemoji:19128219219>
+# você terá enviado algo parecido com <:nomedoemoji:19128219219>
 # pegue esta mensagem e coloque no campo que deseja
 emojis:
   # Emoji de erro
@@ -35,7 +35,7 @@ emojis:
 
 embed:
   # Título do embed (suporta o placeholder $player)
-  title: 'Banco de $player'
+  title: '<:beacon:863495850026467398> Banco de $player'
   # Imagem do embed (suporta o placeholder $player)
   image: 'https://minotar.net/avatar/$player'
   # Imagem do footer (suporta o placeholder $player)
@@ -52,21 +52,21 @@ embed:
     # Placeholders para title $coinName e $player
     # Placeholders para text $money $player $coinName $transactionsmoney $transactions $lastTransactionMessage
     money:
-      inline: false
-      title: 'Dinheiro no banco' # Para remover do embed, apague o campo
-      text: '$money' # Para remover do embed, apague o campo
+      inline: true
+      title: '<:xp:863522094251245590> Dinheiro no banco' # Para remover do embed, apague o campo
+      text: '$money coins' # Para remover do embed, apague o campo
     transactions:
-      inline: false
-      title: 'Dinheiro movimentado' # Para remover do embed, apague o campo
-      text: '$transactionsmoney ($transactions transações)' # Para remover do embed, apague o campo
+      inline: true
+      title: '<:sopa:863522094221885453> Dinheiro movimentado' # Para remover do embed, apague o campo
+      text: '$transactionsmoney coins ($transactions transações)' # Para remover do embed, apague o campo
     receiveMoney:
-      inline: false
-      title: 'Recebimento de $coinName' # Para remover do embed, apague o campo
+      inline: true
+      title: '<:rename_command:863522094524661800> Recebimento de $coinName' # Para remover do embed, apague o campo
       text: '$ableToCoins' # Para remover do embed, apague o campo
     blankLine:
       inline: false
       blank: true
     lastTransaction:
       inline: false
-      title: 'Última transação' # Para remover do embed, apague o campo
+      title: '<:info:863522094225817600> Última transação' # Para remover do embed, apague o campo
       text: '$lastTransactionMessage' # Para remover do embed, apague o campo

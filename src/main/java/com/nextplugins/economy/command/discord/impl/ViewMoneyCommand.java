@@ -89,7 +89,7 @@ public class ViewMoneyCommand implements Command {
 
         val embedBuilder = new EmbedBuilder()
                 .setTitle(DiscordValue.get(DiscordValue::embedTitle).replace("$player", name))
-                .setImage(DiscordValue.get(DiscordValue::embedImage).replace("$player", name))
+                .setThumbnail(DiscordValue.get(DiscordValue::embedImage).replace("$player", name))
                 .setFooter(
                         DiscordValue.get(DiscordValue::embedFooter).replace("$player", name),
                         DiscordValue.get(DiscordValue::embedFooterImage).replace("$player", name)
@@ -104,7 +104,7 @@ public class ViewMoneyCommand implements Command {
                 ? DiscordValue.get(DiscordValue::successEmoji) + " Habilitado"
                 : DiscordValue.get(DiscordValue::errorEmoji) + " Desativado";
 
-        val accountBankHistoric = account.getTransactions().isEmpty() ? null
+        AccountBankHistoric accountBankHistoric = account.getTransactions().isEmpty() ? null
                 : account.getTransactions().get(0);
 
         var transaction = "Este jogador nunca fez/recebeu uma transação";

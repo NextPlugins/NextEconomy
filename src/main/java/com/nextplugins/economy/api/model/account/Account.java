@@ -27,8 +27,7 @@ public class Account {
     private double movimentedBalance;
 
     private int transactionsQuantity;
-    @Builder.Default
-    private LinkedList<AccountBankHistoric> transactions = Lists.newLinkedList();
+    @Builder.Default private LinkedList<AccountBankHistoric> transactions = Lists.newLinkedList();
 
     @Builder.Default
     private boolean receiveCoins = true;
