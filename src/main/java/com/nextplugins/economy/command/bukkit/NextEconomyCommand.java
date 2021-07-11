@@ -5,6 +5,7 @@ import com.google.common.collect.Lists;
 import com.henryfabio.sqlprovider.executor.SQLExecutor;
 import com.nextplugins.economy.NextEconomy;
 import com.nextplugins.economy.api.backup.BackupManager;
+import com.nextplugins.economy.api.backup.response.ResponseType;
 import com.nextplugins.economy.api.conversor.ConversorManager;
 import com.nextplugins.economy.api.model.account.Account;
 import com.nextplugins.economy.configuration.MessageValue;
@@ -66,12 +67,19 @@ public final class NextEconomyCommand {
                 false, true
         );
 
-        if (backup != null) return;
+        if (backup.getResponseType() == ResponseType.NAME_IN_USE) {
 
-        context.sendMessage(ColorUtil.colored(
-                "&cJá existe um backup com este nome",
-                "&a&LDICA: &fDeixe o nome vazio para gerar um backup com a data e hora atual."
-        ));
+            context.sendMessage(ColorUtil.colored(
+                    "&cJá existe um backup com este nome",
+                    "&a&LDICA: &fDeixe o nome vazio para gerar um backup com a data e hora atual."
+            ));
+            return;
+
+        }
+
+        if (backup.getResponseType() == ResponseType.BACKUP_IN_PROGRESS) {
+            context.sendMessage(ColorUtil.colored("&cJá existe um backup em andamento."));
+        }
 
     }
 
