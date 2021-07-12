@@ -34,39 +34,49 @@ emojis:
   success: ":white_check_mark:"
 
 embed:
-  # Título do embed (suporta o placeholder $player)
-  title: '<:beacon:863495850026467398> Banco de $player'
-  # Imagem do embed (suporta o placeholder $player)
-  image: 'https://minotar.net/avatar/$player'
-  # Imagem do footer (suporta o placeholder $player)
-  imagefooter: 'https://nextplugins.com.br/icons/next-logo.png'
-  # Mensagem do footer (suporta o placeholder $player)
-  footer: '© NextPlugins 2021, Todos os direitos reservados'
-  # Adicionar data no footer
-  date: true
-  # Cor do embed
-  color: '#36bfa6'
-  # Corpo do texto
-  fields:
-    # Aqui você pode adicionar quantos campos quiser
-    # Placeholders para title $coinName e $player
-    # Placeholders para text $money $player $coinName $transactionsmoney $transactions $lastTransactionMessage
-    money:
-      inline: true
-      title: '<:xp:863522094251245590> Dinheiro no banco' # Para remover do embed, apague o campo
-      text: '$money coins' # Para remover do embed, apague o campo
-    transactions:
-      inline: true
-      title: '<:sopa:863522094221885453> Dinheiro movimentado' # Para remover do embed, apague o campo
-      text: '$transactionsmoney coins ($transactions transações)' # Para remover do embed, apague o campo
-    receiveMoney:
-      inline: true
-      title: '<:rename_command:863522094524661800> Recebimento de $coinName' # Para remover do embed, apague o campo
-      text: '$ableToCoins' # Para remover do embed, apague o campo
-    blankLine:
-      inline: false
-      blank: true
-    lastTransaction:
-      inline: false
-      title: '<:info:863522094225817600> Última transação' # Para remover do embed, apague o campo
-      text: '$lastTransactionMessage' # Para remover do embed, apague o campo
+  viewMoney:
+    # Título do embed (suporta o placeholder $player)
+    title: '<:beacon:863495850026467398> Banco de $player'
+    # Imagem do embed (suporta o placeholder $player)
+    image: 'https://minotar.net/avatar/$player'
+    # Imagem do footer (suporta o placeholder $player)
+    imagefooter: 'https://nextplugins.com.br/icons/next-logo.png'
+    # Mensagem do footer (suporta o placeholder $player)
+    footer: '© NextPlugins 2021, Todos os direitos reservados'
+    # Adicionar data no footer
+    date: true
+    # Cor do embed
+    color: '#36bfa6'
+    # Corpo do texto
+    fields:
+      # Aqui você pode adicionar quantos campos quiser
+      # Placeholders para title $coinName e $player
+      # Placeholders para text $money $player $coinName $transactionsmoney $transactions $lastTransactionMessage
+      money:
+        inline: true
+        title: '<:xp:863522094251245590> Dinheiro no banco' # Para remover do embed, apague o campo
+        text: '$money coins' # Para remover do embed, apague o campo
+      transactions:
+        inline: true
+        title: '<:sopa:863522094221885453> Dinheiro movimentado' # Para remover do embed, apague o campo
+        text: '$transactionsmoney coins ($transactions transações)' # Para remover do embed, apague o campo
+      receiveMoney:
+        inline: true
+        title: '<:rename_command:863522094524661800> Recebimento de $coinName' # Para remover do embed, apague o campo
+        text: '$ableToCoins' # Para remover do embed, apague o campo
+      blankLine:
+        inline: false
+        blank: true
+      lastTransaction:
+        inline: false
+        title: '<:info:863522094225817600> Última transação' # Para remover do embed, apague o campo
+        text: '$lastTransactionMessage' # Para remover do embed, apague o campo
+  top:
+    title: '<:beacon:863495850026467398> Jogadores mais ricos'
+    image: ''
+    imagefooter: 'https://nextplugins.com.br/icons/next-logo.png'
+    footer: '© NextPlugins 2021, Todos os direitos reservados'
+    date: true
+    color: '#36bfa6'
+    description:
+      - 'Veja os jogadores mais '

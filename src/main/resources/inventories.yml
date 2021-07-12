@@ -28,7 +28,7 @@ inventory:
           - ''
           - ' &fCoins: &a$$money'
           - ' &fDinheiro movimentado: &a$$movimentedMoney'
-          - ' &fTransações: &b$transactions transações.'
+          - ' &fTransações: &b$transactions.'
           - ''
           - ' &fRecebimento de coins: $toggleMessage'
           - ' &fDiscord: &9$discord'

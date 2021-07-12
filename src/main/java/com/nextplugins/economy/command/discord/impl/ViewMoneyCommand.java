@@ -1,5 +1,6 @@
 package com.nextplugins.economy.command.discord.impl;
 
+import com.nextplugins.economy.NextEconomy;
 import com.nextplugins.economy.api.model.account.historic.AccountBankHistoric;
 import com.nextplugins.economy.api.model.account.storage.AccountStorage;
 import com.nextplugins.economy.api.model.account.transaction.TransactionType;
@@ -25,10 +26,9 @@ import java.util.concurrent.TimeUnit;
  * @author Yuhtin
  * Github: https://github.com/Yuhtin
  */
-@AllArgsConstructor
 public class ViewMoneyCommand implements Command {
 
-    private final AccountStorage accountStorage;
+    private final AccountStorage accountStorage = NextEconomy.getInstance().getAccountStorage();
 
     @Override
     public void execute(Message message, String[] args) {
