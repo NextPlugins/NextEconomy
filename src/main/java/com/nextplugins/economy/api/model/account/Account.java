@@ -5,6 +5,7 @@ import com.nextplugins.economy.api.event.operations.MoneyChangeEvent;
 import com.nextplugins.economy.api.model.account.historic.AccountBankHistoric;
 import com.nextplugins.economy.api.model.account.transaction.TransactionType;
 import com.nextplugins.economy.configuration.FeatureValue;
+import com.nextplugins.economy.util.DiscordSyncUtil;
 import com.nextplugins.economy.util.NumberUtils;
 import lombok.*;
 import net.milkbowl.vault.economy.EconomyResponse;
@@ -27,7 +28,8 @@ public class Account {
     private double movimentedBalance;
 
     private int transactionsQuantity;
-    @Builder.Default private LinkedList<AccountBankHistoric> transactions = Lists.newLinkedList();
+    @Builder.Default
+    private LinkedList<AccountBankHistoric> transactions = Lists.newLinkedList();
 
     @Builder.Default
     private boolean receiveCoins = true;
@@ -69,6 +71,14 @@ public class Account {
                 true
         );
 
+    }
+
+    public String getDiscordName() {
+        if (discordName == null) {
+            discordName = DiscordSyncUtil.getUserTag(Bukkit.getPlayerExact(username));
+        }
+
+        return discordName;
     }
 
     public synchronized double getBalance() {

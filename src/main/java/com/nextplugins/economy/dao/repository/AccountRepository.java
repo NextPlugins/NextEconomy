@@ -5,7 +5,7 @@ import com.nextplugins.economy.NextEconomy;
 import com.nextplugins.economy.api.model.account.Account;
 import com.nextplugins.economy.api.model.account.historic.AccountBankHistoric;
 import com.nextplugins.economy.dao.repository.adapter.AccountAdapter;
-import com.nextplugins.economy.util.LinkedListHelper;
+import com.nextplugins.economy.util.ListSerializerHelper;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.val;
@@ -16,7 +16,7 @@ import java.util.Set;
 public final class AccountRepository {
 
     private static final String TABLE = "nexteconomy_data";
-    private static final LinkedListHelper<AccountBankHistoric> PARSER = new LinkedListHelper<>();
+    private static final ListSerializerHelper<AccountBankHistoric> PARSER = new ListSerializerHelper<>();
 
     @Getter private final SQLExecutor sqlExecutor;
 

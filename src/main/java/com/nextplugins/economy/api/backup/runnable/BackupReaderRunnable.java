@@ -9,7 +9,7 @@ import com.nextplugins.economy.api.backup.response.ResponseType;
 import com.nextplugins.economy.api.conversor.ConversorManager;
 import com.nextplugins.economy.api.model.account.Account;
 import com.nextplugins.economy.util.ColorUtil;
-import com.nextplugins.economy.util.LinkedListHelper;
+import com.nextplugins.economy.util.ListSerializerHelper;
 import lombok.RequiredArgsConstructor;
 import lombok.val;
 import org.bukkit.command.CommandSender;
@@ -26,7 +26,7 @@ import java.io.IOException;
 @RequiredArgsConstructor
 public final class BackupReaderRunnable implements Runnable {
 
-    private static final LinkedListHelper<Account> PARSER = new LinkedListHelper<>();
+    private static final ListSerializerHelper<Account> PARSER = new ListSerializerHelper<>();
 
     private final CommandSender commandSender;
     private final ConversorManager conversorManager;

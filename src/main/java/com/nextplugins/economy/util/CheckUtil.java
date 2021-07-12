@@ -18,8 +18,8 @@ public final class CheckUtil {
         List<String> lore = new ArrayList<>();
         for (String line : checkSection.getStringList("lore")) {
             String colored = ColorUtil.colored(line);
-            String $amount = colored.replace("$amount", NumberUtils.format(checkValue));
-            lore.add($amount);
+            String amount = colored.replace("$amount", NumberUtils.format(checkValue));
+            lore.add(amount);
         }
 
         val checkItem = new ItemBuilder(Material.valueOf(checkSection.getString("material")), checkSection.getInt("data"))

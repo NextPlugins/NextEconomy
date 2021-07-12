@@ -43,7 +43,11 @@ public final class BankView extends SimpleInventory {
         val account = accountStorage.findAccount(player);
         val instance = PurseAPI.getInstance();
         val receiveCoinsMessage = ColorUtil.colored(account.isReceiveCoins() ? "&aativado" : "&cdesativado");
-        val discordName = ColorUtil.colored(DiscordSyncUtil.getUserTag(player));
+        val discordName = ColorUtil.colored(
+                account.getDiscordName() == null
+                ? "&cNão vinculado"
+                : account.getDiscordName()
+        );
 
         val purse = instance != null ? instance.getPurseFormated() : "";
         val isHigh = instance != null ? instance.getHighMessage() : "";

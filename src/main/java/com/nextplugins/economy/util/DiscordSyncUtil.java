@@ -21,16 +21,16 @@ public final class DiscordSyncUtil {
     }
 
     public static String getUserTag(Player player) {
-        if (!isEnable()) return "&cSistema desativado";
+        if (!isEnable()) return null;
 
         val plugin = DiscordSRV.getPlugin();
         val accountLinkManager = plugin.getAccountLinkManager();
 
         val discordId = accountLinkManager.getDiscordId(player.getUniqueId());
-        if (discordId == null) return "&cNão vinculado";
+        if (discordId == null) return null;
 
         val user = DiscordUtil.getJda().getUserById(discordId);
-        if (user == null) return "&cUsuário não encontrado, vincule novamente";
+        if (user == null) return null;
 
         return user.getAsTag();
     }
