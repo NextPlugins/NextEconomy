@@ -33,7 +33,7 @@ repositories {
 
 dependencies {
 
-    compileOnly "org.spigotmc:spigot-api:1.16.5-R0.1-SNAPSHOT"
+    compileOnly "org.spigotmc:spigot-api:1.17.1-R0.1-SNAPSHOT"
 
     compileOnly 'com.github.PlaceholderAPI:PlaceholderAPI:2.10.9'
     compileOnly 'com.gmail.filoghost.holographicdisplays:holographicdisplays-api:2.4.0'
@@ -46,7 +46,6 @@ dependencies {
     implementation 'com.github.HenryFabio.configuration-injector:bukkit:main-SNAPSHOT'
     implementation 'com.github.ben-manes.caffeine:caffeine:2.9.0' // 3.0.0 or higher is for java 11+
     implementation 'com.github.SaiintBrisson.command-framework:bukkit:1.2.0'
-
 
     pdm 'de.tr7zw:item-nbt-api:2.8.0'
     pdm 'com.github.HenryFabio:inventory-api:2.0.3'

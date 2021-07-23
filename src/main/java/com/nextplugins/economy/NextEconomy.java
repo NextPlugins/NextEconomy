@@ -151,7 +151,7 @@ public final class NextEconomy extends JavaPlugin {
     @Override
     public void onDisable() {
 
-        if (DiscordValue.get(DiscordValue::enable)) {
+        if (DiscordValue.get(DiscordValue::enable) && Bukkit.getPluginManager().isPluginEnabled("DiscordSRV")) {
 
             val discordAPI = DiscordSRV.api;
 
