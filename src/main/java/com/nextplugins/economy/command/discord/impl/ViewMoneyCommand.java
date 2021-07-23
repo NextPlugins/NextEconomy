@@ -13,7 +13,6 @@ import com.nextplugins.economy.util.NumberUtils;
 import github.scarsz.discordsrv.DiscordSRV;
 import github.scarsz.discordsrv.dependencies.jda.api.EmbedBuilder;
 import github.scarsz.discordsrv.dependencies.jda.api.entities.Message;
-import lombok.AllArgsConstructor;
 import lombok.val;
 import lombok.var;
 import org.bukkit.Bukkit;
@@ -88,15 +87,15 @@ public class ViewMoneyCommand implements Command {
         val name = account.getUsername();
 
         val embedBuilder = new EmbedBuilder()
-                .setTitle(DiscordValue.get(DiscordValue::embedTitle).replace("$player", name))
-                .setThumbnail(DiscordValue.get(DiscordValue::embedImage).replace("$player", name))
+                .setTitle(DiscordValue.get(DiscordValue::viewMoneyTitle).replace("$player", name))
+                .setThumbnail(DiscordValue.get(DiscordValue::viewMoneyImage).replace("$player", name))
                 .setFooter(
-                        DiscordValue.get(DiscordValue::embedFooter).replace("$player", name),
-                        DiscordValue.get(DiscordValue::embedFooterImage).replace("$player", name)
+                        DiscordValue.get(DiscordValue::viewMoneyFooter).replace("$player", name),
+                        DiscordValue.get(DiscordValue::viewMoneyFooterImage).replace("$player", name)
                 )
-                .setColor(ColorUtil.getColorByHex(DiscordValue.get(DiscordValue::embedColor)));
+                .setColor(ColorUtil.getColorByHex(DiscordValue.get(DiscordValue::viewMoneyColor)));
 
-        if (DiscordValue.get(DiscordValue::embedDate)) {
+        if (DiscordValue.get(DiscordValue::viewMoneyDate)) {
             embedBuilder.setTimestamp(Instant.now());
         }
 
@@ -124,7 +123,7 @@ public class ViewMoneyCommand implements Command {
 
         }
 
-        val section = DiscordValue.get(DiscordValue::embedFields);
+        val section = DiscordValue.get(DiscordValue::viewMoneyFields);
         for (String key : section.getKeys(false)) {
 
             val keySection = section.getConfigurationSection(key);

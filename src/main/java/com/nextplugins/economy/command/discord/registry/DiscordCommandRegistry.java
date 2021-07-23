@@ -39,7 +39,7 @@ public final class DiscordCommandRegistry implements Listener {
         }
 
         val commandMap = new CommandMap(DiscordValue.get(DiscordValue::prefix));
-        commandMap.register("money", new ViewMoneyCommand(plugin.getAccountStorage()), "coins", "vermoney", "ver", "coin");
+        commandMap.register("money", new ViewMoneyCommand(), "coins", "vermoney", "ver", "coin");
 
         commandHandler = new CommandHandler(commandMap);
         DiscordSRV.api.subscribe(commandHandler);

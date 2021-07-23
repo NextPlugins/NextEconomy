@@ -112,19 +112,6 @@ public final class MoneyCommand {
     }
 
     @Command(
-            name = "money.vincular",
-            description = "Vincular sua conta com o discord",
-            permission = "nexteconomy.syncdiscord",
-            target = CommandTarget.PLAYER,
-            async = true
-    )
-    public void syncDiscordCommand(Context<Player> context) {
-
-        // TODO
-
-    }
-
-    @Command(
             name = "money.pay",
             aliases = {"enviar"},
             usage = "/money enviar {jogador} {quantia}",
