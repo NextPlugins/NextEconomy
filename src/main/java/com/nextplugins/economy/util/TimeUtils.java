@@ -9,7 +9,7 @@ import java.util.regex.Pattern;
 
 public enum TimeUtils {
 
-    DAY(86400000, "days","day","d","dia", "dias"),
+    DAY(86400000, "days", "day", "d", "dia", "dias"),
     HOUR(3600000, "hours", "hour", "h", "hora", "horas"),
     MINUTE(60000, "minutes", "minute", "m", "minuto", "minutos"),
     SECOND(1000, "seconds", "second", "s", "segundo", "segundos");
@@ -36,21 +36,22 @@ public enum TimeUtils {
         Matcher matcher = PATTERN.matcher(string.replaceAll(",| e", ""));
         long time = 0;
 
-        while(matcher.find()) {
+        while (matcher.find()) {
             try {
                 int value = Integer.parseInt(matcher.group(1));
                 TimeUtils type = fromFormats(matcher.group(3));
-                if(type != null) {
+                if (type != null) {
                     time += (value * type.getMillis());
                 }
-            }catch (Exception ignored){}
+            } catch (Exception ignored) {
+            }
         }
 
         return time;
     }
 
     public static String format(long value) {
-        if (value == 0) return "0 segundos";
+        if (value <= 0) return "0 segundos";
 
         long days = TimeUnit.MILLISECONDS.toDays(value);
         long hours = TimeUnit.MILLISECONDS.toHours(value) - (days * 24);
@@ -61,15 +62,15 @@ public enum TimeUtils {
         String[] names = {"dia", "hora", "minuto", "segundo"};
 
         List<String> values = new ArrayList<>();
-        for(int index = 0; index < times.length; index++) {
+        for (int index = 0; index < times.length; index++) {
             long time = times[index];
-            if(time > 0) {
+            if (time > 0) {
                 String name = times[index] + " " + names[index] + (time > 1 ? "s" : "");
                 values.add(name);
             }
         }
 
-        if(values.size() == 1) {
+        if (values.size() == 1) {
             return values.get(0);
         }
 

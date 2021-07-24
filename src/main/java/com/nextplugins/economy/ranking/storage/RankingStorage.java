@@ -4,6 +4,7 @@ import com.google.common.collect.Lists;
 import com.nextplugins.economy.NextEconomy;
 import com.nextplugins.economy.api.event.operations.AsyncRankingUpdateEvent;
 import com.nextplugins.economy.api.model.account.Account;
+import com.nextplugins.economy.api.model.account.SimpleAccount;
 import com.nextplugins.economy.configuration.RankingValue;
 import lombok.Data;
 import lombok.val;
@@ -15,8 +16,8 @@ import java.util.concurrent.TimeUnit;
 @Data
 public final class RankingStorage {
 
-    private final List<Account> rankByCoin = Lists.newLinkedList();
-    private final List<Account> rankByMovimentation = Lists.newLinkedList();
+    private final List<SimpleAccount> rankByCoin = Lists.newLinkedList();
+    private final List<SimpleAccount> rankByMovimentation = Lists.newLinkedList();
     private long nextUpdateMillis;
 
     public boolean updateRanking() {

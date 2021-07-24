@@ -7,6 +7,7 @@ import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import lombok.val;
 import org.bukkit.Bukkit;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 
 /**
@@ -20,7 +21,7 @@ public final class DiscordSyncUtil {
         return DiscordValue.get(DiscordValue::enable) && Bukkit.getPluginManager().isPluginEnabled("DiscordSRV");
     }
 
-    public static String getUserTag(Player player) {
+    public static String getUserTag(OfflinePlayer player) {
         if (!isEnable()) return null;
 
         val plugin = DiscordSRV.getPlugin();

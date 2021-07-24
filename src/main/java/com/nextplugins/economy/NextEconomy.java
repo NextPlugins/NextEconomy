@@ -80,27 +80,6 @@ public final class NextEconomy extends JavaPlugin {
     @Override
     public void onEnable() {
 
-        getLogger().info("Baixando e carregando dependências necessárias...");
-
-        val downloadTime = Stopwatch.createStarted();
-
-        PluginDependencyManager.of(this)
-                .loadAllDependencies()
-                .exceptionally(throwable -> {
-
-                    throwable.printStackTrace();
-
-                    getLogger().severe("Ocorreu um erro durante a inicialização do plugin!");
-                    Bukkit.getPluginManager().disablePlugin(this);
-
-                    return null;
-
-                })
-                .join();
-
-        downloadTime.stop();
-
-        getLogger().log(Level.INFO, "Dependências carregadas com sucesso! ({0})", downloadTime);
         getLogger().info("Iniciando carregamento do plugin.");
 
         val loadTime = Stopwatch.createStarted();

@@ -1,6 +1,6 @@
 ranking:
   update-delay: 900 # delay de update do ranking (em segundos)
-  limit: 10 # limite de contas que serão puxadas da database
+  limit: 14 # limite de contas que serão puxadas da database
   tycoon: # Placeholder: {tycoon} ou %tycoon%
     # Tag dada para o jogador mais rico
     # Para desativar, apenas coloque o campo vazio

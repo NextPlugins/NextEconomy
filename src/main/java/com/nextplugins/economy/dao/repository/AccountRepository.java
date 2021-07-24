@@ -3,8 +3,10 @@ package com.nextplugins.economy.dao.repository;
 import com.henryfabio.sqlprovider.executor.SQLExecutor;
 import com.nextplugins.economy.NextEconomy;
 import com.nextplugins.economy.api.model.account.Account;
+import com.nextplugins.economy.api.model.account.SimpleAccount;
 import com.nextplugins.economy.api.model.account.historic.AccountBankHistoric;
 import com.nextplugins.economy.dao.repository.adapter.AccountAdapter;
+import com.nextplugins.economy.dao.repository.adapter.SimpleAccountAdapter;
 import com.nextplugins.economy.util.ListSerializerHelper;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -73,6 +75,15 @@ public final class AccountRepository {
                 k -> {
                 },
                 AccountAdapter.class
+        );
+    }
+
+    public Set<SimpleAccount> selectSimpleAll(String query) {
+        return sqlExecutor.resultManyQuery(
+                "SELECT * FROM " + TABLE + " " + query,
+                k -> {
+                },
+                SimpleAccountAdapter.class
         );
     }
 

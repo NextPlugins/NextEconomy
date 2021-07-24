@@ -9,7 +9,7 @@ import com.henryfabio.minecraft.inventoryapi.viewer.Viewer;
 import com.henryfabio.minecraft.inventoryapi.viewer.configuration.ViewerConfiguration;
 import com.henryfabio.minecraft.inventoryapi.viewer.impl.simple.SimpleViewer;
 import com.nextplugins.economy.NextEconomy;
-import com.nextplugins.economy.api.model.account.Account;
+import com.nextplugins.economy.api.model.account.SimpleAccount;
 import com.nextplugins.economy.configuration.MessageValue;
 import com.nextplugins.economy.configuration.RankingValue;
 import com.nextplugins.economy.ranking.storage.RankingStorage;
@@ -59,7 +59,7 @@ public final class RankingView extends SimpleInventory {
                 ? rankingStorage.getRankByCoin()
                 : rankingStorage.getRankByMovimentation();
 
-        for (Account account : rankingAccounts) {
+        for (SimpleAccount account : rankingAccounts) {
 
             String name = account.getUsername();
 

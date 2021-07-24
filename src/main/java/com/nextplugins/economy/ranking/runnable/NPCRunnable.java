@@ -5,6 +5,7 @@ import com.gmail.filoghost.holographicdisplays.api.HologramsAPI;
 import com.google.common.collect.Lists;
 import com.nextplugins.economy.NextEconomy;
 import com.nextplugins.economy.api.model.account.Account;
+import com.nextplugins.economy.api.model.account.SimpleAccount;
 import com.nextplugins.economy.configuration.RankingValue;
 import com.nextplugins.economy.ranking.manager.LocationManager;
 import com.nextplugins.economy.ranking.storage.RankingStorage;
@@ -43,7 +44,7 @@ public final class NPCRunnable implements Runnable {
         val hologramLines = RankingValue.get(RankingValue::hologramLines);
         val hologramHeight = RankingValue.get(RankingValue::hologramHeight);
 
-        for (Account account : accounts) {
+        for (SimpleAccount account : accounts) {
 
             if (!locationManager.getLocationMap().containsKey(position.get())) return;
 

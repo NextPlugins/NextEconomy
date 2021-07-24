@@ -4,7 +4,7 @@ import com.gmail.filoghost.holographicdisplays.api.Hologram;
 import com.gmail.filoghost.holographicdisplays.api.HologramsAPI;
 import com.google.common.collect.Lists;
 import com.nextplugins.economy.NextEconomy;
-import com.nextplugins.economy.api.model.account.Account;
+import com.nextplugins.economy.api.model.account.SimpleAccount;
 import com.nextplugins.economy.configuration.RankingValue;
 import com.nextplugins.economy.ranking.manager.LocationManager;
 import com.nextplugins.economy.ranking.storage.RankingStorage;
@@ -13,7 +13,6 @@ import com.nextplugins.economy.util.ItemBuilder;
 import com.nextplugins.economy.util.TypeUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.val;
-import lombok.var;
 import org.bukkit.Material;
 import org.bukkit.entity.ArmorStand;
 import org.bukkit.inventory.ItemStack;
@@ -52,7 +51,7 @@ public final class ArmorStandRunnable implements Runnable {
 
         val position = new AtomicInteger(1);
 
-        for (Account account : accounts) {
+        for (SimpleAccount account : accounts) {
             if (!locationManager.getLocationMap().containsKey(position.get())) return;
 
             val location = locationManager.getLocation(position.get());
@@ -75,7 +74,7 @@ public final class ArmorStandRunnable implements Runnable {
 
                 val format = account.getBalanceFormated();
                 for (int i = 0; i < hologramLines.size(); i++) {
-                    var replacedLine = hologramLines.get(i);
+                    String replacedLine = hologramLines.get(i);
 
                     replacedLine = replacedLine.replace("$position", String.valueOf(position.get()));
                     replacedLine = replacedLine.replace("$player", account.getUsername());

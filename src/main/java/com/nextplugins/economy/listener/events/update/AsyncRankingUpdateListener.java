@@ -4,7 +4,7 @@ import com.google.common.collect.Lists;
 import com.nextplugins.economy.NextEconomy;
 import com.nextplugins.economy.api.event.operations.AsyncRankingUpdateEvent;
 import com.nextplugins.economy.api.event.operations.MoneyTopPlayerChangedEvent;
-import com.nextplugins.economy.api.model.account.Account;
+import com.nextplugins.economy.api.model.account.SimpleAccount;
 import com.nextplugins.economy.configuration.RankingValue;
 import com.nextplugins.economy.dao.repository.AccountRepository;
 import com.nextplugins.economy.ranking.CustomRankingRegistry;
@@ -36,17 +36,17 @@ public class AsyncRankingUpdateListener implements Listener {
 
         val pluginManager = Bukkit.getPluginManager();
 
-        List<Account> accounts = Lists.newLinkedList(accountRepository.selectAll(
+        List<SimpleAccount> accounts = Lists.newLinkedList(accountRepository.selectSimpleAll(
                 "ORDER BY balance DESC LIMIT " + RankingValue.get(RankingValue::rankingLimit)
         ));
 
-        List<Account> accountsMovimentation = Lists.newLinkedList(accountRepository.selectAll(
+        List<SimpleAccount> accountsMovimentation = Lists.newLinkedList(accountRepository.selectSimpleAll(
                 "ORDER BY movimentedBalance DESC LIMIT " + RankingValue.get(RankingValue::rankingLimit)
         ));
 
         if (!accounts.isEmpty()) {
 
-            Account lastAccount = null;
+            SimpleAccount lastAccount = null;
             if (!rankingStorage.getRankByCoin().isEmpty()) {
 
                 lastAccount = rankingStorage.getRankByCoin().get(0);
@@ -58,7 +58,7 @@ public class AsyncRankingUpdateListener implements Listener {
 
             if (lastAccount != null) {
 
-                Account topAccount = rankingStorage.getRankByCoin().get(0);
+                SimpleAccount topAccount = rankingStorage.getRankByCoin().get(0);
                 if (lastAccount.getUsername().equals(topAccount.getUsername())) return;
 
                 pluginManager.callEvent(
@@ -78,7 +78,7 @@ public class AsyncRankingUpdateListener implements Listener {
 
             rankingStorage.getRankByMovimentation().clear();
 
-            List<Account> accounts1 = rankingStorage.getRankByMovimentation();
+            List<SimpleAccount> accounts1 = rankingStorage.getRankByMovimentation();
             accounts1.addAll(accountsMovimentation);
         }
 

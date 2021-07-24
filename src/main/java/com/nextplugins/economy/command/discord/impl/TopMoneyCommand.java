@@ -2,6 +2,7 @@ package com.nextplugins.economy.command.discord.impl;
 
 import com.nextplugins.economy.NextEconomy;
 import com.nextplugins.economy.api.model.account.Account;
+import com.nextplugins.economy.api.model.account.SimpleAccount;
 import com.nextplugins.economy.command.discord.Command;
 import com.nextplugins.economy.ranking.storage.RankingStorage;
 import github.scarsz.discordsrv.dependencies.jda.api.EmbedBuilder;
@@ -23,7 +24,7 @@ public class TopMoneyCommand implements Command {
         val embedBuilder = new EmbedBuilder();
 
 
-        for (Account account : rankingStorage.getRankByCoin()) {
+        for (SimpleAccount account : rankingStorage.getRankByCoin()) {
 
         }
 

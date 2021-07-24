@@ -75,7 +75,7 @@ public class Account {
 
     public String getDiscordName() {
         if (discordName == null) {
-            discordName = DiscordSyncUtil.getUserTag(Bukkit.getPlayerExact(username));
+            discordName = DiscordSyncUtil.getUserTag(Bukkit.getOfflinePlayer(username));
         }
 
         return discordName;
