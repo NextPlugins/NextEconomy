@@ -274,7 +274,7 @@ public final class MoneyCommand {
 
     @Command(
             name = "money.reset",
-            aliases = {"zerar"},
+            aliases = {"zerar", "resetar"},
             usage = "/money zerar {jogador}",
             description = "Utilize para zerar a quantia de dinheiro de alguém.",
             permission = "nexteconomy.command.reset",

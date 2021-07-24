@@ -55,7 +55,7 @@ public final class NumberUtils {
     }
 
     public static boolean isInvalid(double value) {
-        return value < 1 || Double.isNaN(value) || Double.isInfinite(value);
+        return value < 0 || Double.isNaN(value) || Double.isInfinite(value);
     }
 
 }

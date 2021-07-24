@@ -130,11 +130,9 @@ public class Account {
             }
 
             movimentedBalance += amount;
-            amount *= -1;
+            this.balance -= quantity;
 
-        }
-
-        this.balance += quantity;
+        } else this.balance += quantity;
         if (this.balance < 0) this.balance = 0;
 
         if (owner != null) {
@@ -143,7 +141,7 @@ public class Account {
 
             val historic = AccountBankHistoric.builder()
                     .target(owner)
-                    .amount(amount < 0 ? amount * -1 : amount)
+                    .amount(amount)
                     .type(transactionType)
                     .build();
 

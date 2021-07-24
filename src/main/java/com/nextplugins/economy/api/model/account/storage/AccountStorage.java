@@ -9,7 +9,6 @@ import com.nextplugins.economy.dao.repository.AccountRepository;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.val;
-import lombok.var;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
@@ -94,7 +93,7 @@ public final class AccountStorage {
     @NotNull
     public Account findAccount(@NotNull Player player) {
 
-        var account = findAccountByName(player.getName());
+        Account account = findAccountByName(player.getName());
         if (account == null) {
 
             account = Account.createDefault(player.getName());

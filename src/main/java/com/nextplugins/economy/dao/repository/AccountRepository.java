@@ -83,7 +83,7 @@ public final class AccountRepository {
         NextEconomy.getInstance().getLogger().log(Level.INFO, () -> "Updating user " + account.getUsername() + " " + count++);
 
         this.sqlExecutor.updateQuery(
-                String.format("REPLACE INTO %s VALUES(?,?,?,?,?,?)", TABLE),
+                String.format("REPLACE INTO %s(owner, balance, movimentedBalance, transactionsQuantity, transactions, receiveCoins) VALUES(?,?,?,?,?,?)", TABLE),
                 statement -> {
 
                     statement.set(1, account.getUsername());

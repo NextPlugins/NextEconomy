@@ -18,7 +18,6 @@ import com.nextplugins.economy.util.DateFormatUtil;
 import com.nextplugins.economy.util.NumberUtils;
 import com.nextplugins.economy.views.button.InventoryButton;
 import lombok.val;
-import lombok.var;
 import org.bukkit.Material;
 import org.bukkit.material.MaterialData;
 
@@ -104,7 +103,7 @@ public final class HistoricBankView extends PagedInventory {
 
             items.add(() -> {
 
-                var target = transaction.getTarget();
+                String target = transaction.getTarget();
                 if (target.equalsIgnoreCase("Banco")) target = "MrSnowDK";
                 if (target.equalsIgnoreCase("Cheque")) target = "Tom25W";
 
