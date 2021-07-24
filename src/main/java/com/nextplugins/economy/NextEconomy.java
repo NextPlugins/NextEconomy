@@ -32,7 +32,6 @@ import com.nextplugins.economy.vault.registry.VaultHookRegistry;
 import github.scarsz.discordsrv.DiscordSRV;
 import lombok.Getter;
 import lombok.val;
-import me.bristermitten.pdm.PluginDependencyManager;
 import net.citizensnpcs.api.npc.NPC;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -79,7 +78,6 @@ public final class NextEconomy extends JavaPlugin {
 
     @Override
     public void onEnable() {
-
         getLogger().info("Iniciando carregamento do plugin.");
 
         val loadTime = Stopwatch.createStarted();

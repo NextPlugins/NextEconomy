@@ -1,16 +1,15 @@
 plugins {
     id 'java'
 
-    id 'me.bristermitten.pdm' version '0.0.30'
-    id 'com.github.johnrengelman.shadow' version '5.0.0'
-
+    id 'com.github.johnrengelman.shadow' version '6.0.0'
     id 'net.minecrell.plugin-yml.bukkit' version '0.3.0'
+
 }
 
 group 'com.nextplugins'
 version '2.0.0-TEST-VERSION'
 
-tasks.build.dependsOn('pdm', 'shadowJar')
+tasks.build.dependsOn('shadowJar')
 
 repositories {
     mavenCentral()
@@ -31,6 +30,7 @@ repositories {
     maven { url = 'https://nexus.scarsz.me/content/groups/public/' }
 }
 
+
 dependencies {
 
     compileOnly "org.spigotmc:spigot-api:1.17.1-R0.1-SNAPSHOT"
@@ -46,10 +46,9 @@ dependencies {
     implementation 'com.github.HenryFabio.configuration-injector:bukkit:main-SNAPSHOT'
     implementation 'com.github.ben-manes.caffeine:caffeine:2.9.0' // 3.0.0 or higher is for java 11+
     implementation 'com.github.SaiintBrisson.command-framework:bukkit:1.2.0'
-
-    pdm 'de.tr7zw:item-nbt-api:2.8.0'
-    pdm 'com.github.HenryFabio:inventory-api:2.0.3'
-    pdm 'com.github.HenryFabio:sql-provider:9561f20fd2'
+    implementation 'de.tr7zw:item-nbt-api:2.8.0'
+    implementation 'com.github.HenryFabio:inventory-api:2.0.3'
+    implementation 'com.github.HenryFabio:sql-provider:9561f20fd2'
 
     def lombok = 'org.projectlombok:lombok:1.18.16'
     compileOnly lombok
@@ -70,10 +69,23 @@ bukkit {
 
 shadowJar {
     archiveName "${project.name}-${project.version}.jar"
+
     relocate 'com.henryfabio.minecraft.configinjector', 'com.nextplugins.economy.libs.configinjector'
+    relocate 'com.henryfabio.minecraft.inventoryapi', 'com.nextplugins.economy.libs.inventoryapi'
+
+    relocate 'com.henryfabio.sqlprovider', 'com.nextplugins.economy.libs.sqlprovider'
+    relocate 'com.zaxxer.hikari', 'com.nextplugins.economy.libs.hikari'
+
     relocate 'com.github.benmanes.caffeine', 'com.nextplugins.economy.libs.caffeine'
+
     relocate 'me.saiintbrisson.minecraft.command', 'com.nextplugins.economy.libs.command.common'
     relocate 'me.saiintbrisson.bukkit.command', 'com.nextplugins.economy.libs.command.bukkit'
+
+    relocate 'de.tr7zw.changeme.nbtapi', 'com.nextplugins.economy.libs.nbtapi'
+    relocate 'de.tr7zw.annotations', 'com.nextplugins.economy.libs.annotations'
+
+    relocate 'com.google.errorprone.annotations', 'com.nextplugins.economy.libs.annotations'
+
 }
 
 compileJava {
