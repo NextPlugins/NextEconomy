@@ -1,12 +1,12 @@
 package com.nextplugins.economy.api.metric;
 
-import com.nextplugins.economy.NextEconomy;
 import lombok.Data;
+import org.bukkit.plugin.java.JavaPlugin;
 
 @Data(staticConstructor = "of")
 public final class MetricProvider {
 
-    private final NextEconomy plugin;
+    private final JavaPlugin plugin;
 
     public void register() {
 
