@@ -62,7 +62,7 @@ bukkit {
     website = 'https://nextplugins.com.br'
     version = "${project.version}"
     depend = ['Vault']
-    apiVersion = '1.17'
+    apiVersion = '1.13'
     load = 'STARTUP'
     softDepend = ['Citizens', 'HolographicDisplays', 'PlaceholderAPI', 'Legendchat', 'UltimateChat', 'nChat', 'DiscordSRV']
 }
