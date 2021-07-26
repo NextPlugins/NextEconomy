@@ -3,9 +3,7 @@ package com.nextplugins.economy.api.event.operations;
 import com.nextplugins.economy.api.event.EconomyEvent;
 import com.nextplugins.economy.api.model.account.Account;
 import com.nextplugins.economy.api.model.account.SimpleAccount;
-import lombok.Builder;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
+import lombok.*;
 import org.bukkit.event.Cancellable;
 
 import java.time.Instant;
@@ -15,16 +13,19 @@ import java.time.Instant;
  * Github: https://github.com/Yuhtin
  */
 
-@Builder
-@Data
-@EqualsAndHashCode(callSuper = true)
-public final class MoneyTopPlayerChangedEvent extends EconomyEvent implements Cancellable {
+@Getter
+@Setter
+public final class AsyncMoneyTopPlayerChangedEvent extends EconomyEvent implements Cancellable {
 
     private final SimpleAccount lastMoneyTop;
     private final SimpleAccount moneyTop;
 
-    private final Instant updateInstant;
-    private final boolean async;
+    private final Instant updateInstant = Instant.now();
     private boolean cancelled;
 
+    public AsyncMoneyTopPlayerChangedEvent(SimpleAccount lastMoneyTop, SimpleAccount moneyTop) {
+        super(true);
+        this.lastMoneyTop = lastMoneyTop;
+        this.moneyTop = moneyTop;
+    }
 }

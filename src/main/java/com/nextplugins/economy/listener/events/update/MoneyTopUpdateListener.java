@@ -1,6 +1,6 @@
 package com.nextplugins.economy.listener.events.update;
 
-import com.nextplugins.economy.api.event.operations.MoneyTopPlayerChangedEvent;
+import com.nextplugins.economy.api.event.operations.AsyncMoneyTopPlayerChangedEvent;
 import com.nextplugins.economy.configuration.MessageValue;
 import com.nextplugins.economy.util.TitleUtils;
 import org.bukkit.Bukkit;
@@ -19,7 +19,7 @@ import java.util.List;
 public class MoneyTopUpdateListener implements Listener {
 
     @EventHandler(priority = EventPriority.MONITOR)
-    public void onTopUpdate(MoneyTopPlayerChangedEvent event) {
+    public void onTopUpdate(AsyncMoneyTopPlayerChangedEvent event) {
 
         if (event.isCancelled() || !MessageValue.get(MessageValue::enableMoneyTopMessage)) return;
 

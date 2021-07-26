@@ -29,7 +29,7 @@ public class ItemBuilder {
 
     public ItemBuilder(String name) {
 
-        item = new ItemStack(TypeUtil.getType("SKULL_ITEM"), 1, (short) 3);
+        item = TypeUtil.convertFromLegacy("SKULL_ITEM", 3);
 
         SkullMeta meta = (SkullMeta) item.getItemMeta();
         meta.setOwner(name);

@@ -3,12 +3,14 @@ package com.nextplugins.economy.api.event.operations;
 import com.nextplugins.economy.api.event.EconomyEvent;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.CommandSender;
 import org.bukkit.event.Cancellable;
 
-@Data
-@EqualsAndHashCode(callSuper = true)
+@Getter
+@Setter
 public final class MoneyWithdrawEvent extends EconomyEvent implements Cancellable {
 
     private final CommandSender sender;
@@ -16,4 +18,10 @@ public final class MoneyWithdrawEvent extends EconomyEvent implements Cancellabl
     private final double amount;
     private boolean cancelled;
 
+    public MoneyWithdrawEvent(CommandSender sender, OfflinePlayer target, double amount) {
+        super(false);
+        this.sender = sender;
+        this.target = target;
+        this.amount = amount;
+    }
 }

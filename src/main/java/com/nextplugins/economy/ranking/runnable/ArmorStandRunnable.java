@@ -31,9 +31,9 @@ public final class ArmorStandRunnable implements Runnable {
     public static final List<Hologram> HOLOGRAM = Lists.newLinkedList();
 
     private static final Material[] SWORDS = new Material[]{
-            Material.DIAMOND_SWORD, TypeUtil.getType("GOLD_SWORD"),
+            Material.DIAMOND_SWORD, TypeUtil.swapLegacy("GOLDEN_SWORD", "GOLD_SWORD"),
             Material.IRON_SWORD, Material.STONE_SWORD,
-            TypeUtil.getType("WOOD_SWORD")
+            TypeUtil.swapLegacy("WOODEN_SWORD", "WOOD_SWORD")
     };
 
     private final NextEconomy plugin;

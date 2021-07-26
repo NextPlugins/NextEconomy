@@ -43,7 +43,7 @@ dependencies {
     compileOnly 'com.nickuc.chat:nchat-api:4.2'
     compileOnly 'com.discordsrv:discordsrv:1.23.0'
 
-    implementation 'com.github.HenryFabio.configuration-injector:bukkit:main-SNAPSHOT'
+    implementation 'com.github.HenryFabio.configuration-injector:bukkit:1.0.2'
     implementation 'com.github.ben-manes.caffeine:caffeine:2.9.0' // 3.0.0 or higher is for java 11+
     implementation 'com.github.SaiintBrisson.command-framework:bukkit:1.2.0'
     implementation 'de.tr7zw:item-nbt-api:2.8.0'
@@ -62,7 +62,7 @@ bukkit {
     website = 'https://nextplugins.com.br'
     version = "${project.version}"
     depend = ['Vault']
-    apiVersion = '1.16'
+    apiVersion = '1.17'
     load = 'STARTUP'
     softDepend = ['Citizens', 'HolographicDisplays', 'PlaceholderAPI', 'Legendchat', 'UltimateChat', 'nChat', 'DiscordSRV']
 }

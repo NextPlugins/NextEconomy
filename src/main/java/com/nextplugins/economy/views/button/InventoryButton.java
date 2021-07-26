@@ -4,6 +4,7 @@ import com.nextplugins.economy.views.button.model.ButtonType;
 import com.nextplugins.economy.util.ItemBuilder;
 import lombok.Builder;
 import lombok.Data;
+import lombok.val;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
@@ -33,7 +34,7 @@ public final class InventoryButton implements Cloneable {
         if (this.itemStack == null) {
 
             this.itemStack = new ItemBuilder(materialData.getItemType() == Material.AIR
-                    ? new ItemBuilder(nickname).wrap()
+                    ? new ItemBuilder(nick == null ? nickname : nick).wrap()
                     : materialData.toItemStack(1)
             )
                     .name(displayName)
@@ -41,9 +42,9 @@ public final class InventoryButton implements Cloneable {
                     .changeItemMeta(meta -> meta.addItemFlags(ItemFlag.values()))
                     .wrap();
 
-        }
+            return itemStack;
 
-        return nick == null ? itemStack : updateByNick(nick);
+        } else return nick == null ? itemStack : updateByNick(nick);
     }
 
     public ItemStack updateByNick(String nick) {
@@ -51,7 +52,8 @@ public final class InventoryButton implements Cloneable {
         InventoryButton button = clone();
 
         ItemStack itemStack = button.getItemStack();
-        if (itemStack.getType().name().contains("SKULL_ITEM") && nickname.contains("@player")) {
+        val type = itemStack.getType().name();
+        if ((type.contains("PLAYER_HEAD") || type.contains("SKULL_ITEM")) && nickname.contains("@player")) {
 
             SkullMeta skullMeta = (SkullMeta) itemStack.getItemMeta();
             skullMeta.setOwner(nick);

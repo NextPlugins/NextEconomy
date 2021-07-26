@@ -7,17 +7,24 @@ import com.nextplugins.economy.views.registry.InventoryRegistry;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.val;
+import org.bukkit.ChatColor;
 
 import java.util.function.Consumer;
 
 @RequiredArgsConstructor
 public enum ButtonType {
 
-    PURSE(callback -> {}),
+    PURSE(callback -> {
+    }),
     YOUR_MONEY(callback -> {
 
-        val historicBankView = InventoryRegistry.getInstance().getHistoricBankView();
-        historicBankView.openInventory(callback.getPlayer());
+        try {
+            val historicBankView = InventoryRegistry.getInstance().getHistoricBankView();
+            historicBankView.openInventory(callback.getPlayer());
+        } catch (Throwable ignored) {
+            callback.getPlayer().closeInventory();
+            callback.getPlayer().sendMessage(ChatColor.RED + "Você ainda não fez nenhuma transação.");
+        }
 
     }),
 
@@ -56,6 +63,7 @@ public enum ButtonType {
 
     TOP_MONEY(callback -> callback.getPlayer().performCommand("money top"));
 
-    @Getter private final Consumer<CustomInventoryClickEvent> action;
+    @Getter
+    private final Consumer<CustomInventoryClickEvent> action;
 
 }

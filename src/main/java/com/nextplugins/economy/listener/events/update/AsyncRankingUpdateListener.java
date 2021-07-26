@@ -3,7 +3,7 @@ package com.nextplugins.economy.listener.events.update;
 import com.google.common.collect.Lists;
 import com.nextplugins.economy.NextEconomy;
 import com.nextplugins.economy.api.event.operations.AsyncRankingUpdateEvent;
-import com.nextplugins.economy.api.event.operations.MoneyTopPlayerChangedEvent;
+import com.nextplugins.economy.api.event.operations.AsyncMoneyTopPlayerChangedEvent;
 import com.nextplugins.economy.api.model.account.SimpleAccount;
 import com.nextplugins.economy.configuration.RankingValue;
 import com.nextplugins.economy.dao.repository.AccountRepository;
@@ -61,14 +61,7 @@ public class AsyncRankingUpdateListener implements Listener {
                 SimpleAccount topAccount = rankingStorage.getRankByCoin().get(0);
                 if (lastAccount.getUsername().equals(topAccount.getUsername())) return;
 
-                pluginManager.callEvent(
-                        MoneyTopPlayerChangedEvent.builder()
-                                .lastMoneyTop(lastAccount)
-                                .moneyTop(topAccount)
-                                .updateInstant(Instant.now())
-                                .async(true)
-                                .build()
-                );
+                pluginManager.callEvent(new AsyncMoneyTopPlayerChangedEvent(lastAccount, topAccount));
 
             }
 

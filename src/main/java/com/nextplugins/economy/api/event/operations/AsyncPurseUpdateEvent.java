@@ -3,6 +3,8 @@ package com.nextplugins.economy.api.event.operations;
 import com.nextplugins.economy.api.event.EconomyEvent;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
 import org.bukkit.event.Cancellable;
 
 /**
@@ -10,8 +12,8 @@ import org.bukkit.event.Cancellable;
  * Github: https://github.com/Yuhtin
  */
 
-@Data
-@EqualsAndHashCode(callSuper = true)
+@Getter
+@Setter
 public final class AsyncPurseUpdateEvent extends EconomyEvent implements Cancellable {
 
     private final int newValue;
@@ -19,7 +21,11 @@ public final class AsyncPurseUpdateEvent extends EconomyEvent implements Cancell
     private final long updateMillis;
     private boolean cancelled;
 
-    private final boolean async = true;
-
+    public AsyncPurseUpdateEvent(int newValue, int lastValue, long updateMillis) {
+        super(true);
+        this.newValue = newValue;
+        this.lastValue = lastValue;
+        this.updateMillis = updateMillis;
+    }
 }
 
