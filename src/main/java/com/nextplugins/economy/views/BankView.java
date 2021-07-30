@@ -8,6 +8,7 @@ import com.nextplugins.economy.api.PurseAPI;
 import com.nextplugins.economy.configuration.InventoryValue;
 import com.nextplugins.economy.configuration.MessageValue;
 import com.nextplugins.economy.util.*;
+import com.nextplugins.economy.views.button.model.ButtonType;
 import com.nextplugins.economy.views.button.registry.InventoryButtonRegistry;
 import com.nextplugins.economy.api.model.account.storage.AccountStorage;
 import com.nextplugins.economy.views.button.InventoryButton;
@@ -66,6 +67,8 @@ public final class BankView extends SimpleInventory {
 
             int inventorySlot = value.getInventorySlot();
             if (inventorySlot == -1) continue;
+
+            if (value.getButtonType() == ButtonType.PURSE && instance == null) continue;
 
             val valueItem = new ItemBuilder(value.getItemStack(player.getName()))
                     .setLore(value.getLore()

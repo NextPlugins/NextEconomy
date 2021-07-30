@@ -2,12 +2,13 @@ package com.nextplugins.economy.views;
 
 import com.google.common.collect.Lists;
 import com.henryfabio.minecraft.inventoryapi.editor.InventoryEditor;
-import com.henryfabio.minecraft.inventoryapi.inventory.impl.simple.SimpleInventory;
+import com.henryfabio.minecraft.inventoryapi.inventory.impl.paged.PagedInventory;
 import com.henryfabio.minecraft.inventoryapi.item.InventoryItem;
 import com.henryfabio.minecraft.inventoryapi.item.enums.DefaultItem;
+import com.henryfabio.minecraft.inventoryapi.item.supplier.InventoryItemSupplier;
 import com.henryfabio.minecraft.inventoryapi.viewer.Viewer;
-import com.henryfabio.minecraft.inventoryapi.viewer.configuration.ViewerConfiguration;
-import com.henryfabio.minecraft.inventoryapi.viewer.impl.simple.SimpleViewer;
+import com.henryfabio.minecraft.inventoryapi.viewer.configuration.border.Border;
+import com.henryfabio.minecraft.inventoryapi.viewer.impl.paged.PagedViewer;
 import com.nextplugins.economy.NextEconomy;
 import com.nextplugins.economy.api.model.account.SimpleAccount;
 import com.nextplugins.economy.configuration.MessageValue;
@@ -19,12 +20,13 @@ import com.nextplugins.economy.util.TimeUtils;
 import lombok.val;
 import org.bukkit.Material;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
 
-public final class RankingView extends SimpleInventory {
+public final class RankingView extends PagedInventory {
 
     private final Map<String, Integer> playerRewardFilter = new HashMap<>();
     private final RankingStorage rankingStorage = NextEconomy.getInstance().getRankingStorage();
@@ -38,18 +40,32 @@ public final class RankingView extends SimpleInventory {
     }
 
     @Override
-    protected void configureViewer(SimpleViewer viewer) {
+    protected void configureViewer(PagedViewer viewer) {
 
-        ViewerConfiguration configuration = viewer.getConfiguration();
+        val configuration = viewer.getConfiguration();
         configuration.backInventory("nexteconomy.main");
+        configuration.itemPageLimit(14);
+        configuration.border(Border.of(1, 1, 2, 1));
 
     }
 
     @Override
     protected void configureInventory(Viewer viewer, InventoryEditor editor) {
+        editor.setItem(39, sortRankingItem(viewer));
+        editor.setItem(40, DefaultItem.BACK.toInventoryItem(viewer));
+        editor.setItem(41, restTimeUpdate());
+    }
 
-        List<String> headLore = RankingValue.get(RankingValue::inventoryModelHeadLore);
-        String tycoonTag = RankingValue.get(RankingValue::tycoonTagValue);
+    @Override
+    protected void update(Viewer viewer, InventoryEditor editor) {
+        configureInventory(viewer, editor);
+    }
+
+    @Override
+    protected List<InventoryItemSupplier> createPageItems(PagedViewer viewer) {
+        val items = new ArrayList<InventoryItemSupplier>();
+        val headLore = RankingValue.get(RankingValue::inventoryModelHeadLore);
+        val tycoonTag = RankingValue.get(RankingValue::tycoonTagValue);
 
         int position = 1;
 
@@ -61,9 +77,9 @@ public final class RankingView extends SimpleInventory {
 
         for (SimpleAccount account : rankingAccounts) {
 
-            String name = account.getUsername();
+            val name = account.getUsername();
 
-            String replacedDisplayName = (position == 1
+            val replacedDisplayName = (position == 1
                     ? RankingValue.get(RankingValue::inventoryModelHeadDisplayNameTop)
                     : RankingValue.get(RankingValue::inventoryModelHeadDisplayName))
                     .replace("$tycoonTag", tycoonTag)
@@ -73,7 +89,7 @@ public final class RankingView extends SimpleInventory {
 
             List<String> replacedLore = Lists.newArrayList();
 
-            String transactionName = account.getTransactions().size() == 1
+            val transactionName = account.getTransactions().size() == 1
                     ? MessageValue.get(MessageValue::singularTransaction)
                     : MessageValue.get(MessageValue::pluralTransaction);
 
@@ -86,11 +102,7 @@ public final class RankingView extends SimpleInventory {
                 );
             }
 
-            int slot = position + 10;
-            if (slot >= 16) slot += 4;
-            if (slot == 25) break;
-
-            editor.setItem(slot, InventoryItem.of(
+            items.add(() -> InventoryItem.of(
                     new ItemBuilder(account.getUsername())
                             .name(replacedDisplayName)
                             .setLore(replacedLore)
@@ -100,15 +112,7 @@ public final class RankingView extends SimpleInventory {
             position++;
         }
 
-        editor.setItem(0, restTimeUpdate());
-        editor.setItem(40, sortRankingItem(viewer));
-        editor.setItem(36, DefaultItem.BACK.toInventoryItem(viewer));
-
-    }
-
-    @Override
-    protected void update(Viewer viewer, InventoryEditor editor) {
-        configureInventory(viewer, editor);
+        return items;
     }
 
     private InventoryItem restTimeUpdate() {

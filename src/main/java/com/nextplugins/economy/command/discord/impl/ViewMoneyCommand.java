@@ -12,7 +12,9 @@ import com.nextplugins.economy.util.DateFormatUtil;
 import com.nextplugins.economy.util.NumberUtils;
 import github.scarsz.discordsrv.DiscordSRV;
 import github.scarsz.discordsrv.dependencies.jda.api.EmbedBuilder;
+import github.scarsz.discordsrv.dependencies.jda.api.entities.Member;
 import github.scarsz.discordsrv.dependencies.jda.api.entities.Message;
+import github.scarsz.discordsrv.dependencies.jda.api.entities.User;
 import lombok.val;
 import lombok.var;
 import org.bukkit.Bukkit;
@@ -33,14 +35,15 @@ public class ViewMoneyCommand implements Command {
     public void execute(Message message, String[] args) {
 
         OfflinePlayer player = null;
+        User user = null;
 
         val mentionedMembers = message.getMentionedMembers();
         if (mentionedMembers.size() > 1) {
 
-            val member = mentionedMembers.get(0);
-            if (!member.getUser().isBot()) {
+            user = mentionedMembers.get(0).getUser();
+            if (!user.isBot()) {
 
-                val uuid = DiscordSRV.getPlugin().getAccountLinkManager().getUuid(member.getId());
+                val uuid = DiscordSRV.getPlugin().getAccountLinkManager().getUuid(user.getId());
                 if (uuid == null) {
 
                     message.reply(DiscordValue.get(DiscordValue::invalidEmoji) +
@@ -82,6 +85,11 @@ public class ViewMoneyCommand implements Command {
             ).queue();
             return;
 
+        }
+
+        if (user == null) {
+            val discordId = DiscordSRV.getPlugin().getAccountLinkManager().getDiscordId(player.getUniqueId());
+            if (discordId != null) user = message.getJDA().getUserById(discordId);
         }
 
         val name = account.getUsername();
@@ -143,6 +151,7 @@ public class ViewMoneyCommand implements Command {
 
             var text = keySection.getString("text", null);
             if (text != null) text = text.replace("$player", account.getUsername())
+                    .replace("$userTag", user == null ? "Não vinculado" : user.getAsMention() + " (" + user.getAsTag() + ")")
                     .replace("$money", account.getBalanceFormated())
                     .replace("$coinName", MessageValue.get(MessageValue::coinsCurrency))
                     .replace("$transactionsmoney", NumberUtils.format(account.getMovimentedBalance()))

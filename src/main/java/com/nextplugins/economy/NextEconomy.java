@@ -128,6 +128,8 @@ public final class NextEconomy extends JavaPlugin {
     @Override
     public void onDisable() {
 
+        accountStorage.getCache().synchronous().invalidateAll();
+
         if (DiscordValue.get(DiscordValue::enable) && Bukkit.getPluginManager().isPluginEnabled("DiscordSRV")) {
 
             val discordAPI = DiscordSRV.api;
@@ -136,8 +138,6 @@ public final class NextEconomy extends JavaPlugin {
             if (commandHandler != null) discordAPI.unsubscribe(commandHandler);
 
         }
-
-        accountStorage.getCache().synchronous().invalidateAll();
 
         if (FeatureValue.get(FeatureValue::autoBackup)) {
 

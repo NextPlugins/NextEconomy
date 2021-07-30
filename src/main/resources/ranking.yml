@@ -1,5 +1,5 @@
 ranking:
-  update-delay: 900 # delay de update do ranking (em segundos)
+  update-delay: 1800 # delay de update do ranking (em segundos)
   limit: 14 # limite de contas que serão puxadas da database
   tycoon: # Placeholder: {tycoon} ou %tycoon%
     # Tag dada para o jogador mais rico
@@ -21,10 +21,16 @@ ranking:
         - ' &7Dinheiro movimentado: &e$movimentation'
         - ''
   npc:
-    # ARMORSTAND - Mini bonecos com cabeça de cada jogador
+    # ARMORSTAND - Armorstands com cabeça de cada jogador
     # NPC - Boneco da altua e mesma skin do jogador
+    # HOLOGRAM - Apenas em um holograma (suporta apenas 1 posição)
     # NOTHING - Desativar ArmorStand e NPC
-    type: NPC
+    type: ARMORSTAND
+    # Esta opção só irá afetar caso o tipo de npc
+    # seja ARMORSTAND. Isto afetará o tamanho do ArmorStand
+    # SMALL - Formato pequeno
+    # TALL - Formato grande
+    height: SMALL
     # Configuração das cores da armadura de couro (apenas top armorstand)
     # Todas as cores aqui são em HEX, procure no google para achar o código HEX da cor que quer colocar
     armor:
@@ -35,9 +41,14 @@ ranking:
       # Cor da bota de couro
       boots: '#c43d31' # Vermelho
     hologram:
-      # altura do holograma, em blocos (começando do chão)
-      height: 3 # Recomendado 3 para NPC e 2.15 para ArmorStand
-      lines:
+      default:
+        - '&b&LTOP JOGADORES'
+        - '&7(Coins)'
+        - ''
+        - '@players'
+        - ''
+        - '&aAtualizado a cada 30 minutos.'
+      armorstand:
         - '&f$positionº'
         - '&e$player'
         - '&7(&2R$&f$amount&7)'

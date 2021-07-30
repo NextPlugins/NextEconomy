@@ -42,11 +42,12 @@ public final class RankingValue implements ConfigurationInjectable {
     // npc
 
     @ConfigField("npc.type") private String npcType;
+    @ConfigField("npc.height") private String hologramHeight;
     @ConfigField("npc.armor.chestplate") private String chestplateRGB;
     @ConfigField("npc.armor.leggings") private String leggingsRGB;
     @ConfigField("npc.armor.boots") private String bootsRGB;
-    @ConfigField("npc.hologram.height") private double hologramHeight;
-    @ConfigField("npc.hologram.lines") private List<String> hologramLines;
+    @ConfigField("npc.hologram.default") private List<String> hologramDefaultLines;
+    @ConfigField("npc.hologram.armorstand") private List<String> hologramArmorStandLines;
 
     // tycoon
 

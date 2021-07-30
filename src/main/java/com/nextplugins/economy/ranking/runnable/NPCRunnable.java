@@ -4,12 +4,10 @@ import com.gmail.filoghost.holographicdisplays.api.Hologram;
 import com.gmail.filoghost.holographicdisplays.api.HologramsAPI;
 import com.google.common.collect.Lists;
 import com.nextplugins.economy.NextEconomy;
-import com.nextplugins.economy.api.model.account.Account;
 import com.nextplugins.economy.api.model.account.SimpleAccount;
 import com.nextplugins.economy.configuration.RankingValue;
 import com.nextplugins.economy.ranking.manager.LocationManager;
 import com.nextplugins.economy.ranking.storage.RankingStorage;
-import com.nextplugins.economy.util.NumberUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.val;
 import net.citizensnpcs.api.CitizensAPI;
@@ -41,8 +39,7 @@ public final class NPCRunnable implements Runnable {
         val npcRegistry = CitizensAPI.getNPCRegistry();
         val position = new AtomicInteger(1);
 
-        val hologramLines = RankingValue.get(RankingValue::hologramLines);
-        val hologramHeight = RankingValue.get(RankingValue::hologramHeight);
+        val hologramLines = RankingValue.get(RankingValue::hologramArmorStandLines);
 
         for (SimpleAccount account : accounts) {
 
@@ -51,7 +48,7 @@ public final class NPCRunnable implements Runnable {
             val location = locationManager.getLocation(position.get());
 
             if (!hologramLines.isEmpty()) {
-                val hologramLocation = location.clone().add(0, hologramHeight, 0);
+                val hologramLocation = location.clone().add(0, 3, 0);
                 val hologram = HologramsAPI.createHologram(plugin, hologramLocation);
 
                 for (int i = 0; i < hologramLines.size(); i++) {
