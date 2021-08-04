@@ -4,6 +4,7 @@ import com.nextplugins.economy.NextEconomy;
 import com.nextplugins.economy.configuration.RankingValue;
 import com.nextplugins.economy.ranking.loader.LocationLoader;
 import com.nextplugins.economy.ranking.runnable.ArmorStandRunnable;
+import com.nextplugins.economy.ranking.runnable.HologramRunnable;
 import com.nextplugins.economy.ranking.runnable.NPCRunnable;
 import lombok.Data;
 import lombok.Getter;
@@ -70,9 +71,9 @@ public class CustomRankingRegistry {
 
         LocationLoader.of(plugin, plugin.getLocationManager()).loadLocations();
 
-        runnable = isNpc
-                ? new NPCRunnable(plugin, plugin.getLocationManager(), plugin.getRankingStorage())
-                : new ArmorStandRunnable(plugin, plugin.getLocationManager(), plugin.getRankingStorage());
+        if (isNpc) runnable = new NPCRunnable(plugin, plugin.getLocationManager(), plugin.getRankingStorage());
+        else if (type.equalsIgnoreCase("armorstand")) runnable = new ArmorStandRunnable(plugin, plugin.getLocationManager(), plugin.getRankingStorage());
+        else runnable = new HologramRunnable(plugin, plugin.getLocationManager(), plugin.getRankingStorage());
 
         enabled = true;
         plugin.getLogger().info("Sistema de NPC e ArmorStand registrado com sucesso.");

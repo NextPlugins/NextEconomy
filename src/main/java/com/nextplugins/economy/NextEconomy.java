@@ -22,6 +22,7 @@ import com.nextplugins.economy.placeholder.registry.PlaceholderRegistry;
 import com.nextplugins.economy.ranking.CustomRankingRegistry;
 import com.nextplugins.economy.ranking.manager.LocationManager;
 import com.nextplugins.economy.ranking.runnable.ArmorStandRunnable;
+import com.nextplugins.economy.ranking.runnable.HologramRunnable;
 import com.nextplugins.economy.ranking.runnable.NPCRunnable;
 import com.nextplugins.economy.api.model.interactions.registry.InteractionRegistry;
 import com.nextplugins.economy.views.registry.InventoryRegistry;
@@ -169,6 +170,14 @@ public final class NextEconomy extends JavaPlugin {
                 }
 
                 for (Hologram hologram : ArmorStandRunnable.HOLOGRAM) {
+                    hologram.delete();
+                }
+
+            }
+
+            if (type.equalsIgnoreCase("hologram")) {
+
+                for (Hologram hologram : HologramRunnable.HOLOGRAM) {
                     hologram.delete();
                 }
 

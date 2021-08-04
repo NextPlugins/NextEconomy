@@ -33,8 +33,10 @@ plugin:
       # Afetará todos os plugins do servidor.
       #
       # Não recomendo o uso dessa função caso tenha um servidor com plugins próprios
-      # peça para o desenvolvedor dos seus plugins, caso tenha um, implementar nosso sistema de bolsa
+      # peça para o desenvolvedor dos seus plugins, implementar nosso sistema de bolsa
       # no seu plugin próprio, a api é visivel em nosso github https://github.com/NextPlugins/NextEconomy
+      # Isso afetará todas as vendas, e pode ficar confuso para os jogadores pois
+      # o dinheiro que aparecerá como ganho no chat, será menor, ou maior, que o dinheiro que ele realmente ganhou
       useInAll: false
       media: 100 # um valor maior que esse significa que a bolsa está em alta
       minValue: 75 # valor mínimo da bolsa

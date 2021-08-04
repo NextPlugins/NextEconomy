@@ -15,7 +15,6 @@ import com.nextplugins.economy.configuration.MessageValue;
 import com.nextplugins.economy.configuration.RankingValue;
 import com.nextplugins.economy.ranking.storage.RankingStorage;
 import com.nextplugins.economy.util.ItemBuilder;
-import com.nextplugins.economy.util.NumberUtils;
 import com.nextplugins.economy.util.TimeUtils;
 import lombok.val;
 import org.bukkit.Material;
@@ -89,15 +88,15 @@ public final class RankingView extends PagedInventory {
 
             List<String> replacedLore = Lists.newArrayList();
 
-            val transactionName = account.getTransactions().size() == 1
+            val transactionName = account.getTransactionsQuantity() == 1
                     ? MessageValue.get(MessageValue::singularTransaction)
                     : MessageValue.get(MessageValue::pluralTransaction);
 
             for (String lore : headLore) {
                 replacedLore.add(lore
                         .replace("$amount", account.getBalanceFormated())
-                        .replace("$transactions", account.getTransactions().size() + " " + transactionName)
-                        .replace("$movimentation", NumberUtils.format(account.getMovimentedBalance()))
+                        .replace("$transactions", account.getTransactionsQuantity() + " " + transactionName)
+                        .replace("$movimentation", account.getMovimentedBalanceFormated())
                         .replace("$position", String.valueOf(position))
                 );
             }

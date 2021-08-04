@@ -52,7 +52,6 @@ public final class ArmorStandRunnable implements Runnable {
         val position = new AtomicInteger(1);
 
         for (SimpleAccount account : accounts) {
-            if (!locationManager.getLocationMap().containsKey(position.get())) return;
 
             val location = locationManager.getLocation(position.get());
             if (location == null || location.getWorld() == null) {

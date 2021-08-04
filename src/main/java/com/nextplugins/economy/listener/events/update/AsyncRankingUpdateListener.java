@@ -76,7 +76,7 @@ public class AsyncRankingUpdateListener implements Listener {
         }
 
         val instance = CustomRankingRegistry.getInstance();
-        if (!instance.isEnabled()) return;
+        if (!instance.isEnabled() || accounts.isEmpty()) return;
 
         // Leave from async. Entities can't be spawned in async.
         Bukkit.getScheduler().runTask(NextEconomy.getInstance(), instance.getRunnable());
