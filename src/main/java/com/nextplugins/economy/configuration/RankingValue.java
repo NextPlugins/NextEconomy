@@ -46,6 +46,7 @@ public final class RankingValue implements ConfigurationInjectable {
     @ConfigField("npc.armor.chestplate") private String chestplateRGB;
     @ConfigField("npc.armor.leggings") private String leggingsRGB;
     @ConfigField("npc.armor.boots") private String bootsRGB;
+    @ConfigField("npc.hologram.default.limit") private int hologramDefaultLimit;
     @ConfigField("npc.hologram.default.line") private String hologramDefaultLine;
     @ConfigField("npc.hologram.default.modal") private List<String> hologramDefaultLines;
     @ConfigField("npc.hologram.armorstand") private List<String> hologramArmorStandLines;

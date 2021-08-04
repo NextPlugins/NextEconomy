@@ -42,6 +42,7 @@ ranking:
       boots: '#c43d31' # Vermelho
     hologram:
       default:
+        limit: 10
         line: '&e$position &f$player &8- &7$amount &2$'
         modal:
         - '&b&LTOP JOGADORES'

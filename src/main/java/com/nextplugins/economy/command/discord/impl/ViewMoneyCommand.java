@@ -1,7 +1,6 @@
 package com.nextplugins.economy.command.discord.impl;
 
 import com.nextplugins.economy.NextEconomy;
-import com.nextplugins.economy.api.model.account.historic.AccountBankHistoric;
 import com.nextplugins.economy.api.model.account.storage.AccountStorage;
 import com.nextplugins.economy.api.model.account.transaction.TransactionType;
 import com.nextplugins.economy.command.discord.Command;
@@ -12,7 +11,6 @@ import com.nextplugins.economy.util.DateFormatUtil;
 import com.nextplugins.economy.util.NumberUtils;
 import github.scarsz.discordsrv.DiscordSRV;
 import github.scarsz.discordsrv.dependencies.jda.api.EmbedBuilder;
-import github.scarsz.discordsrv.dependencies.jda.api.entities.Member;
 import github.scarsz.discordsrv.dependencies.jda.api.entities.Message;
 import github.scarsz.discordsrv.dependencies.jda.api.entities.User;
 import lombok.val;
@@ -60,7 +58,30 @@ public class ViewMoneyCommand implements Command {
         } else if (args.length > 0 && !args[0].equals("")) {
 
             val memberName = args[0];
-            player = Bukkit.getOfflinePlayer(memberName);
+            try {
+                val id = Long.parseLong(memberName);
+
+                val member = message.getGuild().getMemberById(id);
+                if (member == null) throw new Exception();
+
+                user = member.getUser();
+                val uuid = DiscordSRV.getPlugin().getAccountLinkManager().getUuid(user.getId());
+                if (uuid == null) {
+
+                    message.reply(DiscordValue.get(DiscordValue::invalidEmoji) +
+                            " Este usuário não vinculou a conta no servidor."
+                    ).queue();
+                    return;
+
+                }
+
+                player = Bukkit.getOfflinePlayer(uuid);
+
+
+            } catch (Exception exception) {
+                player = Bukkit.getOfflinePlayer(memberName);
+            }
+
 
         }
 
@@ -111,7 +132,7 @@ public class ViewMoneyCommand implements Command {
                 ? DiscordValue.get(DiscordValue::successEmoji) + " Habilitado"
                 : DiscordValue.get(DiscordValue::errorEmoji) + " Desativado";
 
-        AccountBankHistoric accountBankHistoric = account.getTransactions().isEmpty() ? null
+        val accountBankHistoric = account.getTransactions().isEmpty() ? null
                 : account.getTransactions().get(0);
 
         var transaction = "Este jogador nunca fez/recebeu uma transação";
@@ -132,7 +153,7 @@ public class ViewMoneyCommand implements Command {
         }
 
         val section = DiscordValue.get(DiscordValue::viewMoneyFields);
-        for (String key : section.getKeys(false)) {
+        for (val key : section.getKeys(false)) {
 
             val keySection = section.getConfigurationSection(key);
             val inline = keySection.getBoolean("inline", false);

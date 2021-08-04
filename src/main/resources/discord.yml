@@ -73,10 +73,10 @@ embed:
         text: '$lastTransactionMessage' # Para remover do embed, apague o campo
   top:
     title: '<:beacon:863495850026467398> Jogadores mais ricos'
-    image: ''
     imagefooter: 'https://nextplugins.com.br/icons/next-logo.png'
     footer: '© NextPlugins 2021, Todos os direitos reservados'
     date: true
     color: '#36bfa6'
-    description:
-      - 'Veja os jogadores mais ricos'
+    topEmoji: ':moeda: '
+    line: '**$postionº** $username - $coins $ coins\n'
+    description: '<:livro:871763768860893274> Venha se tornar rico em nosso servidor!\n\n'

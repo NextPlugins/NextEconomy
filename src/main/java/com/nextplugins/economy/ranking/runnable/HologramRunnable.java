@@ -73,6 +73,8 @@ public final class HologramRunnable implements Runnable {
                     .replace("$player", account.getUsername())
                     .replace("$amount", account.getBalanceFormated())
             );
+
+            if (position == RankingValue.get(RankingValue::hologramDefaultLimit)) break;
         }
 
         return lines;

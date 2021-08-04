@@ -48,12 +48,13 @@ public final class DiscordValue implements ConfigurationInjectable {
     @ConfigField("embed.viewMoney.fields") private ConfigurationSection viewMoneyFields;
 
     @ConfigField("embed.top.title") private String topTitle;
-    @ConfigField("embed.top.mage") private String topImage;
     @ConfigField("embed.top.imagefooter") private String topFooterImage;
     @ConfigField("embed.top.footer") private String topFooter;
     @ConfigField("embed.top.color") private String topColor;
+    @ConfigField("embed.top.line") private String topLine;
+    @ConfigField("embed.top.topEmoji") private String topEmoji;
     @ConfigField("embed.top.date") private boolean topDate;
-    @ConfigField("embed.top.description") private List<String> topDescription;
+    @ConfigField("embed.top.description") private String topDescription;
 
     public static <T> T get(Function<DiscordValue, T> function) {
         return function.apply(instance);
