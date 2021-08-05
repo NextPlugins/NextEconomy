@@ -2,6 +2,7 @@ package com.nextplugins.economy.command.bukkit;
 
 import com.nextplugins.economy.api.PurseAPI;
 import com.nextplugins.economy.util.ColorUtil;
+import com.nextplugins.economy.util.NumberUtils;
 import lombok.val;
 import me.saiintbrisson.minecraft.command.annotation.Command;
 import me.saiintbrisson.minecraft.command.command.Context;
@@ -53,7 +54,7 @@ public class PurseCommand {
 
         }
 
-        if (number <= 0 || Double.isNaN(number)) {
+        if (NumberUtils.isInvalid(number)) {
 
             context.sendMessage(ColorUtil.colored("&cValor precisa ser positivo."));
             return;
