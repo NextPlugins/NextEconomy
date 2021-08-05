@@ -72,13 +72,12 @@ public final class ArmorStandRunnable implements Runnable {
 
                 val format = account.getBalanceFormated();
                 for (int i = 0; i < hologramLines.size(); i++) {
-                    String replacedLine = hologramLines.get(i);
-
-                    replacedLine = replacedLine.replace("$position", String.valueOf(position.get()));
-                    replacedLine = replacedLine.replace("$player", account.getUsername());
-                    replacedLine = replacedLine.replace("$amount", format);
-
-                    hologram.insertTextLine(i, replacedLine);
+                    hologram.insertTextLine(i, hologramLines.get(i)
+                            .replace("$position", String.valueOf(position.get()))
+                            .replace("$player", account.getUsername())
+                            .replace("$prefix", plugin.getGroupWrapperManager().getPrefix(account.getUsername()))
+                            .replace("$amount", format)
+                    );
                 }
 
                 HOLOGRAM.add(hologram);
@@ -106,7 +105,7 @@ public final class ArmorStandRunnable implements Runnable {
             stand.setLeggings(new ItemBuilder(
                     Material.LEATHER_LEGGINGS,
                     ColorUtil.getBukkitColorByHex(RankingValue.get(RankingValue::leggingsRGB))
-                    ).wrap());
+            ).wrap());
 
             stand.setBoots(new ItemBuilder(
                     Material.LEATHER_BOOTS,

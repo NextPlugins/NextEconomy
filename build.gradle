@@ -13,7 +13,6 @@ tasks.build.dependsOn('shadowJar')
 
 repositories {
     mavenCentral()
-    mavenLocal()
 
     // spigot
 
@@ -42,6 +41,8 @@ dependencies {
     compileOnly 'br.net.fabiozumbi12:ultimatechat:1.9.1'
     compileOnly 'com.nickuc.chat:nchat-api:4.2'
     compileOnly 'com.discordsrv:discordsrv:1.23.0'
+    compileOnly 'net.luckperms:api:5.3'
+    compileOnly fileTree('libs')
 
     implementation 'com.github.HenryFabio.configuration-injector:bukkit:1.0.2'
     implementation 'com.github.ben-manes.caffeine:caffeine:2.9.0' // 3.0.0 or higher is for java 11+

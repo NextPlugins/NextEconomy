@@ -10,7 +10,9 @@ import com.henryfabio.minecraft.inventoryapi.viewer.Viewer;
 import com.henryfabio.minecraft.inventoryapi.viewer.configuration.border.Border;
 import com.henryfabio.minecraft.inventoryapi.viewer.impl.paged.PagedViewer;
 import com.nextplugins.economy.NextEconomy;
+import com.nextplugins.economy.api.group.GroupWrapperManager;
 import com.nextplugins.economy.api.model.account.SimpleAccount;
+import com.nextplugins.economy.configuration.InventoryValue;
 import com.nextplugins.economy.configuration.MessageValue;
 import com.nextplugins.economy.configuration.RankingValue;
 import com.nextplugins.economy.ranking.storage.RankingStorage;
@@ -29,6 +31,7 @@ public final class RankingView extends PagedInventory {
 
     private final Map<String, Integer> playerRewardFilter = new HashMap<>();
     private final RankingStorage rankingStorage = NextEconomy.getInstance().getRankingStorage();
+    private final GroupWrapperManager groupWrapperManager = NextEconomy.getInstance().getGroupWrapperManager();
 
     public RankingView() {
         super(
@@ -51,7 +54,7 @@ public final class RankingView extends PagedInventory {
     @Override
     protected void configureInventory(Viewer viewer, InventoryEditor editor) {
         editor.setItem(39, sortRankingItem(viewer));
-        editor.setItem(40, DefaultItem.BACK.toInventoryItem(viewer));
+        if (InventoryValue.get(InventoryValue::enable)) editor.setItem(40, DefaultItem.BACK.toInventoryItem(viewer));
         editor.setItem(41, restTimeUpdate());
     }
 
@@ -84,7 +87,8 @@ public final class RankingView extends PagedInventory {
                     .replace("$tycoonTag", tycoonTag)
                     .replace("$prefix", "")
                     .replace("$position", String.valueOf(position))
-                    .replace("$player", name);
+                    .replace("$player", name)
+                    .replace("$prefix", groupWrapperManager.getPrefix(name));
 
             List<String> replacedLore = Lists.newArrayList();
 

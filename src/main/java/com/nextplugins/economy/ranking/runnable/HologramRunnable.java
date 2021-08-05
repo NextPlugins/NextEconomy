@@ -71,6 +71,7 @@ public final class HologramRunnable implements Runnable {
             lines.add(line
                     .replace("$position", String.valueOf(position))
                     .replace("$player", account.getUsername())
+                    .replace("$prefix", plugin.getGroupWrapperManager().getPrefix(account.getUsername()))
                     .replace("$amount", account.getBalanceFormated())
             );
 

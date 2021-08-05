@@ -58,14 +58,12 @@ public final class NPCRunnable implements Runnable {
                 val hologram = HologramsAPI.createHologram(plugin, hologramLocation);
 
                 for (int i = 0; i < hologramLines.size(); i++) {
-
-                    val replacedLine = hologramLines.get(i)
+                    hologram.insertTextLine(i, hologramLines.get(i)
                             .replace("$position", String.valueOf(position.get()))
                             .replace("$player", account.getUsername())
-                            .replace("$amount", account.getBalanceFormated());
-
-                    hologram.insertTextLine(i, replacedLine);
-
+                            .replace("$prefix", plugin.getGroupWrapperManager().getPrefix(account.getUsername()))
+                            .replace("$amount", account.getBalanceFormated())
+                    );
                 }
 
                 HOLOGRAM.add(hologram);
