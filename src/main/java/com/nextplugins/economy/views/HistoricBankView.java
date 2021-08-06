@@ -36,8 +36,8 @@ public final class HistoricBankView extends PagedInventory {
     public HistoricBankView(AccountStorage accountStorage) {
         super(
                 "nexteconomy.bank.historic",
-                "Histórico de Transções",
-                6 * 9
+                InventoryValue.get(InventoryValue::historicInventoryName),
+                InventoryValue.get(InventoryValue::historicInventorySize)
         );
 
         this.accountStorage = accountStorage;

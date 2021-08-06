@@ -3,6 +3,7 @@ inventory:
   historic:
     config:
       name: 'Histórico de Transações'
+      size: 54
     depositMessage: '&eTransação de @target'
     withdrawMessage: '&eTransação para @target'
     item:
