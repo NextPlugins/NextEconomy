@@ -16,6 +16,7 @@ import lombok.val;
 import org.bukkit.Material;
 import org.bukkit.entity.ArmorStand;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.metadata.FixedMetadataValue;
 
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -85,6 +86,7 @@ public final class ArmorStandRunnable implements Runnable {
 
             val stand = location.getWorld().spawn(location, ArmorStand.class);
             stand.setVisible(false); // show only after configuration
+            stand.setMetadata("nexteconomy", new FixedMetadataValue(plugin, true));
             stand.setSmall(RankingValue.get(RankingValue::hologramHeight).equalsIgnoreCase("SMALL"));
             stand.setCustomNameVisible(false);
             stand.setGravity(false);

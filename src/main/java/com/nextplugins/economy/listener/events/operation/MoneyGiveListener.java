@@ -13,7 +13,7 @@ import org.bukkit.event.Listener;
 
 public final class MoneyGiveListener implements Listener {
 
-    protected final AccountStorage accountStorage = NextEconomy.getInstance().getAccountStorage();
+    private final AccountStorage accountStorage = NextEconomy.getInstance().getAccountStorage();
 
     @EventHandler(priority = EventPriority.MONITOR)
     public void onDeposit(MoneyGiveEvent event) {

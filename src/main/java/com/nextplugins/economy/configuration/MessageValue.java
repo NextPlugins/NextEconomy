@@ -35,6 +35,7 @@ public final class MessageValue implements ConfigurationInjectable {
     @ConfigField("requests.invalid-target") private String invalidTarget;
     @ConfigField("requests.invalid-money") private String invalidMoney;
     @ConfigField("request.no-time") private String noTime;
+    @ConfigField("request.link-discord") private String linkDiscord;
 
     // receive coins
 
@@ -51,6 +52,10 @@ public final class MessageValue implements ConfigurationInjectable {
     @ConfigField("operations.reset") private String resetBalance;
     @ConfigField("operations.see") private String seeBalance;
     @ConfigField("operations.see-other") private String seeOtherBalance;
+
+    @ConfigField("operations.discord.sendMoneyRequest") private String sendMoneyRequestDiscord;
+    @ConfigField("operations.discord.sended") private String sendedMoneyDiscord;
+    @ConfigField("operations.discord.nocoins") private String noCoinsDiscord;
 
     // transactions
 

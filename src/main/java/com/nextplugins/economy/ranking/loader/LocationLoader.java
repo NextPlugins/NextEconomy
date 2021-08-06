@@ -4,9 +4,7 @@ import com.nextplugins.economy.NextEconomy;
 import com.nextplugins.economy.ranking.manager.LocationManager;
 import com.nextplugins.economy.ranking.util.LocationUtil;
 import lombok.Data;
-import org.bukkit.Location;
-
-import java.util.List;
+import lombok.val;
 
 @Data(staticConstructor = "of")
 public final class LocationLoader {
@@ -17,15 +15,15 @@ public final class LocationLoader {
     public void loadLocations() {
         if (!plugin.getNpcConfig().contains("npc.locations")) return;
 
-        List<String> locations = plugin.getNpcConfig().getStringList("npc.locations");
+        val locations = plugin.getNpcConfig().getStringList("npc.locations");
         if (locations.isEmpty()) {
             plugin.getLogger().info("Não foi encontrado nenhuma localização para gerar os NPCs!");
             return;
         }
 
-        for (String line : locations) {
-            int position = Integer.parseInt(line.split(" ")[0]);
-            Location location = LocationUtil.byStringNoBlock(line.split(" ")[1].split(","));
+        for (val line : locations) {
+            val position = Integer.parseInt(line.split(" ")[0]);
+            val location = LocationUtil.byStringNoBlock(line.split(" ")[1].split(","));
 
             locationManager.getLocationMap().put(position, location);
         }

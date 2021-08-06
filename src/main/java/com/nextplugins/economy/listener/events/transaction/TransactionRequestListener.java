@@ -14,7 +14,7 @@ import org.bukkit.event.Listener;
 
 public final class TransactionRequestListener implements Listener {
 
-    protected final AccountStorage accountStorage = NextEconomy.getInstance().getAccountStorage();
+    private final AccountStorage accountStorage = NextEconomy.getInstance().getAccountStorage();
 
     @EventHandler(priority = EventPriority.MONITOR)
     public void onRequest(TransactionRequestEvent event) {

@@ -8,7 +8,6 @@ import lombok.NoArgsConstructor;
 import lombok.val;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
-import org.bukkit.entity.Player;
 
 /**
  * @author Yuhtin

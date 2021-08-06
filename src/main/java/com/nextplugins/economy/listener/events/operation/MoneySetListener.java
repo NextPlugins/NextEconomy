@@ -14,7 +14,7 @@ import org.bukkit.event.Listener;
 
 public final class MoneySetListener implements Listener {
 
-    protected final AccountStorage accountStorage = NextEconomy.getInstance().getAccountStorage();
+    private final AccountStorage accountStorage = NextEconomy.getInstance().getAccountStorage();
 
     @EventHandler(priority = EventPriority.MONITOR)
     public void onSet(MoneySetEvent event) {

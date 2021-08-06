@@ -7,6 +7,7 @@ messages:
     invalid-target: '&cO jogador solicitado não encontra-se online ou é inexistente.'
     invalid-money: '&cO dinheiro inserido não é válido.'
     no-time: '&cVocê demorou muito para responder'
+    link-discord: ':x: Você precisa ter uma conta vinculada a este discord para usar isto!'
   interaction:
     cancelled: '&cOperação cancelada.'
     invalid: "&cPara cancelar digite 'cancelar'."
@@ -70,6 +71,10 @@ messages:
     add: '&6&LBANCO &fVocê adicionou&e $amount&f ao saldo de&e $player'
     remove: '&6&LBANCO &fVocê removeu&e $amount&f do saldo de&e $player'
     reset: '&6&LBANCO &fVocê zerou o saldo de&e $player'
+    discord:
+      sendMoneyRequest: '📑 Você deseja enviar **$coins** para o jogador **$player** ($discord)?'
+      sended: '💖 Você enviou **$coins** para o jogador **$player** ($discord) com sucesso!'
+      nocoins: ':x: Você não tem coins suficientes para fazer isto!'
   transactions:
     singular: 'transação'
     plural: 'transações'
