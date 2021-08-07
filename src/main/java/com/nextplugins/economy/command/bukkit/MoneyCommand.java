@@ -25,6 +25,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.CommandSender;
+import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.Player;
 
 import java.io.IOException;
@@ -39,21 +40,24 @@ public final class MoneyCommand {
     @Command(
             name = "money",
             description = "Abrir menu do sistema de economia",
-            target = CommandTarget.PLAYER,
             async = true
     )
-    public void moneyCommand(Context<Player> context) {
+    public void moneyCommand(Context<CommandSender> context) {
+
+        if (context.getSender() instanceof ConsoleCommandSender) return;
+
+        val player = (Player) context.getSender();
 
         // disable inventory option
         if (!InventoryValue.get(InventoryValue::enable)) {
 
-            context.getSender().performCommand("money help");
+            player.performCommand("money help");
             return;
 
         }
 
         val inventory = InventoryRegistry.getInstance().getBankView();
-        inventory.openInventory(context.getSender());
+        inventory.openInventory(player);
 
     }
 
@@ -61,10 +65,9 @@ public final class MoneyCommand {
             name = "money.ver",
             description = "Ver o dinheiro de outro jogador",
             usage = "/money ver {jogador}",
-            target = CommandTarget.PLAYER,
             async = true
     )
-    public void moneyViewCommand(Context<Player> context, OfflinePlayer target) {
+    public void moneyViewCommand(Context<CommandSender> context, OfflinePlayer target) {
 
         if (target == null) {
 

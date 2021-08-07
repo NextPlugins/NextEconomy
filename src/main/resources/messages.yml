@@ -72,8 +72,8 @@ messages:
     remove: '&6&LBANCO &fVocê removeu&e $amount&f do saldo de&e $player'
     reset: '&6&LBANCO &fVocê zerou o saldo de&e $player'
     discord:
-      sendMoneyRequest: '📑 Você deseja enviar **$coins** para o jogador **$player** ($discord)?'
-      sended: '💖 Você enviou **$coins** para o jogador **$player** ($discord) com sucesso!'
+      sendMoneyRequest: ':bookmark_tabs: Você deseja enviar **$coins** para o jogador **$player** ($discord)?'
+      sended: ':sparkling_heart: Você enviou **$coins** para o jogador **$player** ($discord) com sucesso!'
       nocoins: ':x: Você não tem coins suficientes para fazer isto!'
       invalidAccount: ':x: O jogador especificado não possui conta no servidor'
   transactions:

@@ -23,6 +23,8 @@ public final class TypeUtil {
 
     public static ItemStack convertFromLegacy(String materialName, int damage) {
 
+        if (materialName == null) return null;
+
         try {
             val material = Material.valueOf("LEGACY_" + materialName);
             return new ItemStack(Bukkit.getUnsafe().fromLegacy(new MaterialData(material, (byte) damage)));

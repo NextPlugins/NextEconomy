@@ -24,6 +24,7 @@ import java.util.logging.Level;
 public final class DiscordCommandRegistry implements Listener {
 
     private Object commandHandler;
+    private boolean enabled;
 
     public void init() {
 
@@ -40,10 +41,14 @@ public final class DiscordCommandRegistry implements Listener {
 
         }
 
+        enabled = true;
+
         val commandMap = new CommandMap(DiscordValue.get(DiscordValue::prefix));
         commandMap.register("money", new ViewMoneyCommand(), "coins", "vermoney", "ver", "coin");
         commandMap.register("top", new TopMoneyCommand(), "topcoins", "moneytop", "rank", "ranking");
-        commandMap.register("pay", new PayMoneyCommand(plugin.getAccountStorage()), "moneypay", "enviar", "send", "pagar");
+
+        val payMoneyCommand = new PayMoneyCommand(plugin.getAccountStorage(), plugin.getPayActionDiscordManager());
+        commandMap.register("pay", payMoneyCommand, "moneypay", "enviar", "send", "pagar");
 
         commandHandler = new CommandHandler(commandMap);
         DiscordSRV.api.subscribe(commandHandler);

@@ -29,6 +29,8 @@ public final class NPCRunnable implements Runnable {
     @Override
     public void run() {
 
+        if (locationManager.getLocationMap().isEmpty()) return;
+
         val accounts = rankingStorage.getRankByCoin();
         if (accounts.isEmpty()) return;
 
@@ -46,7 +48,7 @@ public final class NPCRunnable implements Runnable {
             if (location == null || location.getWorld() == null) {
 
                 plugin.getLogger().warning("A localização " + position.get() + " do ranking é inválida.");
-                return;
+                continue;
 
             }
 

@@ -44,6 +44,8 @@ public final class ArmorStandRunnable implements Runnable {
     @Override
     public void run() {
 
+        if (locationManager.getLocationMap().isEmpty()) return;
+
         val accounts = rankingStorage.getRankByCoin();
         if (accounts.isEmpty()) return;
 

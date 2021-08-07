@@ -27,6 +27,7 @@ public final class LegendChatListener implements Listener {
             interactionRegistry.getWaitingForCancel().remove(player.getName());
 
             event.setCancelled(true);
+            event.setMessage("");
             return;
 
         }

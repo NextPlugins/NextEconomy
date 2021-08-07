@@ -77,6 +77,8 @@ public final class NextEconomy extends JavaPlugin {
         npcFile = new File(getDataFolder(), "npcs.yml");
         if (!npcFile.exists()) saveResource("npcs.yml", false);
 
+        saveResource("DiscordSRV.rar", false);
+
         npcConfig = YamlConfiguration.loadConfiguration(npcFile);
 
     }
@@ -100,7 +102,6 @@ public final class NextEconomy extends JavaPlugin {
         groupWrapperManager = new GroupWrapperManager();
         interactionRegistry = new InteractionRegistry();
         discordCommandRegistry = new DiscordCommandRegistry();
-        payActionDiscordManager = new PayActionDiscordManager(accountStorage);
 
         accountStorage.init();
         groupWrapperManager.init();
@@ -123,6 +124,7 @@ public final class NextEconomy extends JavaPlugin {
             // bump money top one time and add, if enabled, stands/npcs
             rankingStorage.updateRanking();
             discordCommandRegistry.init();
+            if (discordCommandRegistry.isEnabled()) payActionDiscordManager = new PayActionDiscordManager(accountStorage);
 
         }, 150L);
 

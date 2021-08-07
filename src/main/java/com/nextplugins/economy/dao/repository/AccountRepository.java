@@ -87,12 +87,7 @@ public final class AccountRepository {
         );
     }
 
-    private int count = 0;
-
     public void saveOne(Account account) {
-
-        NextEconomy.getInstance().getLogger().log(Level.INFO, () -> "Updating user " + account.getUsername() + " " + count++);
-
         this.sqlExecutor.updateQuery(
                 String.format("REPLACE INTO %s(owner, balance, movimentedBalance, transactionsQuantity, transactions, receiveCoins) VALUES(?,?,?,?,?,?)", TABLE),
                 statement -> {
