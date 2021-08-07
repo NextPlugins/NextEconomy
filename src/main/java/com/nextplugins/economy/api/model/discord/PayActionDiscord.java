@@ -16,8 +16,11 @@ import org.bukkit.OfflinePlayer;
 public class PayActionDiscord {
 
     private final OfflinePlayer player;
+    private final OfflinePlayer target;
+    private final String targetDiscordName;
     private final double value;
     private final String valueFormated;
+
 
 
 }

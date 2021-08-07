@@ -1,6 +1,8 @@
 package com.nextplugins.economy.command.discord.impl;
 
 import com.nextplugins.economy.api.model.account.storage.AccountStorage;
+import com.nextplugins.economy.api.model.discord.PayActionDiscord;
+import com.nextplugins.economy.api.model.discord.manager.PayActionDiscordManager;
 import com.nextplugins.economy.command.discord.Command;
 import com.nextplugins.economy.configuration.DiscordValue;
 import com.nextplugins.economy.configuration.MessageValue;
@@ -22,6 +24,7 @@ import org.bukkit.OfflinePlayer;
 public class PayMoneyCommand implements Command {
 
     private final AccountStorage accountStorage;
+    private final PayActionDiscordManager payActionDiscordManager;
 
     @Override
     public void execute(Message message, String[] args) {
@@ -113,6 +116,13 @@ public class PayMoneyCommand implements Command {
 
         }
 
+        if (accountStorage.findAccount(player) == null) {
+
+            message.reply(MessageValue.get(MessageValue::invalidAccountDiscord)).queue();
+            return;
+
+        }
+
         val value = NumberUtils.parse(args[1]);
         if (!account.hasAmount(value)) {
 
@@ -121,14 +131,19 @@ public class PayMoneyCommand implements Command {
 
         }
 
+        val format = NumberUtils.format(value);
+        val targetDiscordName = user == null ? "Discord não vinculado" : user.getAsTag();
+        OfflinePlayer finalPlayer = player;
         message.reply(MessageValue.get(MessageValue::sendMoneyRequestDiscord)
-                .replace("$coins", NumberUtils.format(value))
+                .replace("$coins", format)
                 .replace("$player", player.getName())
-                .replace("$discord", user == null ? "Discord não vinculado" : user.getAsTag())
+                .replace("$discord", targetDiscordName)
         ).queue(message1 -> {
             message1.addReaction("✅").queue();
             message1.addReaction("❌").queue();
+            payActionDiscordManager.getActions().put(message1.getIdLong(), new PayActionDiscord(offlinePlayer, finalPlayer, targetDiscordName, value, format));
         });
+
 
     }
 

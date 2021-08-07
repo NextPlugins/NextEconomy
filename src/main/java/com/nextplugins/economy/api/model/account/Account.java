@@ -168,6 +168,7 @@ public class Account {
     }
 
     public synchronized boolean hasAmount(double amount) {
+        if (NumberUtils.isInvalid(amount)) return false;
         return this.balance >= amount;
     }
 

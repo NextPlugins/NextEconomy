@@ -9,6 +9,7 @@ import com.henryfabio.sqlprovider.executor.SQLExecutor;
 import com.nextplugins.economy.api.PurseAPI;
 import com.nextplugins.economy.api.backup.BackupManager;
 import com.nextplugins.economy.api.group.GroupWrapperManager;
+import com.nextplugins.economy.api.model.discord.manager.PayActionDiscordManager;
 import com.nextplugins.economy.command.bukkit.registry.CommandRegistry;
 import com.nextplugins.economy.configuration.DiscordValue;
 import com.nextplugins.economy.configuration.FeatureValue;
@@ -60,6 +61,7 @@ public final class NextEconomy extends JavaPlugin {
     private LocationManager locationManager;
     private ConversorManager conversorManager;
     private GroupWrapperManager groupWrapperManager;
+    private PayActionDiscordManager payActionDiscordManager;
 
     private InteractionRegistry interactionRegistry;
     private DiscordCommandRegistry discordCommandRegistry;
@@ -90,6 +92,7 @@ public final class NextEconomy extends JavaPlugin {
 
         accountRepository = new AccountRepository(sqlExecutor);
         accountStorage = new AccountStorage(accountRepository);
+
         conversorManager = new ConversorManager(accountRepository);
         rankingStorage = new RankingStorage();
         backupManager = new BackupManager();
@@ -97,6 +100,7 @@ public final class NextEconomy extends JavaPlugin {
         groupWrapperManager = new GroupWrapperManager();
         interactionRegistry = new InteractionRegistry();
         discordCommandRegistry = new DiscordCommandRegistry();
+        payActionDiscordManager = new PayActionDiscordManager(accountStorage);
 
         accountStorage.init();
         groupWrapperManager.init();

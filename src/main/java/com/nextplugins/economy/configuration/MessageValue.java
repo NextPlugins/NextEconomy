@@ -56,6 +56,7 @@ public final class MessageValue implements ConfigurationInjectable {
     @ConfigField("operations.discord.sendMoneyRequest") private String sendMoneyRequestDiscord;
     @ConfigField("operations.discord.sended") private String sendedMoneyDiscord;
     @ConfigField("operations.discord.nocoins") private String noCoinsDiscord;
+    @ConfigField("operations.discord.invalidAccount") private String invalidAccountDiscord;
 
     // transactions
 
