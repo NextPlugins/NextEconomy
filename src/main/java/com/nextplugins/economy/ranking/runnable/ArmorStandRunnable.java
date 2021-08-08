@@ -4,7 +4,6 @@ import com.gmail.filoghost.holographicdisplays.api.Hologram;
 import com.gmail.filoghost.holographicdisplays.api.HologramsAPI;
 import com.google.common.collect.Lists;
 import com.nextplugins.economy.NextEconomy;
-import com.nextplugins.economy.api.model.account.SimpleAccount;
 import com.nextplugins.economy.configuration.RankingValue;
 import com.nextplugins.economy.ranking.manager.LocationManager;
 import com.nextplugins.economy.ranking.storage.RankingStorage;
@@ -54,20 +53,19 @@ public final class ArmorStandRunnable implements Runnable {
 
         val position = new AtomicInteger(1);
 
-        for (SimpleAccount account : accounts) {
+        val hologramLines = RankingValue.get(RankingValue::hologramArmorStandLines);
+        for (val account : accounts) {
 
             val location = locationManager.getLocation(position.get());
             if (location == null || location.getWorld() == null) {
 
-                plugin.getLogger().warning("A localização " + position + " do ranking é inválida.");
+                plugin.getLogger().warning("A localização " + position.get() + " do ranking é inválida.");
                 continue;
 
             }
 
             val chunk = location.getChunk();
             if (!chunk.isLoaded()) chunk.load(true);
-
-            val hologramLines = RankingValue.get(RankingValue::hologramArmorStandLines);
 
             if (!hologramLines.isEmpty()) {
                 val hologramLocation = location.clone().add(0, 2.15, 0);

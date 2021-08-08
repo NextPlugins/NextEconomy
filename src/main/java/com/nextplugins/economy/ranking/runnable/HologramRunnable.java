@@ -50,7 +50,7 @@ public final class HologramRunnable implements Runnable {
         val chunk = location.getChunk();
         if (!chunk.isLoaded()) chunk.load(true);
 
-        val hologramLocation = location.clone().add(0, accounts.size() / 2.0, 0);
+        val hologramLocation = location.clone().add(0, 5, 0);
         val hologram = HologramsAPI.createHologram(plugin, hologramLocation);
 
         for (val line : RankingValue.get(RankingValue::hologramDefaultLines)) {

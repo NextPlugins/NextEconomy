@@ -15,7 +15,6 @@ import org.bukkit.Bukkit;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 
-import java.time.Instant;
 import java.util.List;
 
 /**
@@ -83,7 +82,7 @@ public class AsyncRankingUpdateListener implements Listener {
         NextEconomy.getInstance().getLogger().info("[Ranking] Iniciando atualização de ranking visual");
 
         // Leave from async. Entities can't be spawned in async.
-        Bukkit.getScheduler().runTask(NextEconomy.getInstance(), instance.getRunnable());
+        Bukkit.getScheduler().runTaskLater(NextEconomy.getInstance(), instance.getRunnable(), 20L);
 
     }
 

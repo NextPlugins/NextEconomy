@@ -10,6 +10,7 @@ import com.nextplugins.economy.ranking.storage.RankingStorage;
 import lombok.RequiredArgsConstructor;
 import lombok.val;
 import net.citizensnpcs.api.CitizensAPI;
+import net.citizensnpcs.api.event.DespawnReason;
 import net.citizensnpcs.api.npc.NPC;
 import org.bukkit.entity.EntityType;
 
@@ -29,7 +30,11 @@ public final class NPCRunnable implements Runnable {
     @Override
     public void run() {
 
-        NPCS.forEach(NPC::despawn);
+        for (NPC npc : NPCS) {
+            npc.despawn();
+            CitizensAPI.getNPCRegistry().deregister(npc);
+        }
+
         HOLOGRAM.forEach(Hologram::delete);
 
         if (locationManager.getLocationMap().isEmpty()) return;
@@ -37,11 +42,9 @@ public final class NPCRunnable implements Runnable {
         val accounts = rankingStorage.getRankByCoin();
         if (accounts.isEmpty()) return;
 
-        val npcRegistry = CitizensAPI.getNPCRegistry();
         val position = new AtomicInteger(1);
 
         val hologramLines = RankingValue.get(RankingValue::hologramArmorStandLines);
-
         for (val account : accounts) {
 
             val location = locationManager.getLocation(position.get());
@@ -59,17 +62,22 @@ public final class NPCRunnable implements Runnable {
                 val hologramLocation = location.clone().add(0, 3, 0);
                 val hologram = HologramsAPI.createHologram(plugin, hologramLocation);
 
+                val format = account.getBalanceFormated();
                 for (int i = 0; i < hologramLines.size(); i++) {
                     hologram.insertTextLine(i, hologramLines.get(i)
                             .replace("$position", String.valueOf(position.get()))
                             .replace("$player", account.getUsername())
                             .replace("$prefix", plugin.getGroupWrapperManager().getPrefix(account.getUsername()))
-                            .replace("$amount", account.getBalanceFormated())
+                            .replace("$amount", format)
                     );
                 }
 
+                hologram.getVisibilityManager().setVisibleByDefault(true);
+
                 HOLOGRAM.add(hologram);
             }
+
+            val npcRegistry = CitizensAPI.getNPCRegistry();
 
             val npc = npcRegistry.createNPC(EntityType.PLAYER, "");
             npc.data().set("player-skin-name", account.getUsername());

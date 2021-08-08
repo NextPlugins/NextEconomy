@@ -4,12 +4,12 @@ import com.nextplugins.economy.api.model.account.storage.AccountStorage;
 import com.nextplugins.economy.api.model.account.transaction.TransactionType;
 import com.nextplugins.economy.api.model.discord.PayActionDiscord;
 import com.nextplugins.economy.configuration.MessageValue;
+import github.scarsz.discordsrv.dependencies.jda.api.entities.Message;
+import github.scarsz.discordsrv.dependencies.jda.api.events.message.guild.react.GuildMessageReactionAddEvent;
+import github.scarsz.discordsrv.dependencies.jda.api.hooks.ListenerAdapter;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.val;
-import net.dv8tion.jda.api.entities.Message;
-import net.dv8tion.jda.api.events.message.guild.react.GuildMessageReactionAddEvent;
-import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.HashMap;

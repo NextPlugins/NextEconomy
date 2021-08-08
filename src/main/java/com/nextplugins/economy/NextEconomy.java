@@ -32,9 +32,10 @@ import com.nextplugins.economy.dao.SQLProvider;
 import com.nextplugins.economy.api.model.account.storage.AccountStorage;
 import com.nextplugins.economy.ranking.storage.RankingStorage;
 import com.nextplugins.economy.vault.registry.VaultHookRegistry;
-import github.scarsz.discordsrv.DiscordSRV;
 import lombok.Getter;
 import lombok.val;
+import net.citizensnpcs.api.CitizensAPI;
+import net.citizensnpcs.api.event.DespawnReason;
 import net.citizensnpcs.api.npc.NPC;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -115,8 +116,6 @@ public final class NextEconomy extends JavaPlugin {
         MetricProvider.of(this).register();
         InventoryRegistry.of(this).register();
 
-        registerPayDiscordManager();
-
         Bukkit.getScheduler().runTaskLater(this, () -> {
 
             PlaceholderRegistry.of(this).register();
@@ -128,6 +127,8 @@ public final class NextEconomy extends JavaPlugin {
 
             // bump money top one time and add, if enabled, stands/npcs
             rankingStorage.updateRanking();
+
+            registerPayDiscordManager();
             discordCommandRegistry.init();
 
         }, 150L);
@@ -162,6 +163,7 @@ public final class NextEconomy extends JavaPlugin {
 
                 for (NPC npc : NPCRunnable.NPCS) {
                     npc.despawn();
+                    CitizensAPI.getNPCRegistry().deregister(npc);
                 }
 
                 for (Hologram hologram : NPCRunnable.HOLOGRAM) {
