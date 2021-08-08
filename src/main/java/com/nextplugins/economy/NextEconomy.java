@@ -123,14 +123,14 @@ public final class NextEconomy extends JavaPlugin {
             CustomRankingRegistry.of(this).register();
             ListenerRegistry.of(this).register();
 
+            if (!PurseAPI.init()) getLogger().info("Sistema de bolsa de valores desativado.");
+            else PurseAPI.getInstance().forceUpdate();
+
             // bump money top one time and add, if enabled, stands/npcs
             rankingStorage.updateRanking();
             discordCommandRegistry.init();
 
         }, 150L);
-
-        if (!PurseAPI.init()) getLogger().info("Sistema de bolsa de valores desativado.");
-        else PurseAPI.getInstance().forceUpdate();
 
         loadTime.stop();
         getLogger().log(Level.INFO, "Plugin inicializado com sucesso. ({0})", loadTime);

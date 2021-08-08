@@ -77,7 +77,7 @@ public final class ListenerRegistry {
 
             } else {
 
-                logger.info("[Chat] Nenhum plugin compátivel de chat foi encontrado (caso exista um, solicite suporte para adição do mesmo)");
+                logger.info("[Chat] Nenhum plugin compatível de chat foi encontrado (caso exista um, solicite suporte para adição do mesmo)");
                 logger.info("[Chat] Usando apenas o chat padrão do minecraft, pode conter problemas");
             }
 

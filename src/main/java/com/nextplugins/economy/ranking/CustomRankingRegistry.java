@@ -38,7 +38,7 @@ public class CustomRankingRegistry {
         if (type.equalsIgnoreCase("nothing")) {
 
             plugin.getLogger().info(
-                    "Cancelando registro de ranking por NPC e ArmorStand, você desativou na ranking.yml."
+                    "Cancelando registro de ranking por NPC, Holograma e ArmorStand, você desativou na ranking.yml."
             );
 
             return;
@@ -49,7 +49,7 @@ public class CustomRankingRegistry {
         if (!pluginManager.isPluginEnabled("HolographicDisplays")) {
 
             plugin.getLogger().log(Level.WARNING,
-                    "Dependência não encontrada ({0}) O ranking em NPC e ArmorStand não serão usados.",
+                    "Dependência não encontrada ({0}) O ranking em NPC, Holograma e ArmorStand não serão usados.",
                     "HolographicDisplays"
             );
 

@@ -44,13 +44,13 @@ public final class ArmorStandRunnable implements Runnable {
     @Override
     public void run() {
 
+        STANDS.forEach(ArmorStand::remove);
+        HOLOGRAM.forEach(Hologram::delete);
+
         if (locationManager.getLocationMap().isEmpty()) return;
 
         val accounts = rankingStorage.getRankByCoin();
         if (accounts.isEmpty()) return;
-
-        STANDS.forEach(ArmorStand::remove);
-        HOLOGRAM.forEach(Hologram::delete);
 
         val position = new AtomicInteger(1);
 

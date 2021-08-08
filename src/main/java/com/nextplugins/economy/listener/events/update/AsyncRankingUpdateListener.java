@@ -75,8 +75,12 @@ public class AsyncRankingUpdateListener implements Listener {
             accounts1.addAll(accountsMovimentation);
         }
 
+        NextEconomy.getInstance().getLogger().info("[Ranking] Atualização do ranking feita com sucesso");
+
         val instance = CustomRankingRegistry.getInstance();
         if (!instance.isEnabled() || accounts.isEmpty()) return;
+
+        NextEconomy.getInstance().getLogger().info("[Ranking] Iniciando atualização de ranking visual");
 
         // Leave from async. Entities can't be spawned in async.
         Bukkit.getScheduler().runTask(NextEconomy.getInstance(), instance.getRunnable());

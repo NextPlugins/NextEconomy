@@ -465,20 +465,6 @@ public final class MoneyCommand {
             return;
         }
 
-        if (position <= 0) {
-            player.sendMessage(MessageValue.get(MessageValue::wrongPosition));
-            return;
-        }
-
-        val limit = RankingValue.get(RankingValue::rankingLimit);
-
-        if (position > limit) {
-            player.sendMessage(MessageValue.get(MessageValue::positionReachedLimit)
-                    .replace("$limit", String.valueOf(limit))
-            );
-            return;
-        }
-
         if (!locationManager.getLocationMap().containsKey(position)) {
             player.sendMessage(MessageValue.get(MessageValue::positionNotYetDefined));
             return;

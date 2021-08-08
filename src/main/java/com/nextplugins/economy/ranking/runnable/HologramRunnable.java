@@ -32,12 +32,12 @@ public final class HologramRunnable implements Runnable {
     @Override
     public void run() {
 
+        HOLOGRAM.forEach(Hologram::delete);
+
         if (locationManager.getLocationMap().isEmpty()) return;
 
         val accounts = rankingStorage.getRankByCoin();
         if (accounts.isEmpty()) return;
-
-        HOLOGRAM.forEach(Hologram::delete);
 
         val location = locationManager.getLocation(1);
         if (location == null || location.getWorld() == null) {

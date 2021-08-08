@@ -52,6 +52,6 @@ ranking:
         - ''
         - '&aAtualizado a cada 30 minutos.'
       armorstand:
-        - '&f$positionº'
+        - '&f&l$positionº Lugar'
         - '$prefix$player'
-        - '&7(&2R$&f$amount&7)'
+        - '&7$amount coins'

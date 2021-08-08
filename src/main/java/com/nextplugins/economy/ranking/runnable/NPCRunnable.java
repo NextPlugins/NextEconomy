@@ -29,13 +29,13 @@ public final class NPCRunnable implements Runnable {
     @Override
     public void run() {
 
+        NPCS.forEach(NPC::despawn);
+        HOLOGRAM.forEach(Hologram::delete);
+
         if (locationManager.getLocationMap().isEmpty()) return;
 
         val accounts = rankingStorage.getRankByCoin();
         if (accounts.isEmpty()) return;
-
-        NPCS.forEach(NPC::despawn);
-        HOLOGRAM.forEach(Hologram::delete);
 
         val npcRegistry = CitizensAPI.getNPCRegistry();
         val position = new AtomicInteger(1);
