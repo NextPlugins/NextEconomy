@@ -51,6 +51,7 @@ public final class MoneyCommand {
         // disable inventory option
         if (!InventoryValue.get(InventoryValue::enable)) {
 
+            player.sendMessage(ColorUtil.colored("&cmas o que é isso"));
             player.performCommand("money help");
             return;
 
@@ -107,6 +108,16 @@ public final class MoneyCommand {
         val toggleMessage = account.isReceiveCoins()
                 ? MessageValue.get(MessageValue::enabledReceiveCoins)
                 : MessageValue.get(MessageValue::disabledReceiveCoins);
+
+        if (toggleMessage == null) {
+
+            context.sendMessage(MessageValue.get(MessageValue::enabledReceiveCoins));
+            context.sendMessage(MessageValue.get(MessageValue::disabledReceiveCoins));
+
+            context.sendMessage("QUE PORRA é ESSA");
+            return;
+
+        }
 
         context.sendMessage(MessageValue.get(MessageValue::receiveCoinsToggled)
                 .replace("$toggleMessage", toggleMessage)
