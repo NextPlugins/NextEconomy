@@ -34,7 +34,7 @@ public final class NPCRunnable implements Runnable {
         val accounts = rankingStorage.getRankByCoin();
         if (accounts.isEmpty()) return;
 
-        NPCS.forEach(NPC::destroy);
+        NPCS.forEach(NPC::despawn);
         HOLOGRAM.forEach(Hologram::delete);
 
         val npcRegistry = CitizensAPI.getNPCRegistry();

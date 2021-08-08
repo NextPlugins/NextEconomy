@@ -31,7 +31,7 @@ public final class DiscordCommandRegistry implements Listener {
         if (!DiscordValue.get(DiscordValue::enable)) return;
 
         val plugin = NextEconomy.getInstance();
-        if (!Bukkit.getPluginManager().isPluginEnabled("DiscordSRV")) {
+        if (plugin.getPayActionDiscordManager() == null) {
 
             plugin.getLogger().log(Level.WARNING,
                     "Dependência não encontrada ({0}) A integração com o discord não será usada.",

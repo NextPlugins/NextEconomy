@@ -30,6 +30,7 @@ messages:
       - "  &fDigite '&ccancelar&f' para cancelar."
       - ""
   purse:
+    chatMessage: '&3&lBOLSA &fO valor atual da bolsa está em &b$value'
     high-status: 'em alta'
     down-status: 'em queda'
     equals:
@@ -60,10 +61,10 @@ messages:
   receiveCoins:
     # Caso o jogador que está tentando enviar tenha a permissão nexteconony.bypass
     # poderá enviar moedas para o jogador mesmo que ele tenha desativado
-    disabled: '&cEste jogador está com o recebimento de moedas desativado.'
+    toggleOff: '&cEste jogador está com o recebimento de moedas desativado.'
     message: '&6&LBANCO &fVocê $toggleMessage &fo recebimento de moedas.'
-    on: '&a&LATIVOU'
-    off: '&c&LDESATIVOU'
+    enabled: '&a&LATIVOU'
+    disabled: '&c&LDESATIVOU'
   operations:
     see: '&6&LBANCO &fVocê possui &e$amount&f de dinheiro.'
     see-other: '&6&LBANCO &fO jogador &e$player&f possui&e $amount&f de dinheiro.'
@@ -72,6 +73,7 @@ messages:
     remove: '&6&LBANCO &fVocê removeu&e $amount&f do saldo de&e $player'
     reset: '&6&LBANCO &fVocê zerou o saldo de&e $player'
     discord:
+      disabled: '&cEsta função está desabilitada.'
       sendMoneyRequest: ':bookmark_tabs: Você deseja enviar **$coins** para o jogador **$player** ($discord)?'
       sended: ':sparkling_heart: Você enviou **$coins** para o jogador **$player** ($discord) com sucesso!'
       nocoins: ':x: Você não tem coins suficientes para fazer isto!'
@@ -121,6 +123,7 @@ messages:
       - '&a/money top &8- &7Veja os jogadores com as maiores fortunas de dinheiro do servidor.'
       - '&a/money toggle &8- &7Ative/Desative o recebimento de coins.'
       - '&a/money vincular &8- &7Vincular sua conta com o discord'
+      - '&a/money desvincular &8- &7Desvincular sua conta do discord'
       - '&a/money ajuda &8- &7Veja esta mensagem.'
       - '&a/bolsa &8- &7Sistema de bolsa.'
       - '&a/cheque &8- &7Sistema de cheque.'
@@ -134,6 +137,7 @@ messages:
       - '&a/money enviar (jogador) (quantia) &8- &7Envie uma quantia de dinheiro para outra pessoa.'
       - '&a/money toggle &8- &7Ative/Desative o recebimento de coins.'
       - '&a/money vincular &8- &7Vincular sua conta com o discord.'
+      - '&a/money desvincular &8- &7Desvincular sua conta do discord'
       - '&a/money top &8- &7Veja os jogadores com as maiores fortunas de dinheiro do servidor.'
       - '&a/money ajuda &8- &7Veja esta mensagem.'
       - '&a/bolsa &8- &7Sistema de bolsa.'
@@ -153,7 +157,7 @@ messages:
       - '&a/ne &8- &7Exibir esta mensagem'
       - '&a/ne converter (tipo) &8- &7Converta os dados entre mysql e sqlite'
       - '&a/ne backup [nome] &8- &7Criar um novo backup'
-      - '&a/ne readbackup (nome) (backup ou restaurar) &8- &7Ler um backup criado anteriormente'
+      - '&a/ne read (nome) (backup ou restaurar) &8- &7Ler um backup ou ponto de restauração'
       - ''
       - ' &cAo ler um backup, todos os dados de jogadores serão apagados,'
       - ' &ce os dados do backup serão utilizados.'

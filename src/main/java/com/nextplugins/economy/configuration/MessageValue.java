@@ -39,10 +39,10 @@ public final class MessageValue implements ConfigurationInjectable {
 
     // receive coins
 
-    @ConfigField("receiveCoins.disabled") private String disabledCoins;
+    @ConfigField("receiveCoins.toggleOff") private String disabledCoins;
     @ConfigField("receiveCoins.message") private String receiveCoinsToggled;
-    @ConfigField("receiveCoins.on") private String enabledReceiveCoins;
-    @ConfigField("receiveCoins.off") private String disabledReceiveCoins;
+    @ConfigField("receiveCoins.enabled") private String enabledReceiveCoins;
+    @ConfigField("receiveCoins.disabled") private String disabledReceiveCoins;
 
     // operations
 
@@ -53,6 +53,7 @@ public final class MessageValue implements ConfigurationInjectable {
     @ConfigField("operations.see") private String seeBalance;
     @ConfigField("operations.see-other") private String seeOtherBalance;
 
+    @ConfigField("operations.discord.disabled") private String disabledDiscord;
     @ConfigField("operations.discord.sendMoneyRequest") private String sendMoneyRequestDiscord;
     @ConfigField("operations.discord.sended") private String sendedMoneyDiscord;
     @ConfigField("operations.discord.nocoins") private String noCoinsDiscord;
@@ -77,6 +78,8 @@ public final class MessageValue implements ConfigurationInjectable {
     @ConfigField("interaction.confirm") private List<String> interactionConfirm;
 
     // purse system
+
+    @ConfigField("purse.chatMessage") private String purseChatMessage;
 
     @ConfigField("purse.devalued.icon") private String devaluedIcon;
     @ConfigField("purse.devalued.message") private String devaluedMessage;

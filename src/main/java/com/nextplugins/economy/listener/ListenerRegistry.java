@@ -1,6 +1,7 @@
 package com.nextplugins.economy.listener;
 
 import com.nextplugins.economy.NextEconomy;
+import com.nextplugins.economy.listener.events.chat.DefaultChatListener;
 import com.nextplugins.economy.listener.events.chat.LegendChatListener;
 import com.nextplugins.economy.listener.events.chat.OpeNChatListener;
 import com.nextplugins.economy.listener.events.chat.UltimateChatListener;
@@ -43,6 +44,7 @@ public final class ListenerRegistry {
                     new MoneyTopUpdateListener(),
                     new BlockArmorStandBreak(),
                     new AsyncRankingUpdateListener(accountRepository, rankingStorage),
+                    new DefaultChatListener(interactionRegistry),
                     new CheckInteractListener(plugin.getAccountStorage())
             );
 
@@ -53,24 +55,30 @@ public final class ListenerRegistry {
                         plugin
                 );
 
-            }
+                logger.info("[Chat] Dependência 'nChat' sendo utilizada como plugin de Chat");
 
-            if (pluginManager.isPluginEnabled("LegendChat")) {
+            } else if (pluginManager.isPluginEnabled("LegendChat")) {
 
                 pluginManager.registerEvents(
                         new LegendChatListener(rankingStorage, interactionRegistry),
                         plugin
                 );
 
-            }
+                logger.info("[Chat] Dependência 'LegendChat' sendo utilizada como plugin de Chat");
 
-            if (pluginManager.isPluginEnabled("UltimateChat")) {
+            } else if (pluginManager.isPluginEnabled("UltimateChat")) {
 
                 pluginManager.registerEvents(
                         new UltimateChatListener(rankingStorage, interactionRegistry),
                         plugin
                 );
 
+                logger.info("[Chat] Dependência 'UltimateChat' sendo utilizada como plugin de Chat");
+
+            } else {
+
+                logger.info("[Chat] Nenhum plugin compátivel de chat foi encontrado (caso exista um, solicite suporte para adição do mesmo)");
+                logger.info("[Chat] Usando apenas o chat padrão do minecraft, pode conter problemas");
             }
 
             listeners.forEach(listener -> pluginManager.registerEvents(listener, plugin));

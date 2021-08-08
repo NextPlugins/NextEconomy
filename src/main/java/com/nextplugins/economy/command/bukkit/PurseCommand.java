@@ -1,6 +1,8 @@
 package com.nextplugins.economy.command.bukkit;
 
 import com.nextplugins.economy.api.PurseAPI;
+import com.nextplugins.economy.configuration.InventoryValue;
+import com.nextplugins.economy.configuration.MessageValue;
 import com.nextplugins.economy.util.ColorUtil;
 import com.nextplugins.economy.util.NumberUtils;
 import lombok.val;
@@ -27,6 +29,13 @@ public class PurseCommand {
         if (!PurseAPI.isAvaliable()) {
 
             context.sendMessage(ColorUtil.colored("&cSistema desativado."));
+            return;
+
+        }
+
+        if (!InventoryValue.get(InventoryValue::enable)) {
+
+            context.sendMessage(MessageValue.get(MessageValue::purseChatMessage).replace("$value", PurseAPI.getInstance().getPurseFormatedWithIcon()));
             return;
 
         }

@@ -16,7 +16,7 @@ public final class LegendChatListener implements Listener {
     private final RankingStorage rankingStorage;
     private final InteractionRegistry interactionRegistry;
 
-    @EventHandler(priority = EventPriority.LOW)
+    @EventHandler(priority = EventPriority.HIGHEST)
     public void onPlayerChat(ChatMessageEvent event) {
 
         if (event.isCancelled()) return;

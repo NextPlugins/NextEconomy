@@ -23,6 +23,7 @@ database:
 plugin:
   configuration:
     # Habilitar backups quando servidor reinicia
+    # Recomendo utilizar apenas quando o servidor já estiver aberto
     autobackup: true
     # Sistema de bolsa de valores
     purse:

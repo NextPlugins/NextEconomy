@@ -51,7 +51,6 @@ public final class MoneyCommand {
         // disable inventory option
         if (!InventoryValue.get(InventoryValue::enable)) {
 
-            player.sendMessage(ColorUtil.colored("&cmas o que é isso"));
             player.performCommand("money help");
             return;
 
@@ -109,16 +108,6 @@ public final class MoneyCommand {
                 ? MessageValue.get(MessageValue::enabledReceiveCoins)
                 : MessageValue.get(MessageValue::disabledReceiveCoins);
 
-        if (toggleMessage == null) {
-
-            context.sendMessage(MessageValue.get(MessageValue::enabledReceiveCoins));
-            context.sendMessage(MessageValue.get(MessageValue::disabledReceiveCoins));
-
-            context.sendMessage("QUE PORRA é ESSA");
-            return;
-
-        }
-
         context.sendMessage(MessageValue.get(MessageValue::receiveCoinsToggled)
                 .replace("$toggleMessage", toggleMessage)
         );
@@ -167,10 +156,47 @@ public final class MoneyCommand {
     }
 
     @Command(
+            name = "money.vincular",
+            aliases = {"sync"},
+            description = "Vincular a conta com o discord",
+            target = CommandTarget.PLAYER,
+            async = true
+    )
+    public void moneySyncCommand(Context<Player> context) {
+
+        if (!NextEconomy.getInstance().getDiscordCommandRegistry().isEnabled()) {
+
+            context.getSender().sendMessage(MessageValue.get(MessageValue::disabledDiscord));
+            return;
+
+        }
+
+        context.getSender().performCommand("discord link");
+    }
+
+    @Command(
+            name = "money.desvincular",
+            aliases = {"unsync"},
+            description = "Desvincular a conta com o discord",
+            target = CommandTarget.PLAYER,
+            async = true
+    )
+    public void moneyUnsyncCommand(Context<Player> context) {
+
+        if (!NextEconomy.getInstance().getDiscordCommandRegistry().isEnabled()) {
+
+            context.getSender().sendMessage(MessageValue.get(MessageValue::disabledDiscord));
+            return;
+
+        }
+
+        context.getSender().performCommand("discord unlink");
+    }
+
+    @Command(
             name = "money.help",
             aliases = {"ajuda", "comandos"},
             description = "Utilize para receber ajuda com os comandos do plugin.",
-            permission = "nexteconomy.command.help",
             async = true
     )
     public void moneyHelpCommand(Context<CommandSender> context) {

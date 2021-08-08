@@ -102,11 +102,12 @@ public final class NextEconomy extends JavaPlugin {
         groupWrapperManager = new GroupWrapperManager();
         interactionRegistry = new InteractionRegistry();
         discordCommandRegistry = new DiscordCommandRegistry();
-        registerPayDiscordManager();
 
         accountStorage.init();
         groupWrapperManager.init();
         interactionRegistry.init();
+
+        registerPayDiscordManager();
 
         InventoryManager.enable(this);
 
@@ -141,14 +142,7 @@ public final class NextEconomy extends JavaPlugin {
 
         accountStorage.getCache().synchronous().invalidateAll();
 
-        if (DiscordValue.get(DiscordValue::enable) && Bukkit.getPluginManager().isPluginEnabled("DiscordSRV")) {
-
-            val discordAPI = DiscordSRV.api;
-
-            val commandHandler = discordCommandRegistry.getCommandHandler();
-            if (commandHandler != null) discordAPI.unsubscribe(commandHandler);
-
-        }
+        unloadRanking();
 
         if (FeatureValue.get(FeatureValue::autoBackup)) {
 
@@ -159,12 +153,15 @@ public final class NextEconomy extends JavaPlugin {
 
         }
 
+    }
+
+    private void unloadRanking() {
         if (CustomRankingRegistry.getInstance().isEnabled()) {
             String type = RankingValue.get(RankingValue::npcType);
             if (type.equalsIgnoreCase("npc")) {
 
                 for (NPC npc : NPCRunnable.NPCS) {
-                    npc.destroy();
+                    npc.despawn();
                 }
 
                 for (Hologram hologram : NPCRunnable.HOLOGRAM) {
@@ -193,28 +190,18 @@ public final class NextEconomy extends JavaPlugin {
 
             }
         }
+    }
 
+    private void registerPayDiscordManager() {
+        if (!DiscordValue.get(DiscordValue::enable) || !Bukkit.getPluginManager().isPluginEnabled("DiscordSRV")) {
+            return;
+        }
+        payActionDiscordManager = new PayActionDiscordManager(accountStorage);
+        if (payActionDiscordManager == null) getLogger().info("que porra é essa caralho");
     }
 
     public static NextEconomy getInstance() {
         return getPlugin(NextEconomy.class);
-    }
-
-    private void registerPayDiscordManager() {
-        if (!DiscordValue.get(DiscordValue::enable)) return;
-
-        val plugin = NextEconomy.getInstance();
-        if (!Bukkit.getPluginManager().isPluginEnabled("DiscordSRV")) {
-
-            plugin.getLogger().log(Level.WARNING,
-                    "Dependência não encontrada ({0}) A integração com o discord não será usada.",
-                    "DiscordSRV"
-            );
-            return;
-
-        }
-
-        payActionDiscordManager = new PayActionDiscordManager(accountStorage);
     }
 
 }

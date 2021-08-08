@@ -91,7 +91,7 @@ public class Account {
 
     public synchronized void setBalance(double quantity) {
 
-        if (quantity < 1 || Double.isNaN(quantity) || Double.isInfinite(quantity)) return;
+        if (NumberUtils.isInvalid(quantity)) return;
         this.balance = quantity;
 
     }
@@ -108,7 +108,6 @@ public class Account {
                                                           double quantity,
                                                           @NotNull TransactionType transactionType) {
 
-        var amount = quantity;
         if (NumberUtils.isInvalid(quantity)) {
             return new EconomyResponse(
                     quantity, balance,
@@ -119,7 +118,7 @@ public class Account {
 
         if (transactionType == TransactionType.WITHDRAW) {
 
-            if (!hasAmount(amount)) {
+            if (!hasAmount(quantity)) {
 
                 return new EconomyResponse(
                         quantity, balance, EconomyResponse.ResponseType.FAILURE,
@@ -129,7 +128,7 @@ public class Account {
 
             }
 
-            movimentedBalance += amount;
+            movimentedBalance += quantity;
             this.balance -= quantity;
 
         } else this.balance += quantity;
@@ -141,7 +140,7 @@ public class Account {
 
             val historic = AccountBankHistoric.builder()
                     .target(owner)
-                    .amount(amount)
+                    .amount(quantity)
                     .type(transactionType)
                     .build();
 

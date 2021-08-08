@@ -84,9 +84,9 @@ public final class NextEconomyCommand {
     }
 
     @Command(
-            name = "nexteconomy.readbackup",
+            name = "nexteconomy.read",
             permission = "nexteconomy.admin",
-            usage = "/ne readbackup (nome) (backup ou restaurar)",
+            usage = "/ne read (nome) (backup ou restaurar)",
             async = true
     )
     public void onReadBackupCommand(Context<CommandSender> context,
