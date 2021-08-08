@@ -102,6 +102,7 @@ public final class NextEconomy extends JavaPlugin {
         groupWrapperManager = new GroupWrapperManager();
         interactionRegistry = new InteractionRegistry();
         discordCommandRegistry = new DiscordCommandRegistry();
+        registerPayDiscordManager();
 
         accountStorage.init();
         groupWrapperManager.init();
@@ -124,7 +125,6 @@ public final class NextEconomy extends JavaPlugin {
             // bump money top one time and add, if enabled, stands/npcs
             rankingStorage.updateRanking();
             discordCommandRegistry.init();
-            if (discordCommandRegistry.isEnabled()) payActionDiscordManager = new PayActionDiscordManager(accountStorage);
 
         }, 150L);
 
@@ -198,6 +198,23 @@ public final class NextEconomy extends JavaPlugin {
 
     public static NextEconomy getInstance() {
         return getPlugin(NextEconomy.class);
+    }
+
+    private void registerPayDiscordManager() {
+        if (!DiscordValue.get(DiscordValue::enable)) return;
+
+        val plugin = NextEconomy.getInstance();
+        if (!Bukkit.getPluginManager().isPluginEnabled("DiscordSRV")) {
+
+            plugin.getLogger().log(Level.WARNING,
+                    "Dependência não encontrada ({0}) A integração com o discord não será usada.",
+                    "DiscordSRV"
+            );
+            return;
+
+        }
+
+        payActionDiscordManager = new PayActionDiscordManager(accountStorage);
     }
 
 }
