@@ -107,8 +107,6 @@ public final class NextEconomy extends JavaPlugin {
         groupWrapperManager.init();
         interactionRegistry.init();
 
-        registerPayDiscordManager();
-
         InventoryManager.enable(this);
 
         ConfigurationRegistry.of(this).register();
@@ -116,6 +114,8 @@ public final class NextEconomy extends JavaPlugin {
         VaultHookRegistry.of(this).register();
         MetricProvider.of(this).register();
         InventoryRegistry.of(this).register();
+
+        registerPayDiscordManager();
 
         Bukkit.getScheduler().runTaskLater(this, () -> {
 
@@ -193,11 +193,8 @@ public final class NextEconomy extends JavaPlugin {
     }
 
     private void registerPayDiscordManager() {
-        if (!DiscordValue.get(DiscordValue::enable) || !Bukkit.getPluginManager().isPluginEnabled("DiscordSRV")) {
-            return;
-        }
+        if (!DiscordValue.get(DiscordValue::enable) || !Bukkit.getPluginManager().isPluginEnabled("DiscordSRV")) return;
         payActionDiscordManager = new PayActionDiscordManager(accountStorage);
-        if (payActionDiscordManager == null) getLogger().info("que porra é essa caralho");
     }
 
     public static NextEconomy getInstance() {
