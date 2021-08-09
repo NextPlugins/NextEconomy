@@ -3,6 +3,7 @@ package com.nextplugins.economy.api;
 import com.google.common.collect.Sets;
 import com.nextplugins.economy.NextEconomy;
 import com.nextplugins.economy.api.model.account.Account;
+import com.nextplugins.economy.api.model.account.SimpleAccount;
 import com.nextplugins.economy.api.model.account.storage.AccountStorage;
 import com.nextplugins.economy.dao.repository.AccountRepository;
 import com.nextplugins.economy.ranking.storage.RankingStorage;
@@ -24,10 +25,6 @@ import java.util.stream.Stream;
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public final class NextEconomyAPI {
 
-    /**
-     * Only for cached accounts
-     * Access {@link AccountRepository} to make operations direct to/from sql
-     */
     @Getter private static final NextEconomyAPI instance = new NextEconomyAPI();
 
     private final AccountRepository accountRepository = NextEconomy.getInstance().getAccountRepository();
@@ -82,7 +79,8 @@ public final class NextEconomyAPI {
      * @return {@link Stream} aplicated with filter
      * @deprecated Since 2.0.0
      */
-    public @Deprecated @NotNull Stream<Account> findAccountByFilter(@NotNull Predicate<Account> filter) {
+    public @Deprecated
+    @NotNull Stream<Account> findAccountByFilter(@NotNull Predicate<Account> filter) {
         return retrieveCachedAccountsAsync().stream()
                 .map(future -> {
 
@@ -103,8 +101,25 @@ public final class NextEconomyAPI {
      * @return {@link Set} with accounts
      * @deprecated Since 2.0.0
      */
-    public @Deprecated @NotNull Set<CompletableFuture<Account>> allAccounts() {
+    public @Deprecated
+    @NotNull Set<CompletableFuture<Account>> allAccounts() {
         return Sets.newHashSet(retrieveCachedAccountsAsync());
+    }
+
+    /**
+     * Retrieve top player
+     *
+     * @param movimentationRanking if true, will get the player with the largest amount of money moved, instead of the richest
+     * @return player's account
+     */
+    public @Nullable SimpleAccount getTopPlayer(boolean movimentationRanking) {
+        if (movimentationRanking) {
+            if (rankingStorage.getRankByMovimentation().isEmpty()) return null;
+            else return rankingStorage.getRankByMovimentation().get(0);
+        } else {
+            if (rankingStorage.getRankByCoin().isEmpty()) return null;
+            else return rankingStorage.getRankByCoin().get(0);
+        }
     }
 
 }

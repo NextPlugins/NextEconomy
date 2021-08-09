@@ -21,10 +21,10 @@ ranking:
         - ' &7Dinheiro movimentado: &e$movimentation'
         - ''
   npc:
-    # ARMORSTAND - Armorstands com cabeça de cada jogador
+    # ARMORSTAND - Armorstands com cabeça de cada jogador [Recomendado para multi-posições]
     # NPC - Boneco da altua e mesma skin do jogador
-    # HOLOGRAM - Apenas em um holograma (suporta apenas 1 posição)
-    # NOTHING - Desativar ArmorStand e NPC
+    # HOLOGRAM - Apenas um holograma com todos os jogadores (suporta apenas 1 posição) [Melhor opção]
+    # NOTHING - Desativar todos os formatos de ranking (mesmo que não sete nenhuma posição do ranking, desative aqui para reduzir o tempo de startup)
     type: ARMORSTAND
     # Esta opção só irá afetar caso o tipo de npc
     # seja ARMORSTAND. Isto afetará o tamanho do ArmorStand
@@ -40,10 +40,10 @@ ranking:
       leggings: '#31c456' # Verde claro
       # Cor da bota de couro
       boots: '#c43d31' # Vermelho
-    hologram:
-      default:
+    messages:
+      hologram:
         limit: 10
-        line: '&e$position $prefix$player &8- &7$amount &2$'
+        line: '&e$positionº &7$prefix$player &8- &7$amount &2$'
         modal:
         - '&b&LTOP JOGADORES'
         - '&7(Coins)'
@@ -51,7 +51,8 @@ ranking:
         - '@players'
         - ''
         - '&aAtualizado a cada 30 minutos.'
-      armorstand:
+      default:
+        modal:
         - '&f&l$positionº Lugar'
         - '&7$prefix$player'
         - '&a$ $amount'
