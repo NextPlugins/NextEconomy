@@ -2,7 +2,6 @@ package com.nextplugins.economy.api.backup.runnable;
 
 import com.google.common.base.Stopwatch;
 import com.google.common.collect.Lists;
-import com.google.common.collect.Sets;
 import com.nextplugins.economy.NextEconomy;
 import com.nextplugins.economy.api.backup.BackupManager;
 import com.nextplugins.economy.api.backup.response.ResponseType;
@@ -78,8 +77,7 @@ public final class BackupReaderRunnable implements Runnable {
             accountRepository.recreateTable();
             logger.warning("Tabela com as contas do servidor foi apagada!");
 
-            String type = restauration ? "ponto de restauração" : "backup";
-
+            val type = restauration ? "ponto de restauração" : "backup";
             logger.info("Iniciando leitura do " + type + ".");
 
             val stopwatch = Stopwatch.createStarted();
@@ -87,7 +85,7 @@ public final class BackupReaderRunnable implements Runnable {
 
             conversorManager.startConversion(
                     commandSender,
-                    Sets.newHashSet(accounts),
+                    accounts,
                     "Lendo " + type,
                     stopwatch
             );

@@ -28,11 +28,9 @@ public class Account {
     private double movimentedBalance;
 
     private int transactionsQuantity;
-    @Builder.Default
-    private LinkedList<AccountBankHistoric> transactions = Lists.newLinkedList();
+    @Builder.Default private transient LinkedList<AccountBankHistoric> transactions = Lists.newLinkedList();
 
-    @Builder.Default
-    private boolean receiveCoins = true;
+    @Builder.Default private boolean receiveCoins = true;
 
     public static Account createDefault(String name) {
 

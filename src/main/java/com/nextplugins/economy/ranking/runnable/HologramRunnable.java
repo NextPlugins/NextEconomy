@@ -33,6 +33,7 @@ public final class HologramRunnable implements Runnable {
     public void run() {
 
         HOLOGRAM.forEach(Hologram::delete);
+        HOLOGRAM.clear();
 
         if (locationManager.getLocationMap().isEmpty()) return;
 

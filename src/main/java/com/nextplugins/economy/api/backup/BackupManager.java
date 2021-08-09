@@ -63,7 +63,7 @@ public final class BackupManager {
 
         if (file.exists()) {
 
-            plugin.getLogger().info("O nome inserido no arquivo de backup já existe.");
+            plugin.getLogger().info("Já existe um backup com este nome.");
             return new BackupResponse(null, ResponseType.NAME_IN_USE);
 
         }

@@ -16,13 +16,15 @@ public class BlockArmorStandBreak implements Listener {
 
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onDeath(EntityDamageEvent event) {
-        event.setCancelled(event.getEntityType() == EntityType.ARMOR_STAND && event.getEntity().hasMetadata("nexteconomy"));
+        if (event.getEntityType() != EntityType.ARMOR_STAND || !event.getEntity().hasMetadata("nexteconomy")) return;
+        event.setCancelled(true);
     }
 
     @EventHandler
     public void onInteract(PlayerInteractAtEntityEvent event) {
         val entity = event.getRightClicked();
-        event.setCancelled(entity.getType() == EntityType.ARMOR_STAND && entity.hasMetadata("nexteconomy"));
+        if (entity.getType() != EntityType.ARMOR_STAND || !entity.hasMetadata("nexteconomy")) return;
+        event.setCancelled(true);
     }
 
 }

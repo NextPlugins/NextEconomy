@@ -4,7 +4,7 @@ import com.nextplugins.economy.api.model.account.transaction.TransactionType;
 import lombok.Builder;
 import lombok.Data;
 
-import java.io.Serializable;
+import java.util.Comparator;
 
 /**
  * @author Yuhtin
@@ -12,7 +12,7 @@ import java.io.Serializable;
  */
 @Data
 @Builder
-public final class AccountBankHistoric implements Serializable {
+public final class AccountBankHistoric implements Comparator<AccountBankHistoric> {
 
     private final String target;
     private final double amount;
@@ -20,4 +20,8 @@ public final class AccountBankHistoric implements Serializable {
 
     @Builder.Default private final long milli = System.currentTimeMillis();
 
+    @Override
+    public int compare(AccountBankHistoric o1, AccountBankHistoric o2) {
+        return Long.compare(o1.milli, o2.milli);
+    }
 }

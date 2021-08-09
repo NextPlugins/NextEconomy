@@ -23,6 +23,8 @@ import org.bukkit.command.CommandSender;
 import java.io.File;
 import java.util.Arrays;
 import java.util.HashSet;
+import java.util.Objects;
+import java.util.stream.Collectors;
 
 /**
  * @author Yuhtin
@@ -193,18 +195,15 @@ public final class NextEconomyCommand {
 
         val repository = new AccountRepository(new SQLExecutor(sqlConnector));
 
-        val accounts = new HashSet<Account>();
-        for (Account account : repository.selectAll("")) {
-
-            if (account == null) continue;
-            accounts.add(account);
-
-        }
+        val accounts = repository.selectAll("")
+                .stream()
+                .filter(Objects::nonNull)
+                .collect(Collectors.toList());
 
         if (accounts.isEmpty()) {
 
             context.sendMessage(ColorUtil.colored(
-                    "&aNão tem nenhum dado para converter."
+                    "&cOPS! Não tem nenhum dado para converter."
             ));
             return;
 

@@ -10,8 +10,6 @@ import com.nextplugins.economy.ranking.storage.RankingStorage;
 import lombok.RequiredArgsConstructor;
 import lombok.val;
 import net.citizensnpcs.api.CitizensAPI;
-import net.citizensnpcs.api.event.DespawnReason;
-import net.citizensnpcs.api.npc.NPC;
 import org.bukkit.entity.EntityType;
 
 import java.util.List;
@@ -20,7 +18,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 @RequiredArgsConstructor
 public final class NPCRunnable implements Runnable {
 
-    public static final List<NPC> NPCS = Lists.newLinkedList();
+    public static final List<Integer> NPCS = Lists.newLinkedList();
     public static final List<Hologram> HOLOGRAM = Lists.newLinkedList();
 
     private final NextEconomy plugin;
@@ -30,12 +28,18 @@ public final class NPCRunnable implements Runnable {
     @Override
     public void run() {
 
-        for (NPC npc : NPCS) {
+        for (val id : NPCS) {
+            val npc = CitizensAPI.getNPCRegistry().getById(id);
+            if (npc == null) continue;
+
             npc.despawn();
-            CitizensAPI.getNPCRegistry().deregister(npc);
+            npc.destroy();
         }
 
         HOLOGRAM.forEach(Hologram::delete);
+
+        NPCS.clear();
+        HOLOGRAM.clear();
 
         if (locationManager.getLocationMap().isEmpty()) return;
 
@@ -72,8 +76,6 @@ public final class NPCRunnable implements Runnable {
                     );
                 }
 
-                hologram.getVisibilityManager().setVisibleByDefault(true);
-
                 HOLOGRAM.add(hologram);
             }
 
@@ -84,7 +86,7 @@ public final class NPCRunnable implements Runnable {
             npc.setProtected(true);
             npc.spawn(location);
 
-            NPCS.add(npc);
+            NPCS.add(npc.getId());
             position.getAndIncrement();
         }
 

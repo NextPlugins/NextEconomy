@@ -46,6 +46,9 @@ public final class ArmorStandRunnable implements Runnable {
         STANDS.forEach(ArmorStand::remove);
         HOLOGRAM.forEach(Hologram::delete);
 
+        HOLOGRAM.clear();
+        STANDS.clear();
+
         if (locationManager.getLocationMap().isEmpty()) return;
 
         val accounts = rankingStorage.getRankByCoin();
