@@ -1,13 +1,15 @@
 package com.nextplugins.economy.api.backup.runnable;
 
 import com.google.common.base.Stopwatch;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.reflect.TypeToken;
 import com.nextplugins.economy.NextEconomy;
 import com.nextplugins.economy.api.backup.BackupManager;
 import com.nextplugins.economy.api.backup.response.ResponseType;
 import com.nextplugins.economy.api.conversor.ConversorManager;
 import com.nextplugins.economy.api.model.account.Account;
 import com.nextplugins.economy.util.ColorUtil;
-import com.nextplugins.economy.util.ListSerializerHelper;
 import lombok.RequiredArgsConstructor;
 import lombok.val;
 import org.bukkit.command.CommandSender;
@@ -15,6 +17,8 @@ import org.bukkit.command.CommandSender;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author Yuhtin
@@ -24,7 +28,7 @@ import java.io.IOException;
 @RequiredArgsConstructor
 public final class BackupReaderRunnable implements Runnable {
 
-    private static final ListSerializerHelper<Account> PARSER = new ListSerializerHelper<>();
+    private static final Gson PARSER = new GsonBuilder().setPrettyPrinting().create();
 
     private final CommandSender commandSender;
     private final ConversorManager conversorManager;
@@ -55,10 +59,7 @@ public final class BackupReaderRunnable implements Runnable {
                 );
 
                 if (response.getResponseType() == ResponseType.SUCCESS) {
-
                     restaurationFile = response.getFile();
-                    logger.info("O ponto '" + restaurationFile.getName() + "' de restauração foi criado com sucesso");
-
                 } else {
 
                     logger.warning("O ponto de restauração não pode ser criado. (" + response.getResponseType() + ")");
@@ -80,7 +81,9 @@ public final class BackupReaderRunnable implements Runnable {
             logger.info("Iniciando leitura do " + type + ".");
 
             val stopwatch = Stopwatch.createStarted();
-            val accounts = PARSER.fromJson(new FileReader(this.file));
+
+            val typeToken = new TypeToken<ArrayList<Account>>() {}.getType();
+            List<Account> accounts = PARSER.fromJson(new FileReader(this.file), typeToken);
 
             conversorManager.startConversion(
                     commandSender,

@@ -13,7 +13,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.val;
 
 import java.util.Set;
-import java.util.logging.Level;
 
 @RequiredArgsConstructor
 public final class AccountRepository {
@@ -89,7 +88,7 @@ public final class AccountRepository {
 
     public void saveOne(Account account) {
         this.sqlExecutor.updateQuery(
-                String.format("REPLACE INTO %s(owner, balance, movimentedBalance, transactionsQuantity, transactions, receiveCoins) VALUES(?,?,?,?,?,?)", TABLE),
+                String.format("REPLACE INTO %s VALUES(?,?,?,?,?,?)", TABLE),
                 statement -> {
 
                     statement.set(1, account.getUsername());

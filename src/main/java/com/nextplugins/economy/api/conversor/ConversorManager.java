@@ -7,6 +7,7 @@ import com.nextplugins.economy.dao.repository.AccountRepository;
 import com.nextplugins.economy.util.ActionBarUtils;
 import com.nextplugins.economy.util.ColorUtil;
 import lombok.Data;
+import lombok.val;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.ConsoleCommandSender;
@@ -14,6 +15,7 @@ import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -73,14 +75,14 @@ public class ConversorManager {
                                 @Nullable String conversorName,
                                 Stopwatch stopwatch) {
 
-        AtomicInteger converted = new AtomicInteger();
-
+        val converted = new AtomicInteger();
         Bukkit.getScheduler().runTaskAsynchronously(
                 NextEconomy.getInstance(),
                 () -> {
 
-                    for (Account account : accounts) {
+                    for (val account : accounts) {
 
+                        account.setTransactions(new LinkedList<>());
                         accountRepository.saveOne(account);
                         converted.incrementAndGet();
 
@@ -101,13 +103,12 @@ public class ConversorManager {
 
         if (sender == null || sender instanceof ConsoleCommandSender || conversorName == null) return;
 
-        Player player = (Player) sender;
-
+        val player = (Player) sender;
         this.actionBarTaskID = Bukkit.getScheduler().runTaskTimerAsynchronously(NextEconomy.getInstance(), () -> {
 
             if (!player.isOnline()) return;
 
-            String format = ColorUtil.colored(String.format(CONVERSION_FORMAT,
+            val format = ColorUtil.colored(String.format(CONVERSION_FORMAT,
                     conversorName,
                     converted,
                     accounts.size(),
