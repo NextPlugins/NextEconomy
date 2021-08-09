@@ -21,6 +21,7 @@ public final class CommandHandler {
         val command = commands.getOrDefault(args[0], null);
         if (command == null) return;
 
+
         val stringBuilder = new StringBuilder();
         for (int i = 1; i < args.length; i++) {
             stringBuilder.append(args[i]);

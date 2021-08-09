@@ -19,6 +19,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.metadata.FixedMetadataValue;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
@@ -126,7 +127,11 @@ public final class ArmorStandRunnable implements Runnable {
     }
 
     public static List<ArmorStand> getArmorStands() {
-        return STANDS.stream().map(Bukkit::getEntity).map(ArmorStand.class::cast).collect(Collectors.toList());
+        return STANDS.stream()
+                .map(Bukkit::getEntity)
+                .map(ArmorStand.class::cast)
+                .filter(Objects::nonNull)
+                .collect(Collectors.toList());
     }
 
 }
