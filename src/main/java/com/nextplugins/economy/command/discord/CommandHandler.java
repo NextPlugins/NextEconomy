@@ -24,6 +24,7 @@ public final class CommandHandler {
         val stringBuilder = new StringBuilder();
         for (int i = 1; i < args.length; i++) {
             stringBuilder.append(args[i]);
+            if (i + 1 < args.length) stringBuilder.append(" ");
         }
 
         command.execute(event.getMessage(), stringBuilder.toString().split(" "));
