@@ -11,11 +11,12 @@ Um sistema simples e completo de uma economia principal para servidores de Minec
 |/money enviar    |Envie uma quantia de money para outra pessoa.|`nexteconomy.command.pay`|
 |/money top       |Veja o ranking dos jogadores mais ricos do server.|`nexteconomy.command.top`|
 |/money toggle    |Ative/Desative o recebimento de coins.|`nexteconomy.togglecoins`   |
-|/money vincular  |Vincular sua conta com o discord.|`nexteconomy.syncdiscord`        |
+|/money vincular  |Vincular sua conta com o discord.|Nenhuma|
+|/money desvincular  |Desvincular sua conta do discord.|Nenhuma|
 |/bolsa           |Veja informações do sistema de bolsa.|Nenhuma                      |
 |/cheque          |Veja os comandos disponíveis do sistema.|`nexteconomy.command.check`|
 |/cheque criar    |Crie um cheque com uma certa quantia de dinheiro.|`nexteconomy.command.check.create`|
-|/money ajuda     |Veja os comandos disponíveis do sistema.|`nexteconomy.command.help`|
+|/money ajuda     |Veja os comandos disponíveis do sistema.|Nenhuma|
 |/money add       |Adicione uma quantia de money para alguém.|`nexteconomy.command.add`|
 |/money set       |Altere a quantia de money de alguém.|`nexteconomy.command.set`     |
 |/money remove    |Remova uma quantia de money de alguém.|`nexteconomy.command.remove`|
