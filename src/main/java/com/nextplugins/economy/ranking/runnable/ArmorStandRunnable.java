@@ -12,13 +12,16 @@ import com.nextplugins.economy.util.ItemBuilder;
 import com.nextplugins.economy.util.TypeUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.val;
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.ArmorStand;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.metadata.FixedMetadataValue;
 
 import java.util.List;
+import java.util.UUID;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.stream.Collectors;
 
 /**
  * @author Yuhtin
@@ -27,8 +30,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 @RequiredArgsConstructor
 public final class ArmorStandRunnable implements Runnable {
 
-    public static final List<ArmorStand> STANDS = Lists.newLinkedList();
-    public static final List<Hologram> HOLOGRAM = Lists.newLinkedList();
+    public static final List<UUID> STANDS = Lists.newLinkedList();
 
     private static final Material[] SWORDS = new Material[]{
             Material.DIAMOND_SWORD, TypeUtil.swapLegacy("GOLDEN_SWORD", "GOLD_SWORD"),
@@ -43,10 +45,9 @@ public final class ArmorStandRunnable implements Runnable {
     @Override
     public void run() {
 
-        STANDS.forEach(ArmorStand::remove);
-        HOLOGRAM.forEach(Hologram::delete);
+        getArmorStands().forEach(ArmorStand::remove);
+        HologramsAPI.getHolograms(plugin).forEach(Hologram::delete);
 
-        HOLOGRAM.clear();
         STANDS.clear();
 
         if (locationManager.getLocationMap().isEmpty()) return;
@@ -84,7 +85,6 @@ public final class ArmorStandRunnable implements Runnable {
                     );
                 }
 
-                HOLOGRAM.add(hologram);
             }
 
             val stand = location.getWorld().spawn(location, ArmorStand.class);
@@ -119,10 +119,14 @@ public final class ArmorStandRunnable implements Runnable {
 
             stand.setVisible(true); // configuration finished, show stand
 
-            STANDS.add(stand);
+            STANDS.add(stand.getUniqueId());
             position.getAndIncrement();
         }
 
+    }
+
+    public static List<ArmorStand> getArmorStands() {
+        return STANDS.stream().map(Bukkit::getEntity).map(ArmorStand.class::cast).collect(Collectors.toList());
     }
 
 }

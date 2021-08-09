@@ -1,6 +1,7 @@
 package com.nextplugins.economy;
 
 import com.gmail.filoghost.holographicdisplays.api.Hologram;
+import com.gmail.filoghost.holographicdisplays.api.HologramsAPI;
 import com.google.common.base.Stopwatch;
 import com.google.common.collect.Lists;
 import com.henryfabio.minecraft.inventoryapi.manager.InventoryManager;
@@ -156,6 +157,9 @@ public final class NextEconomy extends JavaPlugin {
 
     private void unloadRanking() {
         if (CustomRankingRegistry.getInstance().isEnabled()) {
+
+            HologramsAPI.getHolograms(this).forEach(Hologram::delete);
+
             String type = RankingValue.get(RankingValue::npcType);
             if (type.equalsIgnoreCase("npc")) {
 
@@ -167,31 +171,16 @@ public final class NextEconomy extends JavaPlugin {
                     npc.destroy();
                 }
 
-                for (Hologram hologram : NPCRunnable.HOLOGRAM) {
-                    hologram.delete();
-                }
-
             }
 
             if (type.equalsIgnoreCase("armorstand")) {
 
-                for (ArmorStand stand : ArmorStandRunnable.STANDS) {
+                for (val stand : ArmorStandRunnable.getArmorStands()) {
                     stand.remove();
                 }
 
-                for (Hologram hologram : ArmorStandRunnable.HOLOGRAM) {
-                    hologram.delete();
-                }
-
             }
 
-            if (type.equalsIgnoreCase("hologram")) {
-
-                for (Hologram hologram : HologramRunnable.HOLOGRAM) {
-                    hologram.delete();
-                }
-
-            }
         }
     }
 

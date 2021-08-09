@@ -19,7 +19,6 @@ import java.util.concurrent.atomic.AtomicInteger;
 public final class NPCRunnable implements Runnable {
 
     public static final List<Integer> NPCS = Lists.newLinkedList();
-    public static final List<Hologram> HOLOGRAM = Lists.newLinkedList();
 
     private final NextEconomy plugin;
     private final LocationManager locationManager;
@@ -36,10 +35,8 @@ public final class NPCRunnable implements Runnable {
             npc.destroy();
         }
 
-        HOLOGRAM.forEach(Hologram::delete);
-
+        HologramsAPI.getHolograms(plugin).forEach(Hologram::delete);
         NPCS.clear();
-        HOLOGRAM.clear();
 
         if (locationManager.getLocationMap().isEmpty()) return;
 
@@ -76,7 +73,6 @@ public final class NPCRunnable implements Runnable {
                     );
                 }
 
-                HOLOGRAM.add(hologram);
             }
 
             val npcRegistry = CitizensAPI.getNPCRegistry();

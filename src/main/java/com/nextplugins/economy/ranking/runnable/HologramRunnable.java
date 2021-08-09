@@ -23,8 +23,6 @@ import java.util.List;
 @RequiredArgsConstructor
 public final class HologramRunnable implements Runnable {
 
-    public static final List<Hologram> HOLOGRAM = Lists.newLinkedList();
-
     private final NextEconomy plugin;
     private final LocationManager locationManager;
     private final RankingStorage rankingStorage;
@@ -32,8 +30,7 @@ public final class HologramRunnable implements Runnable {
     @Override
     public void run() {
 
-        HOLOGRAM.forEach(Hologram::delete);
-        HOLOGRAM.clear();
+        HologramsAPI.getHolograms(plugin).forEach(Hologram::delete);
 
         if (locationManager.getLocationMap().isEmpty()) return;
 
