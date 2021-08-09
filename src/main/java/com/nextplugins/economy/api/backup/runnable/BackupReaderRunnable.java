@@ -1,7 +1,6 @@
 package com.nextplugins.economy.api.backup.runnable;
 
 import com.google.common.base.Stopwatch;
-import com.google.common.collect.Lists;
 import com.nextplugins.economy.NextEconomy;
 import com.nextplugins.economy.api.backup.BackupManager;
 import com.nextplugins.economy.api.backup.response.ResponseType;
@@ -51,7 +50,7 @@ public final class BackupReaderRunnable implements Runnable {
 
                 val response = backupManager.createBackup(
                         null, null,
-                        Lists.newArrayList(accountRepository.selectAll("")),
+                        accountRepository,
                         true, true
                 );
 

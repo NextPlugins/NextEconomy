@@ -30,6 +30,7 @@ public final class CommandRegistry {
                     ),
                     new NextEconomyCommand(
                             plugin.getBackupManager(),
+                            plugin.getAccountStorage(),
                             plugin.getAccountRepository(),
                             plugin.getConversorManager()
                     )

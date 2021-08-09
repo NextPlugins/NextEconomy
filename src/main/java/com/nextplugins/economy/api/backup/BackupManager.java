@@ -1,5 +1,6 @@
 package com.nextplugins.economy.api.backup;
 
+import com.google.common.collect.Lists;
 import com.henryfabio.sqlprovider.connector.utils.FileUtils;
 import com.nextplugins.economy.NextEconomy;
 import com.nextplugins.economy.api.backup.response.BackupResponse;
@@ -7,6 +8,7 @@ import com.nextplugins.economy.api.backup.response.ResponseType;
 import com.nextplugins.economy.api.backup.runnable.BackupCreatorRunnable;
 import com.nextplugins.economy.api.backup.runnable.BackupReaderRunnable;
 import com.nextplugins.economy.api.model.account.Account;
+import com.nextplugins.economy.dao.repository.AccountRepository;
 import com.nextplugins.economy.util.DateFormatUtil;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
@@ -35,14 +37,14 @@ public final class BackupManager {
      * Create a bakcup
      *
      * @param name     of backup (if null, use the current time)
-     * @param accounts to backup
+     * @param accountRepository to backup
      * @param async    operation mode
      * @return {@link File} created
      */
     @NotNull
     public synchronized BackupResponse createBackup(@Nullable CommandSender sender,
                                                     @Nullable String name,
-                                                    List<Account> accounts,
+                                                    AccountRepository accountRepository,
                                                     boolean restaurationPoint,
                                                     boolean async) {
 
@@ -70,7 +72,10 @@ public final class BackupManager {
 
         FileUtils.createFileIfNotExists(file);
 
-        val runnable = new BackupCreatorRunnable(sender, this, file, accounts);
+        val accountStorage = NextEconomy.getInstance().getAccountStorage();
+        accountStorage.getCache().synchronous().invalidateAll();
+
+        val runnable = new BackupCreatorRunnable(sender, this, file, Lists.newArrayList(accountRepository.selectAll("")));
 
         if (async) scheduler.runTaskAsynchronously(plugin, runnable);
         else runnable.run();

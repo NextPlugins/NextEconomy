@@ -8,6 +8,7 @@ import com.nextplugins.economy.api.backup.BackupManager;
 import com.nextplugins.economy.api.backup.response.ResponseType;
 import com.nextplugins.economy.api.conversor.ConversorManager;
 import com.nextplugins.economy.api.model.account.Account;
+import com.nextplugins.economy.api.model.account.storage.AccountStorage;
 import com.nextplugins.economy.configuration.MessageValue;
 import com.nextplugins.economy.dao.SQLProvider;
 import com.nextplugins.economy.dao.repository.AccountRepository;
@@ -35,6 +36,7 @@ import java.util.stream.Collectors;
 public final class NextEconomyCommand {
 
     private final BackupManager backupManager;
+    private final AccountStorage accountStorage;
     private final AccountRepository accountRepository;
     private final ConversorManager conversorManager;
 
@@ -58,14 +60,12 @@ public final class NextEconomyCommand {
     public void onBackupCommand(Context<CommandSender> context,
                                 @Optional String name) {
 
-        val accounts = accountRepository.selectAll("");
-
         context.sendMessage(ColorUtil.colored("&aIniciando criação do backup."));
 
         val backup = backupManager.createBackup(
                 context.getSender(),
                 name,
-                Lists.newArrayList(accounts),
+                accountRepository,
                 false, true
         );
 
@@ -140,7 +140,8 @@ public final class NextEconomyCommand {
     @Command(
             name = "nexteconomy.converter",
             permission = "nexteconomy.admin",
-            usage = "/ne converter <tomysql, tosqlite>"
+            usage = "/ne converter <tomysql, tosqlite>",
+            async = true
     )
     public void onConverterCommand(Context<CommandSender> context,
                                    String option) {
@@ -194,6 +195,8 @@ public final class NextEconomyCommand {
         }
 
         val repository = new AccountRepository(new SQLExecutor(sqlConnector));
+
+        accountStorage.getCache().synchronous().invalidateAll();
 
         val accounts = repository.selectAll("")
                 .stream()
