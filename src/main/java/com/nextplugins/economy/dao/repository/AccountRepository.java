@@ -29,7 +29,8 @@ public final class AccountRepository {
                 "balance DOUBLE NOT NULL DEFAULT 0," +
                 "movimentedBalance DOUBLE NOT NULL DEFAULT 0," +
                 "transactionsQuantity INTEGER NOT NULL DEFAULT 0," +
-                "transactions LONGTEXT NOT NULL" +
+                "transactions LONGTEXT NOT NULL," +
+                "receiveCoins INTEGER NOT NULL DEFAULT 1" +
                 ");"
         );
 

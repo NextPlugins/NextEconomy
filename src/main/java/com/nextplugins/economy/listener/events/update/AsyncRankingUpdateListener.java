@@ -5,6 +5,7 @@ import com.nextplugins.economy.NextEconomy;
 import com.nextplugins.economy.api.event.operations.AsyncRankingUpdateEvent;
 import com.nextplugins.economy.api.event.operations.AsyncMoneyTopPlayerChangedEvent;
 import com.nextplugins.economy.api.model.account.SimpleAccount;
+import com.nextplugins.economy.api.model.account.storage.AccountStorage;
 import com.nextplugins.economy.configuration.RankingValue;
 import com.nextplugins.economy.dao.repository.AccountRepository;
 import com.nextplugins.economy.ranking.CustomRankingRegistry;
@@ -25,6 +26,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class AsyncRankingUpdateListener implements Listener {
 
+    private final AccountStorage accountStorage;
     private final AccountRepository accountRepository;
     private final RankingStorage rankingStorage;
 
@@ -34,6 +36,8 @@ public class AsyncRankingUpdateListener implements Listener {
         if (event.isCancelled()) return;
 
         val pluginManager = Bukkit.getPluginManager();
+
+        accountStorage.getCache().synchronous().invalidateAll();
 
         List<SimpleAccount> accounts = Lists.newLinkedList(accountRepository.selectSimpleAll(
                 "ORDER BY balance DESC LIMIT " + RankingValue.get(RankingValue::rankingLimit)

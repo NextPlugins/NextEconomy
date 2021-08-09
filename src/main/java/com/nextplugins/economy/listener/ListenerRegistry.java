@@ -31,6 +31,7 @@ public final class ListenerRegistry {
 
             val pluginManager = Bukkit.getPluginManager();
 
+            val accountStorage = getPlugin().getAccountStorage();
             val rankingStorage = getPlugin().getRankingStorage();
             val accountRepository = getPlugin().getAccountRepository();
             val interactionRegistry = getPlugin().getInteractionRegistry();
@@ -43,7 +44,7 @@ public final class ListenerRegistry {
                     new TransactionRequestListener(),
                     new MoneyTopUpdateListener(),
                     new BlockArmorStandBreak(),
-                    new AsyncRankingUpdateListener(accountRepository, rankingStorage),
+                    new AsyncRankingUpdateListener(accountStorage, accountRepository, rankingStorage),
                     new DefaultChatListener(interactionRegistry),
                     new CheckInteractListener(plugin.getAccountStorage())
             );
