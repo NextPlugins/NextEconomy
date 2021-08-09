@@ -3,7 +3,6 @@ package com.nextplugins.economy;
 import com.gmail.filoghost.holographicdisplays.api.Hologram;
 import com.gmail.filoghost.holographicdisplays.api.HologramsAPI;
 import com.google.common.base.Stopwatch;
-import com.google.common.collect.Lists;
 import com.henryfabio.minecraft.inventoryapi.manager.InventoryManager;
 import com.henryfabio.sqlprovider.connector.SQLConnector;
 import com.henryfabio.sqlprovider.executor.SQLExecutor;
@@ -28,7 +27,6 @@ import com.nextplugins.economy.placeholder.registry.PlaceholderRegistry;
 import com.nextplugins.economy.ranking.CustomRankingRegistry;
 import com.nextplugins.economy.ranking.manager.LocationManager;
 import com.nextplugins.economy.ranking.runnable.ArmorStandRunnable;
-import com.nextplugins.economy.ranking.runnable.HologramRunnable;
 import com.nextplugins.economy.ranking.runnable.NPCRunnable;
 import com.nextplugins.economy.ranking.storage.RankingStorage;
 import com.nextplugins.economy.vault.registry.VaultHookRegistry;
@@ -39,7 +37,6 @@ import net.citizensnpcs.api.CitizensAPI;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
-import org.bukkit.entity.ArmorStand;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
@@ -122,7 +119,7 @@ public final class NextEconomy extends JavaPlugin {
             ListenerRegistry.of(this).register();
 
             if (!PurseAPI.init()) getLogger().info("Sistema de bolsa de valores desativado.");
-            else PurseAPI.getInstance().forceUpdate();
+            else PurseAPI.getInstance(); // force purse update
 
             // bump money top one time and add, if enabled, stands/npcs
             rankingStorage.updateRanking();
@@ -146,7 +143,6 @@ public final class NextEconomy extends JavaPlugin {
 
         if (FeatureValue.get(FeatureValue::autoBackup)) {
 
-            val accounts = accountRepository.selectAll("");
             CompletableFuture.completedFuture(
                     backupManager.createBackup(null, null, accountRepository, false, false)
             ).join(); // freeze thread
