@@ -1,13 +1,16 @@
 package com.nextplugins.economy.listener.events.others;
 
+import com.nextplugins.economy.ranking.runnable.ArmorStandRunnable;
 import com.nextplugins.economy.util.TypeUtil;
 import lombok.val;
+import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
+import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.event.player.PlayerInteractAtEntityEvent;
 
 /**
@@ -29,6 +32,12 @@ public class BlockArmorStandBreak implements Listener {
         }
 
         event.setCancelled(true);
+    }
+
+    @EventHandler
+    public void onKill(EntityDeathEvent event) {
+        if (event.getEntityType() != EntityType.ARMOR_STAND || !event.getEntity().hasMetadata("nexteconomy")) return;
+        ArmorStandRunnable.STANDS.remove((ArmorStand) event.getEntity());
     }
 
     @EventHandler

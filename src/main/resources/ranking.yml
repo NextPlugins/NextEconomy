@@ -23,7 +23,7 @@ ranking:
         - ' &7Atualizado a cada 30 minutos.'
         - ''
     inventory:
-      title: 'Ranking - Money'
+      title: 'Ranking de Jogadores (Coins)'
       head-display-name-top: '$tycoonTag&e$positionº &8- &f$player'
       head-display-name: '&e$positionº $prefix$player'
       head-lore:

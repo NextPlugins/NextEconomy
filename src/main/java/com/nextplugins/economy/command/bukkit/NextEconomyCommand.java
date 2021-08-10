@@ -1,5 +1,7 @@
 package com.nextplugins.economy.command.bukkit;
 
+import com.gmail.filoghost.holographicdisplays.api.Hologram;
+import com.gmail.filoghost.holographicdisplays.api.HologramsAPI;
 import com.google.common.base.Stopwatch;
 import com.google.common.collect.Lists;
 import com.henryfabio.sqlprovider.executor.SQLExecutor;
@@ -12,6 +14,8 @@ import com.nextplugins.economy.api.model.account.storage.AccountStorage;
 import com.nextplugins.economy.configuration.MessageValue;
 import com.nextplugins.economy.dao.SQLProvider;
 import com.nextplugins.economy.dao.repository.AccountRepository;
+import com.nextplugins.economy.ranking.runnable.ArmorStandRunnable;
+import com.nextplugins.economy.ranking.runnable.NPCRunnable;
 import com.nextplugins.economy.util.ColorUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.val;
@@ -19,7 +23,13 @@ import lombok.var;
 import me.saiintbrisson.minecraft.command.annotation.Command;
 import me.saiintbrisson.minecraft.command.annotation.Optional;
 import me.saiintbrisson.minecraft.command.command.Context;
+import net.citizensnpcs.api.CitizensAPI;
+import net.citizensnpcs.api.npc.NPC;
+import org.bukkit.Bukkit;
+import org.bukkit.World;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Entity;
+import org.bukkit.entity.EntityType;
 
 import java.io.File;
 import java.util.Arrays;
@@ -82,6 +92,44 @@ public final class NextEconomyCommand {
         if (backup.getResponseType() == ResponseType.BACKUP_IN_PROGRESS) {
             context.sendMessage(ColorUtil.colored("&cJá existe um backup em andamento."));
         }
+
+    }
+
+    @Command(
+            name = "nexteconomy.rankingdebug",
+            permission = "nexteconomy.admin",
+            async = true
+    )
+    public void onRankingDebug(Context<CommandSender> context) {
+
+        val pluginManager = Bukkit.getPluginManager();
+        if (!pluginManager.isPluginEnabled("HolographicDisplays")) {
+            context.sendMessage(ColorUtil.colored("&cO plugin HolographicDisplays precisa estar ativo para usar esta função."));
+            return;
+        }
+
+        for (val world : Bukkit.getWorlds()) {
+            for (val entity : world.getEntities()) {
+
+                if (entity.getType() != EntityType.ARMOR_STAND || !entity.hasMetadata("nexteconomy")) continue;
+                entity.remove();
+
+            }
+        }
+
+        HologramsAPI.getHolograms(NextEconomy.getInstance()).forEach(Hologram::delete);
+
+        if (pluginManager.isPluginEnabled("Citizens")) {
+            for (val npc : CitizensAPI.getNPCRegistry()) {
+                if (!npc.getEntity().hasMetadata("nexteconomy")) continue;
+                npc.despawn();
+                npc.destroy();
+            }
+
+            NPCRunnable.NPCS.clear();
+        }
+
+        context.sendMessage(ColorUtil.colored("&aTodos os NPCs, ArmorStands e Hologramas foram limpos com sucesso."));
 
     }
 

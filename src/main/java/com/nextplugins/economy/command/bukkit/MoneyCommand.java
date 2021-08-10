@@ -6,6 +6,7 @@ import com.nextplugins.economy.api.event.operations.MoneyGiveEvent;
 import com.nextplugins.economy.api.event.operations.MoneySetEvent;
 import com.nextplugins.economy.api.event.operations.MoneyWithdrawEvent;
 import com.nextplugins.economy.api.event.transaction.TransactionRequestEvent;
+import com.nextplugins.economy.api.group.GroupWrapperManager;
 import com.nextplugins.economy.api.model.account.storage.AccountStorage;
 import com.nextplugins.economy.configuration.InventoryValue;
 import com.nextplugins.economy.configuration.MessageValue;
@@ -37,6 +38,7 @@ public final class MoneyCommand {
     private final NextEconomy plugin;
     private final AccountStorage accountStorage;
     private final LocationManager locationManager;
+    private final GroupWrapperManager groupWrapperManager;
 
     @Command(
             name = "money",
@@ -388,7 +390,7 @@ public final class MoneyCommand {
                 val i = position.getAndIncrement();
                 sender.sendMessage(body
                         .replace("$position", String.valueOf(i))
-                        .replace("$prefix", "")
+                        .replace("$prefix", groupWrapperManager.getPrefix(account.getUsername()))
                         .replace("$player", account.getUsername())
                         .replace("$tycoon", i == 1 ? tag : "")
                         .replace("$amount", account.getBalanceFormated())

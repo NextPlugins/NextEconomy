@@ -26,7 +26,8 @@ public final class CommandRegistry {
                     new MoneyCommand(
                             plugin,
                             plugin.getAccountStorage(),
-                            plugin.getLocationManager()
+                            plugin.getLocationManager(),
+                            plugin.getGroupWrapperManager()
                     ),
                     new NextEconomyCommand(
                             plugin.getBackupManager(),

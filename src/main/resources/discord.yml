@@ -54,7 +54,7 @@ embed:
       # Placeholders para text $money $player $coinName $transactionsmoney $transactions $lastTransactionMessage
       info:
         inline: true
-        title: '<:placard:> Informações do jogador'
+        title: ':placard: Informações do jogador'
         text: '$userTag'
       money:
         inline: true

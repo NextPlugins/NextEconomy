@@ -18,7 +18,8 @@ public class LuckPermsGroupWrapper implements GroupWrapper {
     @Override
     public String getPrefix(String player) {
 
-        val user = LUCK_PERMS.getUserManager().getUser(player);
+        val uuid = LUCK_PERMS.getUserManager().lookupUniqueId(player).join();
+        val user = LUCK_PERMS.getUserManager().loadUser(uuid, player).join();
         if (user == null) return "";
 
         val prefix = user.getCachedData().getMetaData(QueryOptions.defaultContextualOptions()).getPrefix();

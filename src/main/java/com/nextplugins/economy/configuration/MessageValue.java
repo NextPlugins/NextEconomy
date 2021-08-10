@@ -34,8 +34,8 @@ public final class MessageValue implements ConfigurationInjectable {
 
     @ConfigField("requests.invalid-target") private String invalidTarget;
     @ConfigField("requests.invalid-money") private String invalidMoney;
-    @ConfigField("request.no-time") private String noTime;
-    @ConfigField("request.link-discord") private String linkDiscord;
+    @ConfigField("requests.no-time") private String noTime;
+    @ConfigField("requests.link-discord") private String linkDiscord;
 
     // receive coins
 

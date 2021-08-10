@@ -138,7 +138,7 @@ public class PurseAPI {
 
         Bukkit.getScheduler().runTaskAsynchronously(NextEconomy.getInstance(), () -> {
 
-            AsyncPurseUpdateEvent asyncPurseUpdateEvent = new AsyncPurseUpdateEvent(
+            val asyncPurseUpdateEvent = new AsyncPurseUpdateEvent(
                     newValue,
                     purse,
                     lastNextUpdate

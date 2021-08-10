@@ -12,17 +12,13 @@ import com.nextplugins.economy.util.ItemBuilder;
 import com.nextplugins.economy.util.TypeUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.val;
-import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.ArmorStand;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.metadata.FixedMetadataValue;
 
 import java.util.List;
-import java.util.Objects;
-import java.util.UUID;
 import java.util.concurrent.atomic.AtomicInteger;
-import java.util.stream.Collectors;
 
 /**
  * @author Yuhtin
@@ -31,7 +27,7 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public final class ArmorStandRunnable implements Runnable {
 
-    public static final List<UUID> STANDS = Lists.newLinkedList();
+    public static final List<ArmorStand> STANDS = Lists.newLinkedList();
 
     private static final Material[] SWORDS = new Material[]{
             Material.DIAMOND_SWORD, TypeUtil.swapLegacy("GOLDEN_SWORD", "GOLD_SWORD"),
@@ -46,7 +42,7 @@ public final class ArmorStandRunnable implements Runnable {
     @Override
     public void run() {
 
-        getArmorStands().forEach(ArmorStand::remove);
+        STANDS.forEach(ArmorStand::remove);
         HologramsAPI.getHolograms(plugin).forEach(Hologram::delete);
 
         STANDS.clear();
@@ -120,18 +116,10 @@ public final class ArmorStandRunnable implements Runnable {
 
             stand.setVisible(true); // configuration finished, show stand
 
-            STANDS.add(stand.getUniqueId());
+            STANDS.add(stand);
             position.getAndIncrement();
         }
 
-    }
-
-    public static List<ArmorStand> getArmorStands() {
-        return STANDS.stream()
-                .map(Bukkit::getEntity)
-                .map(ArmorStand.class::cast)
-                .filter(Objects::nonNull)
-                .collect(Collectors.toList());
     }
 
 }
