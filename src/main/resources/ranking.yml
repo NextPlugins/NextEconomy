@@ -47,6 +47,9 @@ ranking:
     # Configuração das cores da armadura de couro (apenas top armorstand)
     # Todas as cores aqui são em HEX, procure no google para achar o código HEX da cor que quer colocar
     armor:
+      # caso não saiba coloração HEX, utilize o site abaixo
+      # https://www.hexcolortool.com/
+      #
       # Cor do peitoral de couro
       chestplate: '#17c8cf' # Azul claro
       # Cor da calça de couro
