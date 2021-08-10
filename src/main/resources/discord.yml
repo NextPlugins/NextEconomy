@@ -46,6 +46,8 @@ embed:
     # Adicionar data no footer
     date: true
     # Cor do embed
+    # caso não saiba coloração HEX, utilize o site abaixo
+    # https://www.hexcolortool.com/
     color: '#36bfa6'
     # Corpo do texto
     fields:
