@@ -7,7 +7,9 @@ messages:
     invalid-target: '&cO jogador solicitado não encontra-se online ou é inexistente.'
     invalid-money: '&cO dinheiro inserido não é válido.'
     no-time: '&cVocê demorou muito para responder'
+    link-error: ':x: Ocorreu um erro, você precisa vincular novamente sua conta.'
     link-discord: ':x: Você precisa ter uma conta vinculada a este discord para usar isto!'
+    same: ':x: Você não pode enviar dinheiro para você mesmo.'
   interaction:
     cancelled: '&cOperação cancelada.'
     invalid: "&cPara cancelar digite 'cancelar'."

@@ -100,13 +100,20 @@ public class PayMoneyCommand implements Command {
 
         val uuid = DiscordSRV.getPlugin().getAccountLinkManager().getUuid(message.getAuthor().getId());
         if (uuid == null) {
-
             message.reply(MessageValue.get(MessageValue::linkDiscord)).queue();
             return;
-
         }
 
         val offlinePlayer = Bukkit.getOfflinePlayer(uuid);
+        if (!offlinePlayer.hasPlayedBefore() || offlinePlayer.getName() == null) {
+            message.reply(MessageValue.get(MessageValue::linkError)).queue();
+            return;
+        }
+
+        if (offlinePlayer.getName().equals(player.getName())) {
+            message.reply(MessageValue.get(MessageValue::samePersonDiscord)).queue();
+            return;
+        }
 
         val account = accountStorage.findAccount(offlinePlayer);
         if (account == null) {
