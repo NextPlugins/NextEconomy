@@ -90,7 +90,7 @@ public final class NextEconomyCommand {
     }
 
     @Command(
-            name = "nexteconomy.rankingdebug",
+            name = "nexteconomy.forceupdate",
             permission = "nexteconomy.admin",
             async = true
     )
