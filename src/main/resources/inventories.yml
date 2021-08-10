@@ -1,8 +1,10 @@
 inventory:
-  enable: true # Desabilite todos os menus do plugin (menos o de ranking)
+  # Desabilite todos os menus do plugin (menos o de ranking)
+  enable: true 
   historic:
     config:
       name: 'Histórico de Transações'
+      #Tamanho do inventário
       size: 54
     depositMessage: '&eTransação de @target'
     withdrawMessage: '&eTransação para @target'
@@ -18,6 +20,7 @@ inventory:
   main:
     config:
       name: 'Banco Central'
+      #Tamanho do inventário
       size: 27
     buttons:
       help:
@@ -57,10 +60,11 @@ inventory:
           - '&eClique aqui para ver'
       purse:
         identifier: PURSE
-        historyLine: ' &6$position. &e$value% $status' # desativado temporariamente
+        # desativado temporariamente
+        historyLine: ' &6$position. &e$value% $status'
+        skullName: 'MrSnowDK'
         # Caso não utilize o sistema de bolsa de valores
         # Coloque o slot como -1 para desativar este item
-        skullName: 'MrSnowDK'
         inventorySlot: 14
         displayName: '&6Bolsa de valores'
         lore:
@@ -90,6 +94,6 @@ inventory:
         lore:
           - ''
           - ' &8Clique aqui para ver'
-          - ' &8o money de outro jogador'
+          - ' &8os coins de outro jogador'
           - ''
           - '&eClique aqui para ver'
