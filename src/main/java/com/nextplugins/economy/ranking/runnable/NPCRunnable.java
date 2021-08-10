@@ -27,16 +27,7 @@ public final class NPCRunnable implements Runnable {
     @Override
     public void run() {
 
-        for (val id : NPCS) {
-            val npc = CitizensAPI.getNPCRegistry().getById(id);
-            if (npc == null) continue;
-
-            npc.despawn();
-            npc.destroy();
-        }
-
-        HologramsAPI.getHolograms(plugin).forEach(Hologram::delete);
-        NPCS.clear();
+        clearPositions();
 
         if (locationManager.getLocationMap().isEmpty()) return;
 
@@ -86,6 +77,19 @@ public final class NPCRunnable implements Runnable {
             position.getAndIncrement();
         }
 
+    }
+
+    private void clearPositions() {
+        for (val id : NPCS) {
+            val npc = CitizensAPI.getNPCRegistry().getById(id);
+            if (npc == null) continue;
+
+            npc.despawn();
+            npc.destroy();
+        }
+
+        HologramsAPI.getHolograms(plugin).forEach(Hologram::delete);
+        NPCS.clear();
     }
 
 }

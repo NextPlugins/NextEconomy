@@ -2,8 +2,6 @@ package com.nextplugins.economy.api.event.transaction;
 
 import com.nextplugins.economy.api.event.EconomyEvent;
 import com.nextplugins.economy.api.model.account.Account;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 import org.bukkit.OfflinePlayer;

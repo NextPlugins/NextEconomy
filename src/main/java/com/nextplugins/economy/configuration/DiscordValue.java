@@ -10,7 +10,6 @@ import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
 import org.bukkit.configuration.ConfigurationSection;
 
-import java.util.List;
 import java.util.function.Function;
 
 /**

@@ -148,7 +148,16 @@ public class PayMoneyCommand implements Command {
         ).queue(message1 -> {
             message1.addReaction("✅").queue();
             message1.addReaction("❌").queue();
-            payActionDiscordManager.getActions().put(message1.getIdLong(), new PayActionDiscord(offlinePlayer, finalPlayer, targetDiscordName, value, format));
+
+            val actionDiscord = new PayActionDiscord(
+                    offlinePlayer,
+                    finalPlayer,
+                    targetDiscordName,
+                    value,
+                    format
+            );
+
+            payActionDiscordManager.getActions().put(message1.getIdLong(), actionDiscord);
         });
 
 

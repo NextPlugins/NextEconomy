@@ -1,7 +1,6 @@
 package com.nextplugins.economy.api.event.operations;
 
 import com.nextplugins.economy.api.event.EconomyEvent;
-import com.nextplugins.economy.api.model.account.Account;
 import com.nextplugins.economy.api.model.account.SimpleAccount;
 import lombok.*;
 import org.bukkit.event.Cancellable;

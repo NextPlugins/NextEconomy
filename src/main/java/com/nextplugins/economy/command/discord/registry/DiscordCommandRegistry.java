@@ -9,7 +9,6 @@ import com.nextplugins.economy.command.discord.impl.ViewMoneyCommand;
 import com.nextplugins.economy.configuration.DiscordValue;
 import github.scarsz.discordsrv.DiscordSRV;
 import lombok.*;
-import org.bukkit.Bukkit;
 import org.bukkit.event.Listener;
 
 import java.util.logging.Level;

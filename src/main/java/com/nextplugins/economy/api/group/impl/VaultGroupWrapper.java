@@ -4,11 +4,9 @@ import com.nextplugins.economy.NextEconomy;
 import com.nextplugins.economy.api.group.GroupWrapper;
 import com.nextplugins.economy.util.ColorUtil;
 import lombok.val;
-import lombok.var;
 import net.milkbowl.vault.chat.Chat;
 import net.milkbowl.vault.permission.Permission;
 import org.bukkit.Bukkit;
-import org.bukkit.entity.Player;
 import org.bukkit.plugin.RegisteredServiceProvider;
 
 /**

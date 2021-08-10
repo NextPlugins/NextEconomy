@@ -6,7 +6,6 @@ import com.nextplugins.economy.api.group.impl.PermissionsExGroupWrapper;
 import com.nextplugins.economy.api.group.impl.VaultGroupWrapper;
 import lombok.val;
 import org.bukkit.Bukkit;
-import org.bukkit.entity.Player;
 
 /**
  * @author Yuhtin

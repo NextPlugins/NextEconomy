@@ -11,9 +11,7 @@ import com.nextplugins.economy.util.*;
 import com.nextplugins.economy.views.button.model.ButtonType;
 import com.nextplugins.economy.views.button.registry.InventoryButtonRegistry;
 import com.nextplugins.economy.api.model.account.storage.AccountStorage;
-import com.nextplugins.economy.views.button.InventoryButton;
 import lombok.val;
-import org.bukkit.inventory.ItemStack;
 
 import java.util.stream.Collectors;
 
