@@ -39,11 +39,11 @@ public class AsyncRankingUpdateListener implements Listener {
 
         accountStorage.getCache().synchronous().invalidateAll();
 
-        List<SimpleAccount> accounts = Lists.newLinkedList(accountRepository.selectSimpleAll(
+        val accounts = Lists.newLinkedList(accountRepository.selectSimpleAll(
                 "ORDER BY balance DESC LIMIT " + RankingValue.get(RankingValue::rankingLimit)
         ));
 
-        List<SimpleAccount> accountsMovimentation = Lists.newLinkedList(accountRepository.selectSimpleAll(
+        val accountsMovimentation = Lists.newLinkedList(accountRepository.selectSimpleAll(
                 "ORDER BY movimentedBalance DESC LIMIT " + RankingValue.get(RankingValue::rankingLimit)
         ));
 
@@ -57,25 +57,20 @@ public class AsyncRankingUpdateListener implements Listener {
 
             }
 
-            accounts.forEach(rankingStorage.getRankByCoin()::add);
+            rankingStorage.getRankByCoin().addAll(accounts);
+
+            rankingStorage.getRankByMovimentation().clear();
+            rankingStorage.getRankByMovimentation().addAll(accountsMovimentation);
 
             if (lastAccount != null) {
 
-                SimpleAccount topAccount = rankingStorage.getRankByCoin().get(0);
+                val topAccount = rankingStorage.getRankByCoin().get(0);
                 if (lastAccount.getUsername().equals(topAccount.getUsername())) return;
 
                 pluginManager.callEvent(new AsyncMoneyTopPlayerChangedEvent(lastAccount, topAccount));
 
             }
 
-        }
-
-        if (!accountsMovimentation.isEmpty()) {
-
-            rankingStorage.getRankByMovimentation().clear();
-
-            List<SimpleAccount> accounts1 = rankingStorage.getRankByMovimentation();
-            accounts1.addAll(accountsMovimentation);
         }
 
         NextEconomy.getInstance().getLogger().info("[Ranking] Atualização do ranking feita com sucesso");

@@ -29,7 +29,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 public final class RankingView extends PagedInventory {
 
-    private final Map<String, Integer> playerRewardFilter = new HashMap<>();
+    private final Map<String, Integer> rankingSorterType = new HashMap<>();
     private final RankingStorage rankingStorage = NextEconomy.getInstance().getRankingStorage();
     private final GroupWrapperManager groupWrapperManager = NextEconomy.getInstance().getGroupWrapperManager();
 
@@ -71,21 +71,23 @@ public final class RankingView extends PagedInventory {
 
         int position = 1;
 
-        int sorter = playerRewardFilter.getOrDefault(viewer.getName(), -1);
+        val sorter = rankingSorterType.getOrDefault(viewer.getName(), -1);
 
         val rankingAccounts = sorter == -1
                 ? rankingStorage.getRankByCoin()
                 : rankingStorage.getRankByMovimentation();
 
-        for (SimpleAccount account : rankingAccounts) {
+        NextEconomy.getInstance().getLogger().info("Starting " + sorter);
+
+        for (val account : rankingAccounts) {
 
             val name = account.getUsername();
+            NextEconomy.getInstance().getLogger().info("Looking for " + name);
 
             val replacedDisplayName = (position == 1
                     ? RankingValue.get(RankingValue::inventoryModelHeadDisplayNameTop)
                     : RankingValue.get(RankingValue::inventoryModelHeadDisplayName))
                     .replace("$tycoonTag", tycoonTag)
-                    .replace("$prefix", "")
                     .replace("$position", String.valueOf(position))
                     .replace("$player", name)
                     .replace("$prefix", groupWrapperManager.getPrefix(name));
@@ -96,7 +98,7 @@ public final class RankingView extends PagedInventory {
                     ? MessageValue.get(MessageValue::singularTransaction)
                     : MessageValue.get(MessageValue::pluralTransaction);
 
-            for (String lore : headLore) {
+            for (val lore : headLore) {
                 replacedLore.add(lore
                         .replace("$amount", account.getBalanceFormated())
                         .replace("$transactions", account.getTransactionsQuantity() + " " + transactionName)
@@ -133,7 +135,7 @@ public final class RankingView extends PagedInventory {
     }
 
     private InventoryItem sortRankingItem(Viewer viewer) {
-        AtomicInteger currentFilter = new AtomicInteger(playerRewardFilter.getOrDefault(viewer.getName(), -1));
+        AtomicInteger currentFilter = new AtomicInteger(rankingSorterType.getOrDefault(viewer.getName(), -1));
         return InventoryItem.of(new ItemBuilder(Material.HOPPER)
                 .name("&6Ordenar ranking")
                 .setLore(
@@ -147,7 +149,7 @@ public final class RankingView extends PagedInventory {
                 .wrap())
                 .defaultCallback(event -> {
 
-                    playerRewardFilter.put(viewer.getName(), currentFilter.incrementAndGet() > 0 ? -1 : currentFilter.get());
+                    rankingSorterType.put(viewer.getName(), currentFilter.incrementAndGet() > 0 ? -1 : currentFilter.get());
                     event.updateInventory();
 
                 });

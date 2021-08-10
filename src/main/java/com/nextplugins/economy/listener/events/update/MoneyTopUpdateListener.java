@@ -3,14 +3,13 @@ package com.nextplugins.economy.listener.events.update;
 import com.nextplugins.economy.api.event.operations.AsyncMoneyTopPlayerChangedEvent;
 import com.nextplugins.economy.configuration.MessageValue;
 import com.nextplugins.economy.util.TitleUtils;
+import lombok.val;
 import org.bukkit.Bukkit;
-import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * @author Yuhtin
@@ -23,22 +22,22 @@ public class MoneyTopUpdateListener implements Listener {
 
         if (event.isCancelled() || !MessageValue.get(MessageValue::enableMoneyTopMessage)) return;
 
-        String username = event.getMoneyTop().getUsername();
+        val username = event.getMoneyTop().getUsername();
 
-        String title = MessageValue.get(MessageValue::moneyTopTitle)
+        val title = MessageValue.get(MessageValue::moneyTopTitle)
                 .replace("$player", username);
 
-        List<String> message = new ArrayList<>();
-        for (String line : MessageValue.get(MessageValue::moneyTopMessage)) {
+        val message = new ArrayList<String>();
+        for (val line : MessageValue.get(MessageValue::moneyTopMessage)) {
             message.add(line.replace("$player", username));
         }
 
-        Object[] titlePackets = TitleUtils.buildTitlePackets(title, 20, 20, 20);
-        for (Player onlinePlayer : Bukkit.getOnlinePlayers()) {
+        val titlePackets = TitleUtils.buildTitlePackets(title, 20, 20, 20);
+        for (val onlinePlayer : Bukkit.getOnlinePlayers()) {
 
             TitleUtils.sendTitlePacket(onlinePlayer, titlePackets);
 
-            for (String s : message) {
+            for (val s : message) {
                 onlinePlayer.sendMessage(s);
             }
 

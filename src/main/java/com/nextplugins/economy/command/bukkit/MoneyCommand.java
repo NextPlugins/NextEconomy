@@ -29,6 +29,7 @@ import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.Player;
 
 import java.io.IOException;
+import java.util.concurrent.atomic.AtomicInteger;
 
 @RequiredArgsConstructor
 public final class MoneyCommand {
@@ -357,25 +358,61 @@ public final class MoneyCommand {
             aliases = {"ranking", "podio"},
             description = "Utilize para ver os jogadores com mais dinheiro do servidor.",
             permission = "nexteconomy.command.top",
-            target = CommandTarget.PLAYER,
             async = true
     )
-    public void moneyTopCommand(Context<Player> context) {
+    public void moneyTopCommand(Context<CommandSender> context) {
 
         val rankingStorage = plugin.getRankingStorage();
+        val sender = context.getSender();
         if (rankingStorage.updateRanking()) {
 
-            context.getSender().sendMessage(ColorUtil.colored("&aAtualizando o ranking, aguarde alguns segundos."));
+            sender.sendMessage(ColorUtil.colored("&aAtualizando o ranking, aguarde alguns segundos."));
             return;
 
         }
 
-        try {
-            val rankingView = InventoryRegistry.getInstance().getRankingView();
-            rankingView.openInventory(context.getSender());
-        } catch (Throwable ignored) {
-            context.getSender().closeInventory();
-            context.getSender().sendMessage(ChatColor.RED + "Não existe jogadores no ranking, aguarde a próxima atualização.");
+        val rankingType = RankingValue.get(RankingValue::rankingType);
+
+        if (rankingType.equalsIgnoreCase("CHAT")) {
+            val accounts = rankingStorage.getRankByCoin();
+
+            val header = RankingValue.get(RankingValue::chatModelHeader);
+            val body = RankingValue.get(RankingValue::chatModelBody);
+            val footer = RankingValue.get(RankingValue::chatModelFooter);
+
+            header.forEach(sender::sendMessage);
+
+            val position = new AtomicInteger(1);
+            val tag = RankingValue.get(RankingValue::tycoonTagValue);
+            for (val account : accounts) {
+                val i = position.getAndIncrement();
+                sender.sendMessage(body
+                        .replace("$position", String.valueOf(i))
+                        .replace("$prefix", "")
+                        .replace("$player", account.getUsername())
+                        .replace("$tycoon", i == 1 ? tag : "")
+                        .replace("$amount", account.getBalanceFormated())
+                );
+            }
+
+            footer.forEach(sender::sendMessage);
+        } else {
+
+            if (!(sender instanceof Player)) {
+
+                sender.sendMessage(ColorUtil.colored("&cEste tipo de ranking não é suportado via console."));
+                return;
+
+            }
+
+            val player = (Player) sender;
+            try {
+                val rankingView = InventoryRegistry.getInstance().getRankingView();
+                rankingView.openInventory(player);
+            } catch (Throwable ignored) {
+                (player).closeInventory();
+                sender.sendMessage(ChatColor.RED + "Não existe jogadores no ranking, aguarde a próxima atualização.");
+            }
         }
 
     }
