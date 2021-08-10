@@ -29,6 +29,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 public final class RankingView extends PagedInventory {
 
     private final Map<String, Integer> rankingSorterType = new HashMap<>();
+
     private final RankingStorage rankingStorage = NextEconomy.getInstance().getRankingStorage();
     private final GroupWrapperManager groupWrapperManager = NextEconomy.getInstance().getGroupWrapperManager();
 

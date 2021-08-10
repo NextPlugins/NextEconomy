@@ -68,8 +68,11 @@ public final class ArmorStandRunnable implements Runnable {
             val chunk = location.getChunk();
             if (!chunk.isLoaded()) chunk.load(true);
 
+            val small = RankingValue.get(RankingValue::hologramFormat).equalsIgnoreCase("SMALL");
+            val height = small ? 2.15 : 3;
+
             if (!hologramLines.isEmpty()) {
-                val hologramLocation = location.clone().add(0, 2.15, 0);
+                val hologramLocation = location.clone().add(0, height, 0);
                 val hologram = HologramsAPI.createHologram(plugin, hologramLocation);
 
                 val format = account.getBalanceFormated();
@@ -87,7 +90,7 @@ public final class ArmorStandRunnable implements Runnable {
             val stand = location.getWorld().spawn(location, ArmorStand.class);
             stand.setVisible(false); // show only after configuration
             stand.setMetadata("nexteconomy", new FixedMetadataValue(plugin, true));
-            stand.setSmall(RankingValue.get(RankingValue::hologramFormat).equalsIgnoreCase("SMALL"));
+            stand.setSmall(small);
             stand.setCustomNameVisible(false);
             stand.setGravity(false);
             stand.setArms(true);
