@@ -67,7 +67,10 @@ public enum ButtonType {
 
     }),
 
-    TOP_MONEY(callback -> callback.getPlayer().performCommand("money top"));
+    TOP_MONEY(callback -> {
+        callback.getPlayer().closeInventory();
+        callback.getPlayer().performCommand("money top");
+    });
 
     @Getter private final Consumer<CustomInventoryClickEvent> action;
 

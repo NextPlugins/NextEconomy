@@ -14,9 +14,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.val;
 import org.bukkit.Bukkit;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
-
-import java.util.List;
 
 /**
  * @author Yuhtin
@@ -30,14 +29,14 @@ public class AsyncRankingUpdateListener implements Listener {
     private final AccountRepository accountRepository;
     private final RankingStorage rankingStorage;
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.MONITOR)
     public void onRankingUpdate(AsyncRankingUpdateEvent event) {
 
         if (event.isCancelled()) return;
 
-        val pluginManager = Bukkit.getPluginManager();
-
         accountStorage.getCache().synchronous().invalidateAll();
+
+        val pluginManager = Bukkit.getPluginManager();
 
         val accounts = Lists.newLinkedList(accountRepository.selectSimpleAll(
                 "ORDER BY balance DESC LIMIT " + RankingValue.get(RankingValue::rankingLimit)
@@ -65,18 +64,19 @@ public class AsyncRankingUpdateListener implements Listener {
             if (lastAccount != null) {
 
                 val topAccount = rankingStorage.getRankByCoin().get(0);
-                if (lastAccount.getUsername().equals(topAccount.getUsername())) return;
-
-                pluginManager.callEvent(new AsyncMoneyTopPlayerChangedEvent(lastAccount, topAccount));
+                if (!lastAccount.getUsername().equals(topAccount.getUsername())) pluginManager.callEvent(new AsyncMoneyTopPlayerChangedEvent(lastAccount, topAccount));
 
             }
 
+        } else {
+            NextEconomy.getInstance().getLogger().info("[Ranking] Não tem nenhum jogador no ranking");
+            return;
         }
 
         NextEconomy.getInstance().getLogger().info("[Ranking] Atualização do ranking feita com sucesso");
 
         val instance = CustomRankingRegistry.getInstance();
-        if (!instance.isEnabled() || accounts.isEmpty()) return;
+        if (!instance.isEnabled()) return;
 
         NextEconomy.getInstance().getLogger().info("[Ranking] Iniciando atualização de ranking visual");
 

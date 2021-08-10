@@ -14,14 +14,12 @@ import java.time.Instant;
 @Setter
 public final class AsyncRankingUpdateEvent extends EconomyEvent implements Cancellable {
 
-    private final long nextUpdate;
 
     private final Instant instant = Instant.now();
     private boolean cancelled;
 
-    public AsyncRankingUpdateEvent(long nextUpdate) {
+    public AsyncRankingUpdateEvent() {
         super(true);
-        this.nextUpdate = nextUpdate;
     }
 
 }

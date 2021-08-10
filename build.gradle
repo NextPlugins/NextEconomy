@@ -7,7 +7,7 @@ plugins {
 }
 
 group 'com.nextplugins'
-version '2.0.0-RC-6'
+version '2.0.0-FR-1'
 
 tasks.build.dependsOn('shadowJar')
 

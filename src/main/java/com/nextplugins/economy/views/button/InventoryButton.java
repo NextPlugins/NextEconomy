@@ -27,7 +27,7 @@ public final class InventoryButton implements Cloneable {
 
     private final int inventorySlot;
 
-    protected ItemStack itemStack;
+    private ItemStack itemStack;
 
     public ItemStack getItemStack(String nick) {
 

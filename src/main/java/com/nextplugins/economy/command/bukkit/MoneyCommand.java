@@ -366,7 +366,7 @@ public final class MoneyCommand {
 
         val rankingStorage = plugin.getRankingStorage();
         val sender = context.getSender();
-        if (rankingStorage.updateRanking()) {
+        if (rankingStorage.updateRanking(false)) {
 
             sender.sendMessage(ColorUtil.colored("&aAtualizando o ranking, aguarde alguns segundos."));
             return;

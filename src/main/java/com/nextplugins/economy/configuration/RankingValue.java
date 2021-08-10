@@ -47,15 +47,15 @@ public final class RankingValue implements ConfigurationInjectable {
 
     // npc
 
-    @ConfigField("npc.type") private String npcType;
-    @ConfigField("npc.height") private String hologramHeight;
-    @ConfigField("npc.armor.chestplate") private String chestplateRGB;
-    @ConfigField("npc.armor.leggings") private String leggingsRGB;
-    @ConfigField("npc.armor.boots") private String bootsRGB;
-    @ConfigField("npc.messages.hologram.limit") private int hologramDefaultLimit;
-    @ConfigField("npc.messages.hologram.line") private String hologramDefaultLine;
-    @ConfigField("npc.messages.hologram.modal") private List<String> hologramDefaultLines;
-    @ConfigField("npc.messages.default.modal") private List<String> hologramArmorStandLines;
+    @ConfigField("visual.type") private String npcType;
+    @ConfigField("visual.format") private String hologramFormat;
+    @ConfigField("visual.armor.chestplate") private String chestplateRGB;
+    @ConfigField("visual.armor.leggings") private String leggingsRGB;
+    @ConfigField("visual.armor.boots") private String bootsRGB;
+    @ConfigField("visual.messages.hologram.limit") private int hologramDefaultLimit;
+    @ConfigField("visual.messages.hologram.line") private String hologramDefaultLine;
+    @ConfigField("visual.messages.hologram.modal") private List<String> hologramDefaultLines;
+    @ConfigField("visual.messages.default.modal") private List<String> hologramArmorStandLines;
 
     // tycoon
 

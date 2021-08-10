@@ -32,7 +32,7 @@ ranking:
         - ' &7Transações: &e$transactions'
         - ' &7Dinheiro movimentado: &e$movimentation'
         - ''
-  npc:
+  visual:
     # ARMORSTAND - Armorstands com cabeça de cada jogador [Recomendado para multi-posições]
     # NPC - Boneco da altua e mesma skin do jogador
     # HOLOGRAM - Apenas um holograma com todos os jogadores (suporta apenas 1 posição) [Melhor opção]
@@ -42,7 +42,7 @@ ranking:
     # seja ARMORSTAND. Isto afetará o tamanho do ArmorStand
     # SMALL - Formato pequeno
     # TALL - Formato grande
-    height: SMALL
+    format: SMALL
     # Configuração das cores da armadura de couro (apenas top armorstand)
     # Todas as cores aqui são em HEX, procure no google para achar o código HEX da cor que quer colocar
     armor:

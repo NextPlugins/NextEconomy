@@ -87,7 +87,7 @@ public final class ArmorStandRunnable implements Runnable {
             val stand = location.getWorld().spawn(location, ArmorStand.class);
             stand.setVisible(false); // show only after configuration
             stand.setMetadata("nexteconomy", new FixedMetadataValue(plugin, true));
-            stand.setSmall(RankingValue.get(RankingValue::hologramHeight).equalsIgnoreCase("SMALL"));
+            stand.setSmall(RankingValue.get(RankingValue::hologramFormat).equalsIgnoreCase("SMALL"));
             stand.setCustomNameVisible(false);
             stand.setGravity(false);
             stand.setArms(true);

@@ -74,7 +74,8 @@ public final class NextEconomy extends JavaPlugin {
         npcFile = new File(getDataFolder(), "npcs.yml");
         if (!npcFile.exists()) saveResource("npcs.yml", false);
 
-        saveResource("DiscordSRV.rar", false);
+        val discordSrv = new File(getDataFolder(), "DiscordSRV.rar");
+        if (!discordSrv.exists()) saveResource("DiscordSRV.rar", false);
 
         npcConfig = YamlConfiguration.loadConfiguration(npcFile);
 
@@ -122,7 +123,7 @@ public final class NextEconomy extends JavaPlugin {
             else PurseAPI.getInstance(); // force purse update
 
             // bump money top one time and add, if enabled, stands/npcs
-            rankingStorage.updateRanking();
+            rankingStorage.updateRanking(true);
 
             registerPayDiscordManager();
             discordCommandRegistry.init();

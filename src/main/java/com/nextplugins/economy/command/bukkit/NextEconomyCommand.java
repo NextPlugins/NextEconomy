@@ -98,8 +98,14 @@ public final class NextEconomyCommand {
 
         context.sendMessage(ColorUtil.colored("&aIniciando atualização do ranking"));
 
-        rankingStorage.setNextUpdateMillis(0);
-        rankingStorage.updateRanking();
+        if (!rankingStorage.updateRanking(true)) {
+
+            context.sendMessage(ColorUtil.colored("&cNão foi possível atualizar o ranking"));
+            return;
+
+        }
+
+        context.sendMessage(ColorUtil.colored("&aRanking atualizado com sucesso."));
 
     }
 

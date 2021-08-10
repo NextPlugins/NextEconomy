@@ -3,7 +3,6 @@ package com.nextplugins.economy.ranking.storage;
 import com.google.common.collect.Lists;
 import com.nextplugins.economy.NextEconomy;
 import com.nextplugins.economy.api.event.operations.AsyncRankingUpdateEvent;
-import com.nextplugins.economy.api.model.account.Account;
 import com.nextplugins.economy.api.model.account.SimpleAccount;
 import com.nextplugins.economy.configuration.RankingValue;
 import lombok.Data;
@@ -20,9 +19,9 @@ public final class RankingStorage {
     private final List<SimpleAccount> rankByMovimentation = Lists.newLinkedList();
     private long nextUpdateMillis;
 
-    public boolean updateRanking() {
+    public boolean updateRanking(boolean force) {
 
-        if (nextUpdateMillis > System.currentTimeMillis()) return false;
+        if (!force && nextUpdateMillis > System.currentTimeMillis()) return false;
 
         val plugin = NextEconomy.getInstance();
 
@@ -31,9 +30,11 @@ public final class RankingStorage {
 
         nextUpdateMillis = System.currentTimeMillis() + updateDelayMillis;
 
+        NextEconomy.getInstance().getLogger().info("[Ranking] Iniciando atualização no ranking");
+
         Bukkit.getScheduler().runTaskAsynchronously(
                 plugin,
-                () -> pluginManager.callEvent(new AsyncRankingUpdateEvent(nextUpdateMillis))
+                () -> pluginManager.callEvent(new AsyncRankingUpdateEvent())
         );
 
         return true;
