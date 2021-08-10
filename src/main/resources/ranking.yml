@@ -3,7 +3,7 @@ ranking:
   limit: 14 # limite de contas que serão puxadas da database
   tycoon: # Placeholder: {tycoon} ou %tycoon%
     # Tag dada para o jogador mais rico
-    # Para desativar, apenas coloque o campo vazio
+    # Para desativar, apenas deixe o campo entre as '' vazio.
     tag: '&2[$] '
     # Tag dada para os demais jogadores do money top (2 ao 10 ou o número configurado no limite)
     # Para desativar apenas coloque o campo vazio
@@ -11,7 +11,8 @@ ranking:
     rich: '&a[Rico] '
 
   model:
-    type: 'INVENTORY' # tipo do ranking, tipos válidos: 'CHAT' e 'INVENTORY'
+    # tipo do ranking, tipos válidos: 'CHAT' e 'INVENTORY'
+    type: 'INVENTORY' 
     chat:
       header:
         - ''
@@ -34,11 +35,11 @@ ranking:
         - ''
   visual:
     # ARMORSTAND - Armorstands com cabeça de cada jogador [Recomendado para multi-posições]
-    # NPC - Boneco da altua e mesma skin do jogador
+    # NPC - Boneco da altura e mesma skin do jogador
     # HOLOGRAM - Apenas um holograma com todos os jogadores (suporta apenas 1 posição) [Melhor opção]
     # NOTHING - Desativar todos os formatos de ranking (mesmo que não sete nenhuma posição do ranking, desative aqui para reduzir o tempo de startup)
     type: ARMORSTAND
-    # Esta opção só irá afetar caso o tipo de npc
+    # Esta opção só irá afetar caso o tipo de ranking
     # seja ARMORSTAND. Isto afetará o tamanho do ArmorStand
     # SMALL - Formato pequeno
     # TALL - Formato grande
