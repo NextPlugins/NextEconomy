@@ -164,8 +164,6 @@ messages:
       - ' &cAo ler um backup, todos os dados de jogadores serão apagados,'
       - ' &ce os dados do backup serão utilizados.'
       - ''
-      - ' &cO backup não suporta o salvamento do histórico de transações do jogador.'
-      - ''
     check-help-command:
       - ''
       - '&a&lNextEconomy &8&l➡&f Sistema de cheque'

@@ -25,6 +25,7 @@ public final class DiscordSyncUtil {
 
         val plugin = DiscordSRV.getPlugin();
         val accountLinkManager = plugin.getAccountLinkManager();
+        if (accountLinkManager == null) return null;
 
         val discordId = accountLinkManager.getDiscordId(player.getUniqueId());
         if (discordId == null) return null;

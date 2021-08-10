@@ -18,6 +18,10 @@ public final class InventoryButtonRegistry {
     public InventoryButtonRegistry init() {
 
         register(inventoryButtonParser.parse(
+                InventoryValue.get(InventoryValue::helpButton)
+        ));
+
+        register(inventoryButtonParser.parse(
                 InventoryValue.get(InventoryValue::yourMoneyButton)
         ));
 

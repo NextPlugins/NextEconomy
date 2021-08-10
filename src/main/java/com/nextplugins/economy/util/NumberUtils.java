@@ -22,13 +22,16 @@ public final class NumberUtils {
 
         int index = 0;
 
+        val format = MessageValue.get(MessageValue::currencyFormat);
+
         double tmp;
         while ((tmp = value / 1000) >= 1) {
+            if (index + 1 == format.size()) break;
             value = tmp;
             ++index;
         }
 
-        return DECIMAL_FORMAT.format(value) + MessageValue.get(MessageValue::currencyFormat).get(index);
+        return DECIMAL_FORMAT.format(value) + format.get(index);
 
     }
 

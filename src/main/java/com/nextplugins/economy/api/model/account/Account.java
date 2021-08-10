@@ -3,9 +3,11 @@ package com.nextplugins.economy.api.model.account;
 import com.google.common.collect.Lists;
 import com.nextplugins.economy.api.event.operations.MoneyChangeEvent;
 import com.nextplugins.economy.api.model.account.historic.AccountBankHistoric;
+import com.nextplugins.economy.api.model.account.historic.BankHistoricComparator;
 import com.nextplugins.economy.api.model.account.transaction.TransactionType;
 import com.nextplugins.economy.configuration.FeatureValue;
 import com.nextplugins.economy.util.DiscordSyncUtil;
+import com.nextplugins.economy.util.ListSerializerHelper;
 import com.nextplugins.economy.util.NumberUtils;
 import lombok.*;
 import net.milkbowl.vault.economy.EconomyResponse;
@@ -21,6 +23,8 @@ import java.util.LinkedList;
 @AllArgsConstructor(access = AccessLevel.PROTECTED)
 public class Account {
 
+    private static final ListSerializerHelper<AccountBankHistoric> PARSER = new ListSerializerHelper<>();
+
     private final String username;
     private String discordName;
 
@@ -29,6 +33,7 @@ public class Account {
 
     private int transactionsQuantity;
     @Builder.Default private transient LinkedList<AccountBankHistoric> transactions = Lists.newLinkedList();
+    private String transactionsJson;
 
     @Builder.Default private boolean receiveCoins = true;
 
@@ -66,6 +71,7 @@ public class Account {
                 movimentedBalance,
                 transactionsQuantity,
                 transactions,
+                "",
                 true
         );
 
@@ -167,6 +173,15 @@ public class Account {
     public synchronized boolean hasAmount(double amount) {
         if (NumberUtils.isInvalid(amount)) return false;
         return this.balance >= amount;
+    }
+
+    public void parseTransactions() {
+        transactionsJson = PARSER.toJson(transactions);
+    }
+
+    public void loadTransactions() {
+        transactions = Lists.newLinkedList(PARSER.fromJson(transactionsJson));
+        transactions.sort(new BankHistoricComparator());
     }
 
 }

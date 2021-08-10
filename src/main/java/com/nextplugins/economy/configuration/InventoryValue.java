@@ -46,6 +46,7 @@ public class InventoryValue implements ConfigurationInjectable {
     @ConfigField("main.config.name") private String mainInventoryName;
     @ConfigField("main.config.size") private int mainInventorySize;
 
+    @ConfigField("main.buttons.help") private ConfigurationSection helpButton;
     @ConfigField("main.buttons.yourMoney") private ConfigurationSection yourMoneyButton;
     @ConfigField("main.buttons.viewPlayerMoney") private ConfigurationSection viewPlayerMoneyButton;
     @ConfigField("main.buttons.sendMoney") private ConfigurationSection sendMoneyButton;

@@ -83,6 +83,8 @@ public class AsyncRankingUpdateListener implements Listener {
         // Leave from async. Entities can't be spawned in async.
         Bukkit.getScheduler().runTaskLater(NextEconomy.getInstance(), instance.getRunnable(), 20L);
 
+        NextEconomy.getInstance().getLogger().info("[Ranking] Atualização de ranking visual finalizada");
+
     }
 
 }

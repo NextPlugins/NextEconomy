@@ -53,7 +53,7 @@ embed:
       # Placeholders para title $coinName e $player
       # Placeholders para text $money $player $coinName $transactionsmoney $transactions $lastTransactionMessage
       info:
-        inline: true
+        inline: false
         title: ':placard: Informações do jogador'
         text: '$userTag'
       money:
@@ -65,7 +65,7 @@ embed:
         title: '<:sopa:863522094221885453> Dinheiro movimentado' # Para remover do embed, apague o campo
         text: '$transactionsmoney coins ($transactions transações)' # Para remover do embed, apague o campo
       receiveMoney:
-        inline: false
+        inline: true
         title: '<:rename_command:863522094524661800> Recebimento de $coinName' # Para remover do embed, apague o campo
         text: '$ableToCoins' # Para remover do embed, apague o campo
       blankLine:

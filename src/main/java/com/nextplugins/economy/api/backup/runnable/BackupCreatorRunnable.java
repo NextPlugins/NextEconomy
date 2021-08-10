@@ -40,6 +40,8 @@ public final class BackupCreatorRunnable implements Runnable {
 
             val stopwatch = Stopwatch.createStarted();
 
+            accounts.forEach(Account::parseTransactions);
+
             val writer = new FileWriter(file);
             PARSER.toJson(accounts, writer);
 

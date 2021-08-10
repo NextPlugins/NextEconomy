@@ -84,6 +84,7 @@ public final class BackupReaderRunnable implements Runnable {
 
             val typeToken = new TypeToken<ArrayList<Account>>() {}.getType();
             List<Account> accounts = PARSER.fromJson(new FileReader(this.file), typeToken);
+            accounts.forEach(Account::loadTransactions);
 
             conversorManager.startConversion(
                     commandSender,
