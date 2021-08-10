@@ -158,6 +158,7 @@ messages:
       - '&a/ne converter (tipo) &8- &7Converta os dados entre mysql e sqlite'
       - '&a/ne backup [nome] &8- &7Criar um novo backup'
       - '&a/ne read (nome) (backup ou restaurar) &8- &7Ler um backup ou ponto de restauração'
+      - '&a/ne forceupdate &8- &7Forçar a atualização do ranking'
       - '&a/ne rankingdebug &8- &7Caso seu servidor crashe, use esta função para limpar o ranking'
       - ''
       - ' &cAo ler um backup, todos os dados de jogadores serão apagados,'

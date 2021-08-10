@@ -35,10 +35,10 @@ public class ViewMoneyCommand implements Command {
         OfflinePlayer player = null;
         User user = null;
 
-        val mentionedMembers = message.getMentionedMembers();
-        if (mentionedMembers.size() > 1) {
+        val mentionedMembers = message.getMentionedUsers();
+        if (!mentionedMembers.isEmpty()) {
 
-            user = mentionedMembers.get(0).getUser();
+            user = mentionedMembers.get(0);
             if (!user.isBot()) {
 
                 val uuid = DiscordSRV.getPlugin().getAccountLinkManager().getUuid(user.getId());
@@ -77,9 +77,9 @@ public class ViewMoneyCommand implements Command {
 
                 player = Bukkit.getOfflinePlayer(uuid);
 
-
             } catch (Exception exception) {
                 player = Bukkit.getOfflinePlayer(memberName);
+                if (!player.hasPlayedBefore()) player = null;
             }
 
 
@@ -88,7 +88,7 @@ public class ViewMoneyCommand implements Command {
         if (player == null) {
 
             message.reply(DiscordValue.get(DiscordValue::invalidEmoji) +
-                    " Você precisa mencionar um usuário, ou inserir um nick válido."
+                    " Você precisa mencionar um usuário (mencionar ou id), ou inserir um nick válido."
             ).queue();
             return;
 

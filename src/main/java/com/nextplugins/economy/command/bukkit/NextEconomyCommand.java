@@ -3,19 +3,17 @@ package com.nextplugins.economy.command.bukkit;
 import com.gmail.filoghost.holographicdisplays.api.Hologram;
 import com.gmail.filoghost.holographicdisplays.api.HologramsAPI;
 import com.google.common.base.Stopwatch;
-import com.google.common.collect.Lists;
 import com.henryfabio.sqlprovider.executor.SQLExecutor;
 import com.nextplugins.economy.NextEconomy;
 import com.nextplugins.economy.api.backup.BackupManager;
 import com.nextplugins.economy.api.backup.response.ResponseType;
 import com.nextplugins.economy.api.conversor.ConversorManager;
-import com.nextplugins.economy.api.model.account.Account;
 import com.nextplugins.economy.api.model.account.storage.AccountStorage;
 import com.nextplugins.economy.configuration.MessageValue;
 import com.nextplugins.economy.dao.SQLProvider;
 import com.nextplugins.economy.dao.repository.AccountRepository;
-import com.nextplugins.economy.ranking.runnable.ArmorStandRunnable;
 import com.nextplugins.economy.ranking.runnable.NPCRunnable;
+import com.nextplugins.economy.ranking.storage.RankingStorage;
 import com.nextplugins.economy.util.ColorUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.val;
@@ -24,16 +22,12 @@ import me.saiintbrisson.minecraft.command.annotation.Command;
 import me.saiintbrisson.minecraft.command.annotation.Optional;
 import me.saiintbrisson.minecraft.command.command.Context;
 import net.citizensnpcs.api.CitizensAPI;
-import net.citizensnpcs.api.npc.NPC;
 import org.bukkit.Bukkit;
-import org.bukkit.World;
 import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 
 import java.io.File;
 import java.util.Arrays;
-import java.util.HashSet;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
@@ -46,8 +40,8 @@ import java.util.stream.Collectors;
 public final class NextEconomyCommand {
 
     private final BackupManager backupManager;
+    private final RankingStorage rankingStorage;
     private final AccountStorage accountStorage;
-    private final AccountRepository accountRepository;
     private final ConversorManager conversorManager;
 
     @Command(
@@ -75,7 +69,7 @@ public final class NextEconomyCommand {
         val backup = backupManager.createBackup(
                 context.getSender(),
                 name,
-                accountRepository,
+                accountStorage.getAccountRepository(),
                 false, true
         );
 
@@ -92,6 +86,20 @@ public final class NextEconomyCommand {
         if (backup.getResponseType() == ResponseType.BACKUP_IN_PROGRESS) {
             context.sendMessage(ColorUtil.colored("&cJá existe um backup em andamento."));
         }
+
+    }
+
+    @Command(
+            name = "nexteconomy.rankingdebug",
+            permission = "nexteconomy.admin",
+            async = true
+    )
+    public void onForceRankingUpdate(Context<CommandSender> context) {
+
+        context.sendMessage(ColorUtil.colored("&aIniciando atualização do ranking"));
+
+        rankingStorage.setNextUpdateMillis(0);
+        rankingStorage.updateRanking();
 
     }
 

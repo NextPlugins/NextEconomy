@@ -20,6 +20,14 @@ inventory:
       name: 'Banco Central'
       size: 27
     buttons:
+      help:
+        identifier: HELP
+        skullName: 'MHF_QUESTION'
+        displayName: '&6Ajuda'
+        inventorySlot: 0
+        lore:
+          - '&fVeja todos os comandos de'
+          - '&fnosso sistema de economia'
       yourMoney:
         identifier: YOUR_MONEY
         skullName: '@player' # ficar com a cabeça do jogador que está visualizando

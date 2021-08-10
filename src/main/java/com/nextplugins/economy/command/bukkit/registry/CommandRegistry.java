@@ -31,8 +31,8 @@ public final class CommandRegistry {
                     ),
                     new NextEconomyCommand(
                             plugin.getBackupManager(),
+                            plugin.getRankingStorage(),
                             plugin.getAccountStorage(),
-                            plugin.getAccountRepository(),
                             plugin.getConversorManager()
                     )
             );

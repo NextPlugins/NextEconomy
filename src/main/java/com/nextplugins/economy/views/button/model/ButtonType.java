@@ -16,6 +16,12 @@ public enum ButtonType {
 
     PURSE(callback -> {
     }),
+
+    HELP(callback -> {
+        callback.getPlayer().closeInventory();
+        callback.getPlayer().performCommand("money help");
+    }),
+
     YOUR_MONEY(callback -> {
 
         try {
@@ -63,7 +69,6 @@ public enum ButtonType {
 
     TOP_MONEY(callback -> callback.getPlayer().performCommand("money top"));
 
-    @Getter
-    private final Consumer<CustomInventoryClickEvent> action;
+    @Getter private final Consumer<CustomInventoryClickEvent> action;
 
 }

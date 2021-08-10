@@ -63,12 +63,10 @@ public final class BankView extends SimpleInventory {
 
         val transactionsMessage = account.getTransactionsQuantity() + " " + transactionName;
 
-        for (InventoryButton value : BUTTONS.values()) {
+        for (val value : BUTTONS.values()) {
 
-            int inventorySlot = value.getInventorySlot();
-            if (inventorySlot == -1) continue;
-
-            if (value.getButtonType() == ButtonType.PURSE && instance == null) continue;
+            val inventorySlot = value.getInventorySlot();
+            if (inventorySlot == -1 || (value.getButtonType() == ButtonType.PURSE && instance == null)) continue;
 
             val valueItem = new ItemBuilder(value.getItemStack(player.getName()))
                     .setLore(value.getLore()
