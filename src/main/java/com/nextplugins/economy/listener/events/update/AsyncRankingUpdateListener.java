@@ -5,7 +5,6 @@ import com.nextplugins.economy.NextEconomy;
 import com.nextplugins.economy.api.event.operations.AsyncRankingUpdateEvent;
 import com.nextplugins.economy.api.event.operations.AsyncMoneyTopPlayerChangedEvent;
 import com.nextplugins.economy.api.model.account.SimpleAccount;
-import com.nextplugins.economy.api.model.account.storage.AccountStorage;
 import com.nextplugins.economy.configuration.RankingValue;
 import com.nextplugins.economy.dao.repository.AccountRepository;
 import com.nextplugins.economy.ranking.CustomRankingRegistry;
@@ -25,7 +24,6 @@ import org.bukkit.event.Listener;
 @RequiredArgsConstructor
 public class AsyncRankingUpdateListener implements Listener {
 
-    private final AccountStorage accountStorage;
     private final AccountRepository accountRepository;
     private final RankingStorage rankingStorage;
 
@@ -33,9 +31,6 @@ public class AsyncRankingUpdateListener implements Listener {
     public void onRankingUpdate(AsyncRankingUpdateEvent event) {
 
         if (event.isCancelled()) return;
-
-        accountStorage.getCache().synchronous().invalidateAll();
-
         val pluginManager = Bukkit.getPluginManager();
 
         val accounts = Lists.newLinkedList(accountRepository.selectSimpleAll(
@@ -50,15 +45,13 @@ public class AsyncRankingUpdateListener implements Listener {
 
             SimpleAccount lastAccount = null;
             if (!rankingStorage.getRankByCoin().isEmpty()) {
-
                 lastAccount = rankingStorage.getRankByCoin().get(0);
-                rankingStorage.getRankByCoin().clear();
-
             }
 
-            rankingStorage.getRankByCoin().addAll(accounts);
-
+            rankingStorage.getRankByCoin().clear();
             rankingStorage.getRankByMovimentation().clear();
+
+            rankingStorage.getRankByCoin().addAll(accounts);
             rankingStorage.getRankByMovimentation().addAll(accountsMovimentation);
 
             if (lastAccount != null) {

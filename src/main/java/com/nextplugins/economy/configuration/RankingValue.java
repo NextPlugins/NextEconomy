@@ -55,6 +55,7 @@ public final class RankingValue implements ConfigurationInjectable {
     @ConfigField("visual.messages.hologram.limit") private int hologramDefaultLimit;
     @ConfigField("visual.messages.hologram.line") private String hologramDefaultLine;
     @ConfigField("visual.messages.hologram.modal") private List<String> hologramDefaultLines;
+    @ConfigField("visual.messages.default.nobody") private List<String> nobodyHologramLines;
     @ConfigField("visual.messages.default.modal") private List<String> hologramArmorStandLines;
 
     // tycoon

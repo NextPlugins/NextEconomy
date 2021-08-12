@@ -9,14 +9,14 @@ import lombok.Data;
 import lombok.val;
 import org.bukkit.Bukkit;
 
-import java.util.List;
+import java.util.ArrayList;
 import java.util.concurrent.TimeUnit;
 
 @Data
 public final class RankingStorage {
 
-    private final List<SimpleAccount> rankByCoin = Lists.newLinkedList();
-    private final List<SimpleAccount> rankByMovimentation = Lists.newLinkedList();
+    private final ArrayList<SimpleAccount> rankByCoin = Lists.newArrayList();
+    private final ArrayList<SimpleAccount> rankByMovimentation = Lists.newArrayList();
     private long nextUpdateMillis;
 
     public boolean updateRanking(boolean force) {
@@ -30,11 +30,14 @@ public final class RankingStorage {
 
         nextUpdateMillis = System.currentTimeMillis() + updateDelayMillis;
 
-        NextEconomy.getInstance().getLogger().info("[Ranking] Iniciando atualização no ranking");
+        plugin.getLogger().info("[Ranking] Iniciando atualização no ranking");
 
-        Bukkit.getScheduler().runTaskAsynchronously(
+        plugin.getAccountStorage().getCache().synchronous().invalidateAll();
+
+        Bukkit.getScheduler().runTaskLaterAsynchronously(
                 plugin,
-                () -> pluginManager.callEvent(new AsyncRankingUpdateEvent())
+                () -> pluginManager.callEvent(new AsyncRankingUpdateEvent()),
+                25L
         );
 
         return true;

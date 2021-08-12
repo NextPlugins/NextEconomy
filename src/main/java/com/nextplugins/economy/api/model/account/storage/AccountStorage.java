@@ -24,10 +24,10 @@ public final class AccountStorage {
     @Getter private final AccountRepository accountRepository;
 
     @Getter private final AsyncLoadingCache<String, Account> cache = Caffeine.newBuilder()
-            .ticker(System::nanoTime)
-            .maximumSize(10000)
+            .maximumSize(1000)
             .expireAfterWrite(5, TimeUnit.MINUTES)
-            .removalListener((RemovalListener<String, Account>) (key, value, cause) -> saveOne(value))
+            .evictionListener((RemovalListener<String, Account>) (key, value, cause) -> saveOne(value))
+            .removalListener((key, value, cause) -> saveOne(value))
             .buildAsync((key, executor) -> CompletableFuture.completedFuture(selectOne(key)));
 
     public void init() {

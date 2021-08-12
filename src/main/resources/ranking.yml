@@ -68,7 +68,11 @@ ranking:
         - ''
         - '&aAtualizado a cada 30 minutos.'
       default:
+        nobody:
+          - '&f&l$positionº Lugar'
+          - '&cNenhum jogador elegível'
+          - ''
         modal:
-        - '&f&l$positionº Lugar'
-        - '&7$prefix$player'
-        - '&a$ $amount'
+          - '&f&l$positionº Lugar'
+          - '&7$prefix$player'
+          - '&a$ $amount'

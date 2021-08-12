@@ -18,7 +18,6 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.metadata.FixedMetadataValue;
 
 import java.util.List;
-import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * @author Yuhtin
@@ -52,39 +51,46 @@ public final class ArmorStandRunnable implements Runnable {
         val accounts = rankingStorage.getRankByCoin();
         if (accounts.isEmpty()) return;
 
-        val position = new AtomicInteger(1);
+        val small = RankingValue.get(RankingValue::hologramFormat).equalsIgnoreCase("SMALL");
+        val height = small ? 2.15 : 3;
 
         val hologramLines = RankingValue.get(RankingValue::hologramArmorStandLines);
-        for (val account : accounts) {
+        val nobodyLines = RankingValue.get(RankingValue::nobodyHologramLines);
+        for (val entry : locationManager.getLocationMap().entrySet()) {
 
-            val location = locationManager.getLocation(position.get());
-            if (location == null || location.getWorld() == null) {
-
-                plugin.getLogger().warning("A localização " + position.get() + " do ranking é inválida.");
-                continue;
-
-            }
+            val position = entry.getKey();
+            val location = entry.getValue();
 
             val chunk = location.getChunk();
             if (!chunk.isLoaded()) chunk.load(true);
 
-            val small = RankingValue.get(RankingValue::hologramFormat).equalsIgnoreCase("SMALL");
-            val height = small ? 2.15 : 3;
+            val account = position - 1 < accounts.size() ? accounts.get(position - 1) : null;
+            if (account == null) {
+                if (!nobodyLines.isEmpty()) {
 
-            if (!hologramLines.isEmpty()) {
-                val hologramLocation = location.clone().add(0, height, 0);
-                val hologram = HologramsAPI.createHologram(plugin, hologramLocation);
+                    val hologramLocation = location.clone().add(0, height, 0);
+                    val hologram = HologramsAPI.createHologram(plugin, hologramLocation);
 
-                val format = account.getBalanceFormated();
-                for (int i = 0; i < hologramLines.size(); i++) {
-                    hologram.insertTextLine(i, hologramLines.get(i)
-                            .replace("$position", String.valueOf(position.get()))
-                            .replace("$player", account.getUsername())
-                            .replace("$prefix", plugin.getGroupWrapperManager().getPrefix(account.getUsername()))
-                            .replace("$amount", format)
-                    );
+                    for (int i = 0; i < nobodyLines.size(); i++) {
+                        hologram.insertTextLine(i, nobodyLines.get(i).replace("$position", String.valueOf(position)));
+                    }
+
                 }
+            } else {
+                if (!hologramLines.isEmpty()) {
+                    val hologramLocation = location.clone().add(0, height, 0);
+                    val hologram = HologramsAPI.createHologram(plugin, hologramLocation);
 
+                    val format = account.getBalanceFormated();
+                    for (int i = 0; i < hologramLines.size(); i++) {
+                        hologram.insertTextLine(i, hologramLines.get(i)
+                                .replace("$position", String.valueOf(position))
+                                .replace("$player", account.getUsername())
+                                .replace("$prefix", plugin.getGroupWrapperManager().getPrefix(account.getUsername()))
+                                .replace("$amount", format)
+                        );
+                    }
+                }
             }
 
             val stand = location.getWorld().spawn(location, ArmorStand.class);
@@ -95,12 +101,12 @@ public final class ArmorStandRunnable implements Runnable {
             stand.setGravity(false);
             stand.setArms(true);
 
-            val swordNumber = Math.min(SWORDS.length, position.get());
+            val swordNumber = Math.min(SWORDS.length, position);
 
             val sword = SWORDS[swordNumber - 1];
             stand.setItemInHand(new ItemStack(sword));
 
-            stand.setHelmet(new ItemBuilder(account.getUsername()).wrap());
+            stand.setHelmet(new ItemBuilder(account == null ? "Yuhtin" : account.getUsername()).wrap());
 
             stand.setChestplate(new ItemBuilder(
                     Material.LEATHER_CHESTPLATE,
@@ -120,9 +126,8 @@ public final class ArmorStandRunnable implements Runnable {
             stand.setVisible(true); // configuration finished, show stand
 
             STANDS.add(stand);
-            position.getAndIncrement();
-        }
 
+        }
     }
 
 }

@@ -13,7 +13,6 @@ import net.citizensnpcs.api.CitizensAPI;
 import org.bukkit.entity.EntityType;
 
 import java.util.List;
-import java.util.concurrent.atomic.AtomicInteger;
 
 @RequiredArgsConstructor
 public final class NPCRunnable implements Runnable {
@@ -34,47 +33,54 @@ public final class NPCRunnable implements Runnable {
         val accounts = rankingStorage.getRankByCoin();
         if (accounts.isEmpty()) return;
 
-        val position = new AtomicInteger(1);
-
         val hologramLines = RankingValue.get(RankingValue::hologramArmorStandLines);
-        for (val account : accounts) {
+        val nobodyLines = RankingValue.get(RankingValue::nobodyHologramLines);
+        for (val entry : locationManager.getLocationMap().entrySet()) {
 
-            val location = locationManager.getLocation(position.get());
-            if (location == null || location.getWorld() == null) {
-
-                plugin.getLogger().warning("A localização " + position.get() + " do ranking é inválida.");
-                continue;
-
-            }
+            val position = entry.getKey();
+            val location = entry.getValue();
 
             val chunk = location.getChunk();
             if (!chunk.isLoaded()) chunk.load(true);
 
-            if (!hologramLines.isEmpty()) {
-                val hologramLocation = location.clone().add(0, 3, 0);
-                val hologram = HologramsAPI.createHologram(plugin, hologramLocation);
+            val account = position - 1 < accounts.size() ? accounts.get(position - 1) : null;
+            if (account == null) {
+                if (!nobodyLines.isEmpty()) {
 
-                val format = account.getBalanceFormated();
-                for (int i = 0; i < hologramLines.size(); i++) {
-                    hologram.insertTextLine(i, hologramLines.get(i)
-                            .replace("$position", String.valueOf(position.get()))
-                            .replace("$player", account.getUsername())
-                            .replace("$prefix", plugin.getGroupWrapperManager().getPrefix(account.getUsername()))
-                            .replace("$amount", format)
-                    );
+                    val hologramLocation = location.clone().add(0, 3, 0);
+                    val hologram = HologramsAPI.createHologram(plugin, hologramLocation);
+
+                    for (int i = 0; i < nobodyLines.size(); i++) {
+                        hologram.insertTextLine(i, nobodyLines.get(i).replace("$position", String.valueOf(position)));
+                    }
+
                 }
+            } else {
+                if (!hologramLines.isEmpty()) {
+                    val hologramLocation = location.clone().add(0, 3, 0);
+                    val hologram = HologramsAPI.createHologram(plugin, hologramLocation);
 
+                    val format = account.getBalanceFormated();
+                    for (int i = 0; i < hologramLines.size(); i++) {
+                        hologram.insertTextLine(i, hologramLines.get(i)
+                                .replace("$position", String.valueOf(position))
+                                .replace("$player", account.getUsername())
+                                .replace("$prefix", plugin.getGroupWrapperManager().getPrefix(account.getUsername()))
+                                .replace("$amount", format)
+                        );
+                    }
+                }
             }
 
             val npcRegistry = CitizensAPI.getNPCRegistry();
 
             val npc = npcRegistry.createNPC(EntityType.PLAYER, "");
-            npc.data().set("player-skin-name", account.getUsername());
+            npc.data().set("player-skin-name", account != null ? account.getUsername() : "Yuhtin");
             npc.setProtected(true);
             npc.spawn(location);
 
             NPCS.add(npc.getId());
-            position.getAndIncrement();
+
         }
 
     }
