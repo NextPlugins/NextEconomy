@@ -23,16 +23,6 @@ inventory:
       #Tamanho do inventário
       size: 27
     buttons:
-      toggle:
-        identifier: TOGGLE
-        skullName: 'ENDER_PEARL'
-        displayName: '&6Recebimento de coins'
-        inventorySlot: 0
-        lore:
-          - '&fDesative ou ative o &erecebimento'
-          - '&ede coins &fvindo de outros &ejogadores'
-          - ''
-          - ' &fStatus: $toggleMessage'
       help:
         identifier: HELP
         skullName: 'MHF_QUESTION'
@@ -68,6 +58,17 @@ inventory:
           - ' &8ricos do servidor'
           - ''
           - '&eClique aqui para ver'
+      toggle:
+        identifier: TOGGLE
+        material: ENDER_PEARL
+        data: 0
+        displayName: '&6Recebimento de coins'
+        inventorySlot: 13
+        lore:
+          - '&fDesative ou ative o recebimento'
+          - '&fde coins vindo de outros &ejogadores'
+          - ''
+          - ' &fStatus: $toggleMessage'
       purse:
         identifier: PURSE
         # desativado temporariamente
