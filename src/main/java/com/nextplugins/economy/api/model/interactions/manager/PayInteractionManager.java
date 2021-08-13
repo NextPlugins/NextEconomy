@@ -51,7 +51,10 @@ public class PayInteractionManager {
                 .expiringAfter(10, TimeUnit.SECONDS)
                 .withTimeOutAction(() -> {
 
-                    PayInteraction payInteraction = players.get(player.getName());
+                    val payInteraction = players.get(player.getName());
+                    players.remove(player.getName());
+
+                    if (payInteraction.getTarget() == null) return;
 
                     Bukkit.getScheduler().runTask(
                             NextEconomy.getInstance(),
@@ -59,8 +62,6 @@ public class PayInteractionManager {
                             payInteraction.getTarget().getName(),
                             payInteraction.getAmount())
                     ));
-
-                    players.remove(player.getName());
 
                 })
                 .filter(event -> event.getPlayer().getName().equals(player.getName()))

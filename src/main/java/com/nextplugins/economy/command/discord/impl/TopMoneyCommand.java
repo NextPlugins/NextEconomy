@@ -49,7 +49,7 @@ public class TopMoneyCommand implements Command {
                     .replace("$postion", String.valueOf(position))
                     .replace("$username", economyUser.getUsername())
                     .replace("$coins", economyUser.getBalanceFormated())
-            );
+            ).append("\n");
 
             ++position;
 

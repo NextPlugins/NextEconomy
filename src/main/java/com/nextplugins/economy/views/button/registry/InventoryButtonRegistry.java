@@ -22,6 +22,10 @@ public final class InventoryButtonRegistry {
         ));
 
         register(inventoryButtonParser.parse(
+                InventoryValue.get(InventoryValue::toggleButton)
+        ));
+
+        register(inventoryButtonParser.parse(
                 InventoryValue.get(InventoryValue::yourMoneyButton)
         ));
 

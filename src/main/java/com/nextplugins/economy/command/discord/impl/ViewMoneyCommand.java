@@ -79,13 +79,12 @@ public class ViewMoneyCommand implements Command {
 
             } catch (Exception exception) {
                 player = Bukkit.getOfflinePlayer(memberName);
-                if (!player.hasPlayedBefore()) player = null;
             }
 
 
         }
 
-        if (player == null) {
+        if (player == null || !player.hasPlayedBefore()) {
 
             message.reply(DiscordValue.get(DiscordValue::invalidEmoji) +
                     " Você precisa mencionar um usuário (mencionar ou id), ou inserir um nick válido."

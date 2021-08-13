@@ -60,23 +60,23 @@ embed:
         text: '$userTag'
       money:
         inline: true
-        title: '<:xp:863522094251245590> Dinheiro no banco' # Para remover do embed, apague o campo
-        text: '$money coins' # Para remover do embed, apague o campo
+        title: '<:xp:863522094251245590> Dinheiro no banco'
+        text: '$money coins'
       transactions:
         inline: true
-        title: '<:sopa:863522094221885453> Dinheiro movimentado' # Para remover do embed, apague o campo
-        text: '$transactionsmoney coins ($transactions transações)' # Para remover do embed, apague o campo
+        title: '<:sopa:863522094221885453> Dinheiro movimentado'
+        text: '$transactionsmoney coins ($transactions transações)'
       receiveMoney:
         inline: true
-        title: '<:rename_command:863522094524661800> Recebimento de $coinName' # Para remover do embed, apague o campo
-        text: '$ableToCoins' # Para remover do embed, apague o campo
+        title: '<:rename_command:863522094524661800> Recebimento de $coinName'
+        text: '$ableToCoins'
       blankLine:
         inline: false
         blank: true
       lastTransaction:
         inline: false
-        title: '<:info:863522094225817600> Última transação' # Para remover do embed, apague o campo
-        text: '$lastTransactionMessage' # Para remover do embed, apague o campo
+        title: '<:info:863522094225817600> Última transação'
+        text: '$lastTransactionMessage'
   top:
     title: '<:beacon:863495850026467398> Jogadores mais ricos'
     imagefooter: 'https://nextplugins.com.br/icons/next-logo.png'
@@ -84,5 +84,5 @@ embed:
     date: true
     color: '#36bfa6'
     topEmoji: ':moeda: '
-    line: '**$postionº** $username - $coins $ coins\n'
+    line: '**$postionº** $username - $coins $ coins'
     description: '<:livro:871763768860893274> Venha se tornar rico em nosso servidor!\n\n'

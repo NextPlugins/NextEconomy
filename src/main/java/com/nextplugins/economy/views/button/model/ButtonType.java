@@ -22,12 +22,15 @@ public enum ButtonType {
         callback.getPlayer().performCommand("money help");
     }),
 
+    TOGGLE(callback -> callback.getPlayer().performCommand("money toggle")),
+
     YOUR_MONEY(callback -> {
 
         try {
             val historicBankView = InventoryRegistry.getInstance().getHistoricBankView();
             historicBankView.openInventory(callback.getPlayer());
-        } catch (Throwable ignored) {
+        } catch (Exception exception) {
+            exception.printStackTrace();
             callback.getPlayer().closeInventory();
             callback.getPlayer().sendMessage(ChatColor.RED + "Você ainda não fez nenhuma transação.");
         }

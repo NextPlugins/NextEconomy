@@ -41,7 +41,6 @@ public class PayActionDiscordManager extends ListenerAdapter {
             if (event.getReactionEmote().getAsReactionCode().equalsIgnoreCase("✅")) confirm(payActionDiscord, message);
             else message.delete().queue();
 
-
         });
 
     }
