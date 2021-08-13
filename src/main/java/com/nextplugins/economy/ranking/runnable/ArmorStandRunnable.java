@@ -4,6 +4,7 @@ import com.gmail.filoghost.holographicdisplays.api.Hologram;
 import com.gmail.filoghost.holographicdisplays.api.HologramsAPI;
 import com.google.common.collect.Lists;
 import com.nextplugins.economy.NextEconomy;
+import com.nextplugins.economy.api.model.account.SimpleAccount;
 import com.nextplugins.economy.configuration.RankingValue;
 import com.nextplugins.economy.ranking.manager.LocationManager;
 import com.nextplugins.economy.ranking.storage.RankingStorage;
@@ -49,8 +50,6 @@ public final class ArmorStandRunnable implements Runnable {
         if (locationManager.getLocationMap().isEmpty()) return;
 
         val accounts = rankingStorage.getRankByCoin();
-        if (accounts.isEmpty()) return;
-
         val small = RankingValue.get(RankingValue::hologramFormat).equalsIgnoreCase("SMALL");
         val height = small ? 2.15 : 3;
 
@@ -64,7 +63,7 @@ public final class ArmorStandRunnable implements Runnable {
             val chunk = location.getChunk();
             if (!chunk.isLoaded()) chunk.load(true);
 
-            val account = position - 1 < accounts.size() ? accounts.get(position - 1) : null;
+            SimpleAccount account = position - 1 < accounts.size() ? accounts.get(position - 1) : null;
             if (account == null) {
                 if (!nobodyLines.isEmpty()) {
 

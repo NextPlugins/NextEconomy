@@ -4,6 +4,7 @@ import com.gmail.filoghost.holographicdisplays.api.Hologram;
 import com.gmail.filoghost.holographicdisplays.api.HologramsAPI;
 import com.google.common.collect.Lists;
 import com.nextplugins.economy.NextEconomy;
+import com.nextplugins.economy.api.model.account.SimpleAccount;
 import com.nextplugins.economy.configuration.RankingValue;
 import com.nextplugins.economy.ranking.manager.LocationManager;
 import com.nextplugins.economy.ranking.storage.RankingStorage;
@@ -31,8 +32,6 @@ public final class NPCRunnable implements Runnable {
         if (locationManager.getLocationMap().isEmpty()) return;
 
         val accounts = rankingStorage.getRankByCoin();
-        if (accounts.isEmpty()) return;
-
         val hologramLines = RankingValue.get(RankingValue::hologramArmorStandLines);
         val nobodyLines = RankingValue.get(RankingValue::nobodyHologramLines);
         for (val entry : locationManager.getLocationMap().entrySet()) {
@@ -43,7 +42,7 @@ public final class NPCRunnable implements Runnable {
             val chunk = location.getChunk();
             if (!chunk.isLoaded()) chunk.load(true);
 
-            val account = position - 1 < accounts.size() ? accounts.get(position - 1) : null;
+            SimpleAccount account = position - 1 < accounts.size() ? accounts.get(position - 1) : null;
             if (account == null) {
                 if (!nobodyLines.isEmpty()) {
 

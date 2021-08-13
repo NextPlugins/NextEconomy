@@ -63,7 +63,6 @@ public class AsyncRankingUpdateListener implements Listener {
 
         } else {
             NextEconomy.getInstance().getLogger().info("[Ranking] Não tem nenhum jogador no ranking");
-            return;
         }
 
         NextEconomy.getInstance().getLogger().info("[Ranking] Atualização do ranking feita com sucesso");

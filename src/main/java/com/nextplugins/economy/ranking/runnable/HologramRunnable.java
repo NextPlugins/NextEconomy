@@ -2,7 +2,6 @@ package com.nextplugins.economy.ranking.runnable;
 
 import com.gmail.filoghost.holographicdisplays.api.Hologram;
 import com.gmail.filoghost.holographicdisplays.api.HologramsAPI;
-import com.google.common.collect.Lists;
 import com.nextplugins.economy.NextEconomy;
 import com.nextplugins.economy.api.model.account.SimpleAccount;
 import com.nextplugins.economy.configuration.RankingValue;
@@ -35,8 +34,6 @@ public final class HologramRunnable implements Runnable {
         if (locationManager.getLocationMap().isEmpty()) return;
 
         val accounts = rankingStorage.getRankByCoin();
-        if (accounts.isEmpty()) return;
-
         val location = locationManager.getLocation(1);
         if (location == null || location.getWorld() == null) {
 
