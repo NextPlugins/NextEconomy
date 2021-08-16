@@ -55,7 +55,7 @@ public class TopMoneyCommand implements Command {
 
         }
 
-        embedBuilder.setDescription(DiscordValue.get(DiscordValue::topDescription) + stringBuilder);
+        embedBuilder.setDescription(DiscordValue.get(DiscordValue::topDescription) + "\n\n" + stringBuilder);
         message.reply(embedBuilder.build()).queue();
 
     }

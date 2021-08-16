@@ -68,7 +68,7 @@ embed:
         text: '$transactionsmoney coins ($transactions transações)'
       receiveMoney:
         inline: true
-        title: '<:rename_command:863522094524661800> Recebimento de $coinName'
+        title: '<:recebimento:863522094524661800> Recebimento de $coinName'
         text: '$ableToCoins'
       blankLine:
         inline: false
@@ -83,6 +83,6 @@ embed:
     footer: '© NextPlugins 2021, Todos os direitos reservados'
     date: true
     color: '#36bfa6'
-    topEmoji: ':moeda: '
+    topEmoji: '<:diamante:876855005871734784> '
     line: '**$postionº** $username - $coins $ coins'
-    description: '<:livro:871763768860893274> Venha se tornar rico em nosso servidor!\n\n'
+    description: '<:livro:876809929430794240> Venha se tornar rico em nosso servidor!'
