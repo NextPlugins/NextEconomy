@@ -4,6 +4,6 @@ import github.scarsz.discordsrv.dependencies.jda.api.entities.Message;
 
 public interface Command {
 
-    void execute(Message event, String[] args);
+    void execute(Message message, String[] args);
 
 }

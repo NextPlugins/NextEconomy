@@ -86,3 +86,16 @@ embed:
     topEmoji: '<:diamante:876855005871734784> '
     line: '**$postionº** $username - $coins $ coins'
     description: '<:livro:876809929430794240> Venha se tornar rico em nosso servidor!'
+  help:
+    title: ':placard: Precisando de ajuda?'
+    image: 'https://images.vexels.com/media/users/3/152347/isolated/preview/27304b9b14ce9bd8a28ca637ed92070e-icone-de-ponto-de-interrogacao-do-circulo-azul.png'
+    imagefooter: 'https://nextplugins.com.br/icons/next-logo.png'
+    footer: '© NextPlugins 2021, Todos os direitos reservados'
+    date: true
+    color: '#107373'
+    description:
+      - '<:info:863522094225817600> Veja todos os comandos de economia no discord'
+      - ''
+      - ' <:livro:876809929430794240> coins!ver [jogador] **|** Veja as moedas do jogador citado'
+      - ' <:recebimento:863522094524661800> coins!pay [jogador] [coins] **|** Enviar dinheiro ao jogador citado'
+      - ' <:beacon:863495850026467398> coins!top **|** Veja os jogadores mais ricos'

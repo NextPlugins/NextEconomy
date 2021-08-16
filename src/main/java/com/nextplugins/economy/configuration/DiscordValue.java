@@ -10,6 +10,7 @@ import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
 import org.bukkit.configuration.ConfigurationSection;
 
+import java.util.List;
 import java.util.function.Function;
 
 /**
@@ -54,6 +55,13 @@ public final class DiscordValue implements ConfigurationInjectable {
     @ConfigField("embed.top.topEmoji") private String topEmoji;
     @ConfigField("embed.top.date") private boolean topDate;
     @ConfigField("embed.top.description") private String topDescription;
+
+    @ConfigField("embed.help.title") private String helpTitle;
+    @ConfigField("embed.help.imagefooter") private String helpFooterImage;
+    @ConfigField("embed.help.footer") private String helpFooter;
+    @ConfigField("embed.help.color") private String helpColor;
+    @ConfigField("embed.help.date") private boolean helpDate;
+    @ConfigField("embed.help.description") private List<String> helpDescription;
 
     public static <T> T get(Function<DiscordValue, T> function) {
         return function.apply(instance);
