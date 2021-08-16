@@ -3,6 +3,7 @@ package com.nextplugins.economy.command.discord.registry;
 import com.nextplugins.economy.NextEconomy;
 import com.nextplugins.economy.command.discord.CommandHandler;
 import com.nextplugins.economy.command.discord.CommandMap;
+import com.nextplugins.economy.command.discord.impl.HelpCommand;
 import com.nextplugins.economy.command.discord.impl.PayMoneyCommand;
 import com.nextplugins.economy.command.discord.impl.TopMoneyCommand;
 import com.nextplugins.economy.command.discord.impl.ViewMoneyCommand;
@@ -45,6 +46,7 @@ public final class DiscordCommandRegistry implements Listener {
         val commandMap = new CommandMap(DiscordValue.get(DiscordValue::prefix));
         commandMap.register("money", new ViewMoneyCommand(), "coins", "vermoney", "ver", "coin");
         commandMap.register("top", new TopMoneyCommand(), "topcoins", "moneytop", "rank", "ranking");
+        commandMap.register("help", new HelpCommand(), "ajuda", "");
 
         val payMoneyCommand = new PayMoneyCommand(plugin.getAccountStorage(), plugin.getPayActionDiscordManager());
         commandMap.register("pay", payMoneyCommand, "moneypay", "enviar", "send", "pagar");
