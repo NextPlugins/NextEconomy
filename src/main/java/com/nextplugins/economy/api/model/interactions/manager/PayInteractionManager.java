@@ -31,6 +31,10 @@ public class PayInteractionManager {
 
     public void sendRequisition(Player player, boolean inUse) {
 
+        val interactionRegistry = NextEconomy.getInstance().getInteractionRegistry();
+        if (!interactionRegistry.getOperation().contains(player.getName()))
+            interactionRegistry.getOperation().add(player.getName());
+
         if (!inUse) players.put(player.getName(), PayInteraction.create());
 
         EventAwaiter.newAwaiter(AsyncPlayerChatEvent.class, NextEconomy.getInstance())
@@ -82,9 +86,6 @@ public class PayInteractionManager {
 
             val player = event.getPlayer();
             val message = event.getMessage();
-
-            val interactionRegistry = NextEconomy.getInstance().getInteractionRegistry();
-            interactionRegistry.getWaitingForCancel().add(player.getName());
 
             if (message.equalsIgnoreCase("cancelar")) {
 

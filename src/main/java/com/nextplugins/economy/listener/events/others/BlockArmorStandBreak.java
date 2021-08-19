@@ -44,6 +44,8 @@ public class BlockArmorStandBreak implements Listener {
     public void onInteract(PlayerInteractAtEntityEvent event) {
         val entity = event.getRightClicked();
         if (entity.getType() != EntityType.ARMOR_STAND || !entity.hasMetadata("nexteconomy")) return;
+
+        event.getPlayer().performCommand("money top");
         event.setCancelled(true);
     }
 

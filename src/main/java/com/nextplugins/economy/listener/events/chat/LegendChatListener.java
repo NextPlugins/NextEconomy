@@ -16,18 +16,17 @@ public final class LegendChatListener implements Listener {
     private final RankingStorage rankingStorage;
     private final InteractionRegistry interactionRegistry;
 
-    @EventHandler(priority = EventPriority.HIGHEST)
+    @EventHandler(priority = EventPriority.LOW)
     public void onPlayerChat(ChatMessageEvent event) {
 
         if (event.isCancelled()) return;
 
         val player = event.getSender();
-        if (interactionRegistry.getWaitingForCancel().contains(player.getName())) {
+        if (interactionRegistry.getOperation().contains(player.getName())) {
 
-            interactionRegistry.getWaitingForCancel().remove(player.getName());
+            interactionRegistry.getOperation().remove(player.getName());
 
             event.setCancelled(true);
-            event.setMessage("");
             return;
 
         }

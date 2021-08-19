@@ -287,7 +287,7 @@ public final class MoneyCommand {
             aliases = {"remover", "withdraw", "retirar", "take"},
             usage = "/money remover {jogador} {quantia}",
             description = "Utilize para remover uma quantia de dinheiro de alguém.",
-            permission = "nexteconomy.command.add",
+            permission = "nexteconomy.command.remove",
             async = true
     )
     public void moneyRemoveCommand(Context<CommandSender> context, OfflinePlayer target, String amount) {
@@ -359,7 +359,6 @@ public final class MoneyCommand {
             name = "money.top",
             aliases = {"ranking", "podio"},
             description = "Utilize para ver os jogadores com mais dinheiro do servidor.",
-            permission = "nexteconomy.command.top",
             async = true
     )
     public void moneyTopCommand(Context<CommandSender> context) {

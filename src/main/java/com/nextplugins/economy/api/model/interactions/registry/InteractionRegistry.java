@@ -16,7 +16,7 @@ import java.util.List;
 public final class InteractionRegistry {
 
     // mega pog
-    private final List<String> waitingForCancel = new ArrayList<>();
+    private final List<String> operation = new ArrayList<>();
 
     private PayInteractionManager payInteractionManager;
     private LookupInteractionManager lookupInteractionManager;

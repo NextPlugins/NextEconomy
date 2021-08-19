@@ -22,9 +22,9 @@ public final class OpeNChatListener implements Listener {
         if (event.isCancelled()) return;
 
         val player = event.getSender();
-        if (interactionRegistry.getWaitingForCancel().contains(player.getName())) {
+        if (interactionRegistry.getOperation().contains(player.getName())) {
 
-            interactionRegistry.getWaitingForCancel().remove(player.getName());
+            interactionRegistry.getOperation().remove(player.getName());
 
             event.setCancelled(true);
             return;

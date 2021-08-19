@@ -11,6 +11,7 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.bukkit.OfflinePlayer;
+import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -36,10 +37,21 @@ public final class NextEconomyAPI {
      * Can be null if player not exists in database & is offline
      * If player is online, the return value can't be null
      *
-     * @param player an online player
+     * @param player an offline player
      * @return {@link Account} the account found
      */
     public @Nullable Account findAccountByPlayer(@NotNull OfflinePlayer player) {
+        return accountStorage.findAccount(player);
+    }
+
+    /**
+     * Search player in cache and sql
+     * If player not exists in database, will create new account
+     *
+     * @param player an online player
+     * @return {@link Account} the account found
+     */
+    public @NotNull Account findAccountByPlayer(@NotNull Player player) {
         return accountStorage.findAccount(player);
     }
 

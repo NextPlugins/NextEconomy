@@ -23,9 +23,9 @@ public class DefaultChatListener implements Listener {
         if (event.isCancelled()) return;
 
         val player = event.getPlayer();
-        if (!interactionRegistry.getWaitingForCancel().contains(player.getName())) return;
+        if (!interactionRegistry.getOperation().contains(player.getName())) return;
 
-        interactionRegistry.getWaitingForCancel().remove(player.getName());
+        interactionRegistry.getOperation().remove(player.getName());
         event.setCancelled(true);
 
     }

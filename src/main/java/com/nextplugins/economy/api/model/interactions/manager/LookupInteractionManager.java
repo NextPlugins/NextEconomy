@@ -25,6 +25,10 @@ public class LookupInteractionManager {
 
     public void sendRequisition(Player player) {
 
+        val interactionRegistry = NextEconomy.getInstance().getInteractionRegistry();
+        if (!interactionRegistry.getOperation().contains(player.getName()))
+            interactionRegistry.getOperation().add(player.getName());
+
         EventAwaiter.newAwaiter(AsyncPlayerChatEvent.class, NextEconomy.getInstance())
                 .expiringAfter(1, TimeUnit.MINUTES)
                 .withTimeOutAction(() -> {
@@ -46,14 +50,10 @@ public class LookupInteractionManager {
             event.setCancelled(true);
 
             val player = event.getPlayer();
-            val interactionRegistry = NextEconomy.getInstance().getInteractionRegistry();
-            interactionRegistry.getWaitingForCancel().add(player.getName());
-
             usersInOperation.remove(player.getName());
 
             String message = event.getMessage();
             if (message.equalsIgnoreCase("cancelar")) {
-
 
                 player.sendMessage(MessageValue.get(MessageValue::interactionCancelled));
                 return;
