@@ -14,7 +14,6 @@ import org.jetbrains.annotations.NotNull;
 public final class EconomyPlaceholderHook extends PlaceholderExpansion {
 
     private final NextEconomy plugin;
-    private final PurseAPI instance = PurseAPI.getInstance();
 
     @Override
     public @NotNull String getIdentifier() {
@@ -33,6 +32,17 @@ public final class EconomyPlaceholderHook extends PlaceholderExpansion {
 
     @Override
     public String onPlaceholderRequest(@NotNull Player player, @NotNull String params) {
+
+        if (params.startsWith("purse_")) {
+
+            val purse = PurseAPI.getInstance();
+            if (purse == null) return "Bolsa Desativada";
+
+            if (params.equalsIgnoreCase("purse")) return purse.getPurseFormated();
+            else if (params.equalsIgnoreCase("purse_only_value")) return String.valueOf(purse.getPurse());
+            else return purse.getPurseFormatedWithIcon();
+
+        }
 
         val account = NextEconomyAPI.getInstance().findAccountByPlayer(player);
         if (account == null) return "&cOcorreu um erro!";
@@ -54,12 +64,6 @@ public final class EconomyPlaceholderHook extends PlaceholderExpansion {
 
         }
 
-        if (instance != null) {
-
-            if (params.equalsIgnoreCase("purse_with_icon")) return instance.getPurseFormatedWithIcon();
-            else return instance.getPurseFormated();
-
-        }
 
         return "Placeholder inválida";
     }
