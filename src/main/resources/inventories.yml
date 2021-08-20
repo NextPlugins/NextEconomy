@@ -24,89 +24,89 @@ inventory:
       name: 'Banco Central'
       #Tamanho do inventário
       size: 45
-      buttons:
-        help:
-          identifier: HELP
-          skullName: 'MHF_QUESTION'
-          displayName: '&6Ajuda'
-          inventorySlot: 0
-          lore:
-            - '&fVeja todos os comandos de'
-            - '&fnosso sistema de economia'
-        yourMoney:
-          identifier: YOUR_MONEY
-          skullName: '@player' # ficar com a cabeça do jogador que está visualizando
-          displayName: '&6Seu perfil'
-          inventorySlot: 4
-          lore:
-            - ''
-            - ' &fCoins: &a$$money'
-            - ' &fDinheiro movimentado: &a$$movimentedMoney'
-            - ' &fTransações: &b$transactions.'
-            - ''
-            - ' &fRecebimento de coins: $toggleMessage'
-            - ' &fDiscord: &9$discord'
-            - ''
-            - '&eClique aqui para ver suas transações'
-        topMoney:
-          identifier: TOP_MONEY
-          material: ARMOR_STAND
-          data: 0
-          inventorySlot: 22
-          displayName: '&6Mais ricos do servidor'
-          lore:
-            - ''
-            - ' &8Veja os jogadores mais'
-            - ' &8ricos do servidor'
-            - ''
-            - '&eClique aqui para ver'
-        toggle:
-          identifier: TOGGLE
-          material: ENDER_PEARL
-          data: 0
-          displayName: '&6Recebimento de coins'
-          inventorySlot: 20
-          lore:
-            - '&fDesative ou ative o recebimento'
-            - '&fde coins vindo de outros &ejogadores'
-            - ''
-            - ' &fStatus: $toggleMessage'
-        purse:
-          identifier: PURSE
-          # desativado temporariamente
-          historyLine: ' &6$position. &e$value% $status'
-          skullName: 'MrSnowDK'
-          # Caso não utilize o sistema de bolsa de valores
-          # Coloque o slot como -1 para desativar este item
-          inventorySlot: 29
-          displayName: '&6Bolsa de valores'
-          lore:
-            - ''
-            - ' &fValor atual: &3$value'
-            - ' &fStatus: &e$status'
-            - ''
-            - '&ePróxima atualização em &6$time'
-        sendMoney:
-          identifier: SEND_MONEY
-          material: PAPER
-          data: 0
-          inventorySlot: 24
-          displayName: '&6Enviar dinheiro'
-          lore:
-            - ''
-            - ' &8Envie dinheiro para qualquer jogador'
-            - ' &8do servidor, mesmo com ele offline'
-            - ''
-            - '&eClique aqui para enviar'
-        viewPlayerMoney:
-          identifier: VIEW_MONEY
-          material: SIGN
-          data: 0
-          inventorySlot: 33
-          displayName: '&6Ver dinheiro de outro jogador'
-          lore:
-            - ''
-            - ' &8Clique aqui para ver'
-            - ' &8os coins de outro jogador'
-            - ''
-            - '&eClique aqui para ver'
+    buttons:
+      help:
+        identifier: HELP
+        skullName: 'MHF_QUESTION'
+        displayName: '&6Ajuda'
+        inventorySlot: 0
+        lore:
+          - '&fVeja todos os comandos de'
+          - '&fnosso sistema de economia'
+      yourMoney:
+        identifier: YOUR_MONEY
+        skullName: '@player' # ficar com a cabeça do jogador que está visualizando
+        displayName: '&6Seu perfil'
+        inventorySlot: 4
+        lore:
+          - ''
+          - ' &fCoins: &a$$money'
+          - ' &fDinheiro movimentado: &a$$movimentedMoney'
+          - ' &fTransações: &b$transactions.'
+          - ''
+          - ' &fRecebimento de coins: $toggleMessage'
+          - ' &fDiscord: &9$discord'
+          - ''
+          - '&eClique aqui para ver suas transações'
+      topMoney:
+        identifier: TOP_MONEY
+        material: ARMOR_STAND
+        data: 0
+        inventorySlot: 22
+        displayName: '&6Mais ricos do servidor'
+        lore:
+          - ''
+          - ' &8Veja os jogadores mais'
+          - ' &8ricos do servidor'
+          - ''
+          - '&eClique aqui para ver'
+      toggle:
+        identifier: TOGGLE
+        material: ENDER_PEARL
+        data: 0
+        displayName: '&6Recebimento de coins'
+        inventorySlot: 20
+        lore:
+          - '&fDesative ou ative o recebimento'
+          - '&fde coins vindo de outros &ejogadores'
+          - ''
+          - ' &fStatus: $toggleMessage'
+      purse:
+        identifier: PURSE
+        # desativado temporariamente
+        historyLine: ' &6$position. &e$value% $status'
+        skullName: 'MrSnowDK'
+        # Caso não utilize o sistema de bolsa de valores
+        # Coloque o slot como -1 para desativar este item
+        inventorySlot: 29
+        displayName: '&6Bolsa de valores'
+        lore:
+          - ''
+          - ' &fValor atual: &3$value'
+          - ' &fStatus: &e$status'
+          - ''
+          - '&ePróxima atualização em &6$time'
+      sendMoney:
+        identifier: SEND_MONEY
+        material: PAPER
+        data: 0
+        inventorySlot: 24
+        displayName: '&6Enviar dinheiro'
+        lore:
+          - ''
+          - ' &8Envie dinheiro para qualquer jogador'
+          - ' &8do servidor, mesmo com ele offline'
+          - ''
+          - '&eClique aqui para enviar'
+      viewPlayerMoney:
+        identifier: VIEW_MONEY
+        material: SIGN
+        data: 0
+        inventorySlot: 33
+        displayName: '&6Ver dinheiro de outro jogador'
+        lore:
+          - ''
+          - ' &8Clique aqui para ver'
+          - ' &8os coins de outro jogador'
+          - ''
+          - '&eClique aqui para ver'

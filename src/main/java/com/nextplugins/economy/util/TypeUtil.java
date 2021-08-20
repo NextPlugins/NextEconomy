@@ -23,7 +23,7 @@ public final class TypeUtil {
 
     public static ItemStack convertFromLegacy(String materialName, int damage) {
 
-        if (materialName == null) return null;
+        if (materialName == null || materialName.equalsIgnoreCase("")) return null;
 
         try {
             val material = Material.valueOf("LEGACY_" + materialName);
