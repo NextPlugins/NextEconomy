@@ -63,6 +63,8 @@ public class VaultEconomyHook extends EconomyWrapper {
     @Override
     public boolean has(OfflinePlayer player, double amount) {
 
+        if (NumberUtils.isInvalid(amount)) return false;
+
         val account = storage.findAccount(player);
         return account != null && account.hasAmount(amount);
 
@@ -70,32 +72,10 @@ public class VaultEconomyHook extends EconomyWrapper {
 
     @Override
     public EconomyResponse withdrawPlayer(OfflinePlayer player, double amount) {
-        val account = storage.findAccount(player);
-        if (account != null) {
-
-            val purseEnabled = PurseValue.get(PurseValue::enable) && PurseValue.get(PurseValue::applyInAll);
-            val purse = purseEnabled ? PurseAPI.getInstance().getPurseMultiplier() : 1;
-
-            val newAmount = amount * purse;
-
-            return account.createTransaction(
-                        player.isOnline() ? player.getPlayer() : null,
-                        null,
-                        newAmount,
-                        TransactionType.WITHDRAW
-                );
+        if (amount == 0 || NumberUtils.isInvalid(amount)) {
+            return new EconomyResponse(amount, 0, EconomyResponse.ResponseType.FAILURE, "Valor inválido");
         }
 
-        return new EconomyResponse(
-                amount,
-                0,
-                EconomyResponse.ResponseType.FAILURE,
-                "Conta inválida."
-        );
-    }
-
-    @Override
-    public EconomyResponse depositPlayer(OfflinePlayer player, double amount) {
         val account = storage.findAccount(player);
         if (account != null) {
 
@@ -108,6 +88,39 @@ public class VaultEconomyHook extends EconomyWrapper {
                     player.isOnline() ? player.getPlayer() : null,
                     null,
                     newAmount,
+                    amount,
+                    TransactionType.WITHDRAW
+            );
+        }
+
+        return new EconomyResponse(
+                amount,
+                0,
+                EconomyResponse.ResponseType.FAILURE,
+                "Conta inválida."
+        );
+    }
+
+    @Override
+    public EconomyResponse depositPlayer(OfflinePlayer player, double amount) {
+
+        if (amount == 0 || NumberUtils.isInvalid(amount)) {
+            return new EconomyResponse(amount, 0, EconomyResponse.ResponseType.FAILURE, "Valor inválido");
+        }
+
+        val account = storage.findAccount(player);
+        if (account != null) {
+
+            val purseEnabled = PurseValue.get(PurseValue::enable) && PurseValue.get(PurseValue::applyInAll);
+            val purse = purseEnabled ? PurseAPI.getInstance().getPurseMultiplier() : 1;
+
+            val newAmount = amount * purse;
+
+            return account.createTransaction(
+                    player.isOnline() ? player.getPlayer() : null,
+                    null,
+                    newAmount,
+                    amount,
                     TransactionType.DEPOSIT
             );
 

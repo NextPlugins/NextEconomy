@@ -36,6 +36,7 @@ public final class MoneyWithdrawListener implements Listener {
                 target.isOnline() ? target.getPlayer() : null,
                 null,
                 amount,
+                0,
                 TransactionType.WITHDRAW
         );
 

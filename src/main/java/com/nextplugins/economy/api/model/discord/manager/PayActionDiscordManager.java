@@ -69,6 +69,7 @@ public class PayActionDiscordManager extends ListenerAdapter {
                 payActionDiscord.player().isOnline() ? payActionDiscord.player().getPlayer() : null,
                 target.getName(),
                 amount,
+                0,
                 TransactionType.WITHDRAW
         );
 
@@ -76,6 +77,7 @@ public class PayActionDiscordManager extends ListenerAdapter {
                 target.isOnline() ? target.getPlayer() : null,
                 player.getName(),
                 amount,
+                0,
                 TransactionType.DEPOSIT
         );
 

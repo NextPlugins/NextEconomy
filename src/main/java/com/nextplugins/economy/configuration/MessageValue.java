@@ -98,6 +98,11 @@ public final class MessageValue implements ConfigurationInjectable {
     @ConfigField("purse.high-status") private String purseHigh;
     @ConfigField("purse.down-status") private String purseDown;
 
+    @ConfigField("purse.changed-value.add.more") private String purseReceiveMore;
+    @ConfigField("purse.changed-value.add.minus") private String purseReceiveLess;
+    @ConfigField("purse.changed-value.withdraw.more") private String purseSpendMore;
+    @ConfigField("purse.changed-value.withdraw.minus") private String purseSpendLess;
+
     // new money top
 
     @ConfigField("new-money-top.enable") private boolean enableMoneyTopMessage;

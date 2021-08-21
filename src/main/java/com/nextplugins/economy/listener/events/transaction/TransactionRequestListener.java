@@ -55,6 +55,7 @@ public final class TransactionRequestListener implements Listener {
                     target.isOnline() ? target.getPlayer() : null,
                     player.getName(),
                     amount,
+                    0,
                     TransactionType.DEPOSIT
             );
 
@@ -62,6 +63,7 @@ public final class TransactionRequestListener implements Listener {
                     player,
                     target.getName(),
                     amount,
+                    0,
                     TransactionType.WITHDRAW
             );
 

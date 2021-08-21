@@ -5,6 +5,7 @@ import com.nextplugins.economy.api.event.operations.MoneyChangeEvent;
 import com.nextplugins.economy.api.model.account.historic.AccountBankHistoric;
 import com.nextplugins.economy.api.model.account.transaction.TransactionType;
 import com.nextplugins.economy.configuration.FeatureValue;
+import com.nextplugins.economy.configuration.MessageValue;
 import com.nextplugins.economy.util.DiscordSyncUtil;
 import com.nextplugins.economy.util.ListSerializerHelper;
 import com.nextplugins.economy.util.NumberUtils;
@@ -107,6 +108,7 @@ public class Account {
     public synchronized EconomyResponse createTransaction(@Nullable Player player,
                                                           @Nullable String owner,
                                                           double quantity,
+                                                          double valueWithoutPurse,
                                                           @NotNull TransactionType transactionType) {
 
         if (NumberUtils.isInvalid(quantity)) {
@@ -160,6 +162,23 @@ public class Account {
             );
 
             Bukkit.getPluginManager().callEvent(moneyChangeEvent);
+
+            if (valueWithoutPurse > 0 && quantity != valueWithoutPurse) {
+
+                String message;
+
+                if (transactionType == TransactionType.WITHDRAW) {
+                    if (quantity > valueWithoutPurse) message = MessageValue.get(MessageValue::purseSpendMore);
+                    else message = MessageValue.get(MessageValue::purseSpendLess);
+                } else {
+                    if (quantity > valueWithoutPurse) message = MessageValue.get(MessageValue::purseReceiveMore);
+                    else message = MessageValue.get(MessageValue::purseReceiveLess);
+                }
+
+                val value = quantity > valueWithoutPurse ? quantity - valueWithoutPurse : valueWithoutPurse - quantity;
+                player.sendMessage(message.replace("$value", NumberUtils.format(value)));
+
+            }
 
         }
 

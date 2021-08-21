@@ -65,6 +65,7 @@ public final class CheckInteractListener implements Listener {
                 player,
                 "Cheque",
                 value,
+                0,
                 TransactionType.DEPOSIT
         );
 

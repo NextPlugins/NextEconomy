@@ -35,6 +35,17 @@ messages:
     chatMessage: '&3&lBOLSA &fO valor atual da bolsa está em &b$value'
     high-status: 'em alta'
     down-status: 'em queda'
+    # Para o jogador não achar que perdeu/ganhou dinheiro do nada
+    # Quando ele gastar/ganhar dinheiro com a loja do servidor, ou com as maquinas/spawners dele (para qualquer sistema que de/retire dinheiro)
+    # Um exemplo é uma loja por placas do próprio jogador usando ChestShop
+    # Será enviada estas mensagens abaixo
+    changed-value:
+      add: # Quando ele receber algum valor
+        more: '&3&LBOLSA &fVocê recebeu mais &a$value &fnesta transação.' # Bolsa maior que 100% = aumento de preço = recebe mais em vendas
+        minus: '&3&LBOLSA &fVocê perdeu &a$value &fnesta transação.' # Bolsa menor que 100% = diminuição de preço = recebe menos em vendas
+      withdraw: # Quando ele gastar um valor
+        more: '&3&LBOLSA &fVocê gastou &a$value &fa mais nesta transação.' # Bolsa maior que 100% = aumento de preço = mais gasto para comprar algo
+        minus: '&3&LBOLSA &fVocê deixou de gastar &a$value &fnesta transação.' # Bolsa emnor que 100% = diminuição de preço = menos gasto para comprar algo
     equals:
       icon: '&b➫'
       message: '&bmanteve'

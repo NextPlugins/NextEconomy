@@ -27,17 +27,12 @@ plugin:
     autobackup: true
     # Sistema de bolsa de valores
     purse:
-      enable: true # usar o sistema
+      # Habilitar o sistema de bolsa
+      enable: true
       # Atenção!
       # Caso ative esta opção, a bolsa irá afetar em todas as operações de venda!
       # Vender itens por placa, vender drops, etc.
-      # Afetará todos os plugins do servidor.
-      #
-      # Não recomendo o uso dessa função caso tenha um servidor com plugins próprios
-      # peça para o desenvolvedor dos seus plugins, implementar nosso sistema de bolsa
-      # no seu plugin próprio, a api é visivel em nosso github https://github.com/NextPlugins/NextEconomy
-      # Isso afetará todas as vendas, e pode ficar confuso para os jogadores pois
-      # o dinheiro que aparecerá como ganho no chat, será menor, ou maior, que o dinheiro que ele realmente ganhou
+      # Afetará todos os sistemas do servidor.
       useInAll: false
       media: 100 # um valor maior que esse significa que a bolsa está em alta
       minValue: 75 # valor mínimo da bolsa

@@ -70,6 +70,7 @@ public final class CheckCommand {
                 player,
                 "Cheque",
                 amount,
+                0,
                 TransactionType.WITHDRAW
         );
 
