@@ -42,6 +42,7 @@ public final class MoneyCommand {
 
     @Command(
             name = "money",
+            aliases = {"coin", "coins"},
             description = "Abrir menu do sistema de economia",
             async = true
     )
