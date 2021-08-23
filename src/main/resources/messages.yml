@@ -91,7 +91,7 @@ messages:
     reset: '&6&lBANCO &fVocê zerou o saldo de&e $player.'
     discord:
       disabled: '&cEsta função está desabilitada.'
-      sendMoneyRequest: ':bookmark_tabs: Você deseja enviar **$coins** para o jogador **$player** ($discord)?'
+      sendMoneyRequest: ':bookmark_tabs: Confirme a transação de **$coins** para **$player** ($discord) digitando `$command`.'
       sended: ':sparkling_heart: Você enviou **$coins** para o jogador **$player** ($discord) com sucesso!'
       nocoins: ':x: Você não tem coins suficientes para fazer isto!'
       invalidAccount: ':x: O jogador especificado não possui conta no servidor'

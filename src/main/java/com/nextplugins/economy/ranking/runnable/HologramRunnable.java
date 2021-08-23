@@ -65,6 +65,8 @@ public final class HologramRunnable implements Runnable {
 
         var position = 1;
         for (val account : accounts) {
+            if (position > RankingValue.get(RankingValue::hologramDefaultLimit)) break;
+
             lines.add(line
                     .replace("$position", String.valueOf(position))
                     .replace("$player", account.getUsername())
@@ -72,7 +74,7 @@ public final class HologramRunnable implements Runnable {
                     .replace("$amount", account.getBalanceFormated())
             );
 
-            if (position == RankingValue.get(RankingValue::hologramDefaultLimit)) break;
+            ++position;
         }
 
         return lines;

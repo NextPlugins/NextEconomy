@@ -29,6 +29,12 @@ public class PayMoneyCommand implements Command {
     @Override
     public void execute(Message message, String[] args) {
 
+        val payActionDiscord = payActionDiscordManager.getCache().getIfPresent(message.getAuthor().getIdLong());
+        if (payActionDiscord != null) {
+            message.reply(":x: Você já está solicitando uma transação, para confirmar use `" + DiscordValue.get(DiscordValue::prefix) + "confirmar`, ou aguarde 1 minuto para expirar.").queue();
+            return;
+        }
+
         OfflinePlayer player = null;
         User user = null;
 
@@ -93,7 +99,7 @@ public class PayMoneyCommand implements Command {
 
         if (args.length < 2 || args[1].equalsIgnoreCase("")) {
 
-            message.reply(DiscordValue.get(DiscordValue::errorEmoji) + " Você precisa inserir o valor que quer enviar").queue();
+            message.reply(DiscordValue.get(DiscordValue::errorEmoji) + " Você precisa inserir o valor que quer enviar.").queue();
             return;
 
         }
@@ -145,19 +151,20 @@ public class PayMoneyCommand implements Command {
                 .replace("$coins", format)
                 .replace("$player", player.getName())
                 .replace("$discord", targetDiscordName)
+                .replace("$command", DiscordValue.get(DiscordValue::prefix) + "confirmar")
         ).queue(message1 -> {
-            message1.addReaction("✅").queue();
-            message1.addReaction("❌").queue();
+            val actionDiscord = PayActionDiscord.builder()
+                    .player(offlinePlayer)
+                    .target(finalPlayer)
+                    .messageId(message1.getIdLong())
+                    .textChannelId(message1.getTextChannel().getIdLong())
+                    .userId(message.getAuthor().getIdLong())
+                    .targetDiscordName(targetDiscordName)
+                    .valueFormated(format)
+                    .value(value)
+                    .build();
 
-            val actionDiscord = new PayActionDiscord(
-                    offlinePlayer,
-                    finalPlayer,
-                    targetDiscordName,
-                    value,
-                    format
-            );
-
-            payActionDiscordManager.getActions().put(message1.getIdLong(), actionDiscord);
+            payActionDiscordManager.getCache().put(actionDiscord.userId(), actionDiscord);
         });
 
 
