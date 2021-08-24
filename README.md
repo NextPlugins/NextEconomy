@@ -9,7 +9,7 @@ Um sistema simples e completo de uma economia principal para servidores de Minec
 |----------------|-------------------------------|-----------------------------|
 |/money           |Abrir o menu do sistema ou mostrar a mensagem de ajuda.|Nenhuma    |
 |/money enviar    |Envie uma quantia de money para outra pessoa.|`nexteconomy.command.pay`|
-|/money top       |Veja o ranking dos jogadores mais ricos do server.|`nexteconomy.command.top`|
+|/money top       |Veja o ranking dos jogadores mais ricos do server.|Nenhuma|
 |/money toggle    |Ative/Desative o recebimento de coins.|`nexteconomy.togglecoins`   |
 |/money vincular  |Vincular sua conta com o discord.|Nenhuma|
 |/money desvincular  |Desvincular sua conta do discord.|Nenhuma|
