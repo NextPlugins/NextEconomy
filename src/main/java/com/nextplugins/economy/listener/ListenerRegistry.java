@@ -51,7 +51,7 @@ public final class ListenerRegistry {
             );
 
             if (FeatureValue.get(FeatureValue::quitUpdate)) {
-                listeners.add(new UserConnectionListener(plugin.getAccountStorage()));
+                pluginManager.registerEvents(new UserConnectionListener(plugin.getAccountStorage()), plugin);
             }
 
             if (pluginManager.isPluginEnabled("nChat")) {
