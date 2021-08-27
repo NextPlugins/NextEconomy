@@ -25,6 +25,11 @@ plugin:
     # Habilitar backups quando servidor reinicia
     # Recomendo utilizar apenas quando o servidor já estiver aberto
     autobackup: true
+    # Habilitar apenas para servidores alternativos
+    # por exemplo o servidor de mineração
+    # Serve para salvar o jogador na tabela assim que ele sai do servidor
+    # Recomendado usar com MYSQL
+    quit-update: false
     # Sistema de bolsa de valores
     purse:
       # Habilitar o sistema de bolsa
