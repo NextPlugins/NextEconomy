@@ -45,18 +45,16 @@ plugin:
       nextUpdate: 600 # tempo para atualizar em segundos
     # Valor inicial
     # Quando um jogador entra no servidor, começa com essa quantia
-    initial-balance: 1000
+    initial-balance: 1500
     # Dinheiro mínimo necessário para enviar a um jogador
     # Evitar flodarem /money pay <jogador> 1
     min-value: 1000000
-    # delay de salvamento das contas online (em segundos)
-    save-delay: 300
     # Sistema de cheques
     check:
       # ative ou desative o sistema de cheque
       enable: true
       # valor mínimo para criar um cheque
-      min-value: 1000
+      min-value: 1000000
       # item que irá simbolizar um cheque
       item:
         display-name: '&aCheque de coins'
