@@ -12,7 +12,7 @@ import com.nextplugins.economy.api.model.account.storage.AccountStorage;
 import com.nextplugins.economy.configuration.MessageValue;
 import com.nextplugins.economy.dao.SQLProvider;
 import com.nextplugins.economy.dao.repository.AccountRepository;
-import com.nextplugins.economy.ranking.runnable.NPCRunnable;
+import com.nextplugins.economy.ranking.types.NPCRunnable;
 import com.nextplugins.economy.ranking.storage.RankingStorage;
 import com.nextplugins.economy.util.ColorUtil;
 import lombok.RequiredArgsConstructor;
@@ -135,7 +135,7 @@ public final class NextEconomyCommand {
 
         if (pluginManager.isPluginEnabled("Citizens")) {
             for (val npc : CitizensAPI.getNPCRegistry()) {
-                if (!npc.getEntity().hasMetadata("nexteconomy")) continue;
+                if (!npc.data().has("nexteconomy")) continue;
                 npc.despawn();
                 npc.destroy();
             }

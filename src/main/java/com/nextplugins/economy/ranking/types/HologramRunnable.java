@@ -1,4 +1,4 @@
-package com.nextplugins.economy.ranking.runnable;
+package com.nextplugins.economy.ranking.types;
 
 import com.gmail.filoghost.holographicdisplays.api.Hologram;
 import com.gmail.filoghost.holographicdisplays.api.HologramsAPI;

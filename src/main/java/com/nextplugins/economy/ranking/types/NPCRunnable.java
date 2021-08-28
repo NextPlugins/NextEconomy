@@ -1,4 +1,4 @@
-package com.nextplugins.economy.ranking.runnable;
+package com.nextplugins.economy.ranking.types;
 
 import com.gmail.filoghost.holographicdisplays.api.Hologram;
 import com.gmail.filoghost.holographicdisplays.api.HologramsAPI;
@@ -75,6 +75,7 @@ public final class NPCRunnable implements Runnable {
 
             val npc = npcRegistry.createNPC(EntityType.PLAYER, "");
             npc.data().set("player-skin-name", account != null ? account.getUsername() : "Yuhtin");
+            npc.data().set("nexteconomy", true);
             npc.setProtected(true);
             npc.spawn(location);
 

@@ -1,6 +1,6 @@
 package com.nextplugins.economy.listener.events.others;
 
-import com.nextplugins.economy.ranking.runnable.ArmorStandRunnable;
+import com.nextplugins.economy.ranking.types.ArmorStandRunnable;
 import com.nextplugins.economy.util.TypeUtil;
 import lombok.val;
 import org.bukkit.entity.ArmorStand;
