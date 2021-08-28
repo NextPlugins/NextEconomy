@@ -38,7 +38,7 @@ plugin:
       # Caso ative esta opção, a bolsa irá afetar em todas as operações de venda!
       # Vender itens por placa, vender drops, etc.
       # Afetará todos os sistemas do servidor.
-      useInAll: false
+      useInAll: true
       media: 100 # um valor maior que esse significa que a bolsa está em alta
       minValue: 75 # valor mínimo da bolsa
       maxValue: 125 # valor máximo da bolsa

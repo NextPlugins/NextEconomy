@@ -1,6 +1,7 @@
 package com.nextplugins.economy.api.model.account;
 
 import com.google.common.collect.Lists;
+import com.nextplugins.economy.NextEconomy;
 import com.nextplugins.economy.api.event.operations.MoneyChangeEvent;
 import com.nextplugins.economy.api.model.account.historic.AccountBankHistoric;
 import com.nextplugins.economy.api.model.account.transaction.TransactionType;
@@ -161,7 +162,7 @@ public class Account {
                     NumberUtils.format(balance)
             );
 
-            Bukkit.getPluginManager().callEvent(moneyChangeEvent);
+            Bukkit.getScheduler().runTask(NextEconomy.getInstance(), () -> Bukkit.getPluginManager().callEvent(moneyChangeEvent));
 
             if (valueWithoutPurse > 0 && quantity != valueWithoutPurse) {
 

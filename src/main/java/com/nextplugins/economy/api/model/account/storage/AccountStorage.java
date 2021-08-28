@@ -37,7 +37,7 @@ public final class AccountStorage {
 
     }
 
-    private void saveOne(Account account) {
+    public void saveOne(Account account) {
         accountRepository.saveOne(account);
     }
 

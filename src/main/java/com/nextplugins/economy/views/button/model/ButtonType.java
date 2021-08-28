@@ -30,9 +30,8 @@ public enum ButtonType {
             val historicBankView = InventoryRegistry.getInstance().getHistoricBankView();
             historicBankView.openInventory(callback.getPlayer());
         } catch (Exception exception) {
-            exception.printStackTrace();
             callback.getPlayer().closeInventory();
-            callback.getPlayer().sendMessage(ChatColor.RED + "Você ainda não fez nenhuma transação.");
+            callback.getPlayer().sendMessage(ChatColor.RED + "Você ainda não fez uma transação.");
         }
 
     }),

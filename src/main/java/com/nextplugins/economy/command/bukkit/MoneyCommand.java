@@ -321,8 +321,7 @@ public final class MoneyCommand {
             aliases = {"zerar", "resetar"},
             usage = "/money zerar {jogador}",
             description = "Utilize para zerar a quantia de dinheiro de alguém.",
-            permission = "nexteconomy.command.reset",
-            async = true
+            permission = "nexteconomy.command.reset"
     )
     public void moneyResetCommand(Context<CommandSender> context, OfflinePlayer target) {
 
