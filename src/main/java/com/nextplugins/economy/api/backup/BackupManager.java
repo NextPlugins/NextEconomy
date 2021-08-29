@@ -122,7 +122,7 @@ public final class BackupManager {
     private String getTimeAsString() {
         return DateFormatUtil.of(System.currentTimeMillis())
                 .replace("/", "-")
-                .replace(" ", "-")
+                .replace(" às ", "-")
                 .replace(":", "-");
     }
 

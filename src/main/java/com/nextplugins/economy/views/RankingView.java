@@ -11,6 +11,7 @@ import com.henryfabio.minecraft.inventoryapi.viewer.configuration.border.Border;
 import com.henryfabio.minecraft.inventoryapi.viewer.impl.paged.PagedViewer;
 import com.nextplugins.economy.NextEconomy;
 import com.nextplugins.economy.api.group.GroupWrapperManager;
+import com.nextplugins.economy.api.model.account.SimpleAccount;
 import com.nextplugins.economy.configuration.InventoryValue;
 import com.nextplugins.economy.configuration.MessageValue;
 import com.nextplugins.economy.configuration.RankingValue;
@@ -76,8 +77,8 @@ public final class RankingView extends PagedInventory {
 
         val sorter = rankingSorterType.getOrDefault(viewer.getName(), -1);
 
-        val rankingAccounts = sorter == -1
-                ? rankingStorage.getRankByCoin()
+        ArrayList<SimpleAccount> rankingAccounts = sorter == -1
+                ? new ArrayList<>(rankingStorage.getRankByCoin().values())
                 : rankingStorage.getRankByMovimentation();
 
         for (val account : rankingAccounts) {

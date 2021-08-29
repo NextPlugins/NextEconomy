@@ -19,6 +19,8 @@ public class LuckPermsGroupWrapper implements GroupWrapper {
     public String getPrefix(String player) {
 
         val uuid = LUCK_PERMS.getUserManager().lookupUniqueId(player).join();
+        if (uuid == null) return "";
+
         val user = LUCK_PERMS.getUserManager().loadUser(uuid, player).join();
         if (user == null) return "";
 

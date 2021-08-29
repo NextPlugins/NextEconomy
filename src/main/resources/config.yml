@@ -35,14 +35,21 @@ plugin:
       # Habilitar o sistema de bolsa
       enable: true
       # Atenção!
-      # Caso ative esta opção, a bolsa irá afetar em todas as operações de venda!
+      # Caso ative esta opção, a bolsa irá afetar em todas as operações de venda! (quando o jogador recebe dinheiro)
       # Vender itens por placa, vender drops, etc.
-      # Afetará todos os sistemas do servidor.
+      # Isso não afetará o /money pay (evita dup)
       useInAll: true
-      media: 100 # um valor maior que esse significa que a bolsa está em alta
-      minValue: 75 # valor mínimo da bolsa
-      maxValue: 125 # valor máximo da bolsa
-      nextUpdate: 600 # tempo para atualizar em segundos
+      # Ativar para alterar valores de compra (quando o jogador gasta dinheiro)
+      # ATENÇÃO Pode causar conflito com alguns plugins que não utilizam corretamente a api do vault
+      useInWithdraw: false
+      # Um valor maior que esse significa que a bolsa está em alta
+      media: 100
+      # Valor mínimo da bolsa
+      minValue: 75
+      # Valor máximo da bolsa
+      maxValue: 125
+      # Tempo para atualizar em segundos
+      nextUpdate: 600
     # Valor inicial
     # Quando um jogador entra no servidor, começa com essa quantia
     initial-balance: 1500

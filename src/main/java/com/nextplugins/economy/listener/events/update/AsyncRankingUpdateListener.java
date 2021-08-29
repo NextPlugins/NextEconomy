@@ -1,5 +1,6 @@
 package com.nextplugins.economy.listener.events.update;
 
+import com.google.common.base.Stopwatch;
 import com.google.common.collect.Lists;
 import com.nextplugins.economy.NextEconomy;
 import com.nextplugins.economy.api.event.operations.AsyncRankingUpdateEvent;
@@ -16,6 +17,8 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 
+import java.util.logging.Level;
+
 /**
  * @author Yuhtin
  * Github: https://github.com/Yuhtin
@@ -31,6 +34,8 @@ public class AsyncRankingUpdateListener implements Listener {
     public void onRankingUpdate(AsyncRankingUpdateEvent event) {
 
         if (event.isCancelled()) return;
+
+        val loadTime = Stopwatch.createStarted();
         val pluginManager = Bukkit.getPluginManager();
 
         val accounts = Lists.newLinkedList(accountRepository.selectSimpleAll(
@@ -45,18 +50,21 @@ public class AsyncRankingUpdateListener implements Listener {
 
             SimpleAccount lastAccount = null;
             if (!rankingStorage.getRankByCoin().isEmpty()) {
-                lastAccount = rankingStorage.getRankByCoin().get(0);
+                lastAccount = rankingStorage.getTopPlayer(false);
             }
 
             rankingStorage.getRankByCoin().clear();
             rankingStorage.getRankByMovimentation().clear();
 
-            rankingStorage.getRankByCoin().addAll(accounts);
+            for (SimpleAccount account : accounts) {
+                rankingStorage.getRankByCoin().put(account.getUsername(), account);
+            }
+
             rankingStorage.getRankByMovimentation().addAll(accountsMovimentation);
 
             if (lastAccount != null) {
 
-                val topAccount = rankingStorage.getRankByCoin().get(0);
+                val topAccount = rankingStorage.getTopPlayer(false);
                 if (!lastAccount.getUsername().equals(topAccount.getUsername())) pluginManager.callEvent(new AsyncMoneyTopPlayerChangedEvent(lastAccount, topAccount));
 
             }
@@ -65,17 +73,18 @@ public class AsyncRankingUpdateListener implements Listener {
             NextEconomy.getInstance().getLogger().info("[Ranking] Não tem nenhum jogador no ranking");
         }
 
-        NextEconomy.getInstance().getLogger().info("[Ranking] Atualização do ranking feita com sucesso");
+        NextEconomy.getInstance().getLogger().log(Level.INFO, "[Ranking] Atualização do ranking feita com sucesso. ({0})", loadTime);
 
         val instance = CustomRankingRegistry.getInstance();
         if (!instance.isEnabled()) return;
 
+        val visualTime = Stopwatch.createStarted();
         NextEconomy.getInstance().getLogger().info("[Ranking] Iniciando atualização de ranking visual");
 
         // Leave from async. Entities can't be spawned in async.
         Bukkit.getScheduler().runTaskLater(NextEconomy.getInstance(), instance.getRunnable(), 20L);
 
-        NextEconomy.getInstance().getLogger().info("[Ranking] Atualização de ranking visual finalizada");
+        NextEconomy.getInstance().getLogger().log(Level.INFO, "[Ranking] Atualização de ranking visual finalizada. ({0})", visualTime);
 
     }
 

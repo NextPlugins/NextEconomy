@@ -42,7 +42,7 @@ public class TopMoneyCommand implements Command {
         val line = DiscordValue.get(DiscordValue::topLine);
 
         int position = 1;
-        for (val economyUser : rankingStorage.getRankByCoin()) {
+        for (val economyUser : rankingStorage.getRankByCoin().values()) {
 
             if (position == 1) stringBuilder.append(DiscordValue.get(DiscordValue::topEmoji));
             stringBuilder.append(line

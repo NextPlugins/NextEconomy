@@ -29,6 +29,7 @@ public final class PurseValue implements ConfigurationInjectable {
 
     @ConfigField("enable") private boolean enable;
     @ConfigField("useInAll") private boolean applyInAll;
+    @ConfigField("useInWithdraw") private boolean withdrawEnabled;
 
     @ConfigField("media") private int media;
     @ConfigField("minValue") private int minValue;

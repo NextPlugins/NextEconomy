@@ -18,6 +18,7 @@ import org.bukkit.entity.ArmorStand;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.metadata.FixedMetadataValue;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -49,7 +50,7 @@ public final class ArmorStandRunnable implements Runnable {
 
         if (locationManager.getLocationMap().isEmpty()) return;
 
-        val accounts = rankingStorage.getRankByCoin();
+        ArrayList<SimpleAccount> accounts = new ArrayList<>(rankingStorage.getRankByCoin().values());
         val small = RankingValue.get(RankingValue::hologramFormat).equalsIgnoreCase("SMALL");
         val height = small ? 2.15 : 3;
 
@@ -59,6 +60,7 @@ public final class ArmorStandRunnable implements Runnable {
 
             val position = entry.getKey();
             val location = entry.getValue();
+            if (location == null || location.getWorld() == null) continue;
 
             val chunk = location.getChunk();
             if (!chunk.isLoaded()) chunk.load(true);

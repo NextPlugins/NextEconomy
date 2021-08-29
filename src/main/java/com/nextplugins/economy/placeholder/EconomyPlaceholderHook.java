@@ -2,7 +2,6 @@ package com.nextplugins.economy.placeholder;
 
 import com.nextplugins.economy.NextEconomy;
 import com.nextplugins.economy.api.PurseAPI;
-import com.nextplugins.economy.configuration.RankingValue;
 import lombok.RequiredArgsConstructor;
 import lombok.val;
 import me.clip.placeholderapi.expansion.PlaceholderExpansion;
@@ -30,7 +29,7 @@ public final class EconomyPlaceholderHook extends PlaceholderExpansion {
     }
 
     @Override
-    public String onPlaceholderRequest(@NotNull Player player, @NotNull String params) {
+    public String onPlaceholderRequest(Player player, String params) {
 
         if (params.startsWith("purse")) {
 
@@ -51,13 +50,7 @@ public final class EconomyPlaceholderHook extends PlaceholderExpansion {
         if (params.equalsIgnoreCase("tycoon")) {
 
             val rankingStorage = NextEconomy.getInstance().getRankingStorage();
-            if (rankingStorage.getRankByCoin().isEmpty()) return "";
-
-            val tycoonAccount = rankingStorage.getRankByCoin().get(0);
-
-            return player.getName().equalsIgnoreCase(tycoonAccount.getUsername())
-                    ? RankingValue.get(RankingValue::tycoonTagValue)
-                    : RankingValue.get(RankingValue::tycoonRichTagValue);
+            return rankingStorage.getTycoonTag(player.getName());
 
         }
 

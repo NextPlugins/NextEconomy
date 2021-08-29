@@ -31,15 +31,7 @@ public final class OpeNChatListener implements Listener {
 
         }
 
-        if (rankingStorage.getRankByCoin().isEmpty()) return;
-
-        val tycoonAccount = rankingStorage.getRankByCoin().get(0);
-        val tycoonTag = player.getName().equalsIgnoreCase(tycoonAccount.getUsername())
-                ? RankingValue.get(RankingValue::tycoonTagValue)
-                : RankingValue.get(RankingValue::tycoonRichTagValue);
-
-        event.setTag("tycoon", tycoonTag);
-
+        event.setTag("tycoon", rankingStorage.getTycoonTag(player.getName()));
     }
 
 }

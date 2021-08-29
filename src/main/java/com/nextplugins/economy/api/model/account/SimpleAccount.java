@@ -17,6 +17,7 @@ public class SimpleAccount {
     private final String username;
     private final String balanceFormated;
     private final String movimentedBalanceFormated;
+    private final String tycoonTag;
 
     private final int transactionsQuantity;
 

@@ -13,6 +13,7 @@ import lombok.val;
 import net.citizensnpcs.api.CitizensAPI;
 import org.bukkit.entity.EntityType;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -31,13 +32,14 @@ public final class NPCRunnable implements Runnable {
 
         if (locationManager.getLocationMap().isEmpty()) return;
 
-        val accounts = rankingStorage.getRankByCoin();
+        ArrayList<SimpleAccount> accounts = new ArrayList<>(rankingStorage.getRankByCoin().values());
         val hologramLines = RankingValue.get(RankingValue::hologramArmorStandLines);
         val nobodyLines = RankingValue.get(RankingValue::nobodyHologramLines);
         for (val entry : locationManager.getLocationMap().entrySet()) {
 
             val position = entry.getKey();
             val location = entry.getValue();
+            if (location == null || location.getWorld() == null) continue;
 
             val chunk = location.getChunk();
             if (!chunk.isLoaded()) chunk.load(true);

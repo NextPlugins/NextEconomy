@@ -125,13 +125,7 @@ public final class NextEconomyAPI {
      * @return player's account
      */
     public @Nullable SimpleAccount getTopPlayer(boolean movimentationRanking) {
-        if (movimentationRanking) {
-            if (rankingStorage.getRankByMovimentation().isEmpty()) return null;
-            else return rankingStorage.getRankByMovimentation().get(0);
-        } else {
-            if (rankingStorage.getRankByCoin().isEmpty()) return null;
-            else return rankingStorage.getRankByCoin().get(0);
-        }
+        return rankingStorage.getTopPlayer(movimentationRanking);
     }
 
 }

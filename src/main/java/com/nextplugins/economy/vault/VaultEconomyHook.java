@@ -62,12 +62,15 @@ public class VaultEconomyHook extends EconomyWrapper {
 
     @Override
     public boolean has(OfflinePlayer player, double amount) {
-
         if (NumberUtils.isInvalid(amount)) return false;
 
         val account = storage.findAccount(player);
-        return account != null && account.hasAmount(amount);
+        if (account == null) return false;
 
+        val purseEnabled = PurseValue.get(PurseValue::enable) && PurseValue.get(PurseValue::withdrawEnabled);
+        val purse = purseEnabled ? PurseAPI.getInstance().getPurseMultiplier() : 1;
+
+        return account.hasAmount(amount * purse);
     }
 
     @Override
@@ -79,7 +82,7 @@ public class VaultEconomyHook extends EconomyWrapper {
         val account = storage.findAccount(player);
         if (account != null) {
 
-            val purseEnabled = PurseValue.get(PurseValue::enable) && PurseValue.get(PurseValue::applyInAll);
+            val purseEnabled = PurseValue.get(PurseValue::enable) && PurseValue.get(PurseValue::withdrawEnabled);
             val purse = purseEnabled ? PurseAPI.getInstance().getPurseMultiplier() : 1;
 
             val newAmount = amount * purse;

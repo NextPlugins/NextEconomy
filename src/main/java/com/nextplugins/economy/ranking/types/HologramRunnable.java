@@ -12,6 +12,7 @@ import lombok.val;
 import lombok.var;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -50,7 +51,7 @@ public final class HologramRunnable implements Runnable {
 
         for (val line : RankingValue.get(RankingValue::hologramDefaultLines)) {
 
-            if (line.equalsIgnoreCase("@players")) playersLines(accounts).forEach(hologram::appendTextLine);
+            if (line.equalsIgnoreCase("@players")) playersLines(accounts.values()).forEach(hologram::appendTextLine);
             else hologram.appendTextLine(line);
 
         }
@@ -58,7 +59,7 @@ public final class HologramRunnable implements Runnable {
 
     }
 
-    public List<String> playersLines(List<SimpleAccount> accounts) {
+    public List<String> playersLines(Collection<SimpleAccount> accounts) {
 
         val lines = new ArrayList<String>();
         val line = RankingValue.get(RankingValue::hologramDefaultLine);

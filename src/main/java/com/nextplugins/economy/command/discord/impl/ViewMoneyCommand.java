@@ -1,6 +1,7 @@
 package com.nextplugins.economy.command.discord.impl;
 
 import com.nextplugins.economy.NextEconomy;
+import com.nextplugins.economy.api.model.account.historic.AccountBankHistoric;
 import com.nextplugins.economy.api.model.account.storage.AccountStorage;
 import com.nextplugins.economy.api.model.account.transaction.TransactionType;
 import com.nextplugins.economy.command.discord.Command;
@@ -131,7 +132,7 @@ public class ViewMoneyCommand implements Command {
                 ? DiscordValue.get(DiscordValue::successEmoji) + " Habilitado"
                 : DiscordValue.get(DiscordValue::errorEmoji) + " Desativado";
 
-        val accountBankHistoric = account.getTransactions().isEmpty() ? null
+        AccountBankHistoric accountBankHistoric = account.getTransactions().isEmpty() ? null
                 : account.getTransactions().get(0);
 
         var transaction = "Este jogador nunca fez/recebeu uma transação";

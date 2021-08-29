@@ -68,7 +68,7 @@ public final class HistoricBankView extends PagedInventory {
 
         account.getTransactions().sort(new BankHistoricComparator());
 
-        for (val transaction : account.getTransactions()) {
+        for (AccountBankHistoric transaction : account.getTransactions()) {
 
             val name = transaction.getType() == TransactionType.WITHDRAW
                     ? player.getName() : transaction.getTarget();

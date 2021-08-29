@@ -385,7 +385,7 @@ public final class MoneyCommand {
 
             val position = new AtomicInteger(1);
             val tag = RankingValue.get(RankingValue::tycoonTagValue);
-            for (val account : accounts) {
+            for (val account : accounts.values()) {
                 val i = position.getAndIncrement();
                 sender.sendMessage(body
                         .replace("$position", String.valueOf(i))

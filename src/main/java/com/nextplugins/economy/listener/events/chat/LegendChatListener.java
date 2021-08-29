@@ -31,16 +31,7 @@ public final class LegendChatListener implements Listener {
 
         }
 
-        if (rankingStorage.getRankByCoin().isEmpty()) return;
-
-        val tycoonAccount = rankingStorage.getRankByCoin().get(0);
-        val tycoonTag = player.getName().equalsIgnoreCase(tycoonAccount.getUsername())
-                ? RankingValue.get(RankingValue::tycoonTagValue)
-                : RankingValue.get(RankingValue::tycoonRichTagValue);
-
-        event.setTagValue("tycoon", tycoonTag);
-
-
+        event.setTagValue("tycoon", rankingStorage.getTycoonTag(player.getName()));
     }
 
 }
