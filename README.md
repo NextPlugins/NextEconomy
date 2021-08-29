@@ -2,7 +2,7 @@
 
 [![Codacy Badge](https://app.codacy.com/project/badge/Grade/41ceccfd3fa241f3a9741f6996f44ccd)](https://www.codacy.com/gh/NextPlugins/NextEconomy/dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=NextPlugins/NextEconomy&amp;utm_campaign=Badge_Grade)
 
-Um sistema simples e completo de uma economia principal para servidores de Minecraft, quase que 100% configurável, com pódio em chat/menu e NPCs, suporte ao PlaceholderAPI, informações salvas em banco de dados SQL e com uma robusta [API](https://github.com/NextPlugins/NextEconomy/tree/main/src/main/java/com/nextplugins/economy/api) para desenvolvedores. [Prints in-game](https://imgur.com/gallery/RHlD6dA).
+Um sistema simples e completo de uma economia principal para servidores de Minecraft, quase que 100% configurável, com pódio em chat/menu e NPCs, suporte ao PlaceholderAPI, informações salvas em banco de dados SQL e com uma robusta [API](https://github.com/NextPlugins/NextEconomy/tree/main/src/main/java/com/nextplugins/economy/api) para desenvolvedores. [Prints in-game](https://imgur.com/gallery/vkWQrdw).
 
 ## Comandos
 |Comando         |Descrição                      |Permissão                    |
