@@ -22,6 +22,13 @@ public class TopMoneyCommand implements Command {
     @Override
     public void execute(Message message, String[] args) {
 
+        if (rankingStorage.updateRanking(false)) {
+
+            message.reply(DiscordValue.get(DiscordValue::loadingEmoji) + " Atualizando o ranking, aguarde alguns segundos.").queue();
+            return;
+
+        }
+
         val embedBuilder = new EmbedBuilder()
                 .setTitle(DiscordValue.get(DiscordValue::topTitle))
                 .setFooter(
