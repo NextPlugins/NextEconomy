@@ -10,6 +10,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
 
+import java.util.List;
 import java.util.function.Function;
 
 /**
@@ -30,6 +31,8 @@ public final class PurseValue implements ConfigurationInjectable {
     @ConfigField("enable") private boolean enable;
     @ConfigField("useInAll") private boolean applyInAll;
     @ConfigField("useInWithdraw") private boolean withdrawEnabled;
+    @ConfigField("messageDisabledWorlds") private List<String> worlds;
+    @ConfigField("method") private String messageMethod;
 
     @ConfigField("media") private int media;
     @ConfigField("minValue") private int minValue;

@@ -42,6 +42,14 @@ plugin:
       # Ativar para alterar valores de compra (quando o jogador gasta dinheiro)
       # ATENÇÃO Pode causar conflito com alguns plugins que não utilizam corretamente a api do vault
       useInWithdraw: false
+      # Serve para desativar a mensagem de "BOLSA Você deixou de ganhar x ..."
+      # em algum mundo específico, podendo desativar na mineração
+      # para não ficar flodando
+      messageDisabledWorlds:
+        - 'mina'
+      # Método que o jogador vai receber a mensagem "BOLSA Você deixou de ganhar x ..."
+      # ACTIONBAR ou MESSAGE
+      method: 'ACTIONBAR'
       # Um valor maior que esse significa que a bolsa está em alta
       media: 100
       # Valor mínimo da bolsa

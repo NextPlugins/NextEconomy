@@ -7,6 +7,8 @@ import com.nextplugins.economy.api.model.account.historic.AccountBankHistoric;
 import com.nextplugins.economy.api.model.account.transaction.TransactionType;
 import com.nextplugins.economy.configuration.FeatureValue;
 import com.nextplugins.economy.configuration.MessageValue;
+import com.nextplugins.economy.configuration.PurseValue;
+import com.nextplugins.economy.util.ActionBarUtils;
 import com.nextplugins.economy.util.DiscordSyncUtil;
 import com.nextplugins.economy.util.ListSerializerHelper;
 import com.nextplugins.economy.util.NumberUtils;
@@ -33,9 +35,11 @@ public class Account {
     private double movimentedBalance;
 
     private int transactionsQuantity;
-    @Builder.Default private transient LinkedList<AccountBankHistoric> transactions = Lists.newLinkedList();
+    @Builder.Default
+    private transient LinkedList<AccountBankHistoric> transactions = Lists.newLinkedList();
 
-    @Builder.Default private boolean receiveCoins = true;
+    @Builder.Default
+    private boolean receiveCoins = true;
 
     public static Account createDefault(String name) {
 
@@ -164,7 +168,7 @@ public class Account {
 
             Bukkit.getScheduler().runTask(NextEconomy.getInstance(), () -> Bukkit.getPluginManager().callEvent(moneyChangeEvent));
 
-            if (valueWithoutPurse > 0 && quantity != valueWithoutPurse) {
+            if (PurseValue.get(PurseValue::worlds).contains(player.getWorld().getName()) && valueWithoutPurse > 0 && quantity != valueWithoutPurse) {
 
                 String message;
 
@@ -177,7 +181,10 @@ public class Account {
                 }
 
                 val value = quantity > valueWithoutPurse ? quantity - valueWithoutPurse : valueWithoutPurse - quantity;
-                player.sendMessage(message.replace("$value", NumberUtils.format(value)));
+                val purseMessage = message.replace("$value", NumberUtils.format(value));
+
+                if (PurseValue.get(PurseValue::messageMethod).equalsIgnoreCase("message")) player.sendMessage(purseMessage);
+                else ActionBarUtils.sendActionBar(player, purseMessage);
 
             }
 
