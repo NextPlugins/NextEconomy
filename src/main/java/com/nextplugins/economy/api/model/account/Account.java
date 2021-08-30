@@ -168,7 +168,7 @@ public class Account {
 
             Bukkit.getScheduler().runTask(NextEconomy.getInstance(), () -> Bukkit.getPluginManager().callEvent(moneyChangeEvent));
 
-            if (PurseValue.get(PurseValue::worlds).contains(player.getWorld().getName()) && valueWithoutPurse > 0 && quantity != valueWithoutPurse) {
+            if (!PurseValue.get(PurseValue::worlds).contains(player.getWorld().getName()) && valueWithoutPurse > 0 && quantity != valueWithoutPurse) {
 
                 String message;
 
