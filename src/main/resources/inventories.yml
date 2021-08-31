@@ -8,8 +8,8 @@ inventory:
       name: 'Histórico de Transações'
       #Tamanho do inventário
       size: 54
-    depositMessage: '&eTransação de @target'
-    withdrawMessage: '&eTransação para @target'
+    depositMessage: '&bTransação de @target'
+    withdrawMessage: '&bTransação para @target'
     item:
       skullName: '@player'
       displayName: '@message'
@@ -28,7 +28,7 @@ inventory:
       help:
         identifier: HELP
         skullName: 'MHF_QUESTION'
-        displayName: '&6Ajuda'
+        displayName: '&bAjuda'
         inventorySlot: 0
         lore:
           - '&fVeja todos os comandos de'
@@ -53,18 +53,18 @@ inventory:
         material: ARMOR_STAND
         data: 0
         inventorySlot: 22
-        displayName: '&6Mais ricos do servidor'
+        displayName: '&bMais ricos do servidor'
         lore:
           - ''
           - ' &8Veja os jogadores mais'
           - ' &8ricos do servidor'
           - ''
-          - '&eClique aqui para ver'
+          - '&aClique aqui para ver'
       toggle:
         identifier: TOGGLE
-        material: ENDER_PEARL
+        material: WATCH
         data: 0
-        displayName: '&6Recebimento de coins'
+        displayName: '&bRecebimento de coins'
         inventorySlot: 20
         lore:
           - '&fDesative ou ative o recebimento'
@@ -79,34 +79,34 @@ inventory:
         # Caso não utilize o sistema de bolsa de valores
         # Coloque o slot como -1 para desativar este item
         inventorySlot: 29
-        displayName: '&6Bolsa de valores'
+        displayName: '&bBolsa de valores'
         lore:
           - ''
           - ' &fValor atual: &3$value'
           - ' &fStatus: &e$status'
           - ''
-          - '&ePróxima atualização em &6$time'
+          - '&aPróxima atualização em &2$time'
       sendMoney:
         identifier: SEND_MONEY
         material: PAPER
         data: 0
         inventorySlot: 24
-        displayName: '&6Enviar dinheiro'
+        displayName: '&bEnviar dinheiro'
         lore:
           - ''
           - ' &8Envie dinheiro para qualquer jogador'
           - ' &8do servidor, mesmo com ele offline'
           - ''
-          - '&eClique aqui para enviar'
+          - '&aClique aqui para enviar'
       viewPlayerMoney:
         identifier: VIEW_MONEY
         material: SIGN
         data: 0
         inventorySlot: 33
-        displayName: '&6Ver dinheiro de outro jogador'
+        displayName: '&bVer dinheiro de outro jogador'
         lore:
           - ''
           - ' &8Clique aqui para ver'
           - ' &8os coins de outro jogador'
           - ''
-          - '&eClique aqui para ver'
+          - '&aClique aqui para ver'
