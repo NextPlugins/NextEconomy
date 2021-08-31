@@ -22,7 +22,10 @@ public enum ButtonType {
         callback.getPlayer().performCommand("money help");
     }),
 
-    TOGGLE(callback -> callback.getPlayer().performCommand("money toggle")),
+    TOGGLE(callback -> {
+        callback.getPlayer().performCommand("money toggle");
+        callback.updateInventory();
+    }),
 
     YOUR_MONEY(callback -> {
 

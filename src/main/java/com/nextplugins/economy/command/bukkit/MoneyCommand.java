@@ -1,5 +1,6 @@
 package com.nextplugins.economy.command.bukkit;
 
+import com.google.common.collect.Lists;
 import com.nextplugins.economy.NextEconomy;
 import com.nextplugins.economy.api.event.operations.MoneyChangeEvent;
 import com.nextplugins.economy.api.event.operations.MoneyGiveEvent;
@@ -336,6 +337,9 @@ public final class MoneyCommand {
         }
 
         offlineAccount.setBalance(0);
+        offlineAccount.setMovimentedBalance(0);
+        offlineAccount.setTransactions(Lists.newLinkedList());
+        offlineAccount.setTransactionsQuantity(0);
 
         sender.sendMessage(MessageValue.get(MessageValue::resetBalance)
                 .replace("$player", target.getName())

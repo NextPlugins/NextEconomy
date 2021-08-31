@@ -132,7 +132,6 @@ public final class RankingView extends PagedInventory {
                 .wrap()
         );
 
-
     }
 
     private InventoryItem sortRankingItem(Viewer viewer) {
