@@ -26,8 +26,6 @@ import java.util.LinkedList;
 @AllArgsConstructor(access = AccessLevel.PROTECTED)
 public class Account {
 
-    private static final ListSerializerHelper<AccountBankHistoric> PARSER = new ListSerializerHelper<>();
-
     private final String username;
     private String discordName;
 
@@ -35,11 +33,9 @@ public class Account {
     private double movimentedBalance;
 
     private int transactionsQuantity;
-    @Builder.Default
-    private transient LinkedList<AccountBankHistoric> transactions = Lists.newLinkedList();
+    @Builder.Default private LinkedList<AccountBankHistoric> transactions = Lists.newLinkedList();
 
-    @Builder.Default
-    private boolean receiveCoins = true;
+    @Builder.Default private boolean receiveCoins = true;
 
     public static Account createDefault(String name) {
 

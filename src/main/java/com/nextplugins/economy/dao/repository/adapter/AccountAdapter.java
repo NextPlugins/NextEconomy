@@ -8,6 +8,8 @@ import com.nextplugins.economy.api.model.account.historic.AccountBankHistoric;
 import com.nextplugins.economy.util.ListSerializerHelper;
 import lombok.val;
 
+import java.util.LinkedList;
+
 public final class AccountAdapter implements SQLResultAdapter<Account> {
 
     private static final ListSerializerHelper<AccountBankHistoric> PARSER = new ListSerializerHelper<>();
@@ -24,7 +26,7 @@ public final class AccountAdapter implements SQLResultAdapter<Account> {
         int transactionsQuantity = resultSet.get("transactionsQuantity");
         int receiveCoins = resultSet.get("receiveCoins");
 
-        val accountBankHistorics = Lists.newLinkedList(PARSER.fromJson(transactions));
+        LinkedList<AccountBankHistoric> accountBankHistorics = PARSER.fromJson(transactions);
 
         return Account.generate()
                 .username(accountOwner)

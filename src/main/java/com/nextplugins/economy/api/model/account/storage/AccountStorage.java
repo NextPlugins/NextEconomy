@@ -73,8 +73,6 @@ public final class AccountStorage {
     @Nullable
     public Account findAccount(@NotNull OfflinePlayer offlinePlayer) {
 
-        if (!offlinePlayer.hasPlayedBefore()) return null;
-
         if (offlinePlayer.isOnline()) {
 
             val player = offlinePlayer.getPlayer();
