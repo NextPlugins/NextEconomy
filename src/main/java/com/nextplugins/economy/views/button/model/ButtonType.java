@@ -35,6 +35,7 @@ public enum ButtonType {
         } catch (Exception exception) {
             callback.getPlayer().closeInventory();
             callback.getPlayer().sendMessage(ChatColor.RED + "Você ainda não fez uma transação.");
+            exception.printStackTrace();
         }
 
     }),

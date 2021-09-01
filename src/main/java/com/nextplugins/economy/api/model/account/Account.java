@@ -10,6 +10,7 @@ import com.nextplugins.economy.configuration.FeatureValue;
 import com.nextplugins.economy.configuration.MessageValue;
 import com.nextplugins.economy.configuration.PurseValue;
 import com.nextplugins.economy.util.ActionBarUtils;
+import com.nextplugins.economy.util.BankHistoricParserUtil;
 import com.nextplugins.economy.util.DiscordSyncUtil;
 import com.nextplugins.economy.util.NumberUtils;
 import lombok.*;
@@ -33,7 +34,9 @@ public class Account {
     private double movimentedBalance;
 
     private int transactionsQuantity;
+
     @Builder.Default private LinkedList<AccountBankHistoric> transactions = Lists.newLinkedList();
+    private String transactionsJson;
 
     @Builder.Default private boolean receiveCoins = true;
 
@@ -71,6 +74,7 @@ public class Account {
                 movimentedBalance,
                 transactionsQuantity,
                 transactions,
+                "",
                 true
         );
 
@@ -90,6 +94,10 @@ public class Account {
 
     public synchronized String getBalanceFormated() {
         return NumberUtils.format(getBalance());
+    }
+
+    public void saveTransactions() {
+        transactionsJson = BankHistoricParserUtil.parse(transactions);
     }
 
     public synchronized void setBalance(double quantity) {

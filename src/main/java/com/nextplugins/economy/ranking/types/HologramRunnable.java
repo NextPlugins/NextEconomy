@@ -1,5 +1,8 @@
 package com.nextplugins.economy.ranking.types;
 
+import com.Zrips.CMI.CMI;
+import com.Zrips.CMI.Containers.CMILocation;
+import com.Zrips.CMI.Modules.Holograms.CMIHologram;
 import com.gmail.filoghost.holographicdisplays.api.Hologram;
 import com.gmail.filoghost.holographicdisplays.api.HologramsAPI;
 import com.nextplugins.economy.NextEconomy;
@@ -27,10 +30,12 @@ public final class HologramRunnable implements Runnable {
     private final LocationManager locationManager;
     private final RankingStorage rankingStorage;
 
+    private final boolean holographicDisplays;
+
     @Override
     public void run() {
 
-        HologramsAPI.getHolograms(plugin).forEach(Hologram::delete);
+        if (holographicDisplays) HologramsAPI.getHolograms(plugin).forEach(Hologram::delete);
 
         if (locationManager.getLocationMap().isEmpty()) return;
 
@@ -46,17 +51,32 @@ public final class HologramRunnable implements Runnable {
         val chunk = location.getChunk();
         if (!chunk.isLoaded()) chunk.load(true);
 
+        val playerLines = playersLines(accounts.values());
+
         val hologramLocation = location.clone().add(0, 5, 0);
-        val hologram = HologramsAPI.createHologram(plugin, hologramLocation);
+        if (holographicDisplays) {
+            val hologram = HologramsAPI.createHologram(plugin, hologramLocation);
 
-        for (val line : RankingValue.get(RankingValue::hologramDefaultLines)) {
+            for (val line : RankingValue.get(RankingValue::hologramDefaultLines)) {
 
-            if (line.equalsIgnoreCase("@players")) playersLines(accounts.values()).forEach(hologram::appendTextLine);
-            else hologram.appendTextLine(line);
+                if (line.equalsIgnoreCase("@players")) {
+                    playerLines.forEach(hologram::appendTextLine);
+                } else hologram.appendTextLine(line);
 
+            }
+        } else {
+
+            val cmiHologram = new CMIHologram("NextEconomy", new CMILocation(hologramLocation));
+            for (val line : RankingValue.get(RankingValue::hologramDefaultLines)) {
+                if (line.equalsIgnoreCase("@players")) {
+                    playerLines.forEach(cmiHologram::addLine);
+                } else cmiHologram.addLine(line);
+            }
+
+            CMI.getInstance().getHologramManager().addHologram(cmiHologram);
+            cmiHologram.update();
+            
         }
-
-
     }
 
     public List<String> playersLines(Collection<SimpleAccount> accounts) {

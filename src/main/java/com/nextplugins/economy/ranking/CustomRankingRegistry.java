@@ -21,6 +21,7 @@ public class CustomRankingRegistry {
     private NextEconomy plugin;
 
     private boolean enabled;
+    private boolean holographicDisplays;
     private Runnable runnable;
 
     public static CustomRankingRegistry of(NextEconomy plugin) {
@@ -45,17 +46,18 @@ public class CustomRankingRegistry {
 
         }
 
-
-        if (!pluginManager.isPluginEnabled("HolographicDisplays")) {
+        if (!pluginManager.isPluginEnabled("CMI") && !pluginManager.isPluginEnabled("HolographicDisplays")) {
 
             plugin.getLogger().log(Level.WARNING,
                     "Dependência não encontrada ({0}) O ranking em NPC, Holograma e ArmorStand não serão usados.",
-                    "HolographicDisplays"
+                    "HolographicDisplays ou CMI"
             );
 
             return;
 
         }
+
+        holographicDisplays = pluginManager.isPluginEnabled("HolographicDisplays");
 
         boolean isNpc = type.equalsIgnoreCase("npc");
         if (isNpc && !pluginManager.isPluginEnabled("Citizens")) {
@@ -71,9 +73,9 @@ public class CustomRankingRegistry {
 
         LocationLoader.of(plugin, plugin.getLocationManager()).loadLocations();
 
-        if (isNpc) runnable = new NPCRunnable(plugin, plugin.getLocationManager(), plugin.getRankingStorage());
-        else if (type.equalsIgnoreCase("armorstand")) runnable = new ArmorStandRunnable(plugin, plugin.getLocationManager(), plugin.getRankingStorage());
-        else runnable = new HologramRunnable(plugin, plugin.getLocationManager(), plugin.getRankingStorage());
+        if (isNpc) runnable = new NPCRunnable(plugin, plugin.getLocationManager(), plugin.getRankingStorage(), holographicDisplays);
+        else if (type.equalsIgnoreCase("armorstand")) runnable = new ArmorStandRunnable(plugin, plugin.getLocationManager(), plugin.getRankingStorage(), holographicDisplays);
+        else runnable = new HologramRunnable(plugin, plugin.getLocationManager(), plugin.getRankingStorage(), holographicDisplays);
 
         enabled = true;
         plugin.getLogger().info("Sistema de NPC e ArmorStand registrado com sucesso.");

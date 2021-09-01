@@ -70,7 +70,7 @@ public final class NextEconomyCommand {
                 context.getSender(),
                 name,
                 accountStorage.getAccountRepository(),
-                false, true
+                false
         );
 
         if (backup.getResponseType() == ResponseType.NAME_IN_USE) {

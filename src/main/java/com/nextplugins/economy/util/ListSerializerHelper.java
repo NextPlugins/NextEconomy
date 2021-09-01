@@ -7,31 +7,31 @@ import com.google.gson.reflect.TypeToken;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.lang.reflect.Type;
-import java.util.LinkedList;
+import java.util.List;
 
 public class ListSerializerHelper<T> {
 
     private static final Gson GSON = new GsonBuilder().setPrettyPrinting().create();
 
-    public LinkedList<T> fromJson(String data) {
+    public List<T> fromJson(String data) {
 
-        Type typeOfHashMap = new TypeToken<LinkedList<T>>() {}.getType();
+        Type typeOfHashMap = new TypeToken<List<T>>() {}.getType();
         return GSON.fromJson(data, typeOfHashMap);
 
     }
 
-    public LinkedList<T> fromJson(FileReader reader) {
+    public List<T> fromJson(FileReader reader) {
 
-        Type typeOfHashMap = new TypeToken<LinkedList<T>>() {}.getType();
+        Type typeOfHashMap = new TypeToken<List<T>>() {}.getType();
         return GSON.fromJson(reader, typeOfHashMap);
 
     }
 
-    public String toJson(LinkedList<T> data) {
+    public String toJson(List<T> data) {
         return GSON.toJson(data);
     }
 
-    public void toJson(LinkedList<T> data, FileWriter writer) {
+    public void toJson(List<T> data, FileWriter writer) {
         GSON.toJson(data, writer);
     }
 

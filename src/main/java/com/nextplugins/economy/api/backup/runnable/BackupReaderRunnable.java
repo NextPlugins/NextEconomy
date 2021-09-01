@@ -55,7 +55,7 @@ public final class BackupReaderRunnable implements Runnable {
                 val response = backupManager.createBackup(
                         null, null,
                         accountRepository,
-                        true, true
+                        true
                 );
 
                 if (response.getResponseType() == ResponseType.SUCCESS) {

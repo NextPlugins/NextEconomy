@@ -1,7 +1,6 @@
 package com.nextplugins.economy.api.backup.runnable;
 
 import com.google.common.base.Stopwatch;
-import com.google.common.collect.Lists;
 import com.nextplugins.economy.NextEconomy;
 import com.nextplugins.economy.api.backup.BackupManager;
 import com.nextplugins.economy.api.model.account.Account;
@@ -42,7 +41,7 @@ public final class BackupCreatorRunnable implements Runnable {
             val stopwatch = Stopwatch.createStarted();
 
             val writer = new FileWriter(file);
-            PARSER.toJson(Lists.newLinkedList(accounts), writer);
+            PARSER.toJson(accounts, writer);
 
             writer.flush();
             stopwatch.stop();
