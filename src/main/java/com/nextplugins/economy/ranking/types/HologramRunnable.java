@@ -75,7 +75,7 @@ public final class HologramRunnable implements Runnable {
 
             CMI.getInstance().getHologramManager().addHologram(cmiHologram);
             cmiHologram.update();
-            
+
         }
     }
 

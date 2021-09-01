@@ -9,9 +9,7 @@ import com.henryfabio.minecraft.inventoryapi.viewer.Viewer;
 import com.henryfabio.minecraft.inventoryapi.viewer.configuration.border.Border;
 import com.henryfabio.minecraft.inventoryapi.viewer.configuration.impl.ViewerConfigurationImpl;
 import com.henryfabio.minecraft.inventoryapi.viewer.impl.paged.PagedViewer;
-import com.nextplugins.economy.NextEconomy;
 import com.nextplugins.economy.api.model.account.historic.AccountBankHistoric;
-import com.nextplugins.economy.api.model.account.historic.BankHistoricComparator;
 import com.nextplugins.economy.api.model.account.transaction.TransactionType;
 import com.nextplugins.economy.configuration.InventoryValue;
 import com.nextplugins.economy.api.model.account.storage.AccountStorage;
@@ -38,10 +36,9 @@ public final class HistoricBankView extends PagedInventory {
         super(
                 "nexteconomy.bank.historic",
                 InventoryValue.get(InventoryValue::historicInventoryName),
-                InventoryValue.get(InventoryValue::historicInventorySize)
+                54
         );
 
-        NextEconomy.getInstance().getLogger().info(" ae" + InventoryValue.get(InventoryValue::historicInventorySize));
         this.accountStorage = accountStorage;
     }
 

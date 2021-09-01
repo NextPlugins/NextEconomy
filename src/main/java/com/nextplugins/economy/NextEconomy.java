@@ -145,7 +145,7 @@ public final class NextEconomy extends JavaPlugin {
         if (FeatureValue.get(FeatureValue::autoBackup)) {
 
             CompletableFuture.completedFuture(
-                    backupManager.createBackup(null, null, accountRepository, false)
+                    backupManager.createBackup(null, null, accountRepository, false, false)
             ).join(); // freeze thread
 
         }

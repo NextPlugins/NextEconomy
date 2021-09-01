@@ -44,7 +44,8 @@ public final class BackupManager {
     public synchronized BackupResponse createBackup(@Nullable CommandSender sender,
                                                     @Nullable String name,
                                                     AccountRepository accountRepository,
-                                                    boolean restaurationPoint) {
+                                                    boolean restaurationPoint,
+                                                    boolean async) {
 
         if (backuping) return new BackupResponse(null, ResponseType.BACKUP_IN_PROGRESS);
 
@@ -73,7 +74,18 @@ public final class BackupManager {
         val accountStorage = NextEconomy.getInstance().getAccountStorage();
         accountStorage.getCache().synchronous().invalidateAll();
 
-        scheduler.runTaskAsynchronously(plugin, () -> {
+        if (async) {
+            scheduler.runTaskAsynchronously(plugin, () -> {
+                List<Account> accounts = new ArrayList<>();
+                accountRepository.selectAll("").forEach(account -> {
+                    account.saveTransactions();
+                    accounts.add(account);
+                });
+
+                val runnable = new BackupCreatorRunnable(sender, this, file, accounts);
+                scheduler.runTaskAsynchronously(plugin, runnable);
+            });
+        } else {
             List<Account> accounts = new ArrayList<>();
             accountRepository.selectAll("").forEach(account -> {
                 account.saveTransactions();
@@ -81,8 +93,8 @@ public final class BackupManager {
             });
 
             val runnable = new BackupCreatorRunnable(sender, this, file, accounts);
-            scheduler.runTaskAsynchronously(plugin, runnable);
-        });
+            runnable.run();
+        }
 
         return new BackupResponse(file, ResponseType.SUCCESS);
 

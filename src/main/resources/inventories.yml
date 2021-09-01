@@ -6,7 +6,7 @@ inventory:
   historic:
     config:
       name: 'Histórico de Transações'
-      #Tamanho do inventário
+      # Tamanho do inventário
       size: 54
     depositMessage: '&bTransação de @target'
     withdrawMessage: '&bTransação para @target'
