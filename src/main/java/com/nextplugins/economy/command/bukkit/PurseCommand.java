@@ -26,7 +26,8 @@ public class PurseCommand {
     )
     public void onPurseCommand(Context<Player> context) {
 
-        if (!PurseAPI.isAvaliable()) {
+        val purseAPI = PurseAPI.getInstance();
+        if (purseAPI == null) {
 
             context.sendMessage(ColorUtil.colored("&cSistema desativado."));
             return;
@@ -35,7 +36,7 @@ public class PurseCommand {
 
         if (!InventoryValue.get(InventoryValue::enable)) {
 
-            context.sendMessage(MessageValue.get(MessageValue::purseChatMessage).replace("$value", PurseAPI.getInstance().getPurseFormatedWithIcon()));
+            context.sendMessage(MessageValue.get(MessageValue::purseChatMessage).replace("$value", purseAPI.getPurseFormatedWithIcon()));
             return;
 
         }

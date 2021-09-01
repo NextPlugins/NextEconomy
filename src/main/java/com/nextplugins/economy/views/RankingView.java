@@ -124,10 +124,10 @@ public final class RankingView extends PagedInventory {
     private InventoryItem restTimeUpdate() {
 
         return InventoryItem.of(new ItemBuilder("MHF_QUESTION")
-                .name("&6Próxima atualização")
+                .name("&bPróxima atualização")
                 .setLore(
                         "&7A próxima atualização do ranking será em",
-                        "&e" + TimeUtils.format(rankingStorage.getNextUpdateMillis() - System.currentTimeMillis())
+                        "&a" + TimeUtils.format(rankingStorage.getNextUpdateMillis() - System.currentTimeMillis())
                 )
                 .wrap()
         );
@@ -137,7 +137,7 @@ public final class RankingView extends PagedInventory {
     private InventoryItem sortRankingItem(Viewer viewer) {
         AtomicInteger currentFilter = new AtomicInteger(rankingSorterType.getOrDefault(viewer.getName(), -1));
         return InventoryItem.of(new ItemBuilder(Material.HOPPER)
-                .name("&6Ordenar ranking")
+                .name("&bOrdenar ranking")
                 .setLore(
                         "&7Ordene o ranking da maneira deseja",
                         "",
@@ -156,7 +156,7 @@ public final class RankingView extends PagedInventory {
     }
 
     private String getColorByFilter(int currentFilter, int loopFilter) {
-        return currentFilter == loopFilter ? " &b▶" : "&8";
+        return currentFilter == loopFilter ? " &e▶" : "&8";
     }
 
 }

@@ -4,13 +4,13 @@ import com.google.common.collect.Lists;
 import com.nextplugins.economy.NextEconomy;
 import com.nextplugins.economy.api.event.operations.MoneyChangeEvent;
 import com.nextplugins.economy.api.model.account.historic.AccountBankHistoric;
+import com.nextplugins.economy.api.model.account.historic.BankHistoricComparator;
 import com.nextplugins.economy.api.model.account.transaction.TransactionType;
 import com.nextplugins.economy.configuration.FeatureValue;
 import com.nextplugins.economy.configuration.MessageValue;
 import com.nextplugins.economy.configuration.PurseValue;
 import com.nextplugins.economy.util.ActionBarUtils;
 import com.nextplugins.economy.util.DiscordSyncUtil;
-import com.nextplugins.economy.util.ListSerializerHelper;
 import com.nextplugins.economy.util.NumberUtils;
 import lombok.*;
 import net.milkbowl.vault.economy.EconomyResponse;
@@ -150,6 +150,7 @@ public class Account {
 
             if (transactions.size() >= 56) transactions.remove(0);
             transactions.add(historic);
+            transactions.sort(new BankHistoricComparator());
 
         }
 

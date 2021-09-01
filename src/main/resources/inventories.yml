@@ -67,10 +67,13 @@ inventory:
         displayName: '&bRecebimento de coins'
         inventorySlot: 20
         lore:
-          - '&fDesative ou ative o recebimento'
-          - '&fde coins vindo de outros &ejogadores'
+          - ''
+          - ' &8Desative ou ative o recebimento'
+          - ' &8de coins vindo de outros jogadores'
           - ''
           - ' &fStatus: $toggleMessage'
+          - ''
+          - '&aClique aqui para ativar ou desativar'
       purse:
         identifier: PURSE
         # desativado temporariamente
@@ -83,7 +86,7 @@ inventory:
         lore:
           - ''
           - ' &fValor atual: &3$value'
-          - ' &fStatus: &e$status'
+          - ' &fStatus: &7$status'
           - ''
           - '&aPróxima atualização em &2$time'
       sendMoney:

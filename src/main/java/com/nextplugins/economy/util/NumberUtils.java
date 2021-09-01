@@ -49,8 +49,9 @@ public final class NumberUtils {
 
         double amount = Double.parseDouble(matcher.group(1));
         String suffix = matcher.group(2);
+        String fixedSuffix = suffix.equalsIgnoreCase("k") ? suffix.toLowerCase() : suffix.toUpperCase();
 
-        int index = MessageValue.get(MessageValue::currencyFormat).indexOf(suffix.toUpperCase());
+        int index = MessageValue.get(MessageValue::currencyFormat).indexOf(fixedSuffix);
 
         val value = amount * Math.pow(1000, index);
         return isInvalid(value) ? 0 : value;

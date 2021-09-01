@@ -7,6 +7,7 @@ import com.nextplugins.economy.api.model.account.SimpleAccount;
 import com.nextplugins.economy.api.model.account.historic.AccountBankHistoric;
 import com.nextplugins.economy.dao.repository.adapter.AccountAdapter;
 import com.nextplugins.economy.dao.repository.adapter.SimpleAccountAdapter;
+import com.nextplugins.economy.util.BankHistoricParserUtil;
 import com.nextplugins.economy.util.ListSerializerHelper;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -18,7 +19,6 @@ import java.util.Set;
 public final class AccountRepository {
 
     private static final String TABLE = "nexteconomy_data";
-    private static final ListSerializerHelper<AccountBankHistoric> PARSER = new ListSerializerHelper<>();
 
     @Getter private final SQLExecutor sqlExecutor;
 
@@ -96,7 +96,7 @@ public final class AccountRepository {
                     statement.set(2, account.getBalance());
                     statement.set(3, account.getMovimentedBalance());
                     statement.set(4, account.getTransactionsQuantity());
-                    statement.set(5, PARSER.toJson(account.getTransactions()));
+                    statement.set(5, BankHistoricParserUtil.parse(account.getTransactions()));
                     statement.set(6, account.isReceiveCoins() ? 1 : 0);
 
                 }
