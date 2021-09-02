@@ -4,6 +4,7 @@ import com.Zrips.CMI.CMI;
 import com.Zrips.CMI.Modules.Holograms.CMIHologram;
 import com.gmail.filoghost.holographicdisplays.api.Hologram;
 import com.gmail.filoghost.holographicdisplays.api.HologramsAPI;
+import com.google.common.collect.Lists;
 import com.nextplugins.economy.NextEconomy;
 import com.nextplugins.economy.api.model.account.SimpleAccount;
 import com.nextplugins.economy.configuration.RankingValue;
@@ -25,6 +26,8 @@ import java.util.List;
 @RequiredArgsConstructor
 public final class HologramRunnable implements Runnable {
 
+    public static final List<String> HOLOGRAMS = Lists.newLinkedList();
+
     private final NextEconomy plugin;
     private final LocationManager locationManager;
     private final RankingStorage rankingStorage;
@@ -35,6 +38,15 @@ public final class HologramRunnable implements Runnable {
     public void run() {
 
         if (holographicDisplays) HologramsAPI.getHolograms(plugin).forEach(Hologram::delete);
+        else {
+            for (val entry : HOLOGRAMS) {
+                val cmiHologram = CMI.getInstance().getHologramManager().getHolograms().get(entry);
+                CMI.getInstance().getHologramManager().removeHolo(cmiHologram);
+            }
+
+        }
+
+        HOLOGRAMS.clear();
 
         if (locationManager.getLocationMap().isEmpty()) return;
 
@@ -74,6 +86,8 @@ public final class HologramRunnable implements Runnable {
 
             CMI.getInstance().getHologramManager().addHologram(cmiHologram);
             cmiHologram.update();
+
+            HOLOGRAMS.add(cmiHologram.getName());
 
         }
     }

@@ -391,9 +391,11 @@ public final class MoneyCommand {
             val tag = RankingValue.get(RankingValue::tycoonTagValue);
             for (val account : accounts.values()) {
                 val i = position.getAndIncrement();
+                val group = groupWrapperManager.getGroup(account.getUsername());
                 sender.sendMessage(body
                         .replace("$position", String.valueOf(i))
-                        .replace("$prefix", groupWrapperManager.getPrefix(account.getUsername()))
+                        .replace("$prefix", group.getPrefix())
+                        .replace("$suffix", group.getSuffix())
                         .replace("$player", account.getUsername())
                         .replace("$tycoon", i == 1 ? tag : "")
                         .replace("$amount", account.getBalanceFormated())

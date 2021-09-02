@@ -2,6 +2,7 @@ package com.nextplugins.economy.api.group;
 
 import com.nextplugins.economy.util.ColorUtil;
 import lombok.Getter;
+import lombok.val;
 
 /**
  * @author Yuhtin
@@ -19,8 +20,15 @@ public class Group {
     }
 
     public Group(String prefix, String suffix) {
-        this.prefix = ColorUtil.colored(prefix);
-        this.suffix = ColorUtil.colored(suffix);
+
+        val coloredPrefix = ColorUtil.colored(prefix);
+        if (!coloredPrefix.endsWith(" ")) this.prefix = coloredPrefix + " ";
+        else this.prefix = coloredPrefix;
+
+        val coloredSuffix = ColorUtil.colored(suffix);
+        if (!coloredSuffix.startsWith(" ")) this.suffix = " " + coloredSuffix;
+        else this.suffix = coloredSuffix;
+
     }
 
 }

@@ -18,7 +18,7 @@ ranking:
         - ''
         - ' &a&lMONEY TOP &8&l➡ &fJogadores mais ricos'
         - ''
-      body: ' &f$positionº &8- $tycoon&a$prefix$player &7(&2$ &f$amount&7)'
+      body: ' &f$positionº &8- $tycoon&a$prefix$player$suffix &7(&2$ &f$amount&7)'
       footer:
         - ''
         - ' &7Atualizado a cada 30 minutos.'

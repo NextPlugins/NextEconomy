@@ -1,5 +1,6 @@
 package com.nextplugins.economy.views.button;
 
+import com.nextplugins.economy.NextEconomy;
 import com.nextplugins.economy.views.button.model.ButtonType;
 import com.nextplugins.economy.util.ItemBuilder;
 import lombok.Builder;
@@ -31,10 +32,13 @@ public final class InventoryButton implements Cloneable {
 
     public ItemStack getItemStack(String nick) {
 
+        String skinName = null;
+        if (nick != null) skinName = NextEconomy.getInstance().getSkinsRestorerManager().getSkinName(nick);
+
         if (this.itemStack == null) {
 
             this.itemStack = new ItemBuilder(materialData.getItemType() == Material.AIR
-                    ? new ItemBuilder(nick == null ? nickname : nick).wrap()
+                    ? new ItemBuilder(skinName == null ? nickname : skinName).wrap()
                     : materialData.toItemStack(1)
             )
                     .name(displayName)
@@ -44,7 +48,7 @@ public final class InventoryButton implements Cloneable {
 
             return itemStack;
 
-        } else return nick == null ? itemStack : updateByNick(nick);
+        } else return skinName == null ? itemStack : updateByNick(skinName);
     }
 
     public ItemStack updateByNick(String nick) {

@@ -135,10 +135,19 @@ public final class NextEconomyCommand {
         HologramsAPI.getHolograms(NextEconomy.getInstance()).forEach(Hologram::delete);
 
         if (pluginManager.isPluginEnabled("Citizens")) {
-            for (val npc : CitizensAPI.getNPCRegistry()) {
-                if (!npc.data().has("nexteconomy")) continue;
-                npc.despawn();
-                npc.destroy();
+            try {
+                for (val npc : CitizensAPI.getNPCRegistry()) {
+                    if (!npc.data().has("nexteconomy")) continue;
+                    npc.despawn();
+                    npc.destroy();
+                }
+
+            } catch (Exception exception) {
+                for (val id : NPCRunnable.NPCS) {
+                    val npc = CitizensAPI.getNPCRegistry().getById(id);
+                    npc.despawn();
+                    npc.destroy();
+                }
             }
 
             NPCRunnable.NPCS.clear();

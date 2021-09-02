@@ -17,11 +17,13 @@ import org.bukkit.entity.EntityType;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 @RequiredArgsConstructor
 public final class NPCRunnable implements Runnable {
 
     public static final List<Integer> NPCS = Lists.newLinkedList();
+    public static final List<String> HOLOGRAMS = Lists.newLinkedList();
 
     private final NextEconomy plugin;
     private final LocationManager locationManager;
@@ -69,6 +71,8 @@ public final class NPCRunnable implements Runnable {
                         CMI.getInstance().getHologramManager().addHologram(cmiHologram);
                         cmiHologram.update();
 
+                        HOLOGRAMS.add(cmiHologram.getName());
+
                     }
 
                 }
@@ -104,6 +108,8 @@ public final class NPCRunnable implements Runnable {
 
                         CMI.getInstance().getHologramManager().addHologram(cmiHologram);
                         cmiHologram.update();
+
+                        HOLOGRAMS.add(cmiHologram.getName());
                     }
                 }
             }
@@ -111,7 +117,9 @@ public final class NPCRunnable implements Runnable {
             val npcRegistry = CitizensAPI.getNPCRegistry();
 
             val npc = npcRegistry.createNPC(EntityType.PLAYER, "");
-            npc.data().set("player-skin-name", account != null ? account.getUsername() : "Yuhtin");
+
+            val skinName = account == null ? "Yuhtin" : plugin.getSkinsRestorerManager().getSkinName(account.getUsername());
+            npc.data().set("player-skin-name", skinName);
             npc.data().set("nexteconomy", true);
             npc.setProtected(true);
             npc.spawn(location);
@@ -123,15 +131,33 @@ public final class NPCRunnable implements Runnable {
     }
 
     private void clearPositions() {
-        for (val id : NPCS) {
-            val npc = CitizensAPI.getNPCRegistry().getById(id);
-            if (npc == null) continue;
+        try {
+            for (val npc : CitizensAPI.getNPCRegistry()) {
+                if (!npc.data().has("nexteconomy")) continue;
 
-            npc.despawn();
-            npc.destroy();
+                npc.despawn();
+                npc.destroy();
+            }
+
+        } catch (Exception exception) {
+            for (val id : NPCRunnable.NPCS) {
+                val npc = CitizensAPI.getNPCRegistry().getById(id);
+                if (npc == null) continue;
+
+                npc.despawn();
+                npc.destroy();
+            }
         }
 
         if (holographicDisplays) HologramsAPI.getHolograms(plugin).forEach(Hologram::delete);
+        else {
+            for (val entry : HOLOGRAMS) {
+                val cmiHologram = CMI.getInstance().getHologramManager().getHolograms().get(entry);
+                CMI.getInstance().getHologramManager().removeHolo(cmiHologram);
+            }
+        }
+
+        HOLOGRAMS.clear();
         NPCS.clear();
     }
 

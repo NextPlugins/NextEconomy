@@ -12,6 +12,7 @@ import com.henryfabio.minecraft.inventoryapi.viewer.impl.paged.PagedViewer;
 import com.nextplugins.economy.NextEconomy;
 import com.nextplugins.economy.api.group.GroupWrapperManager;
 import com.nextplugins.economy.api.model.account.SimpleAccount;
+import com.nextplugins.economy.api.skins.SkinsRestorerManager;
 import com.nextplugins.economy.configuration.InventoryValue;
 import com.nextplugins.economy.configuration.MessageValue;
 import com.nextplugins.economy.configuration.RankingValue;
@@ -33,6 +34,7 @@ public final class RankingView extends PagedInventory {
 
     private final RankingStorage rankingStorage = NextEconomy.getInstance().getRankingStorage();
     private final GroupWrapperManager groupWrapperManager = NextEconomy.getInstance().getGroupWrapperManager();
+    private final SkinsRestorerManager skinsRestorerManager = NextEconomy.getInstance().getSkinsRestorerManager();
 
     public RankingView() {
         super(
@@ -110,8 +112,10 @@ public final class RankingView extends PagedInventory {
                 );
             }
 
+            val skinName = skinsRestorerManager.getSkinName(account.getUsername());
+
             items.add(() -> InventoryItem.of(
-                    new ItemBuilder(account.getUsername())
+                    new ItemBuilder(skinName)
                             .name(replacedDisplayName)
                             .setLore(replacedLore)
                             .wrap()

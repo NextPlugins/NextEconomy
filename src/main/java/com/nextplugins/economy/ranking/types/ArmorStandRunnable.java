@@ -31,6 +31,7 @@ import java.util.List;
 public final class ArmorStandRunnable implements Runnable {
 
     public static final List<ArmorStand> STANDS = Lists.newLinkedList();
+    public static final List<String> HOLOGRAMS = Lists.newLinkedList();
 
     private static final Material[] SWORDS = new Material[]{
             Material.DIAMOND_SWORD, TypeUtil.swapLegacy("GOLDEN_SWORD", "GOLD_SWORD"),
@@ -49,7 +50,14 @@ public final class ArmorStandRunnable implements Runnable {
 
         STANDS.forEach(ArmorStand::remove);
         if (holographicDisplays) HologramsAPI.getHolograms(plugin).forEach(Hologram::delete);
+        else {
+            for (val entry : HOLOGRAMS) {
+                val cmiHologram = CMI.getInstance().getHologramManager().getHolograms().get(entry);
+                CMI.getInstance().getHologramManager().removeHolo(cmiHologram);
+            }
+        }
 
+        HOLOGRAMS.clear();
         STANDS.clear();
 
         if (locationManager.getLocationMap().isEmpty()) return;
@@ -89,6 +97,8 @@ public final class ArmorStandRunnable implements Runnable {
 
                         CMI.getInstance().getHologramManager().addHologram(cmiHologram);
                         cmiHologram.update();
+
+                        HOLOGRAMS.add(cmiHologram.getName());
 
                     }
 
@@ -130,6 +140,8 @@ public final class ArmorStandRunnable implements Runnable {
                         CMI.getInstance().getHologramManager().addHologram(cmiHologram);
                         cmiHologram.update();
 
+                        HOLOGRAMS.add(cmiHologram.getName());
+
                     }
 
                 }
@@ -148,7 +160,8 @@ public final class ArmorStandRunnable implements Runnable {
             val sword = SWORDS[swordNumber - 1];
             stand.setItemInHand(new ItemStack(sword));
 
-            stand.setHelmet(new ItemBuilder(account == null ? "Yuhtin" : account.getUsername()).wrap());
+            val skinName = account == null ? "Yuhtin" : plugin.getSkinsRestorerManager().getSkinName(account.getUsername());
+            stand.setHelmet(new ItemBuilder(skinName).wrap());
 
             stand.setChestplate(new ItemBuilder(
                     Material.LEATHER_CHESTPLATE,

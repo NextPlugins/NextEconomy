@@ -7,7 +7,7 @@ plugins {
 }
 
 group 'com.nextplugins'
-version '2.0.0'
+version '2.0.1'
 
 tasks.build.dependsOn('shadowJar')
 
@@ -37,7 +37,7 @@ dependencies {
 
     compileOnly 'com.github.PlaceholderAPI:PlaceholderAPI:2.10.9'
     compileOnly 'com.gmail.filoghost.holographicdisplays:holographicdisplays-api:2.4.0'
-    compileOnly 'net.citizensnpcs:citizens:2.0.27-SNAPSHOT'
+    compileOnly 'net.citizensnpcs:citizens:2.0.28-SNAPSHOT'
     compileOnly 'com.github.MilkBowl:VaultAPI:1.7'
     compileOnly 'com.nickuc.chat:nchat-api:4.2'
     compileOnly 'com.discordsrv:discordsrv:1.23.0'
@@ -65,7 +65,19 @@ bukkit {
     depend = ['Vault']
     apiVersion = '1.13'
     load = 'STARTUP'
-    softDepend = ['Citizens', 'CMI', 'HolographicDisplays', 'PlaceholderAPI', 'Legendchat', 'UltimateChat', 'nChat', 'DiscordSRV', 'PermissionsEx', 'LuckPerms']
+    softDepend = [
+            'Citizens',
+            'CMI',
+            'SkinsRestorer',
+            'HolographicDisplays',
+            'PlaceholderAPI',
+            'Legendchat',
+            'UltimateChat',
+            'nChat',
+            'DiscordSRV',
+            'PermissionsEx',
+            'LuckPerms'
+    ]
 }
 
 shadowJar {
