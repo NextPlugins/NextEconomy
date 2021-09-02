@@ -1,6 +1,7 @@
 package com.nextplugins.economy.ranking.types;
 
 import com.Zrips.CMI.CMI;
+import com.Zrips.CMI.Containers.CMILocation;
 import com.Zrips.CMI.Modules.Holograms.CMIHologram;
 import com.gmail.filoghost.holographicdisplays.api.Hologram;
 import com.gmail.filoghost.holographicdisplays.api.HologramsAPI;
@@ -8,6 +9,7 @@ import com.google.common.collect.Lists;
 import com.nextplugins.economy.NextEconomy;
 import com.nextplugins.economy.api.model.account.SimpleAccount;
 import com.nextplugins.economy.configuration.RankingValue;
+import com.nextplugins.economy.ranking.CustomRankingRegistry;
 import com.nextplugins.economy.ranking.manager.LocationManager;
 import com.nextplugins.economy.ranking.storage.RankingStorage;
 import lombok.RequiredArgsConstructor;
@@ -61,7 +63,7 @@ public final class NPCRunnable implements Runnable {
                         }
                     } else {
 
-                        val cmiHologram = new CMIHologram("NextEconomy" + position, hologramLocation);
+                        val cmiHologram = new CMIHologram("NextEconomy" + position, new CMILocation(hologramLocation));
                         for (val nobodyLine : nobodyLines) {
                             cmiHologram.addLine(nobodyLine.replace("$position", String.valueOf(position)));
                         }
@@ -74,7 +76,6 @@ public final class NPCRunnable implements Runnable {
                 }
             } else {
                 if (!hologramLines.isEmpty()) {
-                    val group = plugin.getGroupWrapperManager().getGroup(account.getUsername());
                     val format = account.getBalanceFormated();
                     val hologramLocation = location.clone().add(0, 3, 0);
                     if (holographicDisplays) {
@@ -84,20 +85,18 @@ public final class NPCRunnable implements Runnable {
                             hologram.appendTextLine(hologramLine
                                     .replace("$position", String.valueOf(position))
                                     .replace("$player", account.getUsername())
-                                    .replace("$prefix", group.getPrefix())
-                                    .replace("$suffix", group.getSuffix())
+                                    .replace("$prefix", plugin.getGroupWrapperManager().getPrefix(account.getUsername()))
                                     .replace("$amount", format)
                             );
                         }
                     } else {
-                        val cmiHologram = new CMIHologram("NextEconomy" + position, hologramLocation);
+                        val cmiHologram = new CMIHologram("NextEconomy" + position, new CMILocation(hologramLocation));
 
                         for (val hologramLine : hologramLines) {
                             cmiHologram.addLine(hologramLine
                                     .replace("$position", String.valueOf(position))
                                     .replace("$player", account.getUsername())
-                                    .replace("$prefix", group.getPrefix())
-                                    .replace("$suffix", group.getSuffix())
+                                    .replace("$prefix", plugin.getGroupWrapperManager().getPrefix(account.getUsername()))
                                     .replace("$amount", format)
                             );
                         }

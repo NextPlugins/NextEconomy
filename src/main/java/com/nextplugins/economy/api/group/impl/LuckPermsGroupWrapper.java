@@ -16,15 +16,18 @@ public class LuckPermsGroupWrapper implements GroupWrapper {
     private static final LuckPerms LUCK_PERMS = LuckPermsProvider.get();
 
     @Override
-    public Group getGroup(String player) {
+    public String getPrefix(String player) {
+
         val uuid = LUCK_PERMS.getUserManager().lookupUniqueId(player).join();
-        if (uuid == null) return new Group();
+        if (uuid == null) return "";
 
         val user = LUCK_PERMS.getUserManager().loadUser(uuid, player).join();
-        if (user == null) return new Group();
+        if (user == null) return "";
 
-        val data = user.getCachedData().getMetaData(QueryOptions.defaultContextualOptions());
-        return new Group(data.getPrefix(), data.getSuffix());
+        val prefix = user.getCachedData().getMetaData(QueryOptions.defaultContextualOptions()).getPrefix();
+        if (prefix == null) return "";
+
+        return ColorUtil.colored(prefix);
     }
 
     @Override

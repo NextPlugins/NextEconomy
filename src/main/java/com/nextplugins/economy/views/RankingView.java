@@ -85,15 +85,13 @@ public final class RankingView extends PagedInventory {
 
             val name = account.getUsername();
 
-            val group = groupWrapperManager.getGroup(name);
             val replacedDisplayName = (position == 1
                     ? RankingValue.get(RankingValue::inventoryModelHeadDisplayNameTop)
                     : RankingValue.get(RankingValue::inventoryModelHeadDisplayName))
                     .replace("$tycoonTag", tycoonTag)
                     .replace("$position", String.valueOf(position))
                     .replace("$player", name)
-                    .replace("$prefix", group.getPrefix())
-                    .replace("$suffix", group.getSuffix());
+                    .replace("$prefix", groupWrapperManager.getPrefix(name));
 
             List<String> replacedLore = Lists.newArrayList();
 

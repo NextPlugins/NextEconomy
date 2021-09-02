@@ -1,6 +1,7 @@
 package com.nextplugins.economy.ranking.types;
 
 import com.Zrips.CMI.CMI;
+import com.Zrips.CMI.Containers.CMILocation;
 import com.Zrips.CMI.Modules.Holograms.CMIHologram;
 import com.gmail.filoghost.holographicdisplays.api.Hologram;
 import com.gmail.filoghost.holographicdisplays.api.HologramsAPI;
@@ -65,7 +66,7 @@ public final class HologramRunnable implements Runnable {
             }
         } else {
 
-            val cmiHologram = new CMIHologram("NextEconomy", hologramLocation);
+            val cmiHologram = new CMIHologram("NextEconomy", new CMILocation(hologramLocation));
             for (val line : RankingValue.get(RankingValue::hologramDefaultLines)) {
                 if (line.equalsIgnoreCase("@players")) {
                     playerLines.forEach(cmiHologram::addLine);
@@ -87,12 +88,10 @@ public final class HologramRunnable implements Runnable {
         for (val account : accounts) {
             if (position > RankingValue.get(RankingValue::hologramDefaultLimit)) break;
 
-            val group = plugin.getGroupWrapperManager().getGroup(account.getUsername());
             lines.add(line
                     .replace("$position", String.valueOf(position))
                     .replace("$player", account.getUsername())
-                    .replace("$prefix", group.getPrefix())
-                    .replace("$suffix", group.getSuffix())
+                    .replace("$prefix", plugin.getGroupWrapperManager().getPrefix(account.getUsername()))
                     .replace("$amount", account.getBalanceFormated())
             );
 

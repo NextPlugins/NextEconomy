@@ -18,7 +18,15 @@ public class UserConnectionListener implements Listener {
 
     @EventHandler
     public void onQuit(PlayerQuitEvent event) {
-        accountStorage.getCache().synchronous().invalidate(event.getPlayer().getName());
+
+        val future = accountStorage.getCache().getIfPresent(event.getPlayer().getName());
+        if (future == null) return;
+
+        val account = future.join();
+        accountStorage.saveOne(account);
+
+        accountStorage.getCache().synchronous().invalidate(account);
+
     }
 
 }

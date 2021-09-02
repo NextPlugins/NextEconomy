@@ -24,12 +24,16 @@ public final class GroupWrapperManager {
 
         wrapper.setup();
 
-        NextEconomy.getInstance().getLogger().info("[Grupos] Integrado com sucesso com o plugin '" + wrapper.getClass().getSimpleName() + "'");
+        NextEconomy.getInstance().getLogger().info("[Groups] Binded with '" + wrapper.getClass().getSimpleName() + "'");
 
     }
 
-    public GroupWrapper.Group getGroup(String playerName) {
-        return wrapper.getGroup(playerName);
+    public String getPrefix(String playerName) {
+        val prefix = wrapper.getPrefix(playerName);
+        if (prefix != null && !prefix.isEmpty() && !prefix.endsWith(" ")) return prefix + " ";
+
+        return prefix;
     }
+
 
 }
