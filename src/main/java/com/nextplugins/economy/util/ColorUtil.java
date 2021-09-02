@@ -5,14 +5,17 @@ import lombok.NoArgsConstructor;
 import lombok.val;
 import org.bukkit.ChatColor;
 import org.bukkit.Color;
+import org.jetbrains.annotations.NotNull;
 
+import javax.annotation.Nullable;
 import java.util.List;
 import java.util.stream.Collectors;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public final class ColorUtil {
 
-    public static String colored(String message) {
+    @NotNull public static String colored(@Nullable String message) {
+        if (message == null) return "";
         return ChatColor.translateAlternateColorCodes('&', message);
     }
 
