@@ -26,7 +26,7 @@ ranking:
     inventory:
       title: 'Ranking de Jogadores (Coins)'
       head-display-name-top: '$tycoonTag&e$positionº &8- &f$player'
-      head-display-name: '&e$positionº $prefix$player'
+      head-display-name: '&e$positionº $prefix$player$suffix'
       head-lore:
         - ''
         - ' &7Quantia: &e$amount'
@@ -59,7 +59,7 @@ ranking:
     messages:
       hologram:
         limit: 10
-        line: '&e$positionº &7$prefix$player &8- &7$amount &2$'
+        line: '&e$positionº &7$prefix$player$suffix &8- &7$amount &2$'
         modal:
         - '&b&LTOP JOGADORES'
         - '&7(Coins)'
@@ -74,5 +74,5 @@ ranking:
           - ''
         modal:
           - '&f&l$positionº Lugar'
-          - '&7$prefix$player'
+          - '&7$prefix$player$suffix'
           - '&a$ $amount'

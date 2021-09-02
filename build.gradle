@@ -69,8 +69,6 @@ bukkit {
 }
 
 shadowJar {
-    archiveName "${project.name}-${project.version}.jar"
-
     relocate 'com.henryfabio.minecraft.configinjector', 'com.nextplugins.economy.libs.configinjector'
     relocate 'com.henryfabio.minecraft.inventoryapi', 'com.nextplugins.economy.libs.inventoryapi'
 

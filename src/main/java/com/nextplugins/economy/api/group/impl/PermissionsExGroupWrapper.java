@@ -1,7 +1,6 @@
 package com.nextplugins.economy.api.group.impl;
 
 import com.nextplugins.economy.api.group.GroupWrapper;
-import com.nextplugins.economy.util.ColorUtil;
 import lombok.val;
 import ru.tehkode.permissions.bukkit.PermissionsEx;
 
@@ -12,14 +11,14 @@ import ru.tehkode.permissions.bukkit.PermissionsEx;
 public class PermissionsExGroupWrapper implements GroupWrapper {
 
     @Override
-    public String getPrefix(String player) {
+    public Group getGroup(String player) {
         val user = PermissionsEx.getUser(player);
-        if (user == null) return "";
+        if (user == null) return new Group();
 
         val groups = user.getGroups();
-        if (groups.length < 1) return "";
+        if (groups.length < 1) return new Group();
 
-        return ColorUtil.colored(groups[0].getPrefix());
+        return new Group(groups[0].getPrefix(), groups[0].getSuffix());
     }
 
     @Override
