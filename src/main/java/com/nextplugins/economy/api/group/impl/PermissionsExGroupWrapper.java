@@ -1,5 +1,6 @@
 package com.nextplugins.economy.api.group.impl;
 
+import com.nextplugins.economy.api.group.Group;
 import com.nextplugins.economy.api.group.GroupWrapper;
 import lombok.val;
 import ru.tehkode.permissions.bukkit.PermissionsEx;

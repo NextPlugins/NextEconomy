@@ -1,6 +1,7 @@
 package com.nextplugins.economy.api.group.impl;
 
 import com.nextplugins.economy.NextEconomy;
+import com.nextplugins.economy.api.group.Group;
 import com.nextplugins.economy.api.group.GroupWrapper;
 import com.nextplugins.economy.util.ColorUtil;
 import lombok.val;
@@ -19,25 +20,27 @@ public class VaultGroupWrapper implements GroupWrapper {
     private Permission permissionApi;
 
     @Override
-    public String getPrefix(String player) {
-
-        if (chatApi == null) return "";
+    public Group getGroup(String player) {
+        if (chatApi == null) return new Group();
 
         try {
-            return ColorUtil.colored(chatApi.getPlayerPrefix(Bukkit.getWorlds().get(0), player));
+            val prefix = chatApi.getPlayerPrefix(Bukkit.getWorlds().get(0), player);
+            val suffix = chatApi.getPlayerSuffix(Bukkit.getWorlds().get(0), player);
+            return new Group(prefix, suffix);
         } catch (Exception exception) {
             // boa vault !!!
         }
 
-        if (permissionApi == null) return "";
+        if (permissionApi == null) return new Group();
 
         try {
             val primaryGroup = permissionApi.getPrimaryGroup(Bukkit.getWorlds().get(0), player);
             val prefix = chatApi.getGroupPrefix(Bukkit.getWorlds().get(0), primaryGroup);
+            val suffix = chatApi.getGroupSuffix(Bukkit.getWorlds().get(0), primaryGroup);
 
-            return prefix == null ? "" : ColorUtil.colored(prefix);
+            return new Group(prefix, suffix);
         } catch (Exception exception) {
-            return "";
+            return new Group();
         }
     }
 
