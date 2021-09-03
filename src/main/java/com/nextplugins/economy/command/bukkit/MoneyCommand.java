@@ -42,8 +42,8 @@ public final class MoneyCommand {
     private final GroupWrapperManager groupWrapperManager;
 
     @Command(
-            name = "money",
-            aliases = {"coin", "coins"},
+            name = "coins",
+            aliases = {"coin", "money"},
             description = "Abrir menu do sistema de economia",
             async = true
     )
@@ -67,9 +67,9 @@ public final class MoneyCommand {
     }
 
     @Command(
-            name = "money.ver",
+            name = "coins.ver",
             description = "Ver o dinheiro de outro jogador",
-            usage = "/money ver {jogador}",
+            usage = "/coins ver {jogador}",
             async = true
     )
     public void moneyViewCommand(Context<CommandSender> context, OfflinePlayer target) {
@@ -97,7 +97,7 @@ public final class MoneyCommand {
     }
 
     @Command(
-            name = "money.toggle",
+            name = "coins.toggle",
             aliases = {"recebimento"},
             description = "Desative/ative o recebimento de coins",
             permission = "nexteconomy.togglecoins",
@@ -120,9 +120,9 @@ public final class MoneyCommand {
     }
 
     @Command(
-            name = "money.pay",
+            name = "coins.pay",
             aliases = {"enviar"},
-            usage = "/money enviar {jogador} {quantia}",
+            usage = "/coins enviar {jogador} {quantia}",
             description = "Utilize para enviar uma quantia da sua conta para outra.",
             permission = "nexteconomy.command.pay",
             target = CommandTarget.PLAYER,
@@ -161,7 +161,7 @@ public final class MoneyCommand {
     }
 
     @Command(
-            name = "money.vincular",
+            name = "coins.vincular",
             aliases = {"sync"},
             description = "Vincular a conta com o discord",
             target = CommandTarget.PLAYER,
@@ -180,7 +180,7 @@ public final class MoneyCommand {
     }
 
     @Command(
-            name = "money.desvincular",
+            name = "coins.desvincular",
             aliases = {"unsync"},
             description = "Desvincular a conta com o discord",
             target = CommandTarget.PLAYER,
@@ -199,7 +199,7 @@ public final class MoneyCommand {
     }
 
     @Command(
-            name = "money.help",
+            name = "coins.help",
             aliases = {"ajuda", "comandos"},
             description = "Utilize para receber ajuda com os comandos do plugin.",
             async = true
@@ -220,9 +220,9 @@ public final class MoneyCommand {
     }
 
     @Command(
-            name = "money.set",
+            name = "coins.set",
             aliases = {"alterar", "setar"},
-            usage = "/money set {jogador} {quantia}",
+            usage = "/coins set {jogador} {quantia}",
             description = "Utilize para alterar a quantia de dinheiro de alguém.",
             permission = "nexteconomy.command.set",
             async = true
@@ -253,9 +253,9 @@ public final class MoneyCommand {
     }
 
     @Command(
-            name = "money.add",
+            name = "coins.add",
             aliases = {"adicionar", "deposit", "depositar", "give"},
-            usage = "/money adicionar {jogador} {quantia} ",
+            usage = "/coins give {jogador} {quantia} ",
             description = "Utilize para adicionar uma quantia de dinheiro para alguém.",
             permission = "nexteconomy.command.add",
             async = true
@@ -285,9 +285,9 @@ public final class MoneyCommand {
     }
 
     @Command(
-            name = "money.remove",
+            name = "coins.remove",
             aliases = {"remover", "withdraw", "retirar", "take"},
-            usage = "/money remover {jogador} {quantia}",
+            usage = "/coins remover {jogador} {quantia}",
             description = "Utilize para remover uma quantia de dinheiro de alguém.",
             permission = "nexteconomy.command.remove",
             async = true
@@ -318,9 +318,9 @@ public final class MoneyCommand {
     }
 
     @Command(
-            name = "money.reset",
+            name = "coins.reset",
             aliases = {"zerar", "resetar"},
-            usage = "/money zerar {jogador}",
+            usage = "/coins reset {jogador}",
             description = "Utilize para zerar a quantia de dinheiro de alguém.",
             permission = "nexteconomy.command.reset"
     )
@@ -360,7 +360,7 @@ public final class MoneyCommand {
     }
 
     @Command(
-            name = "money.top",
+            name = "coins.top",
             aliases = {"ranking", "podio"},
             description = "Utilize para ver os jogadores com mais dinheiro do servidor.",
             async = true
@@ -425,8 +425,8 @@ public final class MoneyCommand {
     }
 
     @Command(
-            name = "money.npc",
-            usage = "/money npc",
+            name = "coins.npc",
+            usage = "/coins npc",
             description = "Utilize para ver a ajuda para os comandos do sistema de NPC.",
             permission = "nexteconomy.command.npc.help",
             target = CommandTarget.PLAYER,
@@ -443,9 +443,9 @@ public final class MoneyCommand {
     }
 
     @Command(
-            name = "money.npc.add",
+            name = "coins.npc.add",
             aliases = {"npc.adicionar"},
-            usage = "/money npc add {posição}",
+            usage = "/coins npc add {posição}",
             description = "Utilize para definir uma localização de spawn de NPC de certa posição.",
             permission = "nexteconomy.command.npc.add",
             target = CommandTarget.PLAYER,
@@ -493,9 +493,9 @@ public final class MoneyCommand {
     }
 
     @Command(
-            name = "money.npc.remove",
+            name = "coins.npc.remove",
             aliases = {"npc.remover"},
-            usage = "/money npc remove {posição}",
+            usage = "/coins npc remover {posição}",
             description = "Utilize para remover uma localização de spawn de NPC de certa posição.",
             permission = "nexteconomy.command.npc.remove",
             target = CommandTarget.PLAYER,
