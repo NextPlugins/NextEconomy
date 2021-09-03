@@ -17,7 +17,6 @@ import org.bukkit.entity.EntityType;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 @RequiredArgsConstructor
 public final class NPCRunnable implements Runnable {
@@ -71,7 +70,7 @@ public final class NPCRunnable implements Runnable {
                         CMI.getInstance().getHologramManager().addHologram(cmiHologram);
                         cmiHologram.update();
 
-                        HOLOGRAMS.add(cmiHologram.getName());
+                        HOLOGRAMS.add("NextEconomy" + position);
 
                     }
 
@@ -109,7 +108,7 @@ public final class NPCRunnable implements Runnable {
                         CMI.getInstance().getHologramManager().addHologram(cmiHologram);
                         cmiHologram.update();
 
-                        HOLOGRAMS.add(cmiHologram.getName());
+                        HOLOGRAMS.add("NextEconomy" + position);
                     }
                 }
             }
@@ -153,6 +152,7 @@ public final class NPCRunnable implements Runnable {
         else {
             for (val entry : HOLOGRAMS) {
                 val cmiHologram = CMI.getInstance().getHologramManager().getHolograms().get(entry);
+                if (cmiHologram == null) continue;
                 CMI.getInstance().getHologramManager().removeHolo(cmiHologram);
             }
         }

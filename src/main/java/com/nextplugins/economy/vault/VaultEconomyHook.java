@@ -11,7 +11,6 @@ import com.nextplugins.economy.util.NumberUtils;
 import lombok.val;
 import lombok.var;
 import net.milkbowl.vault.economy.EconomyResponse;
-import org.bukkit.Material;
 import org.bukkit.OfflinePlayer;
 
 public class VaultEconomyHook extends EconomyWrapper {

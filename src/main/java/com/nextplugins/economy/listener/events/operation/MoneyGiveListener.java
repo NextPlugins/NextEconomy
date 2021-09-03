@@ -2,9 +2,9 @@ package com.nextplugins.economy.listener.events.operation;
 
 import com.nextplugins.economy.NextEconomy;
 import com.nextplugins.economy.api.event.operations.MoneyGiveEvent;
+import com.nextplugins.economy.api.model.account.storage.AccountStorage;
 import com.nextplugins.economy.api.model.account.transaction.TransactionType;
 import com.nextplugins.economy.configuration.MessageValue;
-import com.nextplugins.economy.api.model.account.storage.AccountStorage;
 import com.nextplugins.economy.util.NumberUtils;
 import lombok.val;
 import org.bukkit.event.EventHandler;

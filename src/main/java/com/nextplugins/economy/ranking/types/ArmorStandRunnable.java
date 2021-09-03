@@ -53,6 +53,7 @@ public final class ArmorStandRunnable implements Runnable {
         else {
             for (val entry : HOLOGRAMS) {
                 val cmiHologram = CMI.getInstance().getHologramManager().getHolograms().get(entry);
+                if (cmiHologram == null) continue;
                 CMI.getInstance().getHologramManager().removeHolo(cmiHologram);
             }
         }
@@ -98,7 +99,7 @@ public final class ArmorStandRunnable implements Runnable {
                         CMI.getInstance().getHologramManager().addHologram(cmiHologram);
                         cmiHologram.update();
 
-                        HOLOGRAMS.add(cmiHologram.getName());
+                        HOLOGRAMS.add("NextEconomy" + position);
 
                     }
 
@@ -140,7 +141,7 @@ public final class ArmorStandRunnable implements Runnable {
                         CMI.getInstance().getHologramManager().addHologram(cmiHologram);
                         cmiHologram.update();
 
-                        HOLOGRAMS.add(cmiHologram.getName());
+                        HOLOGRAMS.add("NextEconomy" + position);
 
                     }
 

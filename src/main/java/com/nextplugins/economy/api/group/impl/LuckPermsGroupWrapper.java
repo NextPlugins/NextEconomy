@@ -2,7 +2,6 @@ package com.nextplugins.economy.api.group.impl;
 
 import com.nextplugins.economy.api.group.Group;
 import com.nextplugins.economy.api.group.GroupWrapper;
-import com.nextplugins.economy.util.ColorUtil;
 import lombok.val;
 import net.luckperms.api.LuckPerms;
 import net.luckperms.api.LuckPermsProvider;

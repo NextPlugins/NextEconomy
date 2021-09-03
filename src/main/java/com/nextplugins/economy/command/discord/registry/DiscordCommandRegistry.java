@@ -6,7 +6,9 @@ import com.nextplugins.economy.command.discord.CommandMap;
 import com.nextplugins.economy.command.discord.impl.*;
 import com.nextplugins.economy.configuration.DiscordValue;
 import github.scarsz.discordsrv.DiscordSRV;
-import lombok.*;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.val;
 import org.bukkit.event.Listener;
 
 import java.util.logging.Level;

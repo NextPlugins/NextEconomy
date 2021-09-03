@@ -5,12 +5,15 @@ import com.henryfabio.minecraft.inventoryapi.inventory.impl.simple.SimpleInvento
 import com.henryfabio.minecraft.inventoryapi.item.InventoryItem;
 import com.henryfabio.minecraft.inventoryapi.viewer.Viewer;
 import com.nextplugins.economy.api.PurseAPI;
+import com.nextplugins.economy.api.model.account.storage.AccountStorage;
 import com.nextplugins.economy.configuration.InventoryValue;
 import com.nextplugins.economy.configuration.MessageValue;
-import com.nextplugins.economy.util.*;
+import com.nextplugins.economy.util.ColorUtil;
+import com.nextplugins.economy.util.ItemBuilder;
+import com.nextplugins.economy.util.NumberUtils;
+import com.nextplugins.economy.util.TimeUtils;
 import com.nextplugins.economy.views.button.model.ButtonType;
 import com.nextplugins.economy.views.button.registry.InventoryButtonRegistry;
-import com.nextplugins.economy.api.model.account.storage.AccountStorage;
 import lombok.val;
 
 import java.util.stream.Collectors;
@@ -94,4 +97,8 @@ public final class BankView extends SimpleInventory {
 
     }
 
+    @Override
+    protected void update(Viewer viewer, InventoryEditor editor) {
+        configureInventory(viewer, editor);
+    }
 }

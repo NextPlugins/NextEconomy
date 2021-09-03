@@ -6,6 +6,7 @@ import lombok.val;
 import net.skinsrestorer.api.SkinsRestorerAPI;
 import org.bukkit.Bukkit;
 import org.jetbrains.annotations.NotNull;
+import skinsrestorer.shared.storage.SkinStorage;
 
 /**
  * @author Yuhtin
@@ -26,10 +27,13 @@ public class SkinsRestorerManager {
     @NotNull public String getSkinName(String player) {
         if (!enabled) return player;
 
-        val skinName = SkinsRestorerAPI.getApi().getSkinName(player);
-        if (skinName == null) return player;
-
-        return skinName;
+        try {
+            val skinName = SkinsRestorerAPI.getApi().getSkinName(player);
+            return skinName == null ? player : skinName;
+        } catch (Throwable ignored) {
+            val skinName = SkinStorage.getPlayerSkin(player);
+            return skinName == null ? player : skinName;
+        }
     }
 
 }

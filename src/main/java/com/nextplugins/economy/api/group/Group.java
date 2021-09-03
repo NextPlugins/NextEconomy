@@ -22,7 +22,8 @@ public class Group {
     public Group(String prefix, String suffix) {
 
         val coloredPrefix = ColorUtil.colored(prefix);
-        if (!coloredPrefix.endsWith(" ")) this.prefix = coloredPrefix + " ";
+        if (coloredPrefix.endsWith("  ")) this.prefix = coloredPrefix.replace("  ", " ");
+        else if (!coloredPrefix.endsWith(" ")) this.prefix = coloredPrefix + " ";
         else this.prefix = coloredPrefix;
 
         val coloredSuffix = ColorUtil.colored(suffix);

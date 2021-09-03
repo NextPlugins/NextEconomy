@@ -1,8 +1,8 @@
 package com.nextplugins.economy.views.button.parser;
 
+import com.nextplugins.economy.util.ColorUtil;
 import com.nextplugins.economy.util.TypeUtil;
 import com.nextplugins.economy.views.button.InventoryButton;
-import com.nextplugins.economy.util.ColorUtil;
 import com.nextplugins.economy.views.button.model.ButtonType;
 import lombok.val;
 import org.bukkit.Material;

@@ -1,7 +1,8 @@
 package com.nextplugins.economy.api.event.operations;
 
 import com.nextplugins.economy.api.event.EconomyEvent;
-import lombok.*;
+import lombok.Getter;
+import lombok.Setter;
 import org.bukkit.event.Cancellable;
 
 import java.time.Instant;
