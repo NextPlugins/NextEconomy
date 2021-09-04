@@ -81,42 +81,43 @@ public final class RankingView extends PagedInventory {
                 : rankingStorage.getRankByMovimentation();
 
         for (val account : rankingAccounts) {
+            int finalPosition = position;
+            items.add(() -> {
+                val name = account.getUsername();
 
-            val name = account.getUsername();
+                val group = groupWrapperManager.getGroup(name);
+                val replacedDisplayName = (finalPosition == 1
+                        ? RankingValue.get(RankingValue::inventoryModelHeadDisplayNameTop)
+                        : RankingValue.get(RankingValue::inventoryModelHeadDisplayName))
+                        .replace("$tycoonTag", tycoonTag)
+                        .replace("$position", String.valueOf(finalPosition))
+                        .replace("$player", name)
+                        .replace("$prefix", group.getPrefix())
+                        .replace("$suffix", group.getSuffix());
 
-            val group = groupWrapperManager.getGroup(name);
-            val replacedDisplayName = (position == 1
-                    ? RankingValue.get(RankingValue::inventoryModelHeadDisplayNameTop)
-                    : RankingValue.get(RankingValue::inventoryModelHeadDisplayName))
-                    .replace("$tycoonTag", tycoonTag)
-                    .replace("$position", String.valueOf(position))
-                    .replace("$player", name)
-                    .replace("$prefix", group.getPrefix())
-                    .replace("$suffix", group.getSuffix());
+                List<String> replacedLore = Lists.newArrayList();
 
-            List<String> replacedLore = Lists.newArrayList();
+                val transactionName = account.getTransactionsQuantity() == 1
+                        ? MessageValue.get(MessageValue::singularTransaction)
+                        : MessageValue.get(MessageValue::pluralTransaction);
 
-            val transactionName = account.getTransactionsQuantity() == 1
-                    ? MessageValue.get(MessageValue::singularTransaction)
-                    : MessageValue.get(MessageValue::pluralTransaction);
+                for (val lore : headLore) {
+                    replacedLore.add(lore
+                            .replace("$amount", account.getBalanceFormated())
+                            .replace("$transactions", account.getTransactionsQuantity() + " " + transactionName)
+                            .replace("$movimentation", account.getMovimentedBalanceFormated())
+                            .replace("$position", String.valueOf(finalPosition))
+                    );
+                }
 
-            for (val lore : headLore) {
-                replacedLore.add(lore
-                        .replace("$amount", account.getBalanceFormated())
-                        .replace("$transactions", account.getTransactionsQuantity() + " " + transactionName)
-                        .replace("$movimentation", account.getMovimentedBalanceFormated())
-                        .replace("$position", String.valueOf(position))
+                val skinName = skinsRestorerManager.getSkinName(account.getUsername());
+                return InventoryItem.of(
+                        new ItemBuilder(skinName)
+                                .name(replacedDisplayName)
+                                .setLore(replacedLore)
+                                .wrap()
                 );
-            }
-
-            val skinName = skinsRestorerManager.getSkinName(account.getUsername());
-
-            items.add(() -> InventoryItem.of(
-                    new ItemBuilder(skinName)
-                            .name(replacedDisplayName)
-                            .setLore(replacedLore)
-                            .wrap()
-            ));
+            });
 
             position++;
         }
@@ -140,16 +141,16 @@ public final class RankingView extends PagedInventory {
     private InventoryItem sortRankingItem(Viewer viewer) {
         AtomicInteger currentFilter = new AtomicInteger(rankingSorterType.getOrDefault(viewer.getName(), -1));
         return InventoryItem.of(new ItemBuilder(Material.HOPPER)
-                .name("&bOrdenar ranking")
-                .setLore(
-                        "&7Ordene o ranking da maneira deseja",
-                        "",
-                        getColorByFilter(currentFilter.get(), -1) + " Saldo",
-                        getColorByFilter(currentFilter.get(), 0) + " Dinheiro movimentado",
-                        "",
-                        "&aClique para mudar o tipo de ordenação."
-                )
-                .wrap())
+                        .name("&bOrdenar ranking")
+                        .setLore(
+                                "&7Ordene o ranking da maneira deseja",
+                                "",
+                                getColorByFilter(currentFilter.get(), -1) + " Saldo",
+                                getColorByFilter(currentFilter.get(), 0) + " Dinheiro movimentado",
+                                "",
+                                "&aClique para mudar o tipo de ordenação."
+                        )
+                        .wrap())
                 .defaultCallback(event -> {
 
                     rankingSorterType.put(viewer.getName(), currentFilter.incrementAndGet() > 0 ? -1 : currentFilter.get());
