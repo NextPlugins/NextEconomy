@@ -59,6 +59,7 @@ public class AsyncRankingUpdateListener implements Listener {
 
         if (!accounts.isEmpty()) {
 
+            val body = RankingValue.get(RankingValue::chatModelBody);
             val rankingType = RankingValue.get(RankingValue::rankingType);
             val tycoonTag = RankingValue.get(RankingValue::tycoonTagValue);
             val chatRanking = rankingType.equals("CHAT");
@@ -68,9 +69,8 @@ public class AsyncRankingUpdateListener implements Listener {
                 rankingStorage.getRankByCoin().put(account.getUsername(), account);
 
                 if (chatRanking) {
-                    val body = RankingValue.get(RankingValue::chatModelBody);
-                    val group = groupManager.getGroup(account.getUsername());
 
+                    val group = groupManager.getGroup(account.getUsername());
                     rankingChatBody.getBodyLines().set(position, body
                             .replace("$position", String.valueOf(position))
                             .replace("$prefix", group.getPrefix())
