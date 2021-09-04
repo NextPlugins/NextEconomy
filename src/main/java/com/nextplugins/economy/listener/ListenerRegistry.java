@@ -45,7 +45,12 @@ public final class ListenerRegistry {
                     new TransactionRequestListener(),
                     new MoneyTopUpdateListener(),
                     new BlockArmorStandBreak(),
-                    new AsyncRankingUpdateListener(accountRepository, rankingStorage),
+                    new AsyncRankingUpdateListener(
+                            accountRepository,
+                            rankingStorage,
+                            plugin.getRankingChatBody(),
+                            plugin.getGroupWrapperManager()
+                    ),
                     new DefaultChatListener(interactionRegistry),
                     new CheckInteractListener(plugin.getAccountStorage())
             );

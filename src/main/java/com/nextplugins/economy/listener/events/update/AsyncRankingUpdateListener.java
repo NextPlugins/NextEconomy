@@ -5,11 +5,13 @@ import com.google.common.collect.Lists;
 import com.nextplugins.economy.NextEconomy;
 import com.nextplugins.economy.api.event.operations.AsyncMoneyTopPlayerChangedEvent;
 import com.nextplugins.economy.api.event.operations.AsyncRankingUpdateEvent;
+import com.nextplugins.economy.api.group.GroupWrapperManager;
 import com.nextplugins.economy.api.model.account.SimpleAccount;
 import com.nextplugins.economy.configuration.RankingValue;
 import com.nextplugins.economy.dao.repository.AccountRepository;
 import com.nextplugins.economy.ranking.CustomRankingRegistry;
 import com.nextplugins.economy.ranking.storage.RankingStorage;
+import com.nextplugins.economy.ranking.util.RankingChatBody;
 import lombok.RequiredArgsConstructor;
 import lombok.val;
 import org.bukkit.Bukkit;
@@ -29,14 +31,17 @@ public class AsyncRankingUpdateListener implements Listener {
 
     private final AccountRepository accountRepository;
     private final RankingStorage rankingStorage;
+    private final RankingChatBody rankingChatBody;
+    private final GroupWrapperManager groupManager;
 
-    @EventHandler(priority = EventPriority.MONITOR)
+    @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
     public void onRankingUpdate(AsyncRankingUpdateEvent event) {
-
-        if (event.isCancelled()) return;
-
+        val pluginInstance = NextEconomy.getInstance();
         val loadTime = Stopwatch.createStarted();
         val pluginManager = Bukkit.getPluginManager();
+
+        val rankingType = RankingValue.get(RankingValue::rankingType);
+        val tycoonTag = RankingValue.get(RankingValue::tycoonTagValue);
 
         val accounts = Lists.newLinkedList(accountRepository.selectSimpleAll(
                 "ORDER BY balance DESC LIMIT " + RankingValue.get(RankingValue::rankingLimit)
@@ -56,8 +61,25 @@ public class AsyncRankingUpdateListener implements Listener {
             rankingStorage.getRankByCoin().clear();
             rankingStorage.getRankByMovimentation().clear();
 
+            int position = 1;
             for (SimpleAccount account : accounts) {
                 rankingStorage.getRankByCoin().put(account.getUsername(), account);
+
+                if (rankingType.equals("CHAT")) {
+                    val body = RankingValue.get(RankingValue::chatModelBody);
+                    val group = groupManager.getGroup(account.getUsername());
+
+                    rankingChatBody.getBodyLines().set(position, body
+                            .replace("$position", String.valueOf(position))
+                            .replace("$prefix", group.getPrefix())
+                            .replace("$suffix", group.getSuffix())
+                            .replace("$player", account.getUsername())
+                            .replace("$tycoon", position == 1 ? tycoonTag : "")
+                            .replace("$amount", account.getBalanceFormated())
+                    );
+                }
+
+                position++;
             }
 
             rankingStorage.getRankByMovimentation().addAll(accountsMovimentation);
@@ -70,22 +92,21 @@ public class AsyncRankingUpdateListener implements Listener {
             }
 
         } else {
-            NextEconomy.getInstance().getLogger().info("[Ranking] Não tem nenhum jogador no ranking");
+            pluginInstance.getLogger().info("[Ranking] Não tem nenhum jogador no ranking");
         }
 
-        NextEconomy.getInstance().getLogger().log(Level.INFO, "[Ranking] Atualização do ranking feita com sucesso. ({0})", loadTime);
+        pluginInstance.getLogger().log(Level.INFO, "[Ranking] Atualização do ranking feita com sucesso. ({0})", loadTime);
 
         val instance = CustomRankingRegistry.getInstance();
         if (!instance.isEnabled()) return;
 
         val visualTime = Stopwatch.createStarted();
-        NextEconomy.getInstance().getLogger().info("[Ranking] Iniciando atualização de ranking visual");
+        pluginInstance.getLogger().info("[Ranking] Iniciando atualização de ranking visual");
 
         // Leave from async. Entities can't be spawned in async.
-        Bukkit.getScheduler().runTaskLater(NextEconomy.getInstance(), instance.getRunnable(), 20L);
+        Bukkit.getScheduler().runTaskLater(pluginInstance, instance.getRunnable(), 20L);
 
-        NextEconomy.getInstance().getLogger().log(Level.INFO, "[Ranking] Atualização de ranking visual finalizada. ({0})", visualTime);
-
+        pluginInstance.getLogger().log(Level.INFO, "[Ranking] Atualização de ranking visual finalizada. ({0})", visualTime);
     }
 
 }

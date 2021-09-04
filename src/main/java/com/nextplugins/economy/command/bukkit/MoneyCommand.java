@@ -369,6 +369,7 @@ public final class MoneyCommand {
 
         val rankingStorage = plugin.getRankingStorage();
         val sender = context.getSender();
+
         if (rankingStorage.updateRanking(false)) {
 
             sender.sendMessage(ColorUtil.colored("&aAtualizando o ranking, aguarde alguns segundos."));
@@ -379,30 +380,15 @@ public final class MoneyCommand {
         val rankingType = RankingValue.get(RankingValue::rankingType);
 
         if (rankingType.equalsIgnoreCase("CHAT")) {
-            val accounts = rankingStorage.getRankByCoin();
 
             val header = RankingValue.get(RankingValue::chatModelHeader);
-            val body = RankingValue.get(RankingValue::chatModelBody);
+            val body = plugin.getRankingChatBody();
             val footer = RankingValue.get(RankingValue::chatModelFooter);
 
             header.forEach(sender::sendMessage);
-
-            val position = new AtomicInteger(1);
-            val tag = RankingValue.get(RankingValue::tycoonTagValue);
-            for (val account : accounts.values()) {
-                val i = position.getAndIncrement();
-                val group = groupWrapperManager.getGroup(account.getUsername());
-                sender.sendMessage(body
-                        .replace("$position", String.valueOf(i))
-                        .replace("$prefix", group.getPrefix())
-                        .replace("$suffix", group.getSuffix())
-                        .replace("$player", account.getUsername())
-                        .replace("$tycoon", i == 1 ? tag : "")
-                        .replace("$amount", account.getBalanceFormated())
-                );
-            }
-
+            sender.sendMessage(body.asArray());
             footer.forEach(sender::sendMessage);
+
         } else {
 
             if (!(sender instanceof Player)) {
@@ -420,6 +406,7 @@ public final class MoneyCommand {
                 player.closeInventory();
                 sender.sendMessage(ChatColor.RED + "Não existe jogadores no ranking, aguarde a próxima atualização.");
             }
+
         }
 
     }

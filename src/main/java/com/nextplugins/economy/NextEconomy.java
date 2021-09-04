@@ -30,9 +30,11 @@ import com.nextplugins.economy.ranking.manager.LocationManager;
 import com.nextplugins.economy.ranking.storage.RankingStorage;
 import com.nextplugins.economy.ranking.types.ArmorStandRunnable;
 import com.nextplugins.economy.ranking.types.NPCRunnable;
+import com.nextplugins.economy.ranking.util.RankingChatBody;
 import com.nextplugins.economy.vault.registry.VaultHookRegistry;
 import com.nextplugins.economy.views.registry.InventoryRegistry;
 import lombok.Getter;
+import lombok.Setter;
 import lombok.val;
 import net.citizensnpcs.api.CitizensAPI;
 import org.bukkit.Bukkit;
@@ -41,6 +43,7 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
+import java.util.LinkedList;
 import java.util.concurrent.CompletableFuture;
 import java.util.logging.Level;
 
@@ -64,6 +67,8 @@ public final class NextEconomy extends JavaPlugin {
 
     private InteractionRegistry interactionRegistry;
     private DiscordCommandRegistry discordCommandRegistry;
+
+    @Setter private RankingChatBody rankingChatBody;
 
     private File npcFile;
     private FileConfiguration npcConfig;
@@ -103,6 +108,8 @@ public final class NextEconomy extends JavaPlugin {
         skinsRestorerManager = new SkinsRestorerManager();
         interactionRegistry = new InteractionRegistry();
         discordCommandRegistry = new DiscordCommandRegistry();
+
+        rankingChatBody = new RankingChatBody(new LinkedList<>());
 
         accountStorage.init();
         groupWrapperManager.init();
