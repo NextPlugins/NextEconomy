@@ -13,14 +13,14 @@ import org.bukkit.Bukkit;
  */
 public final class GroupWrapperManager {
 
-    private GroupWrapper wrapper;
+    private final GroupWrapper wrapper = new VaultGroupWrapper();
 
     public void init() {
 
-        val pluginManager = Bukkit.getPluginManager();
+/*        val pluginManager = Bukkit.getPluginManager();
         if (pluginManager.isPluginEnabled("PermissionsEx")) wrapper = new PermissionsExGroupWrapper();
         else if (pluginManager.isPluginEnabled("LuckPerms")) wrapper = new LuckPermsGroupWrapper();
-        else wrapper = new VaultGroupWrapper();
+        else wrapper = new VaultGroupWrapper();*/
 
         wrapper.setup();
 
