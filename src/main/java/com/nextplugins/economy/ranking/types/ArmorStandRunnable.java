@@ -4,6 +4,7 @@ import com.Zrips.CMI.CMI;
 import com.Zrips.CMI.Modules.Holograms.CMIHologram;
 import com.gmail.filoghost.holographicdisplays.api.Hologram;
 import com.gmail.filoghost.holographicdisplays.api.HologramsAPI;
+import com.google.common.base.Stopwatch;
 import com.google.common.collect.Lists;
 import com.nextplugins.economy.NextEconomy;
 import com.nextplugins.economy.api.model.account.SimpleAccount;
@@ -22,6 +23,7 @@ import org.bukkit.metadata.FixedMetadataValue;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
 
 /**
  * @author Yuhtin
@@ -47,6 +49,9 @@ public final class ArmorStandRunnable implements Runnable {
 
     @Override
     public void run() {
+
+        val visualTime = Stopwatch.createStarted();
+        plugin.getLogger().info("[Ranking] Iniciando atualização de ranking visual");
 
         STANDS.forEach(ArmorStand::remove);
         if (holographicDisplays) HologramsAPI.getHolograms(plugin).forEach(Hologram::delete);
@@ -184,6 +189,8 @@ public final class ArmorStandRunnable implements Runnable {
             STANDS.add(stand);
 
         }
+
+        plugin.getLogger().log(Level.INFO, "[Ranking] Atualização de ranking visual finalizada. ({0})", visualTime);
     }
 
 }

@@ -20,6 +20,8 @@ public final class RankingStorage {
 
     private final LinkedHashMap<String, SimpleAccount> rankByCoin = Maps.newLinkedHashMap();
     private final ArrayList<SimpleAccount> rankByMovimentation = Lists.newArrayList();
+
+    private String topPlayer;
     private long nextUpdateMillis;
 
     public boolean updateRanking(boolean force) {
@@ -35,8 +37,6 @@ public final class RankingStorage {
 
         plugin.getLogger().info("[Ranking] Iniciando atualização no ranking");
 
-        plugin.getAccountStorage().getCache().synchronous().invalidateAll();
-
         Bukkit.getScheduler().runTaskLaterAsynchronously(
                 plugin,
                 () -> pluginManager.callEvent(new AsyncRankingUpdateEvent()),
@@ -49,7 +49,7 @@ public final class RankingStorage {
 
     public String getTycoonTag(String playerName) {
         if (rankByCoin.isEmpty() || !rankByCoin.containsKey(playerName)) return "";
-        return getTopPlayer(false).getUsername().equals(playerName)
+        return topPlayer.equals(playerName)
                 ? RankingValue.get(RankingValue::tycoonTagValue)
                 : RankingValue.get(RankingValue::tycoonRichTagValue);
     }
@@ -66,7 +66,7 @@ public final class RankingStorage {
             else return rankByMovimentation.get(0);
         } else {
             if (rankByCoin.isEmpty()) return null;
-            else return rankByCoin.entrySet().iterator().next().getValue();
+            else return rankByCoin.get(topPlayer);
         }
     }
 

@@ -1,7 +1,6 @@
 package com.nextplugins.economy.listener.events.update;
 
 import com.google.common.base.Stopwatch;
-import com.google.common.collect.Lists;
 import com.nextplugins.economy.NextEconomy;
 import com.nextplugins.economy.api.event.operations.AsyncMoneyTopPlayerChangedEvent;
 import com.nextplugins.economy.api.event.operations.AsyncRankingUpdateEvent;
@@ -40,32 +39,35 @@ public class AsyncRankingUpdateListener implements Listener {
         val loadTime = Stopwatch.createStarted();
         val pluginManager = Bukkit.getPluginManager();
 
-        val rankingType = RankingValue.get(RankingValue::rankingType);
-        val tycoonTag = RankingValue.get(RankingValue::tycoonTagValue);
+        NextEconomy.getInstance().getAccountStorage().getCache().synchronous().invalidateAll();
 
-        val accounts = Lists.newLinkedList(accountRepository.selectSimpleAll(
-                "ORDER BY balance DESC LIMIT " + RankingValue.get(RankingValue::rankingLimit)
-        ));
+        SimpleAccount lastAccount = null;
+        if (!rankingStorage.getRankByCoin().isEmpty()) {
+            lastAccount = rankingStorage.getTopPlayer(false);
+        }
 
-        val accountsMovimentation = Lists.newLinkedList(accountRepository.selectSimpleAll(
+        rankingStorage.getRankByCoin().clear();
+        rankingStorage.getRankByMovimentation().clear();
+
+        rankingStorage.getRankByMovimentation().addAll(accountRepository.selectSimpleAll(
                 "ORDER BY movimentedBalance DESC LIMIT " + RankingValue.get(RankingValue::rankingLimit)
         ));
 
+        val accounts = accountRepository.selectSimpleAll(
+                "ORDER BY balance DESC LIMIT " + RankingValue.get(RankingValue::rankingLimit)
+        );
+
         if (!accounts.isEmpty()) {
 
-            SimpleAccount lastAccount = null;
-            if (!rankingStorage.getRankByCoin().isEmpty()) {
-                lastAccount = rankingStorage.getTopPlayer(false);
-            }
-
-            rankingStorage.getRankByCoin().clear();
-            rankingStorage.getRankByMovimentation().clear();
+            val rankingType = RankingValue.get(RankingValue::rankingType);
+            val tycoonTag = RankingValue.get(RankingValue::tycoonTagValue);
+            val chatRanking = rankingType.equals("CHAT");
 
             int position = 1;
             for (SimpleAccount account : accounts) {
                 rankingStorage.getRankByCoin().put(account.getUsername(), account);
 
-                if (rankingType.equals("CHAT")) {
+                if (chatRanking) {
                     val body = RankingValue.get(RankingValue::chatModelBody);
                     val group = groupManager.getGroup(account.getUsername());
 
@@ -82,12 +84,14 @@ public class AsyncRankingUpdateListener implements Listener {
                 position++;
             }
 
-            rankingStorage.getRankByMovimentation().addAll(accountsMovimentation);
-
             if (lastAccount != null) {
 
-                val topAccount = rankingStorage.getTopPlayer(false);
-                if (!lastAccount.getUsername().equals(topAccount.getUsername())) pluginManager.callEvent(new AsyncMoneyTopPlayerChangedEvent(lastAccount, topAccount));
+                val topAccount = rankingStorage.getTopPlayer();
+                if (!lastAccount.getUsername().equals(topAccount))
+                    pluginManager.callEvent(new AsyncMoneyTopPlayerChangedEvent(
+                            lastAccount,
+                            rankingStorage.getTopPlayer(false))
+                    );
 
             }
 
@@ -100,13 +104,9 @@ public class AsyncRankingUpdateListener implements Listener {
         val instance = CustomRankingRegistry.getInstance();
         if (!instance.isEnabled()) return;
 
-        val visualTime = Stopwatch.createStarted();
-        pluginInstance.getLogger().info("[Ranking] Iniciando atualização de ranking visual");
-
         // Leave from async. Entities can't be spawned in async.
         Bukkit.getScheduler().runTaskLater(pluginInstance, instance.getRunnable(), 20L);
 
-        pluginInstance.getLogger().log(Level.INFO, "[Ranking] Atualização de ranking visual finalizada. ({0})", visualTime);
     }
 
 }

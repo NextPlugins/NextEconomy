@@ -22,10 +22,7 @@ import com.nextplugins.economy.util.TimeUtils;
 import lombok.val;
 import org.bukkit.Material;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public final class RankingView extends PagedInventory {
@@ -79,8 +76,8 @@ public final class RankingView extends PagedInventory {
 
         val sorter = rankingSorterType.getOrDefault(viewer.getName(), -1);
 
-        ArrayList<SimpleAccount> rankingAccounts = sorter == -1
-                ? new ArrayList<>(rankingStorage.getRankByCoin().values())
+        Collection<SimpleAccount> rankingAccounts = sorter == -1
+                ? rankingStorage.getRankByCoin().values()
                 : rankingStorage.getRankByMovimentation();
 
         for (val account : rankingAccounts) {
