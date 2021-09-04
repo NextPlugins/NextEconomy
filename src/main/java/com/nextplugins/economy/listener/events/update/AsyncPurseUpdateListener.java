@@ -66,16 +66,15 @@ public class AsyncPurseUpdateListener implements Listener {
                 .map(ColorUtil::colored)
                 .collect(Collectors.toList());
 
+        Sound sound;
+        try {
+            val name = MessageValue.get(MessageValue::purseUpdatedSound);
+            sound = Sound.valueOf(name);
+        } catch (Exception exception) {
+            sound = Sound.BLOCK_NOTE_BLOCK_PLING;
+        }
+
         for (Player onlinePlayer : Bukkit.getOnlinePlayers()) {
-
-            Sound sound;
-            try {
-                val name = MessageValue.get(MessageValue::purseUpdatedSound);
-                sound = Sound.valueOf(name);
-            } catch (Exception exception) {
-                sound = Sound.BLOCK_NOTE_BLOCK_PLING;
-            }
-
             SoundUtils.sendSound(onlinePlayer, sound);
             for (String line : message) onlinePlayer.sendMessage(line);
         }
