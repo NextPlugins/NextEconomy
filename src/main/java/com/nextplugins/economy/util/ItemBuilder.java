@@ -13,6 +13,8 @@ import java.util.function.Consumer;
 
 public class ItemBuilder {
 
+    private static final ItemStack SKULL_ITEM = TypeUtil.convertFromLegacy("SKULL_ITEM", 3);
+
     private final ItemStack item;
 
     public ItemBuilder(ItemStack item) {
@@ -29,7 +31,7 @@ public class ItemBuilder {
 
     public ItemBuilder(String name) {
 
-        item = TypeUtil.convertFromLegacy("SKULL_ITEM", 3);
+        item = SKULL_ITEM.clone();
 
         SkullMeta meta = (SkullMeta) item.getItemMeta();
         meta.setOwner(name);
