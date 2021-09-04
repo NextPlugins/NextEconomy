@@ -7,10 +7,6 @@ import java.util.LinkedList;
 @Data
 public class RankingChatBody {
 
-    private final LinkedList<String> bodyLines;
-
-    public String[] asArray() {
-        return bodyLines.toArray(new String[] {});
-    }
+    private String[] bodyLines = new String[]{};
 
 }

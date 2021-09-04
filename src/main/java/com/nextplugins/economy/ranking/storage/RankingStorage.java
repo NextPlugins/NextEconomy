@@ -37,10 +37,9 @@ public final class RankingStorage {
 
         plugin.getLogger().info("[Ranking] Iniciando atualização no ranking");
 
-        Bukkit.getScheduler().runTaskLaterAsynchronously(
+        Bukkit.getScheduler().runTaskAsynchronously(
                 plugin,
-                () -> pluginManager.callEvent(new AsyncRankingUpdateEvent()),
-                25L
+                () -> pluginManager.callEvent(new AsyncRankingUpdateEvent())
         );
 
         return true;

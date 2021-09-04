@@ -11,6 +11,7 @@ import com.nextplugins.economy.dao.repository.AccountRepository;
 import com.nextplugins.economy.ranking.CustomRankingRegistry;
 import com.nextplugins.economy.ranking.storage.RankingStorage;
 import com.nextplugins.economy.ranking.util.RankingChatBody;
+import com.nextplugins.economy.util.ColorUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.val;
 import org.bukkit.Bukkit;
@@ -18,6 +19,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 
+import java.util.LinkedList;
 import java.util.logging.Level;
 
 /**
@@ -58,31 +60,30 @@ public class AsyncRankingUpdateListener implements Listener {
         );
 
         if (!accounts.isEmpty()) {
-
-            val body = RankingValue.get(RankingValue::chatModelBody);
             val rankingType = RankingValue.get(RankingValue::rankingType);
             val tycoonTag = RankingValue.get(RankingValue::tycoonTagValue);
             val chatRanking = rankingType.equals("CHAT");
 
+            val bodyLines = new LinkedList<String>();
             int position = 1;
             for (SimpleAccount account : accounts) {
                 rankingStorage.getRankByCoin().put(account.getUsername(), account);
 
                 if (chatRanking) {
-
+                    val body = RankingValue.get(RankingValue::chatModelBody);
                     val group = groupManager.getGroup(account.getUsername());
-                    rankingChatBody.getBodyLines().set(position, body
+                    bodyLines.add(body
                             .replace("$position", String.valueOf(position))
                             .replace("$prefix", group.getPrefix())
                             .replace("$suffix", group.getSuffix())
                             .replace("$player", account.getUsername())
                             .replace("$tycoon", position == 1 ? tycoonTag : "")
-                            .replace("$amount", account.getBalanceFormated())
-                    );
+                            .replace("$amount", account.getBalanceFormated()));
                 }
 
                 position++;
             }
+            rankingChatBody.setBodyLines(bodyLines.toArray(new String[]{}));
 
             if (lastAccount != null) {
 
@@ -96,6 +97,9 @@ public class AsyncRankingUpdateListener implements Listener {
             }
 
         } else {
+            rankingChatBody.setBodyLines(new String[]{ColorUtil.colored(
+                    "  &cNenhum jogador está no ranking!"
+            )});
             pluginInstance.getLogger().info("[Ranking] Não tem nenhum jogador no ranking");
         }
 

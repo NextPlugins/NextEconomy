@@ -386,7 +386,7 @@ public final class MoneyCommand {
             val footer = RankingValue.get(RankingValue::chatModelFooter);
 
             header.forEach(sender::sendMessage);
-            sender.sendMessage(body.asArray());
+            sender.sendMessage(body.getBodyLines());
             footer.forEach(sender::sendMessage);
 
         } else {

@@ -43,7 +43,6 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
-import java.util.LinkedList;
 import java.util.concurrent.CompletableFuture;
 import java.util.logging.Level;
 
@@ -68,7 +67,8 @@ public final class NextEconomy extends JavaPlugin {
     private InteractionRegistry interactionRegistry;
     private DiscordCommandRegistry discordCommandRegistry;
 
-    @Setter private RankingChatBody rankingChatBody;
+    @Setter
+    private RankingChatBody rankingChatBody;
 
     private File npcFile;
     private FileConfiguration npcConfig;
@@ -109,7 +109,7 @@ public final class NextEconomy extends JavaPlugin {
         interactionRegistry = new InteractionRegistry();
         discordCommandRegistry = new DiscordCommandRegistry();
 
-        rankingChatBody = new RankingChatBody(new LinkedList<>());
+        rankingChatBody = new RankingChatBody();
 
         accountStorage.init();
         groupWrapperManager.init();
