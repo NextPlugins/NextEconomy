@@ -31,7 +31,6 @@ import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.Player;
 
 import java.io.IOException;
-import java.util.concurrent.atomic.AtomicInteger;
 
 @RequiredArgsConstructor
 public final class MoneyCommand {
@@ -466,10 +465,17 @@ public final class MoneyCommand {
             return;
         }
 
-        locationManager.getLocationMap().put(position, player.getLocation());
+        val location = player.getLocation();
+
+        // use center location (helping users xd)
+        location.setX(location.getBlockX() + .5);
+        location.setY(location.getBlockY() + .5);
+        location.setZ(location.getBlockZ() + .5);
+
+        locationManager.getLocationMap().put(position, location);
 
         val locations = plugin.getNpcConfig().getStringList("npc.locations");
-        locations.add(position + " " + LocationUtil.byLocationNoBlock(player.getLocation()));
+        locations.add(position + " " + LocationUtil.byLocationNoBlock(location));
 
         plugin.getNpcConfig().set("npc.locations", locations);
         plugin.getNpcConfig().save(plugin.getNpcFile());

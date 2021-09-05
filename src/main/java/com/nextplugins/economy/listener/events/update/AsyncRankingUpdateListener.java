@@ -67,6 +67,7 @@ public class AsyncRankingUpdateListener implements Listener {
             val bodyLines = new LinkedList<String>();
             int position = 1;
             for (SimpleAccount account : accounts) {
+                if (position == 1) rankingStorage.setTopPlayer(account.getUsername());
                 rankingStorage.getRankByCoin().put(account.getUsername(), account);
 
                 if (chatRanking) {
