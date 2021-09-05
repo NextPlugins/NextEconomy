@@ -28,14 +28,14 @@ import java.util.logging.Level;
  */
 
 @RequiredArgsConstructor
-public class AsyncRankingUpdateListener implements Listener {
+public class RankingListener implements Listener {
 
     private final AccountRepository accountRepository;
     private final RankingStorage rankingStorage;
     private final RankingChatBody rankingChatBody;
     private final GroupWrapperManager groupManager;
 
-    @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
+    @EventHandler(priority = EventPriority.MONITOR)
     public void onRankingUpdate(AsyncRankingUpdateEvent event) {
         val pluginInstance = NextEconomy.getInstance();
         val loadTime = Stopwatch.createStarted();

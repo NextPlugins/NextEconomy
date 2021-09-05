@@ -10,11 +10,11 @@ import com.nextplugins.economy.listener.events.check.CheckInteractListener;
 import com.nextplugins.economy.listener.events.operation.MoneyGiveListener;
 import com.nextplugins.economy.listener.events.operation.MoneySetListener;
 import com.nextplugins.economy.listener.events.operation.MoneyWithdrawListener;
-import com.nextplugins.economy.listener.events.others.BlockArmorStandBreak;
+import com.nextplugins.economy.listener.events.others.RankingEntityListener;
 import com.nextplugins.economy.listener.events.transaction.TransactionRequestListener;
-import com.nextplugins.economy.listener.events.update.AsyncPurseUpdateListener;
-import com.nextplugins.economy.listener.events.update.AsyncRankingUpdateListener;
-import com.nextplugins.economy.listener.events.update.MoneyTopUpdateListener;
+import com.nextplugins.economy.listener.events.update.PurseListener;
+import com.nextplugins.economy.listener.events.update.RankingListener;
+import com.nextplugins.economy.listener.events.update.TopUpdateListener;
 import com.nextplugins.economy.listener.events.user.UserConnectionListener;
 import lombok.Data;
 import lombok.val;
@@ -41,11 +41,11 @@ public final class ListenerRegistry {
                     new MoneyGiveListener(),
                     new MoneySetListener(),
                     new MoneyWithdrawListener(),
-                    new AsyncPurseUpdateListener(),
+                    new PurseListener(),
                     new TransactionRequestListener(),
-                    new MoneyTopUpdateListener(),
-                    new BlockArmorStandBreak(),
-                    new AsyncRankingUpdateListener(
+                    new TopUpdateListener(),
+                    new RankingEntityListener(),
+                    new RankingListener(
                             accountRepository,
                             rankingStorage,
                             plugin.getRankingChatBody(),

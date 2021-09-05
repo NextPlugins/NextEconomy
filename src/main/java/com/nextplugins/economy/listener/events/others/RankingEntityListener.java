@@ -17,7 +17,7 @@ import org.bukkit.event.player.PlayerInteractAtEntityEvent;
  * @author Yuhtin
  * Github: https://github.com/Yuhtin
  */
-public class BlockArmorStandBreak implements Listener {
+public class RankingEntityListener implements Listener {
 
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onDeath(EntityDamageByEntityEvent event) {

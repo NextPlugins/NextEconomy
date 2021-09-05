@@ -67,8 +67,7 @@ public final class NextEconomy extends JavaPlugin {
     private InteractionRegistry interactionRegistry;
     private DiscordCommandRegistry discordCommandRegistry;
 
-    @Setter
-    private RankingChatBody rankingChatBody;
+    @Setter private RankingChatBody rankingChatBody;
 
     private File npcFile;
     private FileConfiguration npcConfig;
@@ -81,7 +80,7 @@ public final class NextEconomy extends JavaPlugin {
         npcFile = new File(getDataFolder(), "npcs.yml");
         if (!npcFile.exists()) saveResource("npcs.yml", false);
 
-        val discordSrv = new File(getDataFolder(), "DiscordSRV.rar");
+        val discordSrv = new File(getDataFolder(), "libs/DiscordSRV.rar");
         if (!discordSrv.exists()) saveResource("DiscordSRV.rar", false);
 
         npcConfig = YamlConfiguration.loadConfiguration(npcFile);

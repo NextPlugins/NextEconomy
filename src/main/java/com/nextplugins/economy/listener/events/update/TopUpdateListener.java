@@ -15,7 +15,7 @@ import java.util.ArrayList;
  * @author Yuhtin
  * Github: https://github.com/Yuhtin
  */
-public class MoneyTopUpdateListener implements Listener {
+public class TopUpdateListener implements Listener {
 
     @EventHandler(priority = EventPriority.MONITOR)
     public void onTopUpdate(AsyncMoneyTopPlayerChangedEvent event) {

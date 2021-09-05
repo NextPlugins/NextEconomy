@@ -19,7 +19,7 @@ import java.util.stream.Collectors;
  * @author Yuhtin
  * Github: https://github.com/Yuhtin
  */
-public class AsyncPurseUpdateListener implements Listener {
+public class PurseListener implements Listener {
 
     @EventHandler(priority = EventPriority.MONITOR)
     public void onPurseUpdate(AsyncPurseUpdateEvent event) {
