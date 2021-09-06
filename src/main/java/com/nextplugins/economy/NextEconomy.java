@@ -111,7 +111,6 @@ public final class NextEconomy extends JavaPlugin {
         rankingChatBody = new RankingChatBody();
 
         accountStorage.init();
-        groupWrapperManager.init();
         interactionRegistry.init();
 
         InventoryManager.enable(this);
@@ -130,6 +129,8 @@ public final class NextEconomy extends JavaPlugin {
 
             if (!PurseAPI.init()) getLogger().info("Sistema de bolsa de valores desativado.");
             else PurseAPI.getInstance(); // force purse update
+
+            groupWrapperManager.init();
 
             // bump money top one time and add, if enabled, stands/npcs
             rankingStorage.updateRanking(true);

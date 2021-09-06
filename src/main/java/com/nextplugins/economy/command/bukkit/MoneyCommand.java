@@ -469,7 +469,6 @@ public final class MoneyCommand {
 
         // use center location (helping users xd)
         location.setX(location.getBlockX() + .5);
-        location.setY(location.getBlockY() + .5);
         location.setZ(location.getBlockZ() + .5);
 
         locationManager.getLocationMap().put(position, location);
