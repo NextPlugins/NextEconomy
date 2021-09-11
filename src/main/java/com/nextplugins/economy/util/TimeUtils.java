@@ -51,7 +51,7 @@ public enum TimeUtils {
     }
 
     public static String format(long value) {
-        if (value <= 0) return "0 segundos";
+        if (value <= 0) return "1 segundo";
 
         long days = TimeUnit.MILLISECONDS.toDays(value);
         long hours = TimeUnit.MILLISECONDS.toHours(value) - (days * 24);
@@ -68,6 +68,10 @@ public enum TimeUtils {
                 String name = times[index] + " " + names[index] + (time > 1 ? "s" : "");
                 values.add(name);
             }
+        }
+
+        if (values.isEmpty()) {
+            return "1 segundo";
         }
 
         if (values.size() == 1) {
