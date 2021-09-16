@@ -1,5 +1,7 @@
 package com.nextplugins.economy;
 
+import com.Zrips.CMI.CMI;
+import com.Zrips.CMI.Modules.Holograms.CMIHologram;
 import com.gmail.filoghost.holographicdisplays.api.Hologram;
 import com.gmail.filoghost.holographicdisplays.api.HologramsAPI;
 import com.google.common.base.Stopwatch;
@@ -43,6 +45,8 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 import java.util.logging.Level;
 
@@ -67,7 +71,8 @@ public final class NextEconomy extends JavaPlugin {
     private InteractionRegistry interactionRegistry;
     private DiscordCommandRegistry discordCommandRegistry;
 
-    @Setter private RankingChatBody rankingChatBody;
+    @Setter
+    private RankingChatBody rankingChatBody;
 
     private File npcFile;
     private FileConfiguration npcConfig;
@@ -167,7 +172,18 @@ public final class NextEconomy extends JavaPlugin {
     private void unloadRanking() {
         if (CustomRankingRegistry.getInstance().isEnabled()) {
 
-            HologramsAPI.getHolograms(this).forEach(Hologram::delete);
+            if (CustomRankingRegistry.getInstance().isHolographicDisplays()) {
+                HologramsAPI.getHolograms(this).forEach(Hologram::delete);
+            } else {
+                // jump concurrentmodificationexception
+                val holograms = new ArrayList<CMIHologram>();
+                val hologramManager = CMI.getInstance().getHologramManager();
+                for (val entry : hologramManager.getHolograms().entrySet()) {
+                    if (entry.getKey().startsWith("NextEconomy")) holograms.add(entry.getValue());
+                }
+
+                holograms.forEach(hologramManager::removeHolo);
+            }
 
             String type = RankingValue.get(RankingValue::npcType);
             if (type.equalsIgnoreCase("npc")) {

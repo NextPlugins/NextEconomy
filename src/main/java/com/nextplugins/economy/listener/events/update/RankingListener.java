@@ -84,6 +84,7 @@ public class RankingListener implements Listener {
 
                 position++;
             }
+
             rankingChatBody.setBodyLines(bodyLines.toArray(new String[]{}));
 
             if (lastAccount != null) {
