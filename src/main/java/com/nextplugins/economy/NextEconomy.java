@@ -156,6 +156,7 @@ public final class NextEconomy extends JavaPlugin {
     public void onDisable() {
 
         accountStorage.getCache().synchronous().invalidateAll();
+        getLogger().info("Jogadores salvos com sucesso");
 
         unloadRanking();
 
@@ -206,6 +207,7 @@ public final class NextEconomy extends JavaPlugin {
 
             }
 
+            getLogger().info("Sistema de ranking visual descarregado com sucesso");
         }
     }
 
