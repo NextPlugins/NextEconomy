@@ -41,7 +41,7 @@ public class RankingListener implements Listener {
         val loadTime = Stopwatch.createStarted();
         val pluginManager = Bukkit.getPluginManager();
 
-        NextEconomy.getInstance().getAccountStorage().getCache().synchronous().invalidateAll();
+        NextEconomy.getInstance().getAccountStorage().flushData();
 
         SimpleAccount lastAccount = null;
         if (!rankingStorage.getRankByCoin().isEmpty()) {

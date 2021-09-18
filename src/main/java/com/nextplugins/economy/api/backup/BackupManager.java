@@ -74,7 +74,7 @@ public final class BackupManager {
         FileUtils.createFileIfNotExists(file);
 
         val accountStorage = NextEconomy.getInstance().getAccountStorage();
-        accountStorage.getCache().synchronous().invalidateAll();
+        accountStorage.flushData();
 
         if (async) {
             scheduler.runTaskAsynchronously(plugin, () -> {

@@ -152,9 +152,7 @@ public final class NextEconomy extends JavaPlugin {
     @Override
     public void onDisable() {
 
-        accountStorage.getCache().synchronous().invalidateAll();
-        getLogger().info("Jogadores salvos com sucesso");
-
+        accountStorage.flushData();
         unloadRanking();
 
         if (FeatureValue.get(FeatureValue::autoBackup)) {

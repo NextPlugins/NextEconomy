@@ -114,4 +114,13 @@ public final class AccountStorage {
         cache.put(account.getUsername(), CompletableFuture.completedFuture(account));
     }
 
+    public void flushData() {
+        val synchronous = cache.synchronous();
+        synchronous.cleanUp();
+        synchronous.invalidateAll();
+        synchronous.cleanUp();
+
+        NextEconomy.getInstance().getLogger().info("Jogadores salvos com sucesso");
+    }
+
 }

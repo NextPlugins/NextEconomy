@@ -264,8 +264,7 @@ public final class NextEconomyCommand {
         }
 
         val repository = new AccountRepository(new SQLExecutor(sqlConnector));
-
-        accountStorage.getCache().synchronous().invalidateAll();
+        accountStorage.flushData();
 
         val accounts = repository.selectAll("");
         if (accounts.isEmpty()) {
@@ -307,8 +306,7 @@ public final class NextEconomyCommand {
 
         val stopwatch = Stopwatch.createStarted();
         conversorManager.setConverting(true);
-
-        accountStorage.getCache().synchronous().invalidateAll();
+        accountStorage.flushData();
 
         val repository = new AccountRepository(conversor.getExecutor());
         val accounts = repository.selectAll("");
