@@ -16,7 +16,6 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.LinkedList;
-import java.util.List;
 import java.util.Set;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -71,7 +70,7 @@ public class ConversorManager {
      * @param stopwatch to get eplased time
      */
     public void startConversion(@Nullable CommandSender sender,
-                                @NotNull List<Account> accounts,
+                                @NotNull Set<Account> accounts,
                                 @Nullable String conversorName,
                                 Stopwatch stopwatch) {
 

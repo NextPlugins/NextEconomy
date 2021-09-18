@@ -17,8 +17,8 @@ import org.bukkit.command.CommandSender;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * @author Yuhtin
@@ -82,8 +82,8 @@ public final class BackupReaderRunnable implements Runnable {
 
             val stopwatch = Stopwatch.createStarted();
 
-            val typeToken = new TypeToken<ArrayList<Account>>() {}.getType();
-            List<Account> accounts = PARSER.fromJson(new FileReader(this.file), typeToken);
+            val typeToken = new TypeToken<HashSet<Account>>() {}.getType();
+            Set<Account> accounts = PARSER.fromJson(new FileReader(this.file), typeToken);
 
             conversorManager.startConversion(
                     commandSender,
@@ -110,7 +110,6 @@ public final class BackupReaderRunnable implements Runnable {
                 backupManager.loadBackup(commandSender, restaurationFile, true, true);
 
             }
-
 
         }
 

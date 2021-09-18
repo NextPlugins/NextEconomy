@@ -20,7 +20,9 @@ import org.jetbrains.annotations.Nullable;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 /**
  * @author Yuhtin
@@ -76,7 +78,7 @@ public final class BackupManager {
 
         if (async) {
             scheduler.runTaskAsynchronously(plugin, () -> {
-                List<Account> accounts = new ArrayList<>();
+                Set<Account> accounts = new HashSet<>();
                 accountRepository.selectAll("").forEach(account -> {
                     account.saveTransactions();
                     accounts.add(account);
@@ -86,7 +88,7 @@ public final class BackupManager {
                 scheduler.runTaskAsynchronously(plugin, runnable);
             });
         } else {
-            List<Account> accounts = new ArrayList<>();
+            Set<Account> accounts = new HashSet<>();
             accountRepository.selectAll("").forEach(account -> {
                 account.saveTransactions();
                 accounts.add(account);

@@ -7,31 +7,31 @@ import com.google.gson.reflect.TypeToken;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.lang.reflect.Type;
-import java.util.List;
+import java.util.Set;
 
-public class ListSerializerHelper<T> {
+public class SetSerializerHelper<T> {
 
     private static final Gson GSON = new GsonBuilder().setPrettyPrinting().create();
 
-    public List<T> fromJson(String data) {
+    public Set<T> fromJson(String data) {
 
-        Type typeOfHashMap = new TypeToken<List<T>>() {}.getType();
+        Type typeOfHashMap = new TypeToken<Set<T>>() {}.getType();
         return GSON.fromJson(data, typeOfHashMap);
 
     }
 
-    public List<T> fromJson(FileReader reader) {
+    public Set<T> fromJson(FileReader reader) {
 
-        Type typeOfHashMap = new TypeToken<List<T>>() {}.getType();
+        Type typeOfHashMap = new TypeToken<Set<T>>() {}.getType();
         return GSON.fromJson(reader, typeOfHashMap);
 
     }
 
-    public String toJson(List<T> data) {
+    public String toJson(Set<T> data) {
         return GSON.toJson(data);
     }
 
-    public void toJson(List<T> data, FileWriter writer) {
+    public void toJson(Set<T> data, FileWriter writer) {
         GSON.toJson(data, writer);
     }
 

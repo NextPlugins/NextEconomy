@@ -5,7 +5,7 @@ import com.nextplugins.economy.NextEconomy;
 import com.nextplugins.economy.api.backup.BackupManager;
 import com.nextplugins.economy.api.model.account.Account;
 import com.nextplugins.economy.util.ColorUtil;
-import com.nextplugins.economy.util.ListSerializerHelper;
+import com.nextplugins.economy.util.SetSerializerHelper;
 import lombok.RequiredArgsConstructor;
 import lombok.val;
 import org.bukkit.command.CommandSender;
@@ -14,6 +14,7 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.List;
+import java.util.Set;
 
 /**
  * @author Yuhtin
@@ -23,12 +24,12 @@ import java.util.List;
 @RequiredArgsConstructor
 public final class BackupCreatorRunnable implements Runnable {
 
-    private static final ListSerializerHelper<Account> PARSER = new ListSerializerHelper<>();
+    private static final SetSerializerHelper<Account> PARSER = new SetSerializerHelper<>();
 
     private final CommandSender sender;
     private final BackupManager backupManager;
     private final File file;
-    private final List<Account> accounts;
+    private final Set<Account> accounts;
 
     @Override
     public void run() {

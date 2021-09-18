@@ -270,11 +270,7 @@ public final class NextEconomyCommand {
 
         accountStorage.getCache().synchronous().invalidateAll();
 
-        val accounts = repository.selectAll("")
-                .stream()
-                .filter(Objects::nonNull)
-                .collect(Collectors.toList());
-
+        val accounts = repository.selectAll("");
         if (accounts.isEmpty()) {
 
             context.sendMessage(ColorUtil.colored(
