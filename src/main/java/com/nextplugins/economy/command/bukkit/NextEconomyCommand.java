@@ -28,8 +28,6 @@ import org.bukkit.entity.EntityType;
 
 import java.io.File;
 import java.util.Arrays;
-import java.util.Objects;
-import java.util.stream.Collectors;
 
 /**
  * @author Yuhtin
@@ -210,13 +208,12 @@ public final class NextEconomyCommand {
     }
 
     @Command(
-            name = "nexteconomy.converter",
+            name = "nexteconomy.swipedata",
             permission = "nexteconomy.admin",
-            usage = "/ne converter <tomysql, tosqlite>",
+            usage = "/ne swipedata <tomysql, tosqlite>",
             async = true
     )
-    public void onConverterCommand(Context<CommandSender> context,
-                                   String option) {
+    public void onSwipeDataCommand(Context<CommandSender> context, String option) {
 
         if (!conversorManager.checkConversorAvailability(context.getSender())) return;
 
@@ -284,6 +281,48 @@ public final class NextEconomyCommand {
                 context.getSender(),
                 accounts,
                 "Enviando para " + type,
+                stopwatch
+        );
+
+    }
+
+    @Command(
+            name = "nexteconomy.converter",
+            permission = "nexteconomy.admin",
+            usage = "/ne converter <conversor>",
+            async = true
+    )
+    public void onConverterCommand(Context<CommandSender> context,
+                                   String option) {
+
+        if (!conversorManager.checkConversorAvailability(context.getSender())) return;
+
+        val conversor = conversorManager.getByName(option);
+        if (conversor == null) {
+            context.sendMessage(ColorUtil.colored(
+                    "&cConversor inválido, conversores válidos: " + conversorManager.availableConversors())
+            );
+            return;
+        }
+
+        val stopwatch = Stopwatch.createStarted();
+        conversorManager.setConverting(true);
+
+        accountStorage.getCache().synchronous().invalidateAll();
+
+        val repository = new AccountRepository(conversor.getExecutor());
+        val accounts = repository.selectAll("");
+        if (accounts == null || accounts.isEmpty()) {
+            context.sendMessage(ColorUtil.colored(
+                    "&cOPS! Não tem nenhum dado para converter ou a conexão é inválida."
+            ));
+            return;
+        }
+
+        conversorManager.startConversion(
+                context.getSender(),
+                accounts,
+                conversor.getConversorName(),
                 stopwatch
         );
 

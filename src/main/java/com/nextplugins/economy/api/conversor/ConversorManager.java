@@ -15,9 +15,12 @@ import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Set;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.stream.Collectors;
 
 /**
  * @author Yuhtin
@@ -27,12 +30,31 @@ import java.util.concurrent.atomic.AtomicInteger;
 @Data
 public class ConversorManager {
 
-    private final AccountRepository accountRepository;
-
     private static final String CONVERSION_FORMAT = "&4&L%s &a> &fConvertido &c%s &fde &a%s &fdados em &6%s";
+    protected final List<Conversor> conversors = new ArrayList<>();
+    private final AccountRepository accountRepository;
 
     private boolean converting;
     private int actionBarTaskID;
+
+    public Conversor getByName(String name) {
+
+        return conversors.stream()
+                .filter(conversor -> conversor.getConversorName().equalsIgnoreCase(name))
+                .findAny()
+                .orElse(null);
+
+    }
+
+    public String availableConversors() {
+        return conversors.stream()
+                .map(Conversor::getConversorName)
+                .collect(Collectors.joining(","));
+    }
+
+    public void registerConversor(Conversor conversor) {
+        conversors.add(conversor);
+    }
 
     public boolean checkConversorAvailability(@Nullable CommandSender sender) {
 
