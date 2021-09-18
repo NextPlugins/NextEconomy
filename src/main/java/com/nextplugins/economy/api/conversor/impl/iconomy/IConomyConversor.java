@@ -20,16 +20,13 @@ import java.util.Set;
  */
 public class IConomyConversor extends Conversor {
 
-    private final String fileName;
-
-    protected IConomyConversor(String fileName) {
+    protected IConomyConversor() {
         super("iConomy", null, null);
-        this.fileName = fileName;
     }
 
     @Override
     public Set<Account> lookupPlayers() {
-        val file = new File("/plugins/iConomy/" + fileName);
+        val file = new File("plugins/iConomy/accounts.mini");
         if (!file.exists()) return Sets.newHashSet();
 
         try (val bufferedReader = new BufferedReader(new FileReader(file))) {

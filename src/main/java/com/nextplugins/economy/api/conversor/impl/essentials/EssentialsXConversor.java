@@ -28,7 +28,7 @@ public class EssentialsXConversor extends Conversor {
     public Set<Account> lookupPlayers() {
         Set<Account> accounts = new HashSet<>();
 
-        val file = new File("/plugins/Essentials/" + folderName);
+        val file = new File("plugins/Essentials/userdata");
         val files = file.listFiles();
         if (files == null) return accounts;
 
