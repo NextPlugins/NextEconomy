@@ -13,8 +13,8 @@ import java.util.Set;
  */
 public class TuskEconomyConversor extends Conversor {
 
-    protected TuskEconomyConversor(String conversorName, String table, SQLExecutor executor) {
-        super(conversorName, table, executor);
+    protected TuskEconomyConversor(String table, SQLExecutor executor) {
+        super("TuskEconomy", table, executor);
     }
 
     @Override

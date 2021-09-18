@@ -12,8 +12,8 @@ import java.util.Set;
  */
 public class SolaryEconomyConversor extends Conversor {
 
-    protected SolaryEconomyConversor(String conversorName, String table, SQLExecutor executor) {
-        super(conversorName, table, executor);
+    protected SolaryEconomyConversor(String table, SQLExecutor executor) {
+        super("SolaryEconomy", table, executor);
     }
 
     @Override

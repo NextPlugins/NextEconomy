@@ -19,8 +19,8 @@ import java.util.Set;
  */
 public class AtlasEconomyConversor extends Conversor {
 
-    protected AtlasEconomyConversor(String conversorName, String table, SQLExecutor executor) {
-        super(conversorName, table, executor);
+    protected AtlasEconomyConversor(String table, SQLExecutor executor) {
+        super("AtlasEconomy", table, executor);
     }
 
     @Override

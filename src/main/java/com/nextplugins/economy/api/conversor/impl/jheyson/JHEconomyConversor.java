@@ -21,8 +21,8 @@ public class JHEconomyConversor extends Conversor {
 
     private final String fileName;
 
-    protected JHEconomyConversor(String conversorName, String fileName, String table, SQLExecutor executor) {
-        super(conversorName, table, executor);
+    protected JHEconomyConversor(String fileName, String table, SQLExecutor executor) {
+        super("JH_Economy", table, executor);
         this.fileName = fileName;
     }
 
@@ -30,7 +30,7 @@ public class JHEconomyConversor extends Conversor {
     public Set<Account> lookupPlayers() {
 
         if (fileName != null) {
-            val file = new File("/plugins/JHEconomy/" + fileName);
+            val file = new File("/plugins/JH_Economy/" + fileName);
             if (!file.exists()) return Sets.newHashSet();
 
             try (val bufferedReader = new BufferedReader(new FileReader(file))) {

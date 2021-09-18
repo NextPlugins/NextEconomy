@@ -13,8 +13,8 @@ import java.util.Set;
  */
 public class SOEconomyConversor extends Conversor {
 
-    protected SOEconomyConversor(String conversorName, String table, SQLConnector connector) {
-        super(conversorName, table, new SQLExecutor(connector));
+    protected SOEconomyConversor(String table, SQLConnector connector) {
+        super("SOEconomy", table, new SQLExecutor(connector));
     }
 
     @Override

@@ -12,8 +12,8 @@ import java.util.Set;
  */
 public class EssentialsXConversor extends Conversor {
 
-    protected EssentialsXConversor(String conversorName, String table, SQLExecutor executor) {
-        super(conversorName, table, executor);
+    protected EssentialsXConversor(String table, SQLExecutor executor) {
+        super("EssentialsX", table, executor);
     }
 
     @Override

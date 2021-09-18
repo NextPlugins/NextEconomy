@@ -12,8 +12,8 @@ import java.util.Set;
  */
 public class YEconomyConversor extends Conversor {
 
-    protected YEconomyConversor(String conversorName, String table, SQLExecutor executor) {
-        super(conversorName, table, executor);
+    protected YEconomyConversor(String table, SQLExecutor executor) {
+        super("yEconomy", table, executor);
     }
 
     @Override
