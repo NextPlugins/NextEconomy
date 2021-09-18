@@ -36,7 +36,6 @@ import com.nextplugins.economy.ranking.util.RankingChatBody;
 import com.nextplugins.economy.vault.registry.VaultHookRegistry;
 import com.nextplugins.economy.views.registry.InventoryRegistry;
 import lombok.Getter;
-import lombok.Setter;
 import lombok.val;
 import net.citizensnpcs.api.CitizensAPI;
 import org.bukkit.Bukkit;
@@ -70,7 +69,7 @@ public final class NextEconomy extends JavaPlugin {
     private InteractionRegistry interactionRegistry;
     private DiscordCommandRegistry discordCommandRegistry;
 
-    @Setter private RankingChatBody rankingChatBody;
+    private RankingChatBody rankingChatBody;
 
     private File npcFile;
     private FileConfiguration npcConfig;
