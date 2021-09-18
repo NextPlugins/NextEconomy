@@ -80,7 +80,7 @@ SOEconomy:
       password: ""
       database: "test"
     sqlite:
-      file: "plugins/SOEconomy/storage.db" # TODO o plugin não ligou então não sei qual é o nome da sqlite
+      file: "plugins/SOEconomy/database.db" # TODO o plugin não ligou então não sei qual é o nome da sqlite
 
 SolaryEconomy:
   # Para deixar a opção de conversão disponível, ative esta opção

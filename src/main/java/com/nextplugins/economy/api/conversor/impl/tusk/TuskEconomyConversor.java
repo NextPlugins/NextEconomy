@@ -2,7 +2,6 @@ package com.nextplugins.economy.api.conversor.impl.tusk;
 
 import com.henryfabio.sqlprovider.executor.SQLExecutor;
 import com.nextplugins.economy.api.conversor.Conversor;
-import com.nextplugins.economy.api.conversor.impl.jheyson.JHEconomyAdapter;
 import com.nextplugins.economy.api.model.account.Account;
 
 import java.util.Set;

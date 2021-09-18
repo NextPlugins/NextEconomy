@@ -1,6 +1,5 @@
 package com.nextplugins.economy.dao.repository;
 
-import com.google.common.cache.LoadingCache;
 import com.henryfabio.sqlprovider.executor.SQLExecutor;
 import com.nextplugins.economy.NextEconomy;
 import com.nextplugins.economy.api.model.account.Account;
