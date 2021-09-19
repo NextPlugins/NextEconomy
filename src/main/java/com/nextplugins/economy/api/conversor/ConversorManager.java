@@ -10,7 +10,6 @@ import lombok.Data;
 import lombok.val;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
-import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -122,12 +121,12 @@ public class ConversorManager {
                 }
         );
 
-        if (sender == null || sender instanceof ConsoleCommandSender || conversorName == null) return;
+        if (sender == null || conversorName == null) return;
 
-        val player = (Player) sender;
         this.actionBarTaskID = Bukkit.getScheduler().runTaskTimerAsynchronously(NextEconomy.getInstance(), () -> {
 
-            if (!player.isOnline()) return;
+            val player = sender instanceof Player ? (Player) sender : null;
+            if (player != null && !player.isOnline()) return;
 
             val format = ColorUtil.colored(String.format(CONVERSION_FORMAT,
                     conversorName,
@@ -136,7 +135,8 @@ public class ConversorManager {
                     stopwatch
             ));
 
-            ActionBarUtils.sendActionBar(
+            if (player == null) sender.sendMessage(ColorUtil.colored(format));
+            else ActionBarUtils.sendActionBar(
                     player,
                     ColorUtil.colored(format)
             );
