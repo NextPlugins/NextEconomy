@@ -10,8 +10,8 @@ import com.henryfabio.sqlprovider.connector.SQLConnector;
 import com.henryfabio.sqlprovider.executor.SQLExecutor;
 import com.nextplugins.economy.api.PurseAPI;
 import com.nextplugins.economy.api.backup.BackupManager;
-import com.nextplugins.economy.api.conversor.ConversorRegistry;
 import com.nextplugins.economy.api.conversor.ConversorManager;
+import com.nextplugins.economy.api.conversor.ConversorRegistry;
 import com.nextplugins.economy.api.group.GroupWrapperManager;
 import com.nextplugins.economy.api.metric.MetricProvider;
 import com.nextplugins.economy.api.model.account.storage.AccountStorage;
@@ -46,7 +46,6 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
 import java.nio.file.Files;
-import java.nio.file.Path;
 import java.nio.file.attribute.BasicFileAttributes;
 import java.util.ArrayList;
 import java.util.concurrent.CompletableFuture;
@@ -210,11 +209,9 @@ public final class NextEconomy extends JavaPlugin {
             }
 
             if (type.equalsIgnoreCase("armorstand")) {
-
                 for (val stand : ArmorStandRunnable.STANDS) {
                     stand.remove();
                 }
-
             }
 
             getLogger().info("Sistema de ranking visual descarregado com sucesso");

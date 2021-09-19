@@ -1,6 +1,5 @@
 package com.nextplugins.economy.api.conversor.impl.solary;
 
-import com.henryfabio.sqlprovider.executor.SQLExecutor;
 import com.nextplugins.economy.api.conversor.Conversor;
 import com.nextplugins.economy.api.model.account.Account;
 
