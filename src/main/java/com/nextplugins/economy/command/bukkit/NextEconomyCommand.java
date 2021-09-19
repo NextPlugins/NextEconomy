@@ -24,7 +24,8 @@ import me.saiintbrisson.minecraft.command.command.Context;
 import net.citizensnpcs.api.CitizensAPI;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
-import org.bukkit.entity.EntityType;
+import org.bukkit.entity.Player;
+import org.bukkit.entity.Villager;
 
 import java.io.File;
 import java.util.Arrays;
@@ -121,10 +122,19 @@ public final class NextEconomyCommand {
             return;
         }
 
+        val citizensEnabled = pluginManager.isPluginEnabled("Citizens");
         for (val world : Bukkit.getWorlds()) {
             for (val entity : world.getEntities()) {
 
-                if (entity.getType() != EntityType.ARMOR_STAND || !entity.hasMetadata("nexteconomy")) continue;
+                if (!entity.hasMetadata("nexteconomy")) continue;
+                if (citizensEnabled) {
+                    val npc = CitizensAPI.getNPCRegistry().getNPC(entity);
+                    if (npc != null) {
+                        CitizensAPI.getNPCRegistry().deregister(npc);
+                        continue;
+                    }
+                }
+
                 entity.remove();
 
             }
@@ -132,7 +142,7 @@ public final class NextEconomyCommand {
 
         HologramsAPI.getHolograms(NextEconomy.getInstance()).forEach(Hologram::delete);
 
-        if (pluginManager.isPluginEnabled("Citizens")) {
+        if (citizensEnabled) {
             try {
                 for (val npc : CitizensAPI.getNPCRegistry()) {
                     if (!npc.data().has("nexteconomy")) continue;
@@ -143,8 +153,9 @@ public final class NextEconomyCommand {
             } catch (Exception exception) {
                 for (val id : NPCRunnable.NPCS) {
                     val npc = CitizensAPI.getNPCRegistry().getById(id);
-                    npc.despawn();
-                    npc.destroy();
+                    if (npc == null) continue;
+
+                    CitizensAPI.getNPCRegistry().deregister(npc);
                 }
             }
 
@@ -313,6 +324,7 @@ public final class NextEconomyCommand {
             context.sendMessage(ColorUtil.colored(
                     "&cOPS! Não tem nenhum dado para converter ou a conexão é inválida."
             ));
+            conversorManager.setConverting(false);
             return;
         }
 

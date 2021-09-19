@@ -15,6 +15,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.val;
 import net.citizensnpcs.api.CitizensAPI;
 import org.bukkit.entity.EntityType;
+import org.bukkit.metadata.FixedMetadataValue;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -121,6 +122,7 @@ public final class NPCRunnable implements Runnable {
             val npcRegistry = CitizensAPI.getNPCRegistry();
 
             val npc = npcRegistry.createNPC(EntityType.PLAYER, "");
+            npc.getEntity().setMetadata("nexteconomy", new FixedMetadataValue(NextEconomy.getInstance(), true));
 
             val skinName = account == null ? "Yuhtin" : plugin.getSkinsRestorerManager().getSkinName(account.getUsername());
             npc.data().set("player-skin-name", skinName);

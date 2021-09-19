@@ -222,8 +222,7 @@ public final class NextEconomy extends JavaPlugin {
                     val npc = CitizensAPI.getNPCRegistry().getById(id);
                     if (npc == null) continue;
 
-                    npc.despawn();
-                    npc.destroy();
+                    CitizensAPI.getNPCRegistry().deregister(npc);
                 }
 
             }

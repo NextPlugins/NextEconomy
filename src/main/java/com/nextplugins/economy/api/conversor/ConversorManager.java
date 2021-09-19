@@ -48,7 +48,7 @@ public class ConversorManager {
     public String availableConversors() {
         return conversors.stream()
                 .map(Conversor::getConversorName)
-                .collect(Collectors.joining(","));
+                .collect(Collectors.joining(", "));
     }
 
     public void registerConversor(Conversor conversor) {
