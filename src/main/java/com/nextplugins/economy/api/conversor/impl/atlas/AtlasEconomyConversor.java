@@ -12,10 +12,6 @@ import java.util.Set;
  */
 public class AtlasEconomyConversor extends Conversor {
 
-    protected AtlasEconomyConversor(String table, SQLExecutor executor) {
-        super("AtlasEconomy", table, executor);
-    }
-
     @Override
     public Set<Account> lookupPlayers() {
         return getExecutor().resultManyQuery(

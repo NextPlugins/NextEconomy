@@ -19,10 +19,6 @@ import java.util.Set;
  */
 public class IConomyConversor extends Conversor {
 
-    protected IConomyConversor() {
-        super("iConomy", null, null);
-    }
-
     @Override
     public Set<Account> lookupPlayers() {
         val file = new File("plugins/iConomy/accounts.mini");

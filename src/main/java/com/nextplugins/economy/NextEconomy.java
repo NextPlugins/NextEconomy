@@ -10,6 +10,7 @@ import com.henryfabio.sqlprovider.connector.SQLConnector;
 import com.henryfabio.sqlprovider.executor.SQLExecutor;
 import com.nextplugins.economy.api.PurseAPI;
 import com.nextplugins.economy.api.backup.BackupManager;
+import com.nextplugins.economy.api.conversor.ConversorRegistry;
 import com.nextplugins.economy.api.conversor.ConversorManager;
 import com.nextplugins.economy.api.group.GroupWrapperManager;
 import com.nextplugins.economy.api.metric.MetricProvider;
@@ -44,8 +45,12 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.attribute.BasicFileAttributes;
 import java.util.ArrayList;
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 
 @Getter
@@ -72,7 +77,10 @@ public final class NextEconomy extends JavaPlugin {
     private RankingChatBody rankingChatBody;
 
     private File npcFile;
+    private File conversorsFile;
+
     private FileConfiguration npcConfig;
+    private FileConfiguration conversorsConfig;
 
     @Override
     public void onLoad() {
@@ -86,6 +94,11 @@ public final class NextEconomy extends JavaPlugin {
         if (!discordSrv.exists()) saveResource("DiscordSRV.rar", false);
 
         npcConfig = YamlConfiguration.loadConfiguration(npcFile);
+
+        conversorsFile = new File(getDataFolder(), "conversors.yml");
+        if (!conversorsFile.exists()) saveResource("conversors.yml", false);
+
+        conversorsConfig = YamlConfiguration.loadConfiguration(conversorsFile);
 
     }
 
@@ -122,6 +135,7 @@ public final class NextEconomy extends JavaPlugin {
         VaultHookRegistry.of(this).register();
         MetricProvider.of(this).register();
         InventoryRegistry.of(this).register();
+        ConversorRegistry.of(this).register();
 
         Bukkit.getScheduler().runTaskLater(this, () -> {
 
@@ -141,6 +155,7 @@ public final class NextEconomy extends JavaPlugin {
             discordCommandRegistry.init();
 
             skinsRestorerManager.init();
+            purgeBackups();
 
         }, 150L);
 
@@ -203,6 +218,31 @@ public final class NextEconomy extends JavaPlugin {
             }
 
             getLogger().info("Sistema de ranking visual descarregado com sucesso");
+        }
+    }
+
+    private void purgeBackups() {
+        val path = new File("plugins/NextEconomy/backups");
+        if (!path.exists()) return;
+
+        val list = path.listFiles();
+        if (list == null) return;
+
+        for (File file : list) {
+            try {
+                val basicFileAttributes = Files.readAttributes(file.toPath(), BasicFileAttributes.class);
+
+                val fileTime = basicFileAttributes.creationTime();
+                if (fileTime.toMillis() > System.currentTimeMillis() - TimeUnit.DAYS.toMillis(7)) continue;
+
+                if (file.delete()) {
+                    getLogger().info("O backup " + file.getName() + " foi apagado por ser muito antigo.");
+                } else {
+                    getLogger().warning("Não foi possível apagar o backup " + file.getName() + ".");
+                }
+            } catch (Exception exception) {
+                continue;
+            }
         }
     }
 

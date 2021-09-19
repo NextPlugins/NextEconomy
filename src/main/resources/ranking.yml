@@ -9,6 +9,12 @@ ranking:
     # Para desativar apenas coloque o campo vazio
     # Aparece apenas no chat e nas placeholders do PlaceholderAPI
     rich: '&a[Rico] '
+    # Comando executado quando o magnata é alterado
+    # $currentTycoon - Atual jogador magnata
+    # $lastTycoon - Último jogador magnata
+    commands:
+      - 'lp user $currentTycoon parent add Tycoon'
+      - 'lp user $lastTycoon parent remove Tycoon'
 
   model:
     # tipo do ranking, tipos válidos: 'CHAT' e 'INVENTORY'

@@ -12,10 +12,6 @@ import java.util.Set;
  */
 public class SolaryEconomyConversor extends Conversor {
 
-    protected SolaryEconomyConversor(String table, SQLExecutor executor) {
-        super("SolaryEconomy", table, executor);
-    }
-
     @Override
     public Set<Account> lookupPlayers() {
         return getExecutor().resultManyQuery(

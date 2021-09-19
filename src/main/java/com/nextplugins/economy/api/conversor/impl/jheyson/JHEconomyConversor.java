@@ -19,18 +19,11 @@ import java.util.Set;
  */
 public class JHEconomyConversor extends Conversor {
 
-    private final String fileName;
-
-    protected JHEconomyConversor(String fileName, String table, SQLExecutor executor) {
-        super("JH_Economy", table, executor);
-        this.fileName = fileName;
-    }
-
     @Override
     public Set<Account> lookupPlayers() {
 
-        if (fileName != null) {
-            val file = new File("/plugins/JH_Economy/" + fileName);
+        if (getExecutor() == null) {
+            val file = new File("/plugins/JH_Economy/contas.save");
             if (!file.exists()) return Sets.newHashSet();
 
             try (val bufferedReader = new BufferedReader(new FileReader(file))) {

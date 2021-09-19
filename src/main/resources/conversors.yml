@@ -18,14 +18,11 @@ AtlasEconomy:
   connection:
     table: "economia" # não mude caso não saiba o que está fazendo
     mysql:
-      enable: false
+      enable: true
       address: "localhost:3306"
       username: "root"
       password: ""
       database: "test"
-    sqlite:
-      file: "" # não tem kk
-
 JH_Economy:
   # Para deixar a opção de conversão disponível, ative esta opção
   use: false
@@ -37,8 +34,6 @@ JH_Economy:
       username: "root"
       password: ""
       database: "test"
-    sqlite:
-      file: "plugins/JH_Economy/accounts.save" # TODO ver se o nome ta certo
 
 yEconomy:
   # Para deixar a opção de conversão disponível, ative esta opção

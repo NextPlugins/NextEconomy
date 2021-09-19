@@ -308,8 +308,7 @@ public final class NextEconomyCommand {
         conversorManager.setConverting(true);
         accountStorage.flushData();
 
-        val repository = new AccountRepository(conversor.getExecutor());
-        val accounts = repository.selectAll("");
+        val accounts = conversor.lookupPlayers();
         if (accounts == null || accounts.isEmpty()) {
             context.sendMessage(ColorUtil.colored(
                     "&cOPS! Não tem nenhum dado para converter ou a conexão é inválida."

@@ -17,13 +17,6 @@ import java.util.Set;
  */
 public class EssentialsXConversor extends Conversor {
 
-    private final String folderName;
-
-    protected EssentialsXConversor(String folderName) {
-        super("EssentialsX", null, null);
-        this.folderName = folderName;
-    }
-
     @Override
     public Set<Account> lookupPlayers() {
         Set<Account> accounts = new HashSet<>();

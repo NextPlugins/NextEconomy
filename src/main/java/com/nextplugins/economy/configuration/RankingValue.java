@@ -62,6 +62,7 @@ public final class RankingValue implements ConfigurationInjectable {
 
     @ConfigField("tycoon.tag") private String tycoonTagValue;
     @ConfigField("tycoon.rich") private String tycoonRichTagValue;
+    @ConfigField("tycoon.commands") private List<String> tycoonCommands;
 
     public static <T> T get(Function<RankingValue, T> function) {
         return function.apply(instance);
