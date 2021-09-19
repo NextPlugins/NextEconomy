@@ -32,7 +32,6 @@ repositories {
 
 
 dependencies {
-
     compileOnly "org.spigotmc:spigot-api:1.17.1-R0.1-SNAPSHOT"
 
     compileOnly 'com.github.PlaceholderAPI:PlaceholderAPI:2.10.9'
@@ -53,7 +52,6 @@ dependencies {
     def lombok = 'org.projectlombok:lombok:1.18.16'
     compileOnly lombok
     annotationProcessor lombok
-
 }
 
 bukkit {

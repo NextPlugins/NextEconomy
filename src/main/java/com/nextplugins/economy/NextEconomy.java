@@ -48,6 +48,7 @@ import java.io.File;
 import java.nio.file.Files;
 import java.nio.file.attribute.BasicFileAttributes;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
@@ -99,6 +100,25 @@ public final class NextEconomy extends JavaPlugin {
 
         conversorsConfig = YamlConfiguration.loadConfiguration(conversorsFile);
 
+        val rankingFile = new File(getDataFolder(), "ranking.yml");
+        if (!conversorsFile.exists()) saveResource("ranking.yml", false);
+        else {
+            val rankingConfig = YamlConfiguration.loadConfiguration(rankingFile);
+            if (rankingConfig.contains("ranking.tycoon.commands")) return;
+
+            rankingConfig.set(
+                    "ranking.tycoon.commands",
+                    Arrays.asList(
+                            "lp user $currentTycoon parent add Tycoon",
+                            "lp user $lastTycoon parent remove Tycoon"
+                    )
+            );
+
+            try {
+                rankingConfig.save(rankingFile);
+            } catch (Exception ignored) {
+            }
+        }
     }
 
     @Override
