@@ -122,13 +122,12 @@ public final class NPCRunnable implements Runnable {
             val npcRegistry = CitizensAPI.getNPCRegistry();
 
             val npc = npcRegistry.createNPC(EntityType.PLAYER, "");
-            npc.getEntity().setMetadata("nexteconomy", new FixedMetadataValue(NextEconomy.getInstance(), true));
-
             val skinName = account == null ? "Yuhtin" : plugin.getSkinsRestorerManager().getSkinName(account.getUsername());
             npc.data().set("player-skin-name", skinName);
             npc.data().set("nexteconomy", true);
             npc.setProtected(true);
             npc.spawn(location);
+            npc.getEntity().setMetadata("nexteconomy", new FixedMetadataValue(NextEconomy.getInstance(), true));
 
             NPCS.add(npc.getId());
 
