@@ -36,13 +36,15 @@ public class TopUpdateListener implements Listener {
 
             val titlePackets = TitleUtils.buildTitlePackets(title, 20, 20, 20);
             for (val onlinePlayer : Bukkit.getOnlinePlayers()) {
-
-                TitleUtils.sendTitlePacket(onlinePlayer, titlePackets);
+                if (titlePackets == null) {
+                    TitleUtils.sendTitle(onlinePlayer, title, 20, 20, 20);
+                } else {
+                    TitleUtils.sendPacketsToPlayer(onlinePlayer, titlePackets);
+                }
 
                 for (val s : message) {
                     onlinePlayer.sendMessage(s);
                 }
-
             }
         }
 

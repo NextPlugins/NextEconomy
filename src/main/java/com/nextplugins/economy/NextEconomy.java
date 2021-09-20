@@ -18,6 +18,8 @@ import com.nextplugins.economy.api.model.account.storage.AccountStorage;
 import com.nextplugins.economy.api.model.discord.manager.PayActionDiscordManager;
 import com.nextplugins.economy.api.model.interactions.registry.InteractionRegistry;
 import com.nextplugins.economy.api.skins.SkinsRestorerManager;
+import com.nextplugins.economy.api.title.InternalAPIMapping;
+import com.nextplugins.economy.api.title.InternalTitleAPI;
 import com.nextplugins.economy.command.bukkit.registry.CommandRegistry;
 import com.nextplugins.economy.command.discord.registry.DiscordCommandRegistry;
 import com.nextplugins.economy.configuration.DiscordValue;
@@ -48,13 +50,15 @@ import java.io.File;
 import java.nio.file.Files;
 import java.nio.file.attribute.BasicFileAttributes;
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 
 @Getter
 public final class NextEconomy extends JavaPlugin {
+
+    private InternalTitleAPI internalTitleAPI;
 
     private SQLConnector sqlConnector;
     private SQLExecutor sqlExecutor;
@@ -123,6 +127,8 @@ public final class NextEconomy extends JavaPlugin {
         discordCommandRegistry = new DiscordCommandRegistry();
 
         rankingChatBody = new RankingChatBody();
+
+        internalTitleAPI = InternalAPIMapping.create();
 
         accountStorage.init();
         interactionRegistry.init();

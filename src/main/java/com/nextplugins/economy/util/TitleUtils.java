@@ -1,10 +1,11 @@
 package com.nextplugins.economy.util;
 
+import com.nextplugins.economy.NextEconomy;
+import lombok.val;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
-import java.lang.reflect.Constructor;
-import java.util.Arrays;
+import java.util.List;
 
 /**
  * @author Yuhtin
@@ -13,73 +14,29 @@ import java.util.Arrays;
 public class TitleUtils {
 
     public static void sendTitle(Player player, String message, int fadeIn, int stay, int fadeOut) {
-        try {
-            sendTitlePacket(player, buildTitlePackets(message, fadeIn, stay, fadeOut));
-        } catch (Exception exception) {
-            exception.printStackTrace();
+        val internalApi = NextEconomy.getInstance().getInternalTitleAPI();
+        if (internalApi == null) return;
+
+        internalApi.sendTitle(player, message, fadeIn, stay, fadeOut);
+    }
+
+    public static void sendPacketsToAll(List<Object> packets) {
+        for (Player onlinePlayer : Bukkit.getOnlinePlayers()) {
+            sendPacketsToPlayer(onlinePlayer, packets);
         }
     }
 
-    public static void sendTitleToAll(String message, int fadeIn, int stay, int fadeOut) {
+    public static List<Object> buildTitlePackets(String message, int fadeIn, int stay, int fadeOut) {
+        val internalApi = NextEconomy.getInstance().getInternalTitleAPI();
+        if (internalApi == null) return null;
 
-        Object[] packets = buildTitlePackets(message, fadeIn, stay, fadeOut);
-        try {
+        return internalApi.buildPackets(message, fadeIn, stay, fadeOut);
+    }
 
-            for (Player onlinePlayer : Bukkit.getOnlinePlayers()) {
-                sendTitlePacket(onlinePlayer, packets);
-            }
-
-        } catch (Exception exception) {
-            exception.printStackTrace();
+    public static void sendPacketsToPlayer(Player player, List<Object> packets) {
+        for (Object packet : packets) {
+            PacketUtils.sendPacket(player, packet);
         }
-
-    }
-
-    public static Object[] buildTitlePackets(String message, int fadeIn, int stay, int fadeOut) {
-
-        String[] split = message.split("<nl>");
-        String title = ColorUtil.colored(split[0]);
-        String subtitle = ColorUtil.colored(split[1]);
-
-        return new Object[] {
-                buildPacket(title, "TITLE", fadeIn, stay, fadeOut),
-                buildPacket(subtitle, "SUBTITLE", fadeIn, stay, fadeOut)
-        };
-
-    }
-
-    public static void sendTitlePacket(Player player, Object[] packets) {
-        Arrays.stream(packets).forEach(packet -> PacketUtils.sendPacket(player, packet));
-    }
-
-    private static Object buildPacket(String message, String type, int fadeIn, int stay, int fadeOut) {
-
-        try {
-            Object component = PacketUtils.getNMSClass("IChatBaseComponent")
-                    .getDeclaredClasses()[0]
-                    .getMethod("a", String.class)
-                    .invoke(null, "{\"text\":\"" + message + "\"}");
-
-            Constructor constructor = PacketUtils.getNMSClass("PacketPlayOutTitle")
-                    .getConstructor(
-                            PacketUtils.getNMSClass("PacketPlayOutTitle").getDeclaredClasses()[0],
-                            PacketUtils.getNMSClass("IChatBaseComponent"),
-                            Integer.TYPE,
-                            Integer.TYPE,
-                            Integer.TYPE
-                    );
-
-            Object packet = constructor.newInstance(
-                    PacketUtils.getNMSClass("PacketPlayOutTitle").getDeclaredClasses()[0].getField(type).get(null),
-                    component, fadeIn, stay, fadeOut
-            );
-
-            return packet;
-
-        } catch (Exception ignored) {
-        }
-
-        return null;
     }
 
 }
