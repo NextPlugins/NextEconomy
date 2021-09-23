@@ -100,7 +100,7 @@ public class ConversorManager {
 
                     if (sender != null) sender.sendMessage(ColorUtil.colored(
                             "&aConversão terminada em &2" + stopwatch + "&a.",
-                            "&aVocê &lnão &aprecisa &areiniciar o servidor para salvar as alterações."
+                            "&aVocê &lnão&a precisa &areiniciar o servidor para salvar as alterações."
                     ));
 
                     this.converting = false;

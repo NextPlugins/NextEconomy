@@ -7,7 +7,8 @@
 #
 # O yEconomy e SOEconomy normalmente demoram mais por salvar os dados em JSON,
 # e o plugin terá que deserializar cada dado e converter para seu sistema
-# Uma database do SOEconomy com TODO usuários (TODO KB) levou TODO tempo para ser convertida
+# Uma database do SOEconomy com 191 usuários (80 KB) levou +-10 segundos e 700 ms para ser convertido
+# e a tabela do NextEconomy (já havia 13 jogadores) com 204 jogadores e o peso 16KB (5x menos)
 #
 # Antes de converter, o plugin criará um ponto de restauração automaticamente para você,
 # você encontrará ele na pasta /plugins/NextEconomy/restauration
