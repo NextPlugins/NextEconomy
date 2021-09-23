@@ -16,7 +16,6 @@ public class SOEconomyAdapter implements SQLResultAdapter<Account> {
 
     @Override
     public Account adaptResult(SimpleResultSet resultSet) {
-
         String json = resultSet.get("json");
         val user = accountParser.fromJson(json, SOEconomyUser.class);
 

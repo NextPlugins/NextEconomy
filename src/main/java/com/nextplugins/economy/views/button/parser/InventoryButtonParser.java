@@ -14,7 +14,6 @@ import java.util.stream.Collectors;
 public final class InventoryButtonParser {
 
     public InventoryButton parse(ConfigurationSection section) {
-
         val itemStack = TypeUtil.convertFromLegacy(
                 section.getString("material", ""),
                 (byte) section.getInt("data", 0));

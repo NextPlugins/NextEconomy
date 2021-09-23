@@ -21,7 +21,6 @@ public final class UltimateChatListener implements Listener {
 
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onPlayerChat(SendChannelMessageEvent event) {
-
         if (event.isCancelled()) return;
 
         val player = event.getSender();

@@ -9,12 +9,10 @@ public final class MetricProvider {
     private final JavaPlugin plugin;
 
     public void register() {
-
         System.setProperty("bstats.relocatecheck", "false");
 
         new MetricsConnector(plugin, 10041);
         plugin.getLogger().info("Métrica de uso habilitada com sucesso.");
-
     }
 
 }

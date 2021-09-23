@@ -25,17 +25,14 @@ public final class RankingStorage {
     private long nextUpdateMillis;
 
     public boolean updateRanking(boolean force) {
-
         if (!force && nextUpdateMillis > System.currentTimeMillis()) return false;
 
         val plugin = NextEconomy.getInstance();
-
         val pluginManager = Bukkit.getPluginManager();
         val updateDelayMillis = TimeUnit.SECONDS.toMillis(RankingValue.get(RankingValue::updateDelay));
 
         nextUpdateMillis = System.currentTimeMillis() + updateDelayMillis;
-
-        plugin.getLogger().info("[Ranking] Iniciando atualização no ranking");
+        NextEconomy.getInstance().getAccountStorage().flushData();
 
         Bukkit.getScheduler().runTaskAsynchronously(
                 plugin,
@@ -43,7 +40,6 @@ public final class RankingStorage {
         );
 
         return true;
-
     }
 
     public String getTycoonTag(String playerName) {

@@ -44,7 +44,6 @@ public final class HistoricBankView extends PagedInventory {
 
     @Override
     protected void configureInventory(Viewer viewer, InventoryEditor editor) {
-
         ViewerConfigurationImpl.Paged configuration = viewer.getConfiguration();
 
         configuration.backInventory("nexteconomy.main");
@@ -54,57 +53,53 @@ public final class HistoricBankView extends PagedInventory {
         configuration.border(Border.of(1));
 
         editor.setItem(49, DefaultItem.BACK.toInventoryItem(viewer));
-
     }
 
     @Override
     protected List<InventoryItemSupplier> createPageItems(PagedViewer viewer) {
-
         val player = viewer.getPlayer();
         val account = accountStorage.findAccount(player);
 
         List<InventoryItemSupplier> items = new LinkedList<>();
         for (AccountBankHistoric transaction : account.getTransactions()) {
-
-            val name = transaction.getType() == TransactionType.WITHDRAW
-                    ? player.getName() : transaction.getTarget();
-
-            val targetName = transaction.getType() == TransactionType.WITHDRAW
-                    ? transaction.getTarget() : player.getName();
-
-            val date = DateFormatUtil.of(transaction.getMilli());
-            val transactionMessage = (transaction.getType() == TransactionType.WITHDRAW
-                    ? InventoryValue.get(InventoryValue::withdrawMessage)
-                    : InventoryValue.get(InventoryValue::depositMessage))
-                    .replace("@target", targetName)
-                    .replace("@player", name);
-
-            val item = InventoryButton.builder()
-                    .materialData(new MaterialData(Material.AIR))
-                    .displayName(InventoryValue.get(InventoryValue::historicDisplayName).replace("@message", transactionMessage))
-                    .nickname(InventoryValue.get(InventoryValue::historicSkullName))
-                    .lore(InventoryValue.get(InventoryValue::historicLore).stream()
-                            .map(line -> line
-                                    .replace("@player", name)
-                                    .replace("@target", targetName)
-                                    .replace("@date", date)
-                                    .replace("@action", transaction.getType().getMessage())
-                                    .replace("@message", transactionMessage)
-                                    .replace("@amount", NumberUtils.format(transaction.getAmount()))
-                            )
-                            .collect(Collectors.toList())
-                    )
-                    .build();
-
-
             items.add(() -> {
+                val name = transaction.getType() == TransactionType.WITHDRAW
+                        ? player.getName()
+                        : transaction.getTarget();
+
+                val targetName = transaction.getType() == TransactionType.WITHDRAW
+                        ? transaction.getTarget()
+                        : player.getName();
+
+                val date = DateFormatUtil.of(transaction.getMilli());
+                val transactionMessage = (transaction.getType() == TransactionType.WITHDRAW
+                        ? InventoryValue.get(InventoryValue::withdrawMessage)
+                        : InventoryValue.get(InventoryValue::depositMessage))
+                        .replace("@target", targetName)
+                        .replace("@player", name);
+
+                val item = InventoryButton.builder()
+                        .materialData(new MaterialData(Material.AIR))
+                        .displayName(InventoryValue.get(InventoryValue::historicDisplayName).replace("@message", transactionMessage))
+                        .nickname(InventoryValue.get(InventoryValue::historicSkullName))
+                        .lore(InventoryValue.get(InventoryValue::historicLore).stream()
+                                .map(line -> line
+                                        .replace("@player", name)
+                                        .replace("@target", targetName)
+                                        .replace("@date", date)
+                                        .replace("@action", transaction.getType().getMessage())
+                                        .replace("@message", transactionMessage)
+                                        .replace("@amount", NumberUtils.format(transaction.getAmount()))
+                                )
+                                .collect(Collectors.toList())
+                        )
+                        .build();
 
                 String target = transaction.getTarget();
                 if (target.equalsIgnoreCase("Banco")) target = "MrSnowDK";
                 if (target.equalsIgnoreCase("Cheque")) target = "Tom25W";
 
                 return InventoryItem.of(item.getItemStack(target));
-
             });
 
         }

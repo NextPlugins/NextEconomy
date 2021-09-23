@@ -18,7 +18,6 @@ public final class MoneySetListener implements Listener {
 
     @EventHandler(priority = EventPriority.MONITOR)
     public void onSet(MoneySetEvent event) {
-
         if (event.isCancelled()) return;
 
         val sender = event.getSender();
@@ -27,17 +26,13 @@ public final class MoneySetListener implements Listener {
 
         val targetAccount = accountStorage.findAccount(target);
         if (targetAccount == null) {
-
             sender.sendMessage(MessageValue.get(MessageValue::invalidTarget));
             return;
-
         }
 
         if (Double.isNaN(amount) || amount < 1) {
-
             sender.sendMessage(MessageValue.get(MessageValue::invalidMoney));
             return;
-
         }
 
         targetAccount.setBalance(amount);

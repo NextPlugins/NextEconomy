@@ -29,9 +29,7 @@ public class PayActionDiscordManager {
             .removalListener((RemovalListener<Long, PayActionDiscord>) (key, value, cause) -> deny(value, cause))
             .build();
 
-
     private final AccountStorage accountStorage;
-
 
     private void deny(PayActionDiscord payActionDiscord, RemovalCause cause) {
         if (cause != RemovalCause.EXPIRED) return;
@@ -39,7 +37,6 @@ public class PayActionDiscordManager {
     }
 
     public void confirm(PayActionDiscord payActionDiscord) {
-
         val player = payActionDiscord.player();
         val target = payActionDiscord.target();
 

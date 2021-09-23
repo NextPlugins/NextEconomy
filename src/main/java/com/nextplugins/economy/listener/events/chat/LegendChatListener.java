@@ -17,7 +17,6 @@ public final class LegendChatListener implements Listener {
 
     @EventHandler(priority = EventPriority.LOW)
     public void onPlayerChat(ChatMessageEvent event) {
-
         if (event.isCancelled()) return;
 
         val player = event.getSender();

@@ -30,7 +30,6 @@ public final class ListenerRegistry {
     public void register() {
         val logger = plugin.getLogger();
         try {
-
             val pluginManager = Bukkit.getPluginManager();
 
             val rankingStorage = getPlugin().getRankingStorage();

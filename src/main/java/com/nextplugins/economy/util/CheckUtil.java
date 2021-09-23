@@ -12,7 +12,6 @@ import java.util.List;
 public final class CheckUtil {
 
     public static ItemStack createCheck(double checkValue) {
-
         val checkSection = FeatureValue.get(FeatureValue::checkItem);
 
         List<String> lore = new ArrayList<>();
@@ -31,7 +30,6 @@ public final class CheckUtil {
         nbtItem.setDouble("value", checkValue);
 
         return nbtItem.getItem();
-
     }
 
 }

@@ -32,10 +32,8 @@ public final class BackupCreatorRunnable implements Runnable {
 
     @Override
     public void run() {
-
         val logger = NextEconomy.getInstance().getLogger();
         try {
-
             logger.info("Iniciando criação do backup '" + file.getName() + "'.");
 
             val stopwatch = Stopwatch.createStarted();
@@ -52,12 +50,9 @@ public final class BackupCreatorRunnable implements Runnable {
             if (sender != null) sender.sendMessage(ColorUtil.colored(
                     "&aBackup '" + file.getName() + "' criado com sucesso!"
             ));
-
         } catch (IOException exception) {
-
             exception.printStackTrace();
             logger.severe("Não foi possível escrever os dados no arquivo.");
-
         }
 
     }

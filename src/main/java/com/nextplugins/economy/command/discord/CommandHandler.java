@@ -12,7 +12,6 @@ public final class CommandHandler {
 
     @Subscribe
     public void onGuildMessageReceived(DiscordGuildMessageReceivedEvent event) {
-
         val contentDisplay = event.getMessage().getContentDisplay();
 
         val commands = commandMap.getCommands();
@@ -28,7 +27,6 @@ public final class CommandHandler {
         }
 
         command.execute(event.getMessage(), stringBuilder.toString().split(" "));
-
     }
 
 }

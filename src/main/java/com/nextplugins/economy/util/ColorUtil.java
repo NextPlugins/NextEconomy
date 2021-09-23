@@ -28,11 +28,9 @@ public final class ColorUtil {
     }
 
     public static List<String> colored(List<String> description) {
-
         return description.stream()
                 .map(ColorUtil::colored)
                 .collect(Collectors.toList());
-
     }
 
     public static java.awt.Color getColorByHex(String hex) {
@@ -40,10 +38,8 @@ public final class ColorUtil {
     }
 
     public static Color getBukkitColorByHex(String hex) {
-
         val decode = getColorByHex(hex);
         return Color.fromRGB(decode.getRed(), decode.getGreen(), decode.getBlue());
-
     }
 
 }

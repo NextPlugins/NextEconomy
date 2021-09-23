@@ -24,7 +24,6 @@ public class LookupInteractionManager {
     private Consumer<AsyncPlayerChatEvent> consumer;
 
     public void sendRequisition(Player player) {
-
         val interactionRegistry = NextEconomy.getInstance().getInteractionRegistry();
         if (!interactionRegistry.getOperation().contains(player.getName()))
             interactionRegistry.getOperation().add(player.getName());
@@ -40,13 +39,10 @@ public class LookupInteractionManager {
                 .filter(event -> event.getPlayer().getName().equals(player.getName()))
                 .thenAccept(consumer)
                 .await(true);
-
     }
 
     public LookupInteractionManager init() {
-
         consumer = event -> {
-
             event.setCancelled(true);
 
             val player = event.getPlayer();
@@ -54,21 +50,17 @@ public class LookupInteractionManager {
 
             String message = event.getMessage();
             if (message.equalsIgnoreCase("cancelar")) {
-
                 player.sendMessage(MessageValue.get(MessageValue::interactionCancelled));
                 return;
-
             }
 
             Bukkit.getScheduler().runTask(
                     NextEconomy.getInstance(),
                     () -> player.performCommand("money ver " + message)
             );
-
         };
 
         return this;
-
     }
 
 }

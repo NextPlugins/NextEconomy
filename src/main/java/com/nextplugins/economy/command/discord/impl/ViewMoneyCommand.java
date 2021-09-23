@@ -32,7 +32,6 @@ public class ViewMoneyCommand implements Command {
 
     @Override
     public void execute(Message message, String[] args) {
-
         OfflinePlayer player = null;
         User user = null;
 
@@ -185,6 +184,5 @@ public class ViewMoneyCommand implements Command {
         }
 
         message.reply(embedBuilder.build()).queue();
-
     }
 }

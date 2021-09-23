@@ -33,12 +33,10 @@ public class PurseAPI {
     @Setter private long nextUpdate;
 
     public static boolean init() {
-
         if (!PurseValue.get(PurseValue::enable)) return false;
 
         instance = new PurseAPI();
         return true;
-
     }
 
     /**
@@ -56,10 +54,8 @@ public class PurseAPI {
      * @return A instance of {@link PurseAPI}. If disabled by user, return null.
      */
     public static @Nullable PurseAPI getInstance() {
-
         if (instance != null && instance.getNextUpdate() < System.currentTimeMillis()) instance.forceUpdate();
         return instance;
-
     }
 
     /**
@@ -67,13 +63,11 @@ public class PurseAPI {
      * The update time will be updated
      */
     public void forceUpdate() {
-
         val maxValue = PurseValue.get(PurseValue::maxValue);
         val minValue = PurseValue.get(PurseValue::minValue);
 
         val randomValue = RANDOM.ints(minValue, maxValue + 1).iterator().nextInt();
         updatePurse(randomValue);
-
     }
 
     /**
@@ -110,14 +104,12 @@ public class PurseAPI {
      * @return Example '> on rise' or '< in down'
      */
     public String getHighMessage() {
-
         val media = PurseValue.get(PurseValue::media);
         if (purse >= media) {
             return MessageValue.get(MessageValue::valuedIcon) + " " + MessageValue.get(MessageValue::purseHigh);
         } else {
             return MessageValue.get(MessageValue::devaluedIcon) + " " + MessageValue.get(MessageValue::purseDown);
         }
-
     }
 
     /**
@@ -126,7 +118,6 @@ public class PurseAPI {
      * @param newValue to purse
      */
     public void updatePurse(int newValue) {
-
         val lastNextUpdate = nextUpdate;
 
         val duration = PurseValue.get(PurseValue::nextUpdate);
@@ -144,7 +135,6 @@ public class PurseAPI {
             pluginManager.callEvent(asyncPurseUpdateEvent);
 
         });
-
     }
 
 }

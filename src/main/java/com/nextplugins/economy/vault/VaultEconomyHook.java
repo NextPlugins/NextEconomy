@@ -81,7 +81,6 @@ public class VaultEconomyHook extends EconomyWrapper {
 
         val account = storage.findAccount(player);
         if (account != null) {
-
             val purseEnabled = PurseValue.get(PurseValue::enable) && PurseValue.get(PurseValue::withdrawEnabled);
             val purse = purseEnabled ? PurseAPI.getInstance().getPurseMultiplier() : 1;
 
@@ -106,14 +105,12 @@ public class VaultEconomyHook extends EconomyWrapper {
 
     @Override
     public EconomyResponse depositPlayer(OfflinePlayer player, double amount) {
-
         if (amount == 0 || NumberUtils.isInvalid(amount)) {
             return new EconomyResponse(amount, 0, EconomyResponse.ResponseType.FAILURE, "Valor inválido");
         }
 
         val account = storage.findAccount(player);
         if (account != null) {
-
             val purseEnabled = PurseValue.get(PurseValue::enable) && PurseValue.get(PurseValue::applyInAll);
             val purse = purseEnabled ? PurseAPI.getInstance().getPurseMultiplier() : 1;
 
@@ -126,7 +123,6 @@ public class VaultEconomyHook extends EconomyWrapper {
                     amount,
                     TransactionType.DEPOSIT
             );
-
         }
 
         return new EconomyResponse(
@@ -139,7 +135,6 @@ public class VaultEconomyHook extends EconomyWrapper {
 
     @Override
     public boolean createPlayerAccount(OfflinePlayer player) {
-
         var account = storage.findAccount(player);
         if (account != null) return false;
 
@@ -147,7 +142,6 @@ public class VaultEconomyHook extends EconomyWrapper {
         storage.put(account);
 
         return true;
-
     }
 
 }

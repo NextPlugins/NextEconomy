@@ -46,7 +46,6 @@ public final class BackupManager {
                                                     AccountRepository accountRepository,
                                                     boolean restaurationPoint,
                                                     boolean async) {
-
         if (backuping) return new BackupResponse(null, ResponseType.BACKUP_IN_PROGRESS);
 
         setBackuping(true);
@@ -63,10 +62,8 @@ public final class BackupManager {
         plugin.getLogger().info("Criando backup para o local '" + file.getPath() + "'.");
 
         if (file.exists()) {
-
             plugin.getLogger().info("Já existe um backup com este nome.");
             return new BackupResponse(null, ResponseType.NAME_IN_USE);
-
         }
 
         FileUtils.createFileIfNotExists(file);
@@ -97,7 +94,6 @@ public final class BackupManager {
         }
 
         return new BackupResponse(file, ResponseType.SUCCESS);
-
     }
 
     /**

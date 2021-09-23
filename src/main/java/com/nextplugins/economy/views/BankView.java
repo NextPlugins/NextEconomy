@@ -41,7 +41,6 @@ public final class BankView extends SimpleInventory {
 
     @Override
     protected void configureInventory(Viewer viewer, InventoryEditor editor) {
-
         val player = viewer.getPlayer();
         val account = accountStorage.findAccount(player);
         val instance = PurseAPI.getInstance();
@@ -67,7 +66,6 @@ public final class BankView extends SimpleInventory {
         val transactionsMessage = account.getTransactionsQuantity() + " " + transactionName;
 
         for (val value : BUTTONS.values()) {
-
             val inventorySlot = value.getInventorySlot();
             if (inventorySlot == -1 || (value.getButtonType() == ButtonType.PURSE && instance == null)) continue;
 
@@ -91,10 +89,7 @@ public final class BankView extends SimpleInventory {
                     inventorySlot,
                     InventoryItem.of(valueItem).defaultCallback(value.getButtonType().getAction())
             );
-
-
         }
-
     }
 
     @Override

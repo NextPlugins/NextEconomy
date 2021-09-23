@@ -15,7 +15,6 @@ import java.time.Instant;
 @Setter
 public final class AsyncRankingUpdateEvent extends EconomyEvent implements Cancellable {
 
-
     private final Instant instant = Instant.now();
     private boolean cancelled;
 

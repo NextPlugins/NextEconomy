@@ -17,7 +17,6 @@ public final class NumberUtils {
     private static final DecimalFormat DECIMAL_FORMAT = new DecimalFormat("#.##");
 
     public static String format(double value) {
-
         if (isInvalid(value)) return "0";
 
         int index = 0;
@@ -32,7 +31,6 @@ public final class NumberUtils {
         }
 
         return DECIMAL_FORMAT.format(value) + format.get(index);
-
     }
 
     public static double parse(String string) {
@@ -55,7 +53,6 @@ public final class NumberUtils {
 
         val value = amount * Math.pow(1000, index);
         return isInvalid(value) ? 0 : value;
-
     }
 
     public static boolean isInvalid(double value) {

@@ -84,7 +84,7 @@ embed:
     date: true
     color: '#36bfa6'
     topEmoji: '<:diamante:876855005871734784> '
-    line: '**$postionº** $username - $coins $ coins'
+    line: '**$positionº** $prefix$username - $amount $ coins'
     description: '<:livro:876809929430794240> Venha se tornar rico em nosso servidor!'
   help:
     title: ':placard: Precisando de ajuda?'

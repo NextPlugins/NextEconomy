@@ -22,7 +22,6 @@ public final class TypeUtil {
     }
 
     public static ItemStack convertFromLegacy(String materialName, int damage) {
-
         if (materialName == null || materialName.equalsIgnoreCase("")) return null;
 
         try {
@@ -36,7 +35,6 @@ public final class TypeUtil {
                 return null;
             }
         }
-
     }
 
 }

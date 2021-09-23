@@ -16,7 +16,6 @@ public final class InventoryButtonRegistry {
     private final InventoryButtonParser inventoryButtonParser = new InventoryButtonParser();
 
     public InventoryButtonRegistry init() {
-
         register(inventoryButtonParser.parse(
                 InventoryValue.get(InventoryValue::helpButton)
         ));
@@ -46,7 +45,6 @@ public final class InventoryButtonRegistry {
         ));
 
         return this;
-
     }
 
     public void register(InventoryButton inventoryButton) {

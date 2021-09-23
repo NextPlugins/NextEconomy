@@ -42,27 +42,21 @@ public final class MoneyCommand {
 
     @Command(
             name = "coins",
-            aliases = {"coin", "money"},
+            aliases = {"coin", "money", "dinheiro", "moedas"},
             description = "Abrir menu do sistema de economia",
             async = true
     )
     public void moneyCommand(Context<CommandSender> context) {
-
         if (context.getSender() instanceof ConsoleCommandSender) return;
 
         val player = (Player) context.getSender();
-
-        // disable inventory option
         if (!InventoryValue.get(InventoryValue::enable)) {
-
             player.performCommand("money help");
             return;
-
         }
 
         val inventory = InventoryRegistry.getInstance().getBankView();
         inventory.openInventory(player);
-
     }
 
     @Command(
@@ -72,27 +66,21 @@ public final class MoneyCommand {
             async = true
     )
     public void moneyViewCommand(Context<CommandSender> context, OfflinePlayer target) {
-
         if (target == null) {
-
             context.sendMessage(MessageValue.get(MessageValue::invalidTarget));
             return;
-
         }
 
         val offlineAccount = accountStorage.findAccount(target);
         if (offlineAccount == null) {
-
             context.sendMessage(MessageValue.get(MessageValue::invalidTarget));
             return;
-
         }
 
         context.sendMessage(MessageValue.get(MessageValue::seeOtherBalance)
                 .replace("$player", target.getName())
                 .replace("$amount", offlineAccount.getBalanceFormated())
         );
-
     }
 
     @Command(
@@ -104,7 +92,6 @@ public final class MoneyCommand {
             async = true
     )
     public void toggleMoney(Context<Player> context) {
-
         val account = accountStorage.findAccount(context.getSender());
         account.setReceiveCoins(!account.isReceiveCoins());
 
@@ -115,7 +102,6 @@ public final class MoneyCommand {
         context.sendMessage(MessageValue.get(MessageValue::receiveCoinsToggled)
                 .replace("$toggleMessage", toggleMessage)
         );
-
     }
 
     @Command(
@@ -128,35 +114,27 @@ public final class MoneyCommand {
             async = true
     )
     public void moneyPayCommand(Context<Player> context, OfflinePlayer target, String amount) {
-
         val player = context.getSender();
 
         val parse = NumberUtils.parse(amount);
         if (parse < 1) {
-
             player.sendMessage(MessageValue.get(MessageValue::invalidMoney));
             return;
-
         }
 
         val offlineAccount = accountStorage.findAccount(target);
         if (offlineAccount == null) {
-
             player.sendMessage(MessageValue.get(MessageValue::invalidTarget));
             return;
-
         }
 
         if (!player.hasPermission("nexteconony.bypass") && !offlineAccount.isReceiveCoins()) {
-
             player.sendMessage(MessageValue.get(MessageValue::disabledCoins));
             return;
-
         }
 
         val transactionRequestEvent = new TransactionRequestEvent(player, target, offlineAccount, parse);
         Bukkit.getPluginManager().callEvent(transactionRequestEvent);
-
     }
 
     @Command(
@@ -167,12 +145,9 @@ public final class MoneyCommand {
             async = true
     )
     public void moneySyncCommand(Context<Player> context) {
-
         if (!NextEconomy.getInstance().getDiscordCommandRegistry().isEnabled()) {
-
             context.getSender().sendMessage(MessageValue.get(MessageValue::disabledDiscord));
             return;
-
         }
 
         context.getSender().performCommand("discord link");
@@ -186,12 +161,9 @@ public final class MoneyCommand {
             async = true
     )
     public void moneyUnsyncCommand(Context<Player> context) {
-
         if (!NextEconomy.getInstance().getDiscordCommandRegistry().isEnabled()) {
-
             context.getSender().sendMessage(MessageValue.get(MessageValue::disabledDiscord));
             return;
-
         }
 
         context.getSender().performCommand("discord unlink");
@@ -204,7 +176,6 @@ public final class MoneyCommand {
             async = true
     )
     public void moneyHelpCommand(Context<CommandSender> context) {
-
         val sender = context.getSender();
         if (sender.hasPermission("nexteconomy.command.help.staff")) {
             for (String s : ColorUtil.colored(MessageValue.get(MessageValue::helpCommandStaff))) {
@@ -215,7 +186,6 @@ public final class MoneyCommand {
                 sender.sendMessage(s);
             }
         }
-
     }
 
     @Command(
@@ -227,28 +197,22 @@ public final class MoneyCommand {
             async = true
     )
     public void moneySetCommand(Context<CommandSender> context, OfflinePlayer target, String amount) {
-
         val sender = context.getSender();
         val parse = NumberUtils.parse(amount);
 
         if (parse < 1) {
-
             sender.sendMessage(MessageValue.get(MessageValue::invalidMoney));
             return;
-
         }
 
         val offlineAccount = accountStorage.findAccount(target);
         if (offlineAccount == null) {
-
             sender.sendMessage(MessageValue.get(MessageValue::invalidTarget));
             return;
-
         }
 
         val moneySetEvent = new MoneySetEvent(sender, target, parse);
         Bukkit.getPluginManager().callEvent(moneySetEvent);
-
     }
 
     @Command(
@@ -260,23 +224,18 @@ public final class MoneyCommand {
             async = true
     )
     public void moneyAddCommand(Context<CommandSender> context, OfflinePlayer target, String amount) {
-
         val sender = context.getSender();
         val parse = NumberUtils.parse(amount);
 
         if (parse < 1) {
-
             sender.sendMessage(MessageValue.get(MessageValue::invalidMoney));
             return;
-
         }
 
         val offlineAccount = accountStorage.findAccount(target);
         if (offlineAccount == null) {
-
             sender.sendMessage(MessageValue.get(MessageValue::invalidTarget));
             return;
-
         }
 
         val moneyGiveEvent = new MoneyGiveEvent(sender, target, parse);
@@ -292,28 +251,22 @@ public final class MoneyCommand {
             async = true
     )
     public void moneyRemoveCommand(Context<CommandSender> context, OfflinePlayer target, String amount) {
-
         val sender = context.getSender();
         val parse = NumberUtils.parse(amount);
 
         if (parse < 1) {
-
             sender.sendMessage(MessageValue.get(MessageValue::invalidMoney));
             return;
-
         }
 
         val offlineAccount = accountStorage.findAccount(target);
         if (offlineAccount == null) {
-
             sender.sendMessage(MessageValue.get(MessageValue::invalidTarget));
             return;
-
         }
 
         val moneyWithdrawEvent = new MoneyWithdrawEvent(sender, target, parse);
         Bukkit.getPluginManager().callEvent(moneyWithdrawEvent);
-
     }
 
     @Command(
@@ -324,15 +277,12 @@ public final class MoneyCommand {
             permission = "nexteconomy.command.reset"
     )
     public void moneyResetCommand(Context<CommandSender> context, OfflinePlayer target) {
-
         val sender = context.getSender();
         val offlineAccount = accountStorage.findAccount(target);
 
         if (offlineAccount == null) {
-
             sender.sendMessage(MessageValue.get(MessageValue::invalidTarget));
             return;
-
         }
 
         offlineAccount.setBalance(0);
@@ -355,7 +305,6 @@ public final class MoneyCommand {
         );
 
         Bukkit.getPluginManager().callEvent(moneyChangeEvent);
-
     }
 
     @Command(
@@ -365,31 +314,25 @@ public final class MoneyCommand {
             async = true
     )
     public void moneyTopCommand(Context<CommandSender> context) {
-
         val rankingStorage = plugin.getRankingStorage();
         val sender = context.getSender();
 
         if (rankingStorage.updateRanking(false)) {
-
             sender.sendMessage(ColorUtil.colored("&aAtualizando o ranking, aguarde alguns segundos."));
             return;
-
         }
 
         val rankingType = RankingValue.get(RankingValue::rankingType);
 
         if (rankingType.equalsIgnoreCase("CHAT")) {
-
             val header = RankingValue.get(RankingValue::chatModelHeader);
             val body = plugin.getRankingChatBody();
             val footer = RankingValue.get(RankingValue::chatModelFooter);
 
             header.forEach(sender::sendMessage);
-            sender.sendMessage(body.getBodyLines());
+            sender.sendMessage(body.getMinecraftBodyLines());
             footer.forEach(sender::sendMessage);
-
         } else {
-
             if (!(sender instanceof Player)) {
 
                 sender.sendMessage(ColorUtil.colored("&cEste tipo de ranking não é suportado via console."));
@@ -405,9 +348,7 @@ public final class MoneyCommand {
                 player.closeInventory();
                 sender.sendMessage(ChatColor.RED + "Não existe jogadores no ranking, aguarde a próxima atualização.");
             }
-
         }
-
     }
 
     @Command(
@@ -419,13 +360,11 @@ public final class MoneyCommand {
             async = true
     )
     public void npcCommand(Context<Player> context) {
-
         val player = context.getSender();
 
         for (String s : ColorUtil.colored(MessageValue.get(MessageValue::npcHelp))) {
             player.sendMessage(s);
         }
-
     }
 
     @Command(
@@ -438,7 +377,6 @@ public final class MoneyCommand {
             async = true
     )
     public void npcAddCommand(Context<Player> context, int position) throws IOException {
-
         val player = context.getSender();
 
         if (!CustomRankingRegistry.getInstance().isEnabled()) {
@@ -481,7 +419,6 @@ public final class MoneyCommand {
 
         player.sendMessage(MessageValue.get(MessageValue::positionSuccessfulCreated).replace("$position", String.valueOf(position)));
         CustomRankingRegistry.getInstance().getRunnable().run();
-
     }
 
     @Command(
@@ -520,7 +457,6 @@ public final class MoneyCommand {
         } catch (Exception exception) {
             player.sendMessage(ColorUtil.colored("&cOcorreu um erro ao salvar o arquivo de localizações."));
         }
-
     }
 
 }

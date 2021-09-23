@@ -4,7 +4,6 @@ import com.Zrips.CMI.CMI;
 import com.Zrips.CMI.Modules.Holograms.CMIHologram;
 import com.gmail.filoghost.holographicdisplays.api.Hologram;
 import com.gmail.filoghost.holographicdisplays.api.HologramsAPI;
-import com.google.common.base.Stopwatch;
 import com.google.common.collect.Lists;
 import com.nextplugins.economy.NextEconomy;
 import com.nextplugins.economy.api.model.account.SimpleAccount;
@@ -18,7 +17,6 @@ import lombok.var;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import java.util.logging.Level;
 
 /**
  * @author Yuhtin
@@ -38,10 +36,6 @@ public final class HologramRunnable implements Runnable {
 
     @Override
     public void run() {
-
-        val visualTime = Stopwatch.createStarted();
-        plugin.getLogger().info("[Ranking] Iniciando atualização de ranking visual");
-
         if (holographicDisplays) HologramsAPI.getHolograms(plugin).forEach(Hologram::delete);
         else {
             for (val entry : HOLOGRAMS) {
@@ -79,10 +73,8 @@ public final class HologramRunnable implements Runnable {
                 if (line.equalsIgnoreCase("@players")) {
                     playerLines.forEach(hologram::appendTextLine);
                 } else hologram.appendTextLine(line);
-
             }
         } else {
-
             val cmiHologram = new CMIHologram("NextEconomy", hologramLocation);
             for (val line : RankingValue.get(RankingValue::hologramDefaultLines)) {
                 if (line.equalsIgnoreCase("@players")) {
@@ -94,10 +86,7 @@ public final class HologramRunnable implements Runnable {
             cmiHologram.update();
 
             HOLOGRAMS.add("NextEconomy");
-
         }
-
-        plugin.getLogger().log(Level.INFO, "[Ranking] Atualização de ranking visual finalizada. ({0})", visualTime);
     }
 
     public List<String> playersLines(Collection<SimpleAccount> accounts) {

@@ -9,7 +9,6 @@ public final class SimpleAccountAdapter implements SQLResultAdapter<SimpleAccoun
 
     @Override
     public SimpleAccount adaptResult(SimpleResultSet resultSet) {
-
         String accountOwner = resultSet.get("owner");
 
         double accountBalance = resultSet.get("balance");
@@ -23,7 +22,6 @@ public final class SimpleAccountAdapter implements SQLResultAdapter<SimpleAccoun
                 .movimentedBalanceFormated(NumberUtils.format(movimentedBalance))
                 .transactionsQuantity(transactionsQuantity)
                 .result();
-
     }
 
 }

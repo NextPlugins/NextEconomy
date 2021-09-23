@@ -30,7 +30,6 @@ public class PayInteractionManager {
     private Consumer<AsyncPlayerChatEvent> consumer;
 
     public void sendRequisition(Player player, boolean inUse) {
-
         val interactionRegistry = NextEconomy.getInstance().getInteractionRegistry();
         if (!interactionRegistry.getOperation().contains(player.getName()))
             interactionRegistry.getOperation().add(player.getName());
@@ -46,11 +45,9 @@ public class PayInteractionManager {
                 .filter(event -> event.getPlayer().getName().equals(player.getName()))
                 .thenAccept(consumer)
                 .await(true);
-
     }
 
     public void sendConfirmation(Player player) {
-
         EventAwaiter.newAwaiter(AsyncPlayerChatEvent.class, NextEconomy.getInstance())
                 .expiringAfter(10, TimeUnit.SECONDS)
                 .withTimeOutAction(() -> {
@@ -71,7 +68,6 @@ public class PayInteractionManager {
                 .filter(event -> event.getPlayer().getName().equals(player.getName()))
                 .thenAccept(consumer)
                 .await(true);
-
     }
 
     public boolean isUsing(Player player) {
@@ -79,29 +75,23 @@ public class PayInteractionManager {
     }
 
     public PayInteractionManager init() {
-
         consumer = event -> {
-
             event.setCancelled(true);
 
             val player = event.getPlayer();
             val message = event.getMessage();
 
             if (message.equalsIgnoreCase("cancelar")) {
-
                 players.remove(player.getName());
                 player.sendMessage(MessageValue.get(MessageValue::interactionCancelled));
                 return;
-
             }
 
             val payInteraction = players.get(player.getName());
             val step = payInteraction.getStep();
 
             switch (step) {
-
                 case PLAYER_NAME: {
-
                     val offlinePlayer = Bukkit.getOfflinePlayer(message);
                     if (offlinePlayer == null) {
 
@@ -117,17 +107,13 @@ public class PayInteractionManager {
 
                     sendRequisition(player, true);
                     return;
-
                 }
 
                 default: {
-
                     val number = NumberUtils.parse(message);
                     if (number < 1) {
-
                         player.sendMessage(MessageValue.get(MessageValue::invalidMoney));
                         return;
-
                     }
 
                     payInteraction.setAmount(number);
@@ -143,22 +129,16 @@ public class PayInteractionManager {
 
                     sendConfirmation(player);
                     return;
-
                 }
 
                 case CONFIRM: {
-
                     player.sendMessage(MessageValue.get(MessageValue::interactionInvalid));
                     sendConfirmation(player);
-
                 }
-
             }
-
         };
 
         return this;
-
     }
 
 }

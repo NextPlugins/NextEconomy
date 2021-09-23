@@ -20,7 +20,6 @@ public final class OpeNChatListener implements Listener {
 
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onPlayerChat(PublicMessageEvent event) {
-
         if (event.isCancelled()) return;
 
         val player = event.getSender();

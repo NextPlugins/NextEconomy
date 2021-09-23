@@ -31,7 +31,6 @@ public final class InventoryButton implements Cloneable {
     private ItemStack itemStack;
 
     public ItemStack getItemStack(String nick) {
-
         String skinName = null;
         if (nick != null) skinName = NextEconomy.getInstance().getSkinsRestorerManager().getSkinName(nick);
 
@@ -52,7 +51,6 @@ public final class InventoryButton implements Cloneable {
     }
 
     public ItemStack updateByNick(String nick) {
-
         InventoryButton button = clone();
 
         ItemStack itemStack = button.getItemStack();
@@ -67,7 +65,6 @@ public final class InventoryButton implements Cloneable {
         }
 
         return itemStack;
-
     }
 
     public ItemStack getItemStack() {

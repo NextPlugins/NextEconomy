@@ -15,6 +15,8 @@ import lombok.val;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 
+import java.util.UUID;
+
 /**
  * @author Yuhtin
  * Github: https://github.com/Yuhtin
@@ -28,7 +30,6 @@ public class PayMoneyCommand implements Command {
 
     @Override
     public void execute(Message message, String[] args) {
-
         val payActionDiscord = payActionDiscordManager.getCache().getIfPresent(message.getAuthor().getIdLong());
         if (payActionDiscord != null) {
             message.reply(":x: Você já está solicitando uma transação, para confirmar use `" + DiscordValue.get(DiscordValue::prefix) + "confirmar`, ou aguarde 1 minuto para expirar.").queue();
@@ -40,26 +41,19 @@ public class PayMoneyCommand implements Command {
 
         val mentionedMembers = message.getMentionedMembers();
         if (mentionedMembers.size() > 1) {
-
             user = mentionedMembers.get(0).getUser();
             if (!user.isBot()) {
-
-                val uuid = DiscordSRV.getPlugin().getAccountLinkManager().getUuid(user.getId());
+                UUID uuid = DiscordSRV.getPlugin().getAccountLinkManager().getUuid(user.getId());
                 if (uuid == null) {
-
                     message.reply(DiscordValue.get(DiscordValue::invalidEmoji) +
                             " Este usuário não vinculou a conta no servidor."
                     ).queue();
                     return;
-
                 }
 
                 player = Bukkit.getOfflinePlayer(uuid);
-
             }
-
         } else if (args.length > 0 && !args[0].equals("")) {
-
             val memberName = args[0];
             try {
                 val id = Long.parseLong(memberName);
@@ -68,40 +62,34 @@ public class PayMoneyCommand implements Command {
                 if (member == null) throw new Exception();
 
                 user = member.getUser();
-                val uuid = DiscordSRV.getPlugin().getAccountLinkManager().getUuid(user.getId());
+                UUID uuid = DiscordSRV.getPlugin().getAccountLinkManager().getUuid(user.getId());
                 if (uuid == null) {
-
                     message.reply(DiscordValue.get(DiscordValue::invalidEmoji) +
                             " Este usuário não vinculou a conta no servidor."
                     ).queue();
                     return;
-
                 }
 
                 player = Bukkit.getOfflinePlayer(uuid);
-
-
             } catch (Exception exception) {
                 player = Bukkit.getOfflinePlayer(memberName);
+                if (player != null && player.hasPlayedBefore()) {
+                    val discordId = DiscordSRV.getPlugin().getAccountLinkManager().getDiscordId(player.getUniqueId());
+                    user = message.getJDA().getUserById(discordId);
+                }
             }
-
-
         }
 
         if (player == null) {
-
             message.reply(DiscordValue.get(DiscordValue::invalidEmoji) +
                     " Você precisa mencionar um usuário, ou inserir um nick válido."
             ).queue();
             return;
-
         }
 
         if (args.length < 2 || args[1].equalsIgnoreCase("")) {
-
             message.reply(DiscordValue.get(DiscordValue::errorEmoji) + " Você precisa inserir o valor que quer enviar.").queue();
             return;
-
         }
 
         val uuid = DiscordSRV.getPlugin().getAccountLinkManager().getUuid(message.getAuthor().getId());
@@ -123,25 +111,19 @@ public class PayMoneyCommand implements Command {
 
         val account = accountStorage.findAccount(offlinePlayer);
         if (account == null) {
-
             message.reply(MessageValue.get(MessageValue::linkDiscord)).queue();
             return;
-
         }
 
         if (accountStorage.findAccount(player) == null) {
-
             message.reply(MessageValue.get(MessageValue::invalidAccountDiscord)).queue();
             return;
-
         }
 
         val value = NumberUtils.parse(args[1]);
         if (!account.hasAmount(value)) {
-
             message.reply(MessageValue.get(MessageValue::noCoinsDiscord)).queue();
             return;
-
         }
 
         val format = NumberUtils.format(value);

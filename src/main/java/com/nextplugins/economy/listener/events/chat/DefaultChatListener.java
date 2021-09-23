@@ -27,7 +27,6 @@ public class DefaultChatListener implements Listener {
 
         interactionRegistry.getOperation().remove(player.getName());
         event.setCancelled(true);
-
     }
 
 }

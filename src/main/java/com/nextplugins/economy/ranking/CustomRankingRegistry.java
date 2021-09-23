@@ -25,14 +25,11 @@ public class CustomRankingRegistry {
     private Runnable runnable;
 
     public static CustomRankingRegistry of(NextEconomy plugin) {
-
         instance.setPlugin(plugin);
         return instance;
-
     }
 
     public void register() {
-
         val pluginManager = Bukkit.getPluginManager();
 
         String type = RankingValue.get(RankingValue::npcType);
@@ -79,7 +76,6 @@ public class CustomRankingRegistry {
 
         enabled = true;
         plugin.getLogger().info("Sistema de NPC e ArmorStand registrado com sucesso.");
-
     }
 
 }

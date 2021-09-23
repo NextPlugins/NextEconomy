@@ -28,7 +28,6 @@ public enum ButtonType {
     }),
 
     YOUR_MONEY(callback -> {
-
         try {
             val historicBankView = InventoryRegistry.getInstance().getHistoricBankView();
             historicBankView.openInventory(callback.getPlayer());
@@ -36,11 +35,9 @@ public enum ButtonType {
             callback.getPlayer().closeInventory();
             callback.getPlayer().sendMessage(ChatColor.RED + "Você ainda não fez uma transação.");
         }
-
     }),
 
     SEND_MONEY(callback -> {
-
         val player = callback.getPlayer();
         player.closeInventory();
 
@@ -51,11 +48,9 @@ public enum ButtonType {
         }
 
         interaction.sendRequisition(player, false);
-
     }),
 
     VIEW_MONEY(callback -> {
-
         val player = callback.getPlayer();
         player.closeInventory();
 
@@ -69,7 +64,6 @@ public enum ButtonType {
         }
 
         interaction.sendRequisition(player);
-
     }),
 
     TOP_MONEY(callback -> {

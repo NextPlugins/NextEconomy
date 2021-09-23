@@ -23,18 +23,9 @@ public class PurseListener implements Listener {
 
     @EventHandler(priority = EventPriority.MONITOR)
     public void onPurseUpdate(AsyncPurseUpdateEvent event) {
+        if (event.isCancelled()) return;
 
         val purseAPI = PurseAPI.getInstance();
-
-        if (event.isCancelled()) {
-
-            if (!PurseAPI.isAvaliable()) return;
-            purseAPI.setNextUpdate(event.getUpdateMillis());
-
-            return;
-
-        }
-
         purseAPI.setPurse(event.getNewValue());
 
         boolean equals = event.getNewValue() == event.getLastValue();
@@ -78,7 +69,6 @@ public class PurseListener implements Listener {
             SoundUtils.sendSound(onlinePlayer, sound);
             for (String line : message) onlinePlayer.sendMessage(line);
         }
-
     }
 
 }

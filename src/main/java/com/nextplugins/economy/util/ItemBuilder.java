@@ -30,7 +30,6 @@ public class ItemBuilder {
     }
 
     public ItemBuilder(String name) {
-
         item = SKULL_ITEM.clone();
 
         SkullMeta meta = (SkullMeta) item.getItemMeta();
@@ -45,7 +44,6 @@ public class ItemBuilder {
         LeatherArmorMeta meta = (LeatherArmorMeta) item.getItemMeta();
         meta.setColor(color);
         item.setItemMeta(meta);
-
     }
 
     public ItemBuilder changeItemMeta(Consumer<ItemMeta> consumer) {

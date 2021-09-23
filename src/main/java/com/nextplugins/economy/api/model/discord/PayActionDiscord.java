@@ -32,13 +32,11 @@ public class PayActionDiscord {
     private final double value;
 
     public RestAction<Message> getMessage() {
-
         val jda = DiscordSRV.getPlugin().getJda();
         val textChannelById = jda.getTextChannelById(textChannelId);
         if (textChannelById == null) return null;
 
         return textChannelById.retrieveMessageById(messageId);
-
     }
 
 }

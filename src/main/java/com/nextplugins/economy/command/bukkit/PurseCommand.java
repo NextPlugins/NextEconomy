@@ -25,25 +25,18 @@ public class PurseCommand {
             async = true
     )
     public void onPurseCommand(Context<Player> context) {
-
         val purseAPI = PurseAPI.getInstance();
         if (purseAPI == null) {
-
             context.sendMessage(ColorUtil.colored("&cSistema desativado."));
             return;
-
         }
 
         if (!InventoryValue.get(InventoryValue::enable)) {
-
             context.sendMessage(MessageValue.get(MessageValue::purseChatMessage).replace("$value", purseAPI.getPurseFormatedWithIcon()));
             return;
-
         }
 
-        // uau
         context.getSender().performCommand("money");
-
     }
 
     @Command(
@@ -55,24 +48,18 @@ public class PurseCommand {
             async = true
     )
     public void onSetPurseCommand(Context<CommandSender> context, int number) {
-
         val instance = PurseAPI.getInstance();
         if (instance == null) {
-
             context.sendMessage(ColorUtil.colored("&cSistema desativado."));
             return;
-
         }
 
         if (NumberUtils.isInvalid(number)) {
-
             context.sendMessage(ColorUtil.colored("&cValor precisa ser positivo."));
             return;
-
         }
 
         instance.updatePurse(number);
-
     }
 
 }

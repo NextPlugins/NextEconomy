@@ -22,7 +22,6 @@ public final class VaultHookRegistry {
                 );
 
         getPlugin().getLogger().info("Associação com o 'Vault' realizada com sucesso.");
-
         return this;
     }
 

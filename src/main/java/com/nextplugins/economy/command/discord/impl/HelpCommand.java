@@ -17,7 +17,6 @@ public class HelpCommand implements Command {
 
     @Override
     public void execute(Message message, String[] args) {
-
         val stringBuilder = new StringBuilder();
         for (val line : DiscordValue.get(DiscordValue::helpDescription)) {
             stringBuilder.append(line).append("\n");

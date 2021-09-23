@@ -1,11 +1,12 @@
 package com.nextplugins.economy.listener.events.update;
 
-import com.google.common.base.Stopwatch;
 import com.nextplugins.economy.NextEconomy;
 import com.nextplugins.economy.api.event.operations.AsyncMoneyTopPlayerChangedEvent;
 import com.nextplugins.economy.api.event.operations.AsyncRankingUpdateEvent;
+import com.nextplugins.economy.api.group.Group;
 import com.nextplugins.economy.api.group.GroupWrapperManager;
 import com.nextplugins.economy.api.model.account.SimpleAccount;
+import com.nextplugins.economy.configuration.DiscordValue;
 import com.nextplugins.economy.configuration.RankingValue;
 import com.nextplugins.economy.dao.repository.AccountRepository;
 import com.nextplugins.economy.ranking.CustomRankingRegistry;
@@ -20,7 +21,6 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 
 import java.util.LinkedList;
-import java.util.logging.Level;
 
 /**
  * @author Yuhtin
@@ -37,11 +37,10 @@ public class RankingListener implements Listener {
 
     @EventHandler(priority = EventPriority.MONITOR)
     public void onRankingUpdate(AsyncRankingUpdateEvent event) {
-        val pluginInstance = NextEconomy.getInstance();
-        val loadTime = Stopwatch.createStarted();
-        val pluginManager = Bukkit.getPluginManager();
+        if (event.isCancelled()) return;
 
-        NextEconomy.getInstance().getAccountStorage().flushData();
+        val pluginInstance = NextEconomy.getInstance();
+        val pluginManager = Bukkit.getPluginManager();
 
         SimpleAccount lastAccount = null;
         if (!rankingStorage.getRankByCoin().isEmpty()) {
@@ -65,14 +64,15 @@ public class RankingListener implements Listener {
             val chatRanking = rankingType.equals("CHAT");
 
             val bodyLines = new LinkedList<String>();
+            val stringBuilder = DiscordValue.get(DiscordValue::enable) ? new StringBuilder() : null;
             int position = 1;
             for (SimpleAccount account : accounts) {
                 if (position == 1) rankingStorage.setTopPlayer(account.getUsername());
                 rankingStorage.getRankByCoin().put(account.getUsername(), account);
 
+                Group group = chatRanking || stringBuilder != null ? groupManager.getGroup(account.getUsername()) : null;
                 if (chatRanking) {
                     val body = RankingValue.get(RankingValue::chatModelBody);
-                    val group = groupManager.getGroup(account.getUsername());
                     bodyLines.add(body
                             .replace("$position", String.valueOf(position))
                             .replace("$prefix", group.getPrefix())
@@ -82,10 +82,24 @@ public class RankingListener implements Listener {
                             .replace("$amount", account.getBalanceFormated()));
                 }
 
+                if (stringBuilder != null) {
+                    if (position == 1) stringBuilder.append(DiscordValue.get(DiscordValue::topEmoji));
+
+                    val line = DiscordValue.get(DiscordValue::topLine);
+                    stringBuilder.append(line
+                            .replace("$position", String.valueOf(position))
+                            .replace("$username", account.getUsername())
+                            .replace("$prefix", group.getPrefix())
+                            .replace("$suffix", group.getSuffix())
+                            .replace("$amount", account.getBalanceFormated())
+                    ).append("\n");
+                }
+
                 position++;
             }
 
-            rankingChatBody.setBodyLines(bodyLines.toArray(new String[]{}));
+            rankingChatBody.setMinecraftBodyLines(bodyLines.toArray(new String[]{}));
+            rankingChatBody.setDiscordBodyLines(stringBuilder == null ? "" : stringBuilder.toString());
 
             if (lastAccount != null) {
 
@@ -99,20 +113,17 @@ public class RankingListener implements Listener {
             }
 
         } else {
-            rankingChatBody.setBodyLines(new String[]{ColorUtil.colored(
+            rankingChatBody.setMinecraftBodyLines(new String[]{ColorUtil.colored(
                     "  &cNenhum jogador está no ranking!"
             )});
-            pluginInstance.getLogger().info("[Ranking] Não tem nenhum jogador no ranking");
-        }
 
-        pluginInstance.getLogger().log(Level.INFO, "[Ranking] Atualização do ranking feita com sucesso. ({0})", loadTime);
+            rankingChatBody.setDiscordBodyLines(":x: Nenhum jogador está no ranking!");
+        }
 
         val instance = CustomRankingRegistry.getInstance();
         if (!instance.isEnabled()) return;
 
-        // Leave from async. Entities can't be spawned in async.
         Bukkit.getScheduler().runTaskLater(pluginInstance, instance.getRunnable(), 20L);
-
     }
 
 }

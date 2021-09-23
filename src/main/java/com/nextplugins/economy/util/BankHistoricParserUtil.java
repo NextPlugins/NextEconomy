@@ -17,7 +17,6 @@ import java.util.List;
 public final class BankHistoricParserUtil {
 
     public static String parse(List<AccountBankHistoric> historic) {
-
         if (historic.isEmpty()) return "";
 
         val stringBuilder = new StringBuilder();

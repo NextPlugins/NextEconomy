@@ -16,14 +16,12 @@ public final class CommandMap {
         if (!key.startsWith(prefix)) key = prefix + key;
 
         commands.put(key, value);
-
         for (String alias : aliases) {
 
             if (!alias.startsWith(prefix)) alias = prefix + alias;
             commands.put(alias, value);
 
         }
-
     }
 
 }

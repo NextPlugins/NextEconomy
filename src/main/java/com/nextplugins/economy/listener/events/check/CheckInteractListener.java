@@ -22,7 +22,6 @@ public final class CheckInteractListener implements Listener {
 
     @EventHandler(ignoreCancelled = true, priority = EventPriority.HIGHEST)
     public void onCheckInteract(PlayerInteractEvent event) {
-
         val player = event.getPlayer();
 
         val item = player.getItemInHand();
@@ -40,10 +39,8 @@ public final class CheckInteractListener implements Listener {
 
         var value = nbtItem.getDouble(checkField) * item.getAmount();
         if (player.isSneaking()) {
-
             val contents = player.getInventory().getContents();
             for (int i = 0; i < contents.length; i++) {
-
                 val content = contents[i];
                 if (content == null || content.getType() == Material.AIR) continue;
 
@@ -52,11 +49,9 @@ public final class CheckInteractListener implements Listener {
 
                 value += contentNbt.getDouble(checkField) * content.getAmount();
                 contents[i] = null;
-
             }
 
             player.getInventory().setContents(contents);
-
         }
 
         val account = accountStorage.findAccount(player);
@@ -70,10 +65,8 @@ public final class CheckInteractListener implements Listener {
         );
 
         if (!response.transactionSuccess()) {
-
             player.sendMessage(MessageValue.get(MessageValue::invalidMoney));
             return;
-
         }
 
         player.sendMessage(
@@ -81,7 +74,6 @@ public final class CheckInteractListener implements Listener {
                         .replace("$checkAmount", NumberUtils.format(item.getAmount()))
                         .replace("$checkTotalValue", NumberUtils.format(value))
         );
-
     }
 
 }

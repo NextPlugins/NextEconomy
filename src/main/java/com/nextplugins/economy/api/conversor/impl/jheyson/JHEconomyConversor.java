@@ -20,7 +20,6 @@ public class JHEconomyConversor extends Conversor {
 
     @Override
     public Set<Account> lookupPlayers() {
-
         if (getExecutor() == null) {
             val file = new File("/plugins/JH_Economy/contas.save");
             if (!file.exists()) return Sets.newHashSet();

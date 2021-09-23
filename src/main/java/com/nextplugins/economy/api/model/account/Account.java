@@ -41,12 +41,10 @@ public class Account {
     @Builder.Default private boolean receiveCoins = true;
 
     public static Account createDefault(String name) {
-
         return Account.generate()
                 .username(name)
                 .balance(FeatureValue.get(FeatureValue::initialBalance))
                 .result();
-
     }
 
     /**
@@ -66,7 +64,6 @@ public class Account {
                                  double movimentedBalance,
                                  int transactionsQuantity,
                                  LinkedList<AccountBankHistoric> transactions) {
-
         return new Account(
                 name,
                 "Nenhum configurado",
@@ -77,7 +74,6 @@ public class Account {
                 "",
                 true
         );
-
     }
 
     public String getDiscordName() {
@@ -119,7 +115,6 @@ public class Account {
                                                           double quantity,
                                                           double valueWithoutPurse,
                                                           @NotNull TransactionType transactionType) {
-
         if (NumberUtils.isInvalid(quantity)) {
             return new EconomyResponse(
                     quantity, balance,
@@ -147,7 +142,6 @@ public class Account {
         if (this.balance < 0) this.balance = 0;
 
         if (owner != null) {
-
             ++transactionsQuantity;
 
             val historic = AccountBankHistoric.builder()
@@ -159,11 +153,9 @@ public class Account {
             if (transactions.size() >= 56) transactions.remove(0);
             transactions.add(historic);
             transactions.sort(new BankHistoricComparator());
-
         }
 
         if (player != null) {
-
             val moneyChangeEvent = new MoneyChangeEvent(
                     player,
                     this,
@@ -192,7 +184,6 @@ public class Account {
                 else ActionBarUtils.sendActionBar(player, purseMessage);
 
             }
-
         }
 
         return new EconomyResponse(quantity, balance, EconomyResponse.ResponseType.SUCCESS, "Operação realizada com sucesso.");

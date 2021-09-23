@@ -31,10 +31,8 @@ public final class AccountStorage {
             .buildAsync((key, executor) -> CompletableFuture.completedFuture(selectOne(key)));
 
     public void init() {
-
         accountRepository.createTable();
         NextEconomy.getInstance().getLogger().info("DAO do plugin iniciado com sucesso.");
-
     }
 
     public void saveOne(Account account) {
@@ -53,13 +51,11 @@ public final class AccountStorage {
      */
     @Nullable
     public Account findAccountByName(String name) {
-
         try { return cache.get(name).get(); } catch (InterruptedException | ExecutionException exception) {
             Thread.currentThread().interrupt();
             exception.printStackTrace();
             return null;
         }
-
     }
 
     /**
@@ -72,16 +68,12 @@ public final class AccountStorage {
      */
     @Nullable
     public Account findAccount(@NotNull OfflinePlayer offlinePlayer) {
-
         if (offlinePlayer.isOnline()) {
-
             val player = offlinePlayer.getPlayer();
             if (player != null) return findAccount(player);
-
         }
 
         return findAccountByName(offlinePlayer.getName());
-
     }
 
     /**
@@ -92,17 +84,13 @@ public final class AccountStorage {
      */
     @NotNull
     public Account findAccount(@NotNull Player player) {
-
         Account account = findAccountByName(player.getName());
         if (account == null) {
-
             account = Account.createDefault(player.getName());
             put(account);
-
         }
 
         return account;
-
     }
 
     /**

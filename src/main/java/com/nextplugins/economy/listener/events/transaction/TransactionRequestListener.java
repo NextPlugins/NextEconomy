@@ -18,7 +18,6 @@ public final class TransactionRequestListener implements Listener {
 
     @EventHandler(priority = EventPriority.MONITOR)
     public void onRequest(TransactionRequestEvent event) {
-
         if (event.isCancelled()) return;
 
         val player = event.getPlayer();
@@ -81,7 +80,6 @@ public final class TransactionRequestListener implements Listener {
         } else {
             player.sendMessage(MessageValue.get(MessageValue::insufficientAmount));
         }
-
     }
 
 }

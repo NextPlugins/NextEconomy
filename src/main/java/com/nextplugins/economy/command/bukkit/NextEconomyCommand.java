@@ -24,8 +24,6 @@ import me.saiintbrisson.minecraft.command.command.Context;
 import net.citizensnpcs.api.CitizensAPI;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Player;
-import org.bukkit.entity.Villager;
 
 import java.io.File;
 import java.util.Arrays;
@@ -62,7 +60,6 @@ public final class NextEconomyCommand {
     )
     public void onBackupCommand(Context<CommandSender> context,
                                 @Optional String name) {
-
         context.sendMessage(ColorUtil.colored("&aIniciando criação do backup."));
 
         val backup = backupManager.createBackup(
@@ -74,19 +71,16 @@ public final class NextEconomyCommand {
         );
 
         if (backup.getResponseType() == ResponseType.NAME_IN_USE) {
-
             context.sendMessage(ColorUtil.colored(
                     "&cJá existe um backup com este nome",
                     "&a&LDICA: &fDeixe o nome vazio para gerar um backup com a data e hora atual."
             ));
             return;
-
         }
 
         if (backup.getResponseType() == ResponseType.BACKUP_IN_PROGRESS) {
             context.sendMessage(ColorUtil.colored("&cJá existe um backup em andamento."));
         }
-
     }
 
     @Command(
@@ -95,18 +89,14 @@ public final class NextEconomyCommand {
             async = true
     )
     public void onForceRankingUpdate(Context<CommandSender> context) {
-
         context.sendMessage(ColorUtil.colored("&aIniciando atualização do ranking"));
 
         if (!rankingStorage.updateRanking(true)) {
-
             context.sendMessage(ColorUtil.colored("&cNão foi possível atualizar o ranking"));
             return;
-
         }
 
         context.sendMessage(ColorUtil.colored("&aRanking atualizado com sucesso."));
-
     }
 
     @Command(
@@ -115,7 +105,6 @@ public final class NextEconomyCommand {
             async = true
     )
     public void onRankingDebug(Context<CommandSender> context) {
-
         val pluginManager = Bukkit.getPluginManager();
         if (!pluginManager.isPluginEnabled("HolographicDisplays")) {
             context.sendMessage(ColorUtil.colored("&cO plugin HolographicDisplays precisa estar ativo para usar esta função."));
@@ -163,7 +152,6 @@ public final class NextEconomyCommand {
         }
 
         context.sendMessage(ColorUtil.colored("&aTodos os NPCs, ArmorStands e Hologramas foram limpos com sucesso."));
-
     }
 
     @Command(

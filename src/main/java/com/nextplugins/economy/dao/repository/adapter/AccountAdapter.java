@@ -10,7 +10,6 @@ public final class AccountAdapter implements SQLResultAdapter<Account> {
 
     @Override
     public Account adaptResult(SimpleResultSet resultSet) {
-
         String accountOwner = resultSet.get("owner");
         String transactions = resultSet.get("transactions");
 
@@ -29,7 +28,6 @@ public final class AccountAdapter implements SQLResultAdapter<Account> {
                 .transactionsQuantity(transactionsQuantity)
                 .transactions(accountBankHistorics)
                 .result();
-
     }
 
 }

@@ -37,12 +37,10 @@ public class ConversorManager {
     private int actionBarTaskID;
 
     public Conversor getByName(String name) {
-
         return conversors.stream()
                 .filter(conversor -> conversor.getConversorName().equalsIgnoreCase(name))
                 .findAny()
                 .orElse(null);
-
     }
 
     public String availableConversors() {
@@ -56,30 +54,24 @@ public class ConversorManager {
     }
 
     public boolean checkConversorAvailability(@Nullable CommandSender sender) {
-
         if (sender == null) return !converting && Bukkit.getOnlinePlayers().isEmpty();
 
         if (converting) {
-
             sender.sendMessage(ColorUtil.colored(
                     "&cVocê já está convertendo uma tabela, aguarde a finalização da mesma."
             ));
             return false;
-
         }
 
         int maxPlayers = sender instanceof Player ? 1 : 0;
         if (Bukkit.getOnlinePlayers().size() > maxPlayers) {
-
             sender.sendMessage(ColorUtil.colored(
                     "&cEsta função só pode ser usada com apenas você online."
             ));
             return false;
-
         }
 
         return true;
-
     }
 
     /**
@@ -94,18 +86,14 @@ public class ConversorManager {
                                 @NotNull Set<Account> accounts,
                                 @Nullable String conversorName,
                                 Stopwatch stopwatch) {
-
         val converted = new AtomicInteger();
         Bukkit.getScheduler().runTaskAsynchronously(
                 NextEconomy.getInstance(),
                 () -> {
-
                     for (val account : accounts) {
-
                         account.setTransactions(new LinkedList<>());
                         accountRepository.saveOne(account);
                         converted.incrementAndGet();
-
                     }
 
                     stopwatch.stop();
@@ -117,7 +105,6 @@ public class ConversorManager {
 
                     this.converting = false;
                     Bukkit.getScheduler().cancelTask(this.actionBarTaskID);
-
                 }
         );
 
@@ -142,7 +129,6 @@ public class ConversorManager {
             );
 
         }, 0L, 20L).getTaskId();
-
     }
 
 }

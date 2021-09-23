@@ -26,6 +26,7 @@ public final class DiscordCommandRegistry implements Listener {
     private boolean enabled;
 
     public void init() {
+        if (!DiscordValue.get(DiscordValue::enable)) return;
 
         val plugin = NextEconomy.getInstance();
         if (plugin.getPayActionDiscordManager() == null) {
@@ -55,7 +56,6 @@ public final class DiscordCommandRegistry implements Listener {
         DiscordSRV.api.subscribe(commandHandler);
 
         plugin.getLogger().info("A integração com o discord foi realizada com sucesso.");
-
     }
 
 }

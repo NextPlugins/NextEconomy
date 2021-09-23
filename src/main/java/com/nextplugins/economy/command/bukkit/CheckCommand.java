@@ -31,10 +31,8 @@ public final class CheckCommand {
             async = true
     )
     public void checkCommand(Context<CommandSender> context) {
-
         val helpMessage = MessageValue.get(MessageValue::checkHelpCommand);
         helpMessage.forEach(context::sendMessage);
-
     }
 
     @Command(
@@ -47,7 +45,6 @@ public final class CheckCommand {
             async = true
     )
     public void createCheckCommand(Context<Player> context, String value, @Optional Player target) {
-
         val player = context.getSender();
         val amount = NumberUtils.parse(value);
 
@@ -75,13 +72,11 @@ public final class CheckCommand {
         );
 
         if (!response.transactionSuccess()) {
-
             player.sendMessage(
                     MessageValue.get(MessageValue::checkMinimumValue)
                             .replace("$amount", NumberUtils.format(minValue))
             );
             return;
-
         }
 
         player.sendMessage(
@@ -91,7 +86,6 @@ public final class CheckCommand {
 
         val checkItem = CheckUtil.createCheck(amount);
         if (target != null) {
-
             target.sendMessage(
                     MessageValue.get(MessageValue::checkReceived)
                             .replace("$checkValue", NumberUtils.format(amount))
@@ -100,11 +94,9 @@ public final class CheckCommand {
 
             dropItem(target, target.getInventory().addItem(checkItem));
             return;
-
         }
 
         dropItem(player, player.getInventory().addItem(checkItem));
-
     }
 
     private void dropItem(Player player, Map<Integer, ItemStack> addItem) {

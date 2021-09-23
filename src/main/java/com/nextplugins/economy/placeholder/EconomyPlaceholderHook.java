@@ -30,16 +30,13 @@ public final class EconomyPlaceholderHook extends PlaceholderExpansion {
 
     @Override
     public String onPlaceholderRequest(Player player, String params) {
-
         if (params.startsWith("purse")) {
-
             val purse = PurseAPI.getInstance();
             if (purse == null) return "Bolsa Desativada";
 
             if (params.equalsIgnoreCase("purse")) return purse.getPurseFormated();
             else if (params.equalsIgnoreCase("purse_only_value")) return String.valueOf(purse.getPurse());
             else return purse.getPurseFormatedWithIcon();
-
         }
 
         val account = plugin.getAccountStorage().findAccount(player);
@@ -48,12 +45,9 @@ public final class EconomyPlaceholderHook extends PlaceholderExpansion {
         }
 
         if (params.equalsIgnoreCase("tycoon")) {
-
             val rankingStorage = NextEconomy.getInstance().getRankingStorage();
             return rankingStorage.getTycoonTag(player.getName());
-
         }
-
 
         return "Placeholder inválida";
     }

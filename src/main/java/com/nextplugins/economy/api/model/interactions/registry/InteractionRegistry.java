@@ -22,12 +22,10 @@ public final class InteractionRegistry {
     private LookupInteractionManager lookupInteractionManager;
 
     public void init() {
-
         this.payInteractionManager = new PayInteractionManager().init();
         this.lookupInteractionManager = new LookupInteractionManager().init();
 
         NextEconomy.getInstance().getLogger().info("Interações via chat registradas com sucesso.");
-
     }
 
 }

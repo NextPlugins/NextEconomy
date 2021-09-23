@@ -21,7 +21,6 @@ public class SkinsRestorerManager {
 
         if (!enabled) return;
         NextEconomy.getInstance().getLogger().info("[Skins] Integrado com sucesso com o plugin 'SkinsRestorer'");
-
     }
 
     @NotNull public String getSkinName(String player) {

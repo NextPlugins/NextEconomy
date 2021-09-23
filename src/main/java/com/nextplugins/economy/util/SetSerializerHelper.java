@@ -14,17 +14,13 @@ public class SetSerializerHelper<T> {
     private static final Gson GSON = new GsonBuilder().setPrettyPrinting().create();
 
     public Set<T> fromJson(String data) {
-
         Type typeOfHashMap = new TypeToken<Set<T>>() {}.getType();
         return GSON.fromJson(data, typeOfHashMap);
-
     }
 
     public Set<T> fromJson(FileReader reader) {
-
         Type typeOfHashMap = new TypeToken<Set<T>>() {}.getType();
         return GSON.fromJson(reader, typeOfHashMap);
-
     }
 
     public String toJson(Set<T> data) {

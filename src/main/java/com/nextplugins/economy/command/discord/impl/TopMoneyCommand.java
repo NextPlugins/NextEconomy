@@ -21,12 +21,9 @@ public class TopMoneyCommand implements Command {
 
     @Override
     public void execute(Message message, String[] args) {
-
         if (rankingStorage.updateRanking(false)) {
-
             message.reply(DiscordValue.get(DiscordValue::loadingEmoji) + " Atualizando o ranking, aguarde alguns segundos.").queue();
             return;
-
         }
 
         val embedBuilder = new EmbedBuilder()
@@ -41,30 +38,9 @@ public class TopMoneyCommand implements Command {
             embedBuilder.setTimestamp(Instant.now());
         }
 
-        val stringBuilder = new StringBuilder();
-        if (rankingStorage.getRankByCoin().isEmpty()) {
-            stringBuilder.append(":x: Nenhum jogador está no ranking!");
-        }
-
-        val line = DiscordValue.get(DiscordValue::topLine);
-
-        int position = 1;
-        for (val economyUser : rankingStorage.getRankByCoin().values()) {
-
-            if (position == 1) stringBuilder.append(DiscordValue.get(DiscordValue::topEmoji));
-            stringBuilder.append(line
-                    .replace("$postion", String.valueOf(position))
-                    .replace("$username", economyUser.getUsername())
-                    .replace("$coins", economyUser.getBalanceFormated())
-            ).append("\n");
-
-            ++position;
-
-        }
-
-        embedBuilder.setDescription(DiscordValue.get(DiscordValue::topDescription) + "\n\n" + stringBuilder);
+        val bodyLines = NextEconomy.getInstance().getRankingChatBody().getDiscordBodyLines();
+        embedBuilder.setDescription(DiscordValue.get(DiscordValue::topDescription) + "\n\n" + bodyLines);
         message.reply(embedBuilder.build()).queue();
-
     }
 
 }

@@ -17,7 +17,6 @@ public final class MoneyGiveListener implements Listener {
 
     @EventHandler(priority = EventPriority.MONITOR)
     public void onDeposit(MoneyGiveEvent event) {
-
         if (event.isCancelled()) return;
 
         val sender = event.getSender();
@@ -26,10 +25,8 @@ public final class MoneyGiveListener implements Listener {
 
         val targetAccount = accountStorage.findAccount(target);
         if (targetAccount == null) {
-
             sender.sendMessage(MessageValue.get(MessageValue::invalidTarget));
             return;
-
         }
 
         val response = targetAccount.createTransaction(
@@ -41,10 +38,8 @@ public final class MoneyGiveListener implements Listener {
         );
 
         if (!response.transactionSuccess()) {
-
             sender.sendMessage(MessageValue.get(MessageValue::invalidMoney));
             return;
-
         }
 
         sender.sendMessage(MessageValue.get(MessageValue::addAmount)

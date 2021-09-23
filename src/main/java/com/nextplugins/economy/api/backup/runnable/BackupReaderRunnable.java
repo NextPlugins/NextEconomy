@@ -38,16 +38,13 @@ public final class BackupReaderRunnable implements Runnable {
 
     @Override
     public void run() {
-
         File restaurationFile = null;
 
         val logger = NextEconomy.getInstance().getLogger();
         try {
-
             val accountRepository = NextEconomy.getInstance().getAccountRepository();
 
             if (!restauration) {
-
                 backupManager.setBackuping(false);
 
                 logger.info("Criando um ponto de restauração para caso ocorra um erro.");
@@ -61,15 +58,12 @@ public final class BackupReaderRunnable implements Runnable {
                 if (response.getResponseType() == ResponseType.SUCCESS) {
                     restaurationFile = response.getFile();
                 } else {
-
                     logger.warning("O ponto de restauração não pode ser criado. (" + response.getResponseType() + ")");
                     logger.warning("Cancelando o carregamento do backup.");
 
                     commandSender.sendMessage(ColorUtil.colored("&cOcorreu um erro, observe o console!"));
                     return;
-
                 }
-
             }
 
             backupManager.setBackuping(true);
@@ -96,7 +90,6 @@ public final class BackupReaderRunnable implements Runnable {
             backupManager.setBackuping(false);
 
         } catch (IOException exception) {
-
             backupManager.setBackuping(false);
 
             Thread.currentThread().interrupt();
@@ -105,12 +98,9 @@ public final class BackupReaderRunnable implements Runnable {
             logger.severe("Não foi possível ler os dados do arquivo.");
 
             if (restaurationFile != null) {
-
                 logger.severe("Tentando utilizar o backup de restauração!");
                 backupManager.loadBackup(commandSender, restaurationFile, true, true);
-
             }
-
         }
 
     }
