@@ -87,7 +87,6 @@ public final class NextEconomy extends JavaPlugin {
 
     @Override
     public void onLoad() {
-
         saveDefaultConfig();
 
         npcFile = new File(getDataFolder(), "npcs.yml");
@@ -142,7 +141,6 @@ public final class NextEconomy extends JavaPlugin {
         ConversorRegistry.of(this).register();
 
         Bukkit.getScheduler().runTaskLater(this, () -> {
-
             PlaceholderRegistry.of(this).register();
             CustomRankingRegistry.of(this).register();
             ListenerRegistry.of(this).register();
@@ -160,7 +158,6 @@ public final class NextEconomy extends JavaPlugin {
 
             skinsRestorerManager.init();
             purgeBackups();
-
         }, 150L);
 
         loadTime.stop();
@@ -242,7 +239,6 @@ public final class NextEconomy extends JavaPlugin {
                     getLogger().warning("Não foi possível apagar o backup " + file.getName() + ".");
                 }
             } catch (Exception exception) {
-                continue;
             }
         }
     }
