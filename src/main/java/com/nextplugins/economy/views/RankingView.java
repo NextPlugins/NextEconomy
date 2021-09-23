@@ -152,10 +152,8 @@ public final class RankingView extends PagedInventory {
                         )
                         .wrap())
                 .defaultCallback(event -> {
-
                     rankingSorterType.put(viewer.getName(), currentFilter.incrementAndGet() > 0 ? -1 : currentFilter.get());
                     event.updateInventory();
-
                 });
     }
 

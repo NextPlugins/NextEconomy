@@ -31,8 +31,8 @@ ranking:
         - ''
     inventory:
       title: 'Ranking de Jogadores (Coins)'
-      head-display-name-top: '$tycoonTag&e$positionº &8- &f$player'
-      head-display-name: '&e$positionº $prefix$player$suffix'
+      head-display-name-top: '&f$positionº, &7$tycoon$prefix$player$suffix'
+      head-display-name: '&f$positionº, &7$prefix$player$suffix'
       head-lore:
         - ''
         - ' &7Quantia: &e$amount'
