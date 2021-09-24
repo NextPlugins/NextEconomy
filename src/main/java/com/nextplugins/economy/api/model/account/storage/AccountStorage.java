@@ -107,8 +107,6 @@ public final class AccountStorage {
         synchronous.cleanUp();
         synchronous.invalidateAll();
         synchronous.cleanUp();
-
-        NextEconomy.getInstance().getLogger().info("Jogadores salvos com sucesso");
     }
 
 }

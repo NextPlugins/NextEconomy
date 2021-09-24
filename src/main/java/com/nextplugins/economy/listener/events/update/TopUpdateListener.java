@@ -1,5 +1,6 @@
 package com.nextplugins.economy.listener.events.update;
 
+import com.nextplugins.economy.NextEconomy;
 import com.nextplugins.economy.api.event.operations.AsyncMoneyTopPlayerChangedEvent;
 import com.nextplugins.economy.configuration.MessageValue;
 import com.nextplugins.economy.configuration.RankingValue;
@@ -20,11 +21,9 @@ public class TopUpdateListener implements Listener {
 
     @EventHandler(priority = EventPriority.MONITOR)
     public void onTopUpdate(AsyncMoneyTopPlayerChangedEvent event) {
-
         if (event.isCancelled()) return;
 
         val username = event.getMoneyTop().getUsername();
-
         if (MessageValue.get(MessageValue::enableMoneyTopMessage)) {
             val title = MessageValue.get(MessageValue::moneyTopTitle)
                     .replace("$player", username);
@@ -48,13 +47,14 @@ public class TopUpdateListener implements Listener {
             }
         }
 
-        for (String s : RankingValue.get(RankingValue::tycoonCommands)) {
-            Bukkit.dispatchCommand(
-                    Bukkit.getConsoleSender(),
-                    s.replace("$currentTycoon", username).replace("$lastTycoon", event.getLastMoneyTop().getUsername())
-            );
-        }
-
+        Bukkit.getScheduler().runTask(NextEconomy.getInstance(), () -> {
+            for (String s : RankingValue.get(RankingValue::tycoonCommands)) {
+                Bukkit.dispatchCommand(
+                        Bukkit.getConsoleSender(),
+                        s.replace("$currentTycoon", username).replace("$lastTycoon", event.getLastMoneyTop().getUsername())
+                );
+            }
+        });
     }
 
 }
