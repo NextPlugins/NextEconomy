@@ -89,7 +89,7 @@ public final class RankingView extends PagedInventory {
                 val replacedDisplayName = (finalPosition == 1
                         ? RankingValue.get(RankingValue::inventoryModelHeadDisplayNameTop)
                         : RankingValue.get(RankingValue::inventoryModelHeadDisplayName))
-                        .replace("$tycoonTag", tycoonTag)
+                        .replace("$tycoon", tycoonTag)
                         .replace("$position", String.valueOf(finalPosition))
                         .replace("$player", name)
                         .replace("$prefix", group.getPrefix())
