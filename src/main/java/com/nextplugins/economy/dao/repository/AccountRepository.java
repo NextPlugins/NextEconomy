@@ -18,7 +18,8 @@ public final class AccountRepository {
 
     private static final String TABLE = "nexteconomy_data";
 
-    @Getter private final SQLExecutor sqlExecutor;
+    @Getter
+    private final SQLExecutor sqlExecutor;
 
     public void createTable() {
 
@@ -39,7 +40,8 @@ public final class AccountRepository {
 
             try {
                 sqlExecutor.updateQuery("ALTER TABLE " + TABLE + " ADD COLUMN receiveCoins INTEGER NOT NULL DEFAULT 1");
-            } catch (Exception ignored) { }
+            } catch (Exception ignored) {
+            }
 
             config.set("database.version", "2.0.0");
 
@@ -89,17 +91,23 @@ public final class AccountRepository {
         this.sqlExecutor.updateQuery(
                 String.format("REPLACE INTO %s VALUES(?,?,?,?,?,?)", TABLE),
                 statement -> {
-
                     statement.set(1, account.getUsername());
                     statement.set(2, account.getBalance());
                     statement.set(3, account.getMovimentedBalance());
                     statement.set(4, account.getTransactionsQuantity());
                     statement.set(5, BankHistoricParserUtil.parse(account.getTransactions()));
                     statement.set(6, account.isReceiveCoins() ? 1 : 0);
-
                 }
         );
+    }
 
+    public void updateOne(Account account) {
+        this.sqlExecutor.updateQuery(
+                String.format("UPDATE %s SET balance=? WHERE owner=?", TABLE),
+                statement -> {
+                    statement.set(1, account.getBalance());
+                    statement.set(2, account.getUsername());
+                });
     }
 
 }
