@@ -21,6 +21,7 @@ import com.nextplugins.economy.util.ItemBuilder;
 import com.nextplugins.economy.util.TimeUtils;
 import lombok.val;
 import org.bukkit.Material;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -52,18 +53,16 @@ public final class RankingView extends PagedInventory {
     }
 
     @Override
-    protected void configureInventory(Viewer viewer, InventoryEditor editor) {
+    protected void configureInventory(@NotNull Viewer viewer, @NotNull InventoryEditor editor) {
         editor.setItem(39, sortRankingItem(viewer));
         if (InventoryValue.get(InventoryValue::enable)) editor.setItem(40, DefaultItem.BACK.toInventoryItem(viewer));
         editor.setItem(41, restTimeUpdate());
     }
 
     @Override
-    protected void update(Viewer viewer, InventoryEditor editor) {
-
+    protected void update(@NotNull PagedViewer viewer, @NotNull InventoryEditor editor) {
         super.update(viewer, editor);
         configureInventory(viewer, viewer.getEditor());
-
     }
 
     @Override

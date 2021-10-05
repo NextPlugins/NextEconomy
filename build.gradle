@@ -46,7 +46,7 @@ dependencies {
     implementation 'com.github.ben-manes.caffeine:caffeine:2.9.0' // 3.0.0 or higher is for java 11+
     implementation 'com.github.SaiintBrisson.command-framework:bukkit:1.2.0'
     implementation 'de.tr7zw:item-nbt-api:2.8.0'
-    implementation 'com.github.HenryFabio:inventory-api:2.0.3'
+    implementation 'com.github.HenryFabio:inventory-api:main-SNAPSHOT'
     implementation 'com.github.HenryFabio:sql-provider:9561f20fd2'
 
     def lombok = 'org.projectlombok:lombok:1.18.16'

@@ -14,13 +14,17 @@ public final class NumberUtils {
 
     private static final Pattern PATTERN = Pattern.compile("^(\\d+\\.?\\d*)(\\D+)");
 
-    private static final DecimalFormat DECIMAL_FORMAT = new DecimalFormat("#.##");
+    private static final DecimalFormat DECIMAL_FORMAT = new DecimalFormat("#,###.#");
+    private static final DecimalFormat NUMBER_FORMAT = new DecimalFormat("#.##");
 
     public static String format(double value) {
         if (isInvalid(value)) return "0";
 
-        int index = 0;
+        if (MessageValue.get(MessageValue::formatType).equalsIgnoreCase("DECIMAL")) {
+            return DECIMAL_FORMAT.format(value);
+        }
 
+        int index = 0;
         val format = MessageValue.get(MessageValue::currencyFormat);
 
         double tmp;
@@ -30,7 +34,7 @@ public final class NumberUtils {
             ++index;
         }
 
-        return DECIMAL_FORMAT.format(value) + format.get(index);
+        return NUMBER_FORMAT.format(value) + format.get(index);
     }
 
     public static double parse(String string) {
@@ -41,6 +45,8 @@ public final class NumberUtils {
 
         } catch (Exception ignored) {
         }
+
+        if (MessageValue.get(MessageValue::formatType).equalsIgnoreCase("DECIMAL")) return 0;
 
         Matcher matcher = PATTERN.matcher(string);
         if (!matcher.find()) return -1;

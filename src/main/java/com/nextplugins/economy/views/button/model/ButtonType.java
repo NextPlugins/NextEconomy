@@ -7,7 +7,6 @@ import com.nextplugins.economy.views.registry.InventoryRegistry;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.val;
-import org.bukkit.ChatColor;
 
 import java.util.function.Consumer;
 
@@ -28,13 +27,8 @@ public enum ButtonType {
     }),
 
     YOUR_MONEY(callback -> {
-        try {
-            val historicBankView = InventoryRegistry.getInstance().getHistoricBankView();
-            historicBankView.openInventory(callback.getPlayer());
-        } catch (Exception exception) {
-            callback.getPlayer().closeInventory();
-            callback.getPlayer().sendMessage(ChatColor.RED + "Você ainda não fez uma transação.");
-        }
+        val historicBankView = InventoryRegistry.getInstance().getHistoricBankView();
+        historicBankView.openInventory(callback.getPlayer());
     }),
 
     SEND_MONEY(callback -> {
@@ -71,6 +65,7 @@ public enum ButtonType {
         callback.getPlayer().performCommand("money top");
     });
 
-    @Getter private final Consumer<CustomInventoryClickEvent> action;
+    @Getter
+    private final Consumer<CustomInventoryClickEvent> action;
 
 }

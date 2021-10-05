@@ -23,6 +23,7 @@ public final class MessageValue implements ConfigurationInjectable {
 
     @Getter private static final MessageValue instance = new MessageValue();
 
+    @ConfigField("format-type") private String formatType;
     @ConfigField("currency-format") private List<String> currencyFormat;
 
     // currency

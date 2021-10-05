@@ -341,13 +341,8 @@ public final class MoneyCommand {
             }
 
             val player = (Player) sender;
-            try {
-                val rankingView = InventoryRegistry.getInstance().getRankingView();
-                rankingView.openInventory(player);
-            } catch (Throwable ignored) {
-                player.closeInventory();
-                sender.sendMessage(ChatColor.RED + "Não existe jogadores no ranking, aguarde a próxima atualização.");
-            }
+            val rankingView = InventoryRegistry.getInstance().getRankingView();
+            rankingView.openInventory(player);
         }
     }
 
