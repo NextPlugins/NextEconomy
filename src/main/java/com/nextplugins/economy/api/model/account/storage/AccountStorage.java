@@ -5,6 +5,7 @@ import com.github.benmanes.caffeine.cache.Caffeine;
 import com.github.benmanes.caffeine.cache.RemovalListener;
 import com.nextplugins.economy.NextEconomy;
 import com.nextplugins.economy.api.model.account.Account;
+import com.nextplugins.economy.configuration.FeatureValue;
 import com.nextplugins.economy.dao.repository.AccountRepository;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -35,11 +36,23 @@ public final class AccountStorage {
         NextEconomy.getInstance().getLogger().info("DAO do plugin iniciado com sucesso.");
     }
 
-    public void saveOne(Account account) {
+    /**
+     * Save account in repository
+     *
+     * @param account to save
+     */
+    public void saveOne(@NotNull Account account) {
         accountRepository.saveOne(account);
     }
 
-    private Account selectOne(String owner) {
+    /**
+     * Find a user in repository
+     *
+     * @param owner uuid or nick of user
+     * @return {@link Account} found
+     */
+    @Nullable
+    private Account selectOne(@NotNull String owner) {
         return accountRepository.selectOne(owner);
     }
 
@@ -50,7 +63,7 @@ public final class AccountStorage {
      * @return {@link Account} found
      */
     @Nullable
-    public Account findAccountByName(String name) {
+    public Account findAccountByName(@NotNull String name) {
         try { return cache.get(name).get(); } catch (InterruptedException | ExecutionException exception) {
             Thread.currentThread().interrupt();
             exception.printStackTrace();
@@ -102,9 +115,12 @@ public final class AccountStorage {
         cache.put(account.getUsername(), CompletableFuture.completedFuture(account));
     }
 
+    /**
+     * Flush data from cache
+     */
     public void flushData() {
         val synchronous = cache.synchronous();
-        synchronous.cleanUp();
+        //synchronous.cleanUp(); ?
         synchronous.invalidateAll();
         synchronous.cleanUp();
     }
