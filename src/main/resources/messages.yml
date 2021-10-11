@@ -76,7 +76,7 @@ messages:
     # $player e $coins
     message:
       - ''
-      - '&2&l[$] &fO jogador &a$player &fé o novo &amagnata &fdo servidor.'
+      - '&2&l[$] &fO jogador &a$player &fé o novo &amagnata &fcom &a$$coins coins&f.'
       - ''
     title: '&2&lMAGNATA<nl>&a$player &fé o novo &amagnata'
   receiveCoins:

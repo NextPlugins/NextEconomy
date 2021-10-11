@@ -15,6 +15,7 @@ import com.nextplugins.economy.util.TimeUtils;
 import com.nextplugins.economy.views.button.model.ButtonType;
 import com.nextplugins.economy.views.button.registry.InventoryButtonRegistry;
 import lombok.val;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.stream.Collectors;
 
@@ -39,7 +40,7 @@ public final class BankView extends SimpleInventory {
     }
 
     @Override
-    protected void configureInventory(Viewer viewer, InventoryEditor editor) {
+    protected void configureInventory(Viewer viewer, @NotNull InventoryEditor editor) {
         val player = viewer.getPlayer();
         val account = accountStorage.findAccount(player);
         val instance = PurseAPI.getInstance();
@@ -91,7 +92,7 @@ public final class BankView extends SimpleInventory {
     }
 
     @Override
-    protected void update(Viewer viewer, InventoryEditor editor) {
+    protected void update(@NotNull Viewer viewer, @NotNull InventoryEditor editor) {
         configureInventory(viewer, editor);
     }
 }
