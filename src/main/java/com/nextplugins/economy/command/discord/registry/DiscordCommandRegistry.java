@@ -39,13 +39,11 @@ public final class DiscordCommandRegistry implements Listener {
         }
 
         if (plugin.getPayActionDiscordManager() == null) {
-
             plugin.getLogger().log(Level.WARNING,
                     "Dependência não encontrada ({0}) A integração com o discord não será usada.",
                     "DiscordSRV"
             );
             return;
-
         }
 
         enabled = true;

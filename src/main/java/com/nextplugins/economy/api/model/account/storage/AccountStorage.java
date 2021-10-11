@@ -5,6 +5,7 @@ import com.github.benmanes.caffeine.cache.Caffeine;
 import com.github.benmanes.caffeine.cache.RemovalListener;
 import com.nextplugins.economy.NextEconomy;
 import com.nextplugins.economy.api.model.account.Account;
+import com.nextplugins.economy.configuration.FeatureValue;
 import com.nextplugins.economy.dao.repository.AccountRepository;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -21,6 +22,7 @@ import java.util.concurrent.TimeUnit;
 @RequiredArgsConstructor
 public final class AccountStorage {
 
+    private boolean nickMode;
     @Getter private final AccountRepository accountRepository;
 
     @Getter private final AsyncLoadingCache<String, Account> cache = Caffeine.newBuilder()
@@ -36,7 +38,8 @@ public final class AccountStorage {
             })
             .buildAsync((key, executor) -> CompletableFuture.completedFuture(selectOne(key)));
 
-    public void init() {
+    public void init(boolean nickMode) {
+        this.nickMode = nickMode;
         accountRepository.createTable();
         NextEconomy.getInstance().getLogger().info("DAO do plugin iniciado com sucesso.");
     }
@@ -91,7 +94,8 @@ public final class AccountStorage {
             if (player != null) return findAccount(player);
         }
 
-        return findAccountByName(offlinePlayer.getName());
+        if (nickMode && offlinePlayer.getName() == null) return null;
+        return findAccountByName(nickMode ? offlinePlayer.getName() : offlinePlayer.getUniqueId().toString());
     }
 
     /**
@@ -102,9 +106,9 @@ public final class AccountStorage {
      */
     @NotNull
     public Account findAccount(@NotNull Player player) {
-        Account account = findAccountByName(player.getName());
+        Account account = findAccountByName(nickMode ? player.getName() : player.getUniqueId().toString());
         if (account == null) {
-            account = Account.createDefault(player.getName());
+            account = Account.createDefault(player);
             put(account);
         }
 
