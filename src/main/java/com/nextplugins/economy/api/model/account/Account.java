@@ -28,7 +28,6 @@ import java.util.LinkedList;
 @AllArgsConstructor(access = AccessLevel.PROTECTED)
 public class Account {
 
-    private String uuid;
     private String username;
     private String discordName;
 
@@ -46,7 +45,6 @@ public class Account {
 
     public static Account createDefault(OfflinePlayer player) {
         return Account.generate()
-                .uuid(player.getUniqueId().toString())
                 .username(player.getName())
                 .balance(FeatureValue.get(FeatureValue::initialBalance))
                 .result();
@@ -64,14 +62,12 @@ public class Account {
      * @deprecated Since 2.0.0
      */
     @Deprecated
-    public static Account create(@NotNull String uuid,
-                                 @NotNull String name,
+    public static Account create(@NotNull String name,
                                  double balance,
                                  double movimentedBalance,
                                  int transactionsQuantity,
                                  @NotNull LinkedList<AccountBankHistoric> transactions) {
         return new Account(
-                uuid,
                 name,
                 "Nenhum configurado",
                 balance,

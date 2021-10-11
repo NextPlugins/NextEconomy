@@ -5,7 +5,6 @@ import com.github.benmanes.caffeine.cache.Caffeine;
 import com.github.benmanes.caffeine.cache.RemovalListener;
 import com.nextplugins.economy.NextEconomy;
 import com.nextplugins.economy.api.model.account.Account;
-import com.nextplugins.economy.configuration.FeatureValue;
 import com.nextplugins.economy.dao.repository.AccountRepository;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -110,6 +109,11 @@ public final class AccountStorage {
         if (account == null) {
             account = Account.createDefault(player);
             put(account);
+        }
+
+        // update username if player change (original users)
+        if (!account.getUsername().equalsIgnoreCase(player.getName())) {
+            account.setUsername(player.getName());
         }
 
         return account;

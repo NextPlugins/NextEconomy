@@ -24,6 +24,19 @@ AtlasEconomy:
       username: "root"
       password: ""
       database: "test"
+
+StormEconomy:
+  # Para deixar a opção de conversão disponível, ative esta opção
+  use: false
+  connection:
+    table: "storm_economy" # não mude caso não saiba o que está fazendo
+    mysql:
+      enable: false
+      address: "localhost:3306"
+      username: "root"
+      password: ""
+      database: "test"
+
 JH_Economy:
   # Para deixar a opção de conversão disponível, ative esta opção
   use: false

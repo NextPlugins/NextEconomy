@@ -1,7 +1,6 @@
 package com.nextplugins.economy.dao.repository;
 
 import com.henryfabio.sqlprovider.executor.SQLExecutor;
-import com.nextplugins.economy.NextEconomy;
 import com.nextplugins.economy.api.model.account.Account;
 import com.nextplugins.economy.api.model.account.SimpleAccount;
 import com.nextplugins.economy.dao.repository.adapter.AccountAdapter;
@@ -9,7 +8,6 @@ import com.nextplugins.economy.dao.repository.adapter.SimpleAccountAdapter;
 import com.nextplugins.economy.util.BankHistoricParserUtil;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
-import lombok.val;
 
 import java.util.Set;
 
