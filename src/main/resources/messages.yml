@@ -1,5 +1,8 @@
 # Mensagens gerais do sistema
 messages:
+  others:
+    on: '&aativado'
+    off: '&cdesativado'
   currency:
     one: 'coin'
     more: 'coins'
@@ -70,6 +73,7 @@ messages:
     # Habilitar mensagem e título de top,
     # Altere para false caso queira desativar.
     enable: true
+    # $player e $coins
     message:
       - ''
       - '&2&l[$] &fO jogador &a$player &fé o novo &amagnata &fdo servidor.'

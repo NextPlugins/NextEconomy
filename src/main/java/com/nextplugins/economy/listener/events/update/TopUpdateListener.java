@@ -30,7 +30,7 @@ public class TopUpdateListener implements Listener {
 
             val message = new ArrayList<String>();
             for (val line : MessageValue.get(MessageValue::moneyTopMessage)) {
-                message.add(line.replace("$player", username));
+                message.add(line.replace("$player", username).replace("$coins", event.getMoneyTop().getBalanceFormated()));
             }
 
             val titlePackets = TitleUtils.buildTitlePackets(title, 20, 20, 20);

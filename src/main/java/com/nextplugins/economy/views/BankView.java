@@ -36,7 +36,6 @@ public final class BankView extends SimpleInventory {
         );
 
         this.accountStorage = accountStorage;
-        getConfiguration().secondUpdate(1);
     }
 
     @Override
@@ -44,8 +43,7 @@ public final class BankView extends SimpleInventory {
         val player = viewer.getPlayer();
         val account = accountStorage.findAccount(player);
         val instance = PurseAPI.getInstance();
-        val receiveType = ColorUtil.colored(account.isReceiveCoins() ? "&aativado" : "&cdesativado");
-        val receiveCoinsMessage = receiveType.substring(0, 1).toUpperCase() + receiveType.substring(1);
+        val receiveType = ColorUtil.colored(account.isReceiveCoins() ? MessageValue.get(MessageValue::on) : MessageValue.get(MessageValue::off));
         val discordName = ColorUtil.colored(
                 account.getDiscordName() == null
                 ? "&cNão vinculado"
@@ -76,7 +74,7 @@ public final class BankView extends SimpleInventory {
                                     .replace("$money", account.getBalanceFormated())
                                     .replace("$transactions", transactionsMessage)
                                     .replace("$movimentedMoney", NumberUtils.format(account.getMovimentedBalance()))
-                                    .replace("$toggleMessage", receiveCoinsMessage)
+                                    .replace("$toggleMessage", receiveType)
                                     .replace("$discord", discordName)
                                     .replace("$value", purse)
                                     .replace("$status", isHigh)
