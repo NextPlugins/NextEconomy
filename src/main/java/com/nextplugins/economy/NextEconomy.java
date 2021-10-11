@@ -92,9 +92,6 @@ public final class NextEconomy extends JavaPlugin {
         npcFile = new File(getDataFolder(), "npcs.yml");
         if (!npcFile.exists()) saveResource("npcs.yml", false);
 
-        val discordSrv = new File(getDataFolder(), "libs/DiscordSRV.rar");
-        if (!discordSrv.exists()) saveResource("DiscordSRV.rar", false);
-
         npcConfig = YamlConfiguration.loadConfiguration(npcFile);
 
         conversorsFile = new File(getDataFolder(), "conversors.yml");
@@ -162,23 +159,18 @@ public final class NextEconomy extends JavaPlugin {
 
         loadTime.stop();
         getLogger().log(Level.INFO, "Plugin inicializado com sucesso. ({0})", loadTime);
-
     }
 
     @Override
     public void onDisable() {
-
         accountStorage.flushData();
         unloadRanking();
 
         if (FeatureValue.get(FeatureValue::autoBackup)) {
-
             CompletableFuture.completedFuture(
                     backupManager.createBackup(null, null, accountRepository, false, false)
             ).join(); // freeze thread
-
         }
-
     }
 
     private void unloadRanking() {

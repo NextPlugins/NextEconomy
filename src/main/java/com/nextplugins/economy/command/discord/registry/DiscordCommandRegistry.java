@@ -11,6 +11,7 @@ import lombok.NoArgsConstructor;
 import lombok.val;
 import org.bukkit.event.Listener;
 
+import java.io.File;
 import java.util.logging.Level;
 
 /**
@@ -29,6 +30,14 @@ public final class DiscordCommandRegistry implements Listener {
         if (!DiscordValue.get(DiscordValue::enable)) return;
 
         val plugin = NextEconomy.getInstance();
+        if (plugin.getConfig().getString("database.version", "1.1.4").equalsIgnoreCase("1.1.4")) {
+            val discordSrv = new File(plugin.getDataFolder(), "libs/DiscordSRV.rar");
+            if (!discordSrv.exists()) plugin.saveResource("DiscordSRV.rar", false);
+
+            plugin.getConfig().set("database.version", "2.0.0");
+            plugin.saveConfig();
+        }
+
         if (plugin.getPayActionDiscordManager() == null) {
 
             plugin.getLogger().log(Level.WARNING,

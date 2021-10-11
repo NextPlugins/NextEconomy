@@ -22,7 +22,6 @@ public final class AccountRepository {
     private final SQLExecutor sqlExecutor;
 
     public void createTable() {
-
         sqlExecutor.updateQuery("CREATE TABLE IF NOT EXISTS " + TABLE + "(" +
                 "owner CHAR(36) NOT NULL PRIMARY KEY," +
                 "balance DOUBLE NOT NULL DEFAULT 0," +
@@ -32,23 +31,6 @@ public final class AccountRepository {
                 "receiveCoins INTEGER NOT NULL DEFAULT 1" +
                 ");"
         );
-
-        val config = NextEconomy.getInstance().getConfig();
-        val version = config.getString("database.version", "1.1.4");
-
-        if (version.equalsIgnoreCase("1.1.4")) {
-
-            try {
-                sqlExecutor.updateQuery("ALTER TABLE " + TABLE + " ADD COLUMN receiveCoins INTEGER NOT NULL DEFAULT 1");
-            } catch (Exception ignored) {
-            }
-
-            config.set("database.version", "2.0.0");
-
-        }
-
-        NextEconomy.getInstance().saveConfig();
-
     }
 
     public void recreateTable() {

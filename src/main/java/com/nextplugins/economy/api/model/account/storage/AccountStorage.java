@@ -26,8 +26,14 @@ public final class AccountStorage {
     @Getter private final AsyncLoadingCache<String, Account> cache = Caffeine.newBuilder()
             .maximumSize(1000)
             .expireAfterWrite(5, TimeUnit.MINUTES)
-            .evictionListener((RemovalListener<String, Account>) (key, value, cause) -> saveOne(value))
-            .removalListener((key, value, cause) -> saveOne(value))
+            .evictionListener((RemovalListener<String, Account>) (key, value, cause) -> {
+                if (value == null) return;
+                saveOne(value);
+            })
+            .removalListener((key, value, cause) -> {
+                if (value == null) return;
+                saveOne(value);
+            })
             .buildAsync((key, executor) -> CompletableFuture.completedFuture(selectOne(key)));
 
     public void init() {
