@@ -125,7 +125,10 @@ public final class NextEconomy extends JavaPlugin {
 
         internalTitleAPI = InternalAPIMapping.create();
 
-        accountStorage.init();
+        val nickValue = getConfig().getString("plugin.configuration.save-method", "NICK");
+        val nickMode = nickValue.equalsIgnoreCase("NICK");
+
+        accountStorage.init(nickMode);
         interactionRegistry.init();
 
         InventoryManager.enable(this);
