@@ -87,12 +87,13 @@ public final class NextEconomy extends JavaPlugin {
 
     @Override
     public void onLoad() {
-        saveDefaultConfig();
-
         npcFile = new File(getDataFolder(), "npcs.yml");
         if (!npcFile.exists()) saveResource("npcs.yml", false);
 
         npcConfig = YamlConfiguration.loadConfiguration(npcFile);
+
+        val file = new File(getDataFolder(), "config.yml");
+        if (!file.exists()) saveResource("config.yml", false);
 
         conversorsFile = new File(getDataFolder(), "conversors.yml");
         if (!conversorsFile.exists()) saveResource("conversors.yml", false);

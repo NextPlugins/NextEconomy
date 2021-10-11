@@ -36,6 +36,8 @@ StormEconomy:
       username: "root"
       password: ""
       database: "test"
+    sqlite:
+      file: "plugins/StormEconomy/dados.db" # cringe denovo
 
 JH_Economy:
   # Para deixar a opção de conversão disponível, ative esta opção

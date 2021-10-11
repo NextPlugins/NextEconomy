@@ -67,7 +67,7 @@ public class ConversorRegistry {
             value.setTable(tableName);
 
             conversorManager.registerConversor(value);
-            plugin.getLogger().info("[Converter] Registrado o conversor " + type);
+            plugin.getLogger().info("[Converter] Registrado o conversor " + type.getKey());
         }
 
     }
