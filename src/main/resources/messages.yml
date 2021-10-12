@@ -1,8 +1,8 @@
 # Mensagens gerais do sistema
 messages:
   others:
-    on: '&aativado'
-    off: '&cdesativado'
+    receiveCoinsOn: '&aativado'
+    receiveCoinsOff: '&cdesativado'
   currency:
     one: 'coin'
     more: 'coins'

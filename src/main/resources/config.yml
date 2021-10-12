@@ -35,7 +35,7 @@ plugin:
     # UUID - Salvar a conta pelo id único do jogador (Recomendado para servidores originais)
     # Caso efetue a mudança:
     # Se você utiliza SQLITE, apague o arquivo database.db da pasta database
-    # Se você utiliza MYSQL, utilize a função TRUNCATE ou DROP na table nexteconomy_data
+    # Se você utiliza MYSQL, utilize a função DROP na table nexteconomy_data
     save-method: NICK
     # Sistema de bolsa de valores
     purse:
