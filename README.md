@@ -42,29 +42,34 @@ O plugin conta com vários arquivos de configuração, que pode ser facilmente m
 ## Placeholders
 
 ### PlaceholderAPI
--   "{placeholderapi_nexteconomy_amount}" ~ quantia de dinheiro;
--   "{placeholderapi_nexteconomy_purse}" ~ valor da bolsa -> Ex.: (28%);
--   "{placeholderapi_nexteconomy_purse_only_value}" ~ valor da bolsa apenas numero -> Ex.: (28);
--   "{placeholderapi_nexteconomy_purse_with_icon}" ~ valor da bolsa -> Ex.: (48% ↗ em alta);
--   "{placeholderapi_nexteconomy_tycoon}" ~ retornará tag rico ou magnata caso o jogador esteja no top ranking.
+-   "%nexteconomy_amount%" ~ quantia de dinheiro;
+-   "%nexteconomy_purse%" ~ valor da bolsa -> Ex.: (28%);
+-   "%nexteconomy_purse_only_value%" ~ valor da bolsa apenas numero -> Ex.: (28);
+-   "%nexteconomy_purse_with_icon%" ~ valor da bolsa -> Ex.: (48% ↗ em alta);
+-   "%nexteconomy_tycoon%" ~ retornará tag rico ou magnata caso o jogador esteja no top ranking.
 
-### LegendChat
+OBS: Caso utilize FeatherBoard, as placeholders serão {placeholderapi_nexteconomy_...}, exemplo: {placeholderapi_nexteconomy_amount}
+
+### LegendChat, nChat ou UltimateChat
 -   "{tycoon}" ~ tag magnata ou rico.
 
 ## Dependências
 
-**As dependências internas serão baixadas automáticamente quando o plugin for habilitado pela primeira vez.**
+### Obrigatórias
+-   [Vault](https://github.com/MilkBowl/VaultAPI) - para suporte a todos os plugins que exigem uma economia (Spawners, Maquinas, Lojas, etc...).
 
 ### Opcionais
 -   [Citizens](https://dev.bukkit.org/projects/citizens) - para o sistema de NPCs;
 -   [PlaceholderAPI](https://www.spigotmc.org/resources/placeholderapi.6245/) - para ter suporte a placeholders;
 -   [HolographicDisplays](https://dev.bukkit.org/projects/holographic-displays) - para hologramas (utilizado no sistema de ranking por NPC).
 
+## Informações de desenvolvimento
+
 ### Tecnologias usadas
 -   [caffeine](https://github.com/ben-manes/caffeine) - Uma biblioteca de cache de alto desempenho (Async & Sync);
 -   [Lombok](https://projectlombok.org/) - Gera getters, setters e outros métodos útils durante a compilação por meio de anotações.
 
-**APIs e Frameworks**
+### APIs e Frameworks
 -   [command-framework](https://github.com/SaiintBrisson/command-framework) - Framework para criação e gerenciamento de comandos;
 -   [inventory-api](https://github.com/HenryFabio/inventory-api) - API para criação e o gerenciamento de inventários customizados;
 -   [sql-provider](https://github.com/henryfabio/sql-provider) - Provê a conexão com o banco de dados;
