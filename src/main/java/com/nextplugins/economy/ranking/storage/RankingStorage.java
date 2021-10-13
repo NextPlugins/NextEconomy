@@ -32,7 +32,12 @@ public final class RankingStorage {
         val updateDelayMillis = TimeUnit.SECONDS.toMillis(RankingValue.get(RankingValue::updateDelay));
 
         nextUpdateMillis = System.currentTimeMillis() + updateDelayMillis;
-        NextEconomy.getInstance().getAccountStorage().flushData();
+
+        val accountStorage = NextEconomy.getInstance().getAccountStorage();
+        val accountMap = accountStorage.getCache().synchronous().asMap();
+        for (val entry : accountMap.entrySet()) {
+            accountStorage.getAccountRepository().saveOne(entry.getValue());
+        }
 
         Bukkit.getScheduler().runTaskAsynchronously(
                 plugin,

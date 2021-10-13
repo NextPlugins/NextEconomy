@@ -133,7 +133,7 @@ public final class AccountStorage {
      */
     public void flushData() {
         val synchronous = cache.synchronous();
-        //synchronous.cleanUp(); ?
+        synchronous.cleanUp();
         synchronous.invalidateAll();
         synchronous.cleanUp();
     }
