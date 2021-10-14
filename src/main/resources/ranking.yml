@@ -81,4 +81,4 @@ ranking:
         modal:
           - '&b$positionº Lugar'
           - '&e$prefix$player$suffix'
-          - '&a$$amount de coins'
+          - '&2$&a$amount de coins'
