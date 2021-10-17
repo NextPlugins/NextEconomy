@@ -5,7 +5,6 @@ import com.github.benmanes.caffeine.cache.Caffeine;
 import com.github.benmanes.caffeine.cache.RemovalListener;
 import com.nextplugins.economy.NextEconomy;
 import com.nextplugins.economy.api.model.account.Account;
-import com.nextplugins.economy.configuration.FeatureValue;
 import com.nextplugins.economy.dao.repository.AccountRepository;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -133,10 +132,10 @@ public final class AccountStorage {
      * Flush data from cache
      */
     public void flushData() {
-        val synchronous = cache.synchronous();
-        //synchronous.cleanUp(); ?
-        synchronous.invalidateAll();
-        synchronous.cleanUp();
+        val accountMap = cache.synchronous().asMap();
+        for (val entry : accountMap.entrySet()) {
+            accountRepository.saveOne(entry.getValue());
+        }
     }
 
 }

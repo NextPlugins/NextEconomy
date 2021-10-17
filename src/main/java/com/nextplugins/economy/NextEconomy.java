@@ -45,8 +45,10 @@ import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
+import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.attribute.BasicFileAttributes;
 import java.util.ArrayList;
@@ -81,19 +83,23 @@ public final class NextEconomy extends JavaPlugin {
 
     private File npcFile;
     private File conversorsFile;
+    private File configFile;
 
     private FileConfiguration npcConfig;
     private FileConfiguration conversorsConfig;
+    private FileConfiguration config;
 
     @Override
     public void onLoad() {
+        configFile = new File(getDataFolder(), "configuration.yml");
+        if (!configFile.exists()) saveResource("configuration.yml", false);
+
+        config = YamlConfiguration.loadConfiguration(configFile);
+
         npcFile = new File(getDataFolder(), "npcs.yml");
         if (!npcFile.exists()) saveResource("npcs.yml", false);
 
         npcConfig = YamlConfiguration.loadConfiguration(npcFile);
-
-        val file = new File(getDataFolder(), "config.yml");
-        if (!file.exists()) saveResource("config.yml", false);
 
         conversorsFile = new File(getDataFolder(), "conversors.yml");
         if (!conversorsFile.exists()) saveResource("conversors.yml", false);
@@ -242,6 +248,19 @@ public final class NextEconomy extends JavaPlugin {
     private void registerPayDiscordManager() {
         if (!DiscordValue.get(DiscordValue::enable) || !Bukkit.getPluginManager().isPluginEnabled("DiscordSRV")) return;
         payActionDiscordManager = new PayActionDiscordManager(accountStorage);
+    }
+
+    @Override
+    public void saveConfig() {
+        try {
+            getConfig().save(configFile);
+        } catch (IOException ex) {
+            getLogger().log(Level.SEVERE, "Não foi possível salvar o arquivo " + configFile, ex);
+        }
+    }
+
+    public @NotNull FileConfiguration getConfig() {
+        return config;
     }
 
     public static NextEconomy getInstance() {
