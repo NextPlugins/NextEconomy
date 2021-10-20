@@ -4,7 +4,6 @@ import com.nextplugins.economy.ranking.types.ArmorStandRunnable;
 import com.nextplugins.economy.util.TypeUtil;
 import lombok.val;
 import org.bukkit.entity.ArmorStand;
-import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -21,7 +20,7 @@ public class RankingEntityListener implements Listener {
 
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onDeath(EntityDamageByEntityEvent event) {
-        if (event.getEntityType() != EntityType.ARMOR_STAND || !event.getEntity().hasMetadata("nexteconomy")) return;
+        if (!event.getEntity().hasMetadata("nexteconomy")) return;
 
         if (event.getDamager() instanceof Player) {
 
@@ -36,17 +35,16 @@ public class RankingEntityListener implements Listener {
 
     @EventHandler
     public void onKill(EntityDeathEvent event) {
-        if (event.getEntityType() != EntityType.ARMOR_STAND || !event.getEntity().hasMetadata("nexteconomy")) return;
+        if (!event.getEntity().hasMetadata("nexteconomy")) return;
         ArmorStandRunnable.STANDS.remove((ArmorStand) event.getEntity());
     }
 
     @EventHandler
     public void onInteract(PlayerInteractAtEntityEvent event) {
         val entity = event.getRightClicked();
-        if (entity.getType() != EntityType.ARMOR_STAND || !entity.hasMetadata("nexteconomy")) return;
+        if (!entity.hasMetadata("nexteconomy")) return;
 
         event.getPlayer().performCommand("money top");
         event.setCancelled(true);
     }
-
 }
