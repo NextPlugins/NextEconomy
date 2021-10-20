@@ -36,7 +36,7 @@ dependencies {
 
     compileOnly 'com.github.PlaceholderAPI:PlaceholderAPI:2.10.9'
     compileOnly 'com.gmail.filoghost.holographicdisplays:holographicdisplays-api:2.4.0'
-    compileOnly 'net.citizensnpcs:citizens:2.0.28-SNAPSHOT'
+    compileOnly 'net.citizensnpcs:citizensapi:2.0.27-SNAPSHOT' // For some reason the + recent version stopped working in the repository.
     compileOnly 'com.github.MilkBowl:VaultAPI:1.7'
     compileOnly 'com.nickuc.chat:nchat-api:4.2'
     compileOnly 'com.discordsrv:discordsrv:1.23.0'
