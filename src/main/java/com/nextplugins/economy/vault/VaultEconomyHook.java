@@ -138,7 +138,7 @@ public class VaultEconomyHook extends EconomyWrapper {
         var account = storage.findAccount(player);
         if (account != null) return false;
 
-        account = Account.createDefault(player.getName());
+        account = Account.createDefault(player);
         storage.put(account);
 
         return true;

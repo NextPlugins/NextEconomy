@@ -17,7 +17,7 @@ import java.util.function.Function;
 @TranslateColors
 @Accessors(fluent = true)
 @ConfigSection("plugin.configuration")
-@ConfigFile("config.yml")
+@ConfigFile("configuration.yml")
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public final class FeatureValue implements ConfigurationInjectable {
 

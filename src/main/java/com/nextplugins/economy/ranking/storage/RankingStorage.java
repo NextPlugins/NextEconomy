@@ -4,7 +4,6 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.nextplugins.economy.NextEconomy;
 import com.nextplugins.economy.api.event.operations.AsyncRankingUpdateEvent;
-import com.nextplugins.economy.api.model.account.Account;
 import com.nextplugins.economy.api.model.account.SimpleAccount;
 import com.nextplugins.economy.configuration.RankingValue;
 import lombok.Data;
@@ -14,7 +13,6 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
-import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 @Data
@@ -37,12 +35,6 @@ public final class RankingStorage {
 
         val accountStorage = NextEconomy.getInstance().getAccountStorage();
         accountStorage.flushData();
-        /*val cache = accountStorage.getCache();
-        val accountMap = cache.synchronous().asMap();
-        for (val entry : accountMap.entrySet()) {
-            val key = entry.getKey();
-            val value = entry.getValue();
-        }*/
 
         Bukkit.getScheduler().runTaskAsynchronously(
                 plugin,

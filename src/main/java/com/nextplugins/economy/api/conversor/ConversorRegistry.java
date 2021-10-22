@@ -11,6 +11,7 @@ import com.nextplugins.economy.api.conversor.impl.iconomy.IConomyConversor;
 import com.nextplugins.economy.api.conversor.impl.jheyson.JHEconomyConversor;
 import com.nextplugins.economy.api.conversor.impl.soekd.SOEconomyConversor;
 import com.nextplugins.economy.api.conversor.impl.solary.SolaryEconomyConversor;
+import com.nextplugins.economy.api.conversor.impl.storm.StormEconomyConversor;
 import com.nextplugins.economy.api.conversor.impl.tusk.TuskEconomyConversor;
 import com.nextplugins.economy.api.conversor.impl.ystore.YEconomyConversor;
 import lombok.Data;
@@ -37,6 +38,7 @@ public class ConversorRegistry {
         put("TuskEconomy", new TuskEconomyConversor());
         put("SOEconomy", new SOEconomyConversor());
         put("SolaryEconomy", new SolaryEconomyConversor());
+        put("StormEconomy", new StormEconomyConversor());
         put("Essentials", new EssentialsXConversor());
         put("iConomy", new IConomyConversor());
     }};
@@ -65,7 +67,7 @@ public class ConversorRegistry {
             value.setTable(tableName);
 
             conversorManager.registerConversor(value);
-            plugin.getLogger().info("[Converter] Registrado o conversor " + type);
+            plugin.getLogger().info("[Converter] Registrado o conversor " + type.getKey());
         }
 
     }

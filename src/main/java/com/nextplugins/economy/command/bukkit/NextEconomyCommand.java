@@ -43,7 +43,7 @@ public final class NextEconomyCommand {
 
     @Command(
             name = "nexteconomy",
-            aliases = {"economy", "eco", "ne"},
+            aliases = {"economy", "neco", "eco", "ne"},
             permission = "nexteconomy.admin",
             async = true
     )

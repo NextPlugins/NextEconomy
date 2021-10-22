@@ -30,6 +30,13 @@ plugin:
     # Serve para salvar o jogador na tabela assim que ele sai do servidor
     # Recomendado usar com MYSQL
     quit-update: false
+    # Método de salvamento de contas
+    # NICK - Salvar a conta pelo nick do jogador (Recomendado para servidores piratas)
+    # UUID - Salvar a conta pelo id único do jogador (Recomendado para servidores originais)
+    # Caso efetue a mudança:
+    # Se você utiliza SQLITE, apague o arquivo database.db da pasta database
+    # Se você utiliza MYSQL, utilize a função DROP na table nexteconomy_data
+    save-method: NICK
     # Sistema de bolsa de valores
     purse:
       # Habilitar o sistema de bolsa
@@ -48,7 +55,9 @@ plugin:
       messageDisabledWorlds:
         - 'mina'
       # Método que o jogador vai receber a mensagem "BOLSA Você deixou de ganhar x ..."
-      # ACTIONBAR ou MESSAGE
+      # ACTIONBAR - Aparecer na actionbar do usuário
+      # MESSAGE - Aparecer no chat do usuário
+      # NOTHING - Desabilitar a mensagem por completo
       method: 'ACTIONBAR'
       # Um valor maior que esse significa que a bolsa está em alta
       media: 100

@@ -15,6 +15,7 @@ import com.nextplugins.economy.util.TimeUtils;
 import com.nextplugins.economy.views.button.model.ButtonType;
 import com.nextplugins.economy.views.button.registry.InventoryButtonRegistry;
 import lombok.val;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.stream.Collectors;
 
@@ -36,16 +37,14 @@ public final class BankView extends SimpleInventory {
         );
 
         this.accountStorage = accountStorage;
-        getConfiguration().secondUpdate(1);
     }
 
     @Override
-    protected void configureInventory(Viewer viewer, InventoryEditor editor) {
+    protected void configureInventory(Viewer viewer, @NotNull InventoryEditor editor) {
         val player = viewer.getPlayer();
         val account = accountStorage.findAccount(player);
         val instance = PurseAPI.getInstance();
-        val receiveType = ColorUtil.colored(account.isReceiveCoins() ? "&aativado" : "&cdesativado");
-        val receiveCoinsMessage = receiveType.substring(0, 1).toUpperCase() + receiveType.substring(1);
+        val receiveType = ColorUtil.colored(account.isReceiveCoins() ? MessageValue.get(MessageValue::receiveCoinsOn) : MessageValue.get(MessageValue::receiveCoinsOff));
         val discordName = ColorUtil.colored(
                 account.getDiscordName() == null
                 ? "&cNão vinculado"
@@ -76,7 +75,7 @@ public final class BankView extends SimpleInventory {
                                     .replace("$money", account.getBalanceFormated())
                                     .replace("$transactions", transactionsMessage)
                                     .replace("$movimentedMoney", NumberUtils.format(account.getMovimentedBalance()))
-                                    .replace("$toggleMessage", receiveCoinsMessage)
+                                    .replace("$toggleMessage", receiveType)
                                     .replace("$discord", discordName)
                                     .replace("$value", purse)
                                     .replace("$status", isHigh)
@@ -93,7 +92,7 @@ public final class BankView extends SimpleInventory {
     }
 
     @Override
-    protected void update(Viewer viewer, InventoryEditor editor) {
+    protected void update(@NotNull Viewer viewer, @NotNull InventoryEditor editor) {
         configureInventory(viewer, editor);
     }
 }

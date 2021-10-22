@@ -16,6 +16,7 @@ import com.nextplugins.economy.util.NumberUtils;
 import lombok.*;
 import net.milkbowl.vault.economy.EconomyResponse;
 import org.bukkit.Bukkit;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -27,7 +28,7 @@ import java.util.LinkedList;
 @AllArgsConstructor(access = AccessLevel.PROTECTED)
 public class Account {
 
-    private final String username;
+    private String username;
     private String discordName;
 
     private double balance;
@@ -35,14 +36,16 @@ public class Account {
 
     private int transactionsQuantity;
 
-    @Builder.Default private LinkedList<AccountBankHistoric> transactions = Lists.newLinkedList();
+    @Builder.Default
+    private LinkedList<AccountBankHistoric> transactions = Lists.newLinkedList();
     private String transactionsJson;
 
-    @Builder.Default private boolean receiveCoins = true;
+    @Builder.Default
+    private boolean receiveCoins = true;
 
-    public static Account createDefault(String name) {
+    public static Account createDefault(OfflinePlayer player) {
         return Account.generate()
-                .username(name)
+                .username(player.getName())
                 .balance(FeatureValue.get(FeatureValue::initialBalance))
                 .result();
     }
@@ -59,11 +62,11 @@ public class Account {
      * @deprecated Since 2.0.0
      */
     @Deprecated
-    public static Account create(String name,
+    public static Account create(@NotNull String name,
                                  double balance,
                                  double movimentedBalance,
                                  int transactionsQuantity,
-                                 LinkedList<AccountBankHistoric> transactions) {
+                                 @NotNull LinkedList<AccountBankHistoric> transactions) {
         return new Account(
                 name,
                 "Nenhum configurado",
@@ -180,7 +183,8 @@ public class Account {
                 val value = quantity > valueWithoutPurse ? quantity - valueWithoutPurse : valueWithoutPurse - quantity;
                 val purseMessage = message.replace("$value", NumberUtils.format(value));
 
-                if (PurseValue.get(PurseValue::messageMethod).equalsIgnoreCase("message")) player.sendMessage(purseMessage);
+                if (PurseValue.get(PurseValue::messageMethod).equalsIgnoreCase("message"))
+                    player.sendMessage(purseMessage);
                 else ActionBarUtils.sendActionBar(player, purseMessage);
 
             }

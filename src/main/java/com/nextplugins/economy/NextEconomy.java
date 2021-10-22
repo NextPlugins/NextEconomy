@@ -45,8 +45,10 @@ import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
+import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.attribute.BasicFileAttributes;
 import java.util.ArrayList;
@@ -81,19 +83,21 @@ public final class NextEconomy extends JavaPlugin {
 
     private File npcFile;
     private File conversorsFile;
+    private File configFile;
 
     private FileConfiguration npcConfig;
     private FileConfiguration conversorsConfig;
+    private FileConfiguration config;
 
     @Override
     public void onLoad() {
-        saveDefaultConfig();
+        configFile = new File(getDataFolder(), "configuration.yml");
+        if (!configFile.exists()) saveResource("configuration.yml", false);
+
+        config = YamlConfiguration.loadConfiguration(configFile);
 
         npcFile = new File(getDataFolder(), "npcs.yml");
         if (!npcFile.exists()) saveResource("npcs.yml", false);
-
-        val discordSrv = new File(getDataFolder(), "libs/DiscordSRV.rar");
-        if (!discordSrv.exists()) saveResource("DiscordSRV.rar", false);
 
         npcConfig = YamlConfiguration.loadConfiguration(npcFile);
 
@@ -128,7 +132,10 @@ public final class NextEconomy extends JavaPlugin {
 
         internalTitleAPI = InternalAPIMapping.create();
 
-        accountStorage.init();
+        val nickValue = getConfig().getString("plugin.configuration.save-method", "NICK");
+        val nickMode = nickValue.equalsIgnoreCase("NICK");
+
+        accountStorage.init(nickMode);
         interactionRegistry.init();
 
         InventoryManager.enable(this);
@@ -162,23 +169,18 @@ public final class NextEconomy extends JavaPlugin {
 
         loadTime.stop();
         getLogger().log(Level.INFO, "Plugin inicializado com sucesso. ({0})", loadTime);
-
     }
 
     @Override
     public void onDisable() {
-
         accountStorage.flushData();
         unloadRanking();
 
         if (FeatureValue.get(FeatureValue::autoBackup)) {
-
             CompletableFuture.completedFuture(
                     backupManager.createBackup(null, null, accountRepository, false, false)
             ).join(); // freeze thread
-
         }
-
     }
 
     private void unloadRanking() {
@@ -246,6 +248,19 @@ public final class NextEconomy extends JavaPlugin {
     private void registerPayDiscordManager() {
         if (!DiscordValue.get(DiscordValue::enable) || !Bukkit.getPluginManager().isPluginEnabled("DiscordSRV")) return;
         payActionDiscordManager = new PayActionDiscordManager(accountStorage);
+    }
+
+    @Override
+    public void saveConfig() {
+        try {
+            getConfig().save(configFile);
+        } catch (IOException ex) {
+            getLogger().log(Level.SEVERE, "Não foi possível salvar o arquivo " + configFile, ex);
+        }
+    }
+
+    public @NotNull FileConfiguration getConfig() {
+        return config;
     }
 
     public static NextEconomy getInstance() {
