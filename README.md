@@ -4,6 +4,8 @@
 
 Um sistema completo de economia para servidores de Minecraft, com várias opções configuráveis, com pódio em chat/menu, NPCs, ArmorStands e Hologramas. Informações salvas em MySQL ou SQLite (opção a escolha do usuário), além de haver uma robusta [API](https://github.com/NextPlugins/NextEconomy/tree/main/src/main/java/com/nextplugins/economy/api) para desenvolvedores. Veja mais [aqui](https://imgur.com/gallery/xDfx9pp).
 
+Veja a reação da comunidade sobre o plugin [aqui](https://gamersboard.com.br/topic/75000-nexteconomy-o-mais-completo-plugin-de-economia-da-comunidade/)
+
 ## Comandos
 |Comando         |Descrição                      |Permissão                    |
 |----------------|-------------------------------|-----------------------------|
