@@ -39,7 +39,7 @@ public final class CheckCommand {
             name = "check.create",
             aliases = {"criar"},
             description = "Crie um cheque com um certo valor.",
-            permission = "nexteconomy.command.check.create",
+            permission = "nexteconomy.command.check",
             usage = "/cheque criar (valor) [jogador]",
             target = CommandTarget.PLAYER,
             async = true
