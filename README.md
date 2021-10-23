@@ -18,7 +18,7 @@ Veja a reação da comunidade sobre o plugin [aqui](https://gamersboard.com.br/t
 |/bolsa           |Veja informações do sistema de bolsa.|Nenhuma                      |
 |/setbolsa        |Definir o valor da bolsa.|`nexteconomy.setpurse`                   |
 |/cheque          |Veja os comandos disponíveis do sistema.|`nexteconomy.command.check`|
-|/cheque criar    |Crie um cheque com uma certa quantia de dinheiro.|`nexteconomy.command.check.create`|
+|/cheque criar    |Crie um cheque com uma certa quantia de dinheiro.|`nexteconomy.command.check`|
 |/coins ajuda     |Veja os comandos disponíveis do sistema.|Nenhuma                   |
 |/coins add       |Adicione uma quantia de money para alguém.|`nexteconomy.command.add`|
 |/coins set       |Altere a quantia de money de alguém.|`nexteconomy.command.set`     |
