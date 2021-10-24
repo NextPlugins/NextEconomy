@@ -127,15 +127,12 @@ public class Account {
         }
 
         if (transactionType == TransactionType.WITHDRAW) {
-
             if (!hasAmount(quantity)) {
-
                 return new EconomyResponse(
                         quantity, balance, EconomyResponse.ResponseType.FAILURE,
                         "Não foi possível terminar esta operação. " +
                                 "(A conta requisitada não possui quantia suficiente para completar esta transação)."
                 );
-
             }
 
             movimentedBalance += quantity;
