@@ -18,13 +18,14 @@ import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 
+@Getter
 @RequiredArgsConstructor
 public final class AccountStorage {
 
     private boolean nickMode;
-    @Getter private final AccountRepository accountRepository;
+    private final AccountRepository accountRepository;
 
-    @Getter private final AsyncLoadingCache<String, Account> cache = Caffeine.newBuilder()
+    private final AsyncLoadingCache<String, Account> cache = Caffeine.newBuilder()
             .maximumSize(1000)
             .expireAfterWrite(5, TimeUnit.MINUTES)
             .evictionListener((RemovalListener<String, Account>) (key, value, cause) -> {

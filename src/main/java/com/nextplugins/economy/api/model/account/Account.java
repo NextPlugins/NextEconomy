@@ -29,6 +29,7 @@ import java.util.LinkedList;
 public class Account {
 
     private String username;
+    private final String uuid;
     private String discordName;
 
     private double balance;
@@ -44,10 +45,15 @@ public class Account {
     private boolean receiveCoins = true;
 
     public static Account createDefault(OfflinePlayer player) {
-        return Account.generate()
+        val accountBuilder = Account.generate()
                 .username(player.getName())
-                .balance(FeatureValue.get(FeatureValue::initialBalance))
-                .result();
+                .balance(FeatureValue.get(FeatureValue::initialBalance));
+
+        if (!NextEconomy.getInstance().getAccountStorage().isNickMode()) {
+            accountBuilder.uuid(player.getUniqueId().toString());
+        }
+
+        return accountBuilder.result();
     }
 
     /**
@@ -69,6 +75,7 @@ public class Account {
                                  @NotNull LinkedList<AccountBankHistoric> transactions) {
         return new Account(
                 name,
+                "",
                 "Nenhum configurado",
                 balance,
                 movimentedBalance,
@@ -100,17 +107,13 @@ public class Account {
     }
 
     public synchronized void setBalance(double quantity) {
-
         if (NumberUtils.isInvalid(quantity)) return;
         this.balance = quantity;
-
     }
 
     public synchronized void deposit(double quantity) {
-
         if (NumberUtils.isInvalid(quantity)) return;
         this.balance += quantity;
-
     }
 
     public synchronized EconomyResponse createTransaction(@Nullable Player player,

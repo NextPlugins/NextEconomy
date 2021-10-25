@@ -19,11 +19,13 @@ public class UserConnectionListener implements Listener {
     @EventHandler
     public void onQuit(PlayerQuitEvent event) {
         val cache = accountStorage.getCache().synchronous();
-        val account = cache.getIfPresent(event.getPlayer().getName());
+
+        val key = accountStorage.isNickMode() ? event.getPlayer().getName() : event.getPlayer().getUniqueId().toString();
+        val account = cache.getIfPresent(key);
         if (account == null) return;
 
         accountStorage.getAccountRepository().saveOne(account);
-        cache.asMap().remove(account.getUsername());
+        cache.asMap().remove(key);
     }
 
 }

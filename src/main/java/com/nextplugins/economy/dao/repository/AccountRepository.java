@@ -71,7 +71,7 @@ public final class AccountRepository {
         this.sqlExecutor.updateQuery(
                 String.format("REPLACE INTO %s VALUES(?,?,?,?,?,?)", TABLE),
                 statement -> {
-                    statement.set(1, account.getUsername());
+                    statement.set(1, account.getUuid() == null ? account.getUsername() : account.getUuid());
                     statement.set(2, account.getBalance());
                     statement.set(3, account.getMovimentedBalance());
                     statement.set(4, account.getTransactionsQuantity());
@@ -86,7 +86,7 @@ public final class AccountRepository {
                 String.format("UPDATE %s SET balance=? WHERE owner=?", TABLE),
                 statement -> {
                     statement.set(1, account.getBalance());
-                    statement.set(2, account.getUsername());
+                    statement.set(2, account.getUuid() == null ? account.getUsername() : account.getUuid());
                 });
     }
 

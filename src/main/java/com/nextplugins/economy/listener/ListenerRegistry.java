@@ -15,6 +15,7 @@ import com.nextplugins.economy.listener.events.transaction.TransactionRequestLis
 import com.nextplugins.economy.listener.events.update.PurseListener;
 import com.nextplugins.economy.listener.events.update.RankingListener;
 import com.nextplugins.economy.listener.events.update.TopUpdateListener;
+import com.nextplugins.economy.listener.events.user.UpdateNickListener;
 import com.nextplugins.economy.listener.events.user.UserConnectionListener;
 import lombok.Data;
 import lombok.val;
@@ -32,9 +33,10 @@ public final class ListenerRegistry {
         try {
             val pluginManager = Bukkit.getPluginManager();
 
-            val rankingStorage = getPlugin().getRankingStorage();
-            val accountRepository = getPlugin().getAccountRepository();
-            val interactionRegistry = getPlugin().getInteractionRegistry();
+            val rankingStorage = plugin.getRankingStorage();
+            val accountRepository = plugin.getAccountRepository();
+            val accountStorage = plugin.getAccountStorage();
+            val interactionRegistry = plugin.getInteractionRegistry();
 
             val listeners = Arrays.asList(
                     new MoneyGiveListener(),
@@ -58,6 +60,10 @@ public final class ListenerRegistry {
                 pluginManager.registerEvents(new UserConnectionListener(plugin.getAccountStorage()), plugin);
             }
 
+            if (!accountStorage.isNickMode()) {
+                pluginManager.registerEvents(new UpdateNickListener(plugin.getAccountStorage()), plugin);
+            }
+
             if (pluginManager.isPluginEnabled("nChat")) {
 
                 pluginManager.registerEvents(
@@ -67,7 +73,7 @@ public final class ListenerRegistry {
 
                 logger.info("[Chat] Dependência 'nChat' sendo utilizada como plugin de Chat");
 
-            } else if (pluginManager.isPluginEnabled("LegendChat")) {
+            } else if (pluginManager.isPluginEnabled("Legendchat")) {
 
                 pluginManager.registerEvents(
                         new LegendChatListener(rankingStorage, interactionRegistry),
