@@ -47,14 +47,12 @@ public class TopUpdateListener implements Listener {
             }
         }
 
-        Bukkit.getScheduler().runTask(NextEconomy.getInstance(), () -> {
-            for (String s : RankingValue.get(RankingValue::tycoonCommands)) {
-                Bukkit.dispatchCommand(
-                        Bukkit.getConsoleSender(),
-                        s.replace("$currentTycoon", username).replace("$lastTycoon", event.getLastMoneyTop().getUsername())
-                );
-            }
-        });
+        for (String s : RankingValue.get(RankingValue::tycoonCommands)) {
+            Bukkit.getScheduler().runTask(NextEconomy.getInstance(), () -> Bukkit.dispatchCommand(
+                    Bukkit.getConsoleSender(),
+                    s.replace("$currentTycoon", username).replace("$lastTycoon", event.getLastMoneyTop().getUsername())
+            ));
+        }
     }
 
 }
