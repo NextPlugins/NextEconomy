@@ -127,7 +127,6 @@ public final class NextEconomy extends JavaPlugin {
         skinsRestorerManager = new SkinsRestorerManager();
         interactionRegistry = new InteractionRegistry();
         discordCommandRegistry = new DiscordCommandRegistry();
-
         rankingChatBody = new RankingChatBody();
 
         internalTitleAPI = InternalAPIMapping.create();

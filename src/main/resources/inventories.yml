@@ -35,7 +35,7 @@ inventory:
           - '&fnosso sistema de economia'
       yourMoney:
         identifier: YOUR_MONEY
-        skullName: 'Wii' # ficar com a cabeça do jogador que está visualizando
+        skullName: 'Wii' # use @player ficar com a cabeça do jogador que está visualizando
         displayName: '&bSeu perfil'
         inventorySlot: 4
         lore:
