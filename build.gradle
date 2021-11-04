@@ -3,7 +3,6 @@ plugins {
 
     id 'com.github.johnrengelman.shadow' version '6.0.0'
     id 'net.minecrell.plugin-yml.bukkit' version '0.3.0'
-
 }
 
 group 'com.nextplugins'
@@ -49,7 +48,7 @@ dependencies {
     implementation 'com.github.HenryFabio:inventory-api:main-SNAPSHOT'
     implementation 'com.github.HenryFabio:sql-provider:9561f20fd2'
 
-    def lombok = 'org.projectlombok:lombok:1.18.16'
+    def lombok = 'org.projectlombok:lombok:1.18.22'
     compileOnly lombok
     annotationProcessor lombok
 }
