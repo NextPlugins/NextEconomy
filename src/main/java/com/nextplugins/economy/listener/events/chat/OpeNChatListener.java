@@ -24,18 +24,16 @@ public final class OpeNChatListener implements Listener {
 
         val player = event.getSender();
         if (interactionRegistry.getOperation().contains(player.getName())) {
-
             interactionRegistry.getOperation().remove(player.getName());
 
             event.setCancelled(true);
             return;
-
         }
 
         val textComponent = new TextComponent(rankingStorage.getTycoonTag(player.getName()));
         val hoverEvent = new HoverEvent(
                 HoverEvent.Action.SHOW_TEXT,
-                TextComponent.fromLegacyText(ColorUtil.colored("&7Magnata do servidor."))
+                TextComponent.fromLegacyText(ColorUtil.colored("&7Um dos jogadores mais ricos."))
         );
 
         textComponent.setHoverEvent(hoverEvent);

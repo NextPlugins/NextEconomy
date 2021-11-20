@@ -45,7 +45,7 @@ public final class EconomyPlaceholderHook extends PlaceholderExpansion {
         }
 
         if (params.equalsIgnoreCase("tycoon")) {
-            val rankingStorage = NextEconomy.getInstance().getRankingStorage();
+            val rankingStorage = plugin.getRankingStorage();
             return rankingStorage.getTycoonTag(player.getName());
         }
 

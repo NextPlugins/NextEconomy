@@ -113,7 +113,7 @@ public final class AccountStorage {
         }
 
         // update username if player change (original users)
-        if (!account.getUsername().equalsIgnoreCase(player.getName())) {
+        if (nickMode && !account.getUsername().equalsIgnoreCase(player.getName())) {
             account.setUsername(player.getName());
         }
 

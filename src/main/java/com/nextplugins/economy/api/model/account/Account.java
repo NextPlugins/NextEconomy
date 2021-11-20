@@ -118,30 +118,30 @@ public class Account {
 
     public synchronized EconomyResponse createTransaction(@Nullable Player player,
                                                           @Nullable String owner,
-                                                          double quantity,
-                                                          double valueWithoutPurse,
+                                                          double amount,
+                                                          double amountBeforePurse,
                                                           @NotNull TransactionType transactionType) {
-        if (NumberUtils.isInvalid(quantity)) {
+        if (NumberUtils.isInvalid(amount)) {
             return new EconomyResponse(
-                    quantity, balance,
+                    amount, balance,
                     EconomyResponse.ResponseType.FAILURE,
                     "O valor inserido é inválido."
             );
         }
 
         if (transactionType == TransactionType.WITHDRAW) {
-            if (!hasAmount(quantity)) {
+            if (!hasAmount(amount)) {
                 return new EconomyResponse(
-                        quantity, balance, EconomyResponse.ResponseType.FAILURE,
+                        amount, balance, EconomyResponse.ResponseType.FAILURE,
                         "Não foi possível terminar esta operação. " +
                                 "(A conta requisitada não possui quantia suficiente para completar esta transação)."
                 );
             }
 
-            movimentedBalance += quantity;
-            this.balance -= quantity;
+            movimentedBalance += amount;
+            this.balance -= amount;
 
-        } else this.balance += quantity;
+        } else this.balance += amount;
         if (this.balance < 0) this.balance = 0;
 
         if (owner != null) {
@@ -149,7 +149,7 @@ public class Account {
 
             val historic = AccountBankHistoric.builder()
                     .target(owner)
-                    .amount(quantity)
+                    .amount(amount)
                     .type(transactionType)
                     .build();
 
@@ -159,38 +159,29 @@ public class Account {
         }
 
         if (player != null) {
-            val moneyChangeEvent = new MoneyChangeEvent(
-                    player,
-                    this,
-                    balance,
-                    NumberUtils.format(balance)
-            );
-
+            val moneyChangeEvent = new MoneyChangeEvent(player, this, balance, NumberUtils.format(balance));
             Bukkit.getScheduler().runTask(NextEconomy.getInstance(), () -> Bukkit.getPluginManager().callEvent(moneyChangeEvent));
 
-            if (!PurseValue.get(PurseValue::worlds).contains(player.getWorld().getName()) && valueWithoutPurse > 0 && quantity != valueWithoutPurse) {
-
+            if (amountBeforePurse > 0 && amount != amountBeforePurse && !PurseValue.get(PurseValue::worlds).contains(player.getWorld().getName())) {
                 String message;
-
                 if (transactionType == TransactionType.WITHDRAW) {
-                    if (quantity > valueWithoutPurse) message = MessageValue.get(MessageValue::purseSpendMore);
+                    if (amount > amountBeforePurse) message = MessageValue.get(MessageValue::purseSpendMore);
                     else message = MessageValue.get(MessageValue::purseSpendLess);
                 } else {
-                    if (quantity > valueWithoutPurse) message = MessageValue.get(MessageValue::purseReceiveMore);
+                    if (amount > amountBeforePurse) message = MessageValue.get(MessageValue::purseReceiveMore);
                     else message = MessageValue.get(MessageValue::purseReceiveLess);
                 }
 
-                val value = quantity > valueWithoutPurse ? quantity - valueWithoutPurse : valueWithoutPurse - quantity;
+                val value = amount > amountBeforePurse ? amount - amountBeforePurse : amountBeforePurse - amount;
                 val purseMessage = message.replace("$value", NumberUtils.format(value));
 
-                if (PurseValue.get(PurseValue::messageMethod).equalsIgnoreCase("message"))
-                    player.sendMessage(purseMessage);
+                val isMessageMethod = PurseValue.get(PurseValue::messageMethod).equalsIgnoreCase("message");
+                if (isMessageMethod) player.sendMessage(purseMessage);
                 else ActionBarUtils.sendActionBar(player, purseMessage);
-
             }
         }
 
-        return new EconomyResponse(quantity, balance, EconomyResponse.ResponseType.SUCCESS, "Operação realizada com sucesso.");
+        return new EconomyResponse(amount, balance, EconomyResponse.ResponseType.SUCCESS, "Operação realizada com sucesso.");
 
     }
 

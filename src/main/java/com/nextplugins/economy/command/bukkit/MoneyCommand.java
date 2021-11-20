@@ -178,11 +178,11 @@ public final class MoneyCommand {
     public void moneyHelpCommand(Context<CommandSender> context) {
         val sender = context.getSender();
         if (sender.hasPermission("nexteconomy.command.help.staff")) {
-            for (String s : ColorUtil.colored(MessageValue.get(MessageValue::helpCommandStaff))) {
+            for (String s : MessageValue.get(MessageValue::helpCommandStaff)) {
                 sender.sendMessage(s);
             }
         } else {
-            for (String s : ColorUtil.colored(MessageValue.get(MessageValue::helpCommand))) {
+            for (String s : MessageValue.get(MessageValue::helpCommand)) {
                 sender.sendMessage(s);
             }
         }
@@ -334,10 +334,8 @@ public final class MoneyCommand {
             footer.forEach(sender::sendMessage);
         } else {
             if (!(sender instanceof Player)) {
-
                 sender.sendMessage(ColorUtil.colored("&cEste tipo de ranking não é suportado via console."));
                 return;
-
             }
 
             val player = (Player) sender;

@@ -1,5 +1,6 @@
 package com.nextplugins.economy.vault;
 
+import com.nextplugins.economy.NextEconomy;
 import com.nextplugins.economy.api.NextEconomyAPI;
 import com.nextplugins.economy.api.PurseAPI;
 import com.nextplugins.economy.api.model.account.Account;
@@ -72,9 +73,9 @@ public class VaultEconomyHook extends EconomyWrapper {
     }
 
     @Override
-    public EconomyResponse withdrawPlayer(OfflinePlayer player, double amount) {
-        if (amount == 0 || NumberUtils.isInvalid(amount)) {
-            return new EconomyResponse(amount, 0, EconomyResponse.ResponseType.FAILURE, "Valor inválido");
+    public EconomyResponse withdrawPlayer(OfflinePlayer player, double initialAmount) {
+        if (initialAmount == 0 || NumberUtils.isInvalid(initialAmount)) {
+            return new EconomyResponse(initialAmount, 0, EconomyResponse.ResponseType.FAILURE, "Valor inválido");
         }
 
         val account = ACCOUNT_STORAGE.findAccount(player);
@@ -82,18 +83,18 @@ public class VaultEconomyHook extends EconomyWrapper {
             val purseEnabled = PurseValue.get(PurseValue::enable) && PurseValue.get(PurseValue::withdrawEnabled);
             val purse = purseEnabled ? PurseAPI.getInstance().getPurseMultiplier() : 1;
 
-            val newAmount = amount * purse;
+            val amontWithdraw = initialAmount * purse;
             return account.createTransaction(
                     player.isOnline() ? player.getPlayer() : null,
                     null,
-                    newAmount,
-                    amount,
+                    amontWithdraw,
+                    initialAmount,
                     TransactionType.WITHDRAW
             );
         }
 
         return new EconomyResponse(
-                amount,
+                initialAmount,
                 0,
                 EconomyResponse.ResponseType.FAILURE,
                 "Conta inválida."
@@ -101,9 +102,9 @@ public class VaultEconomyHook extends EconomyWrapper {
     }
 
     @Override
-    public EconomyResponse depositPlayer(OfflinePlayer player, double amount) {
-        if (amount == 0 || NumberUtils.isInvalid(amount)) {
-            return new EconomyResponse(amount, 0, EconomyResponse.ResponseType.FAILURE, "Valor inválido");
+    public EconomyResponse depositPlayer(OfflinePlayer player, double initialAmount) {
+        if (initialAmount == 0 || NumberUtils.isInvalid(initialAmount)) {
+            return new EconomyResponse(initialAmount, 0, EconomyResponse.ResponseType.FAILURE, "Valor inválido");
         }
 
         val account = ACCOUNT_STORAGE.findAccount(player);
@@ -111,19 +112,18 @@ public class VaultEconomyHook extends EconomyWrapper {
             val purseEnabled = PurseValue.get(PurseValue::enable) && PurseValue.get(PurseValue::applyInAll);
             val purse = purseEnabled ? PurseAPI.getInstance().getPurseMultiplier() : 1;
 
-            val newAmount = amount * purse;
-
+            val amountDeposit = initialAmount * purse;
             return account.createTransaction(
                     player.isOnline() ? player.getPlayer() : null,
                     null,
-                    newAmount,
-                    amount,
+                    amountDeposit,
+                    initialAmount,
                     TransactionType.DEPOSIT
             );
         }
 
         return new EconomyResponse(
-                amount,
+                initialAmount,
                 0,
                 EconomyResponse.ResponseType.FAILURE,
                 "Conta inválida"

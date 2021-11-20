@@ -61,7 +61,7 @@ public final class ActionBarUtils {
      * If the server is running Spigot which has an official ActionBar API.
      * This should technically be available from 1.9
      */
-    private static final boolean SPIGOT;
+    private static final boolean SPIGOT_OFFICIAL_SUPPORT;
     /**
      * ChatComponentText JSON message builder.
      */
@@ -82,7 +82,7 @@ public final class ActionBarUtils {
             exists = true;
         } catch (NoClassDefFoundError | NoSuchMethodException ignored) {
         }
-        SPIGOT = exists;
+        SPIGOT_OFFICIAL_SUPPORT = exists;
     }
 
     static {
@@ -90,7 +90,7 @@ public final class ActionBarUtils {
         MethodHandle chatComp = null;
         Object chatMsgType = null;
 
-        if (!SPIGOT) {
+        if (!SPIGOT_OFFICIAL_SUPPORT) {
             // Supporting 1.17 is not necessary, the package guards are just for readability.
             MethodHandles.Lookup lookup = MethodHandles.lookup();
             Class<?> packetPlayOutChatClass = ReflectionUtils.getNMSClass("network.protocol.game", "PacketPlayOutChat");
@@ -154,7 +154,7 @@ public final class ActionBarUtils {
         Objects.requireNonNull(message, "Cannot send a null actionbar message");
 
         val colored = ColorUtil.colored(message);
-        if (SPIGOT) {
+        if (SPIGOT_OFFICIAL_SUPPORT) {
             player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(colored));
             return;
         }

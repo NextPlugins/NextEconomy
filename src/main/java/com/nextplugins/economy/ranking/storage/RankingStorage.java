@@ -33,7 +33,7 @@ public final class RankingStorage {
 
         nextUpdateMillis = System.currentTimeMillis() + updateDelayMillis;
 
-        val accountStorage = NextEconomy.getInstance().getAccountStorage();
+        val accountStorage = plugin.getAccountStorage();
         accountStorage.flushData();
 
         Bukkit.getScheduler().runTaskAsynchronously(
@@ -45,6 +45,8 @@ public final class RankingStorage {
     }
 
     public String getTycoonTag(String playerName) {
+        if (!rankByCoin.containsKey(playerName)) return "";
+
         return topPlayer.equals(playerName)
                 ? RankingValue.get(RankingValue::tycoonTagValue)
                 : RankingValue.get(RankingValue::tycoonRichTagValue);
