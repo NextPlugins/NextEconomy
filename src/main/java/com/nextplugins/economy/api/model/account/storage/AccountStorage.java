@@ -27,7 +27,7 @@ public final class AccountStorage {
 
     private final AsyncLoadingCache<String, Account> cache = Caffeine.newBuilder()
             .maximumSize(1000)
-            .expireAfterWrite(5, TimeUnit.MINUTES)
+            .expireAfterAccess(5, TimeUnit.MINUTES)
             .evictionListener((RemovalListener<String, Account>) (key, value, cause) -> {
                 if (value == null) return;
                 saveOne(value);

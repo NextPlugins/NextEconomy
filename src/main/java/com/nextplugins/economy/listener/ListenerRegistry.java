@@ -15,6 +15,7 @@ import com.nextplugins.economy.listener.events.transaction.TransactionRequestLis
 import com.nextplugins.economy.listener.events.update.PurseListener;
 import com.nextplugins.economy.listener.events.update.RankingListener;
 import com.nextplugins.economy.listener.events.update.TopUpdateListener;
+import com.nextplugins.economy.listener.events.user.UpdateCheckerListener;
 import com.nextplugins.economy.listener.events.user.UpdateNickListener;
 import com.nextplugins.economy.listener.events.user.UserConnectionListener;
 import lombok.Data;
@@ -39,6 +40,7 @@ public final class ListenerRegistry {
             val interactionRegistry = plugin.getInteractionRegistry();
 
             val listeners = Arrays.asList(
+                    new UpdateCheckerListener(),
                     new MoneyGiveListener(),
                     new MoneySetListener(),
                     new MoneyWithdrawListener(),

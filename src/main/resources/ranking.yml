@@ -4,11 +4,21 @@ ranking:
   tycoon: # Placeholder: {tycoon} ou %tycoon%
     # Tag dada para o jogador mais rico
     # Para desativar, apenas deixe o campo entre as '' vazio.
-    tag: '&2[$] '
+    top:
+      tag: '&2[$] '
+      # ID do cargo magnata no discord
+      # OBS: Caso a opção discord esteja ativa e o jogador top 1
+      # tenha vinculado sua conta no servidor, ele irá receber esse cargo
+      discordRoleId: 0
     # Tag dada para os demais jogadores do money top (2 ao 10 ou o número configurado no limite)
     # Para desativar apenas coloque o campo vazio
     # Aparece apenas no chat e nas placeholders do PlaceholderAPI
-    rich: '&a[Rico] '
+    rich:
+      tag: '&a[Rico] '
+      # ID do cargo rico no discord
+      # OBS: Caso a opção discord esteja ativa e o jogador top 1
+      # tenha vinculado sua conta no servidor, ele irá receber esse cargo
+      discordRoleId: 0
     # Comando executado quando o magnata é alterado
     # $currentTycoon - Atual jogador magnata
     # $lastTycoon - Último jogador magnata

@@ -38,6 +38,7 @@ import com.nextplugins.economy.ranking.types.NPCRunnable;
 import com.nextplugins.economy.ranking.util.RankingChatBody;
 import com.nextplugins.economy.vault.registry.VaultHookRegistry;
 import com.nextplugins.economy.views.registry.InventoryRegistry;
+import com.yuhtin.updatechecker.UpdateChecker;
 import lombok.Getter;
 import lombok.val;
 import net.citizensnpcs.api.CitizensAPI;
@@ -79,6 +80,7 @@ public final class NextEconomy extends JavaPlugin {
     private InteractionRegistry interactionRegistry;
     private DiscordCommandRegistry discordCommandRegistry;
 
+    private UpdateChecker updateChecker;
     private RankingChatBody rankingChatBody;
 
     private File npcFile;
@@ -91,6 +93,9 @@ public final class NextEconomy extends JavaPlugin {
 
     @Override
     public void onLoad() {
+        updateChecker = new UpdateChecker(this, "NextPlugins");
+        updateChecker.check();
+
         npcFile = new File(getDataFolder(), "npcs.yml");
         if (!npcFile.exists()) saveResource("npcs.yml", false);
 
@@ -112,6 +117,15 @@ public final class NextEconomy extends JavaPlugin {
         getLogger().info("Iniciando carregamento do plugin.");
 
         val loadTime = Stopwatch.createStarted();
+
+        if (updateChecker.canUpdate()) {
+            getLogger().info("");
+            getLogger().info("ATENÇÃO!");
+            getLogger().info("Você está usando uma versão antiga deste plugin!");
+            getLogger().info("Nova versão: " + updateChecker.getMoreRecentVersion());
+            getLogger().info("Baixe aqui: " + updateChecker.getDownloadLink());
+            getLogger().info("");
+        }
 
         sqlConnector = SQLProvider.of(this).setup(null);
         sqlExecutor = new SQLExecutor(sqlConnector);
