@@ -6,6 +6,7 @@ import org.bukkit.Bukkit;
 
 @AllArgsConstructor
 enum MinecraftVersion {
+
     v1_8("1_8"),
     v1_9("1_9"),
     v1_10("1_10"),
@@ -15,7 +16,8 @@ enum MinecraftVersion {
     v1_14("1_14"),
     v1_15("1_15"),
     v1_16("1_16"),
-    v1_17("1_17");
+    v1_17("1_17"),
+    v1_18("1_18");
 
     private final String key;
 
@@ -36,7 +38,8 @@ enum MinecraftVersion {
                 return version;
             }
         }
-        return v1_17; // Just return latest for unknown
+
+        return v1_18; // Just return latest for unknown
     }
 
     public static MinecraftVersion get() {

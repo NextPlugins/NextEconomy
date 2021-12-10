@@ -35,7 +35,8 @@ dependencies {
 
     compileOnly 'com.github.PlaceholderAPI:PlaceholderAPI:2.10.9'
     compileOnly 'com.gmail.filoghost.holographicdisplays:holographicdisplays-api:2.4.0'
-    compileOnly 'net.citizensnpcs:citizensapi:2.0.27-SNAPSHOT' // For some reason the + recent version stopped working in the repository.
+    compileOnly 'net.citizensnpcs:citizensapi:2.0.27-SNAPSHOT'
+    // For some reason the + recent version stopped working in the repository.
     compileOnly 'com.github.MilkBowl:VaultAPI:1.7'
     compileOnly 'com.nickuc.chat:nchat-api:4.2'
     compileOnly fileTree('libs')
@@ -77,8 +78,17 @@ bukkit {
     ]
 }
 
+def getGitHash = { ->
+    def stdout = new ByteArrayOutputStream()
+    exec {
+        commandLine 'git', 'rev-parse', '--short', 'HEAD'
+        standardOutput = stdout
+    }
+    return stdout.toString().trim()
+}
+
 shadowJar {
-    archiveName("${project.name}-${project.version}.jar")
+    archiveName("${project.name}-${project.version}-${getGitHash()}.jar")
 
     relocate 'com.yuhtin.updatechecker', 'com.nextplugins.economy.libs.updatechecker'
 
