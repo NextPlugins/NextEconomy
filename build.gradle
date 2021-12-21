@@ -45,12 +45,11 @@ dependencies {
     compileOnly 'com.github.PlaceholderAPI:PlaceholderAPI:2.10.9'
     compileOnly 'com.gmail.filoghost.holographicdisplays:holographicdisplays-api:2.4.0'
     compileOnly 'net.citizensnpcs:citizensapi:2.0.27-SNAPSHOT'
-    // For some reason the + recent version stopped working in the repository.
     compileOnly 'com.github.MilkBowl:VaultAPI:1.7'
     compileOnly 'com.nickuc.chat:nchat-api:4.2'
     compileOnly fileTree('libs')
 
-    implementation 'com.github.Yuhtin:update-checker:21571485a3'
+    implementation 'com.github.Yuhtin:update-checker:60104e14e4'
     implementation 'com.github.HenryFabio.configuration-injector:bukkit:1.0.2'
     implementation 'com.github.HenryFabio:inventory-api:main-SNAPSHOT'
     implementation 'com.github.HenryFabio:sql-provider:9561f20fd2'

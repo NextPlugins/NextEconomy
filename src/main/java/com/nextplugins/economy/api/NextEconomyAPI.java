@@ -26,7 +26,8 @@ import java.util.stream.Stream;
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public final class NextEconomyAPI {
 
-    @Getter private static final NextEconomyAPI instance = new NextEconomyAPI();
+    @Getter
+    private static final NextEconomyAPI instance = new NextEconomyAPI();
 
     private final AccountRepository accountRepository = NextEconomy.getInstance().getAccountRepository();
     private final RankingStorage rankingStorage = NextEconomy.getInstance().getRankingStorage();
@@ -71,7 +72,7 @@ public final class NextEconomyAPI {
      *
      * @return {@link Collection} with {@link CompletableFuture} accounts
      */
-    public synchronized @NotNull Collection<CompletableFuture<Account>> retrieveCachedAccountsAsync() {
+    public @NotNull Collection<CompletableFuture<Account>> retrieveCachedAccountsAsync() {
         return accountStorage.getCache().asMap().values();
     }
 
@@ -79,8 +80,10 @@ public final class NextEconomyAPI {
      * Retrieve all accounts loaded in cache.
      *
      * @return {@link Collection} with accounts
+     * @deprecated Use {@link NextEconomyAPI#retrieveCachedAccountsAsync()}
      */
-    public @NotNull Collection<Account> retrieveCachedAccountsSync() {
+    public @Deprecated
+    @NotNull Collection<Account> retrieveCachedAccountsSync() {
         return accountStorage.getCache().synchronous().asMap().values();
     }
 

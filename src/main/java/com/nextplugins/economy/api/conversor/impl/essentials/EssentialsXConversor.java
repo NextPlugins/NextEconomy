@@ -26,7 +26,6 @@ public class EssentialsXConversor extends Conversor {
         if (files == null) return accounts;
 
         for (File playerArchive : files) {
-
             val accountBuilder = Account.generate();
             try (val bufferedReader = new BufferedReader(new FileReader(playerArchive))) {
                 while (bufferedReader.ready()) {
@@ -37,6 +36,10 @@ public class EssentialsXConversor extends Conversor {
 
                     if (line.startsWith("last-account-name")) {
                         accountBuilder.username(line.split(" ")[1]);
+                    }
+
+                    if (line.startsWith("accepting-pay")) {
+                        accountBuilder.receiveCoins(line.split(" ")[1].equals("true"));
                     }
                 }
             } catch (Exception ignored) {}

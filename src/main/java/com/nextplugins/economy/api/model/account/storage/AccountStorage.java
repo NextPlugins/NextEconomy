@@ -3,6 +3,7 @@ package com.nextplugins.economy.api.model.account.storage;
 import com.github.benmanes.caffeine.cache.AsyncLoadingCache;
 import com.github.benmanes.caffeine.cache.Caffeine;
 import com.github.benmanes.caffeine.cache.RemovalListener;
+import com.google.common.base.Stopwatch;
 import com.nextplugins.economy.NextEconomy;
 import com.nextplugins.economy.api.model.account.Account;
 import com.nextplugins.economy.dao.repository.AccountRepository;
@@ -14,9 +15,8 @@ import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.TimeUnit;
+import java.util.concurrent.*;
+import java.util.logging.Level;
 
 @Getter
 @RequiredArgsConstructor
@@ -41,6 +41,7 @@ public final class AccountStorage {
     public void init(boolean nickMode) {
         this.nickMode = nickMode;
         accountRepository.createTable();
+
         NextEconomy.getInstance().getLogger().info("DAO do plugin iniciado com sucesso.");
     }
 
@@ -72,7 +73,9 @@ public final class AccountStorage {
      */
     @Nullable
     public Account findAccountByName(@NotNull String name) {
-        try { return cache.get(name).get(); } catch (InterruptedException | ExecutionException exception) {
+        try {
+            return cache.get(name).get();
+        } catch (InterruptedException | ExecutionException exception) {
             Thread.currentThread().interrupt();
             exception.printStackTrace();
             return null;
@@ -127,16 +130,29 @@ public final class AccountStorage {
      */
     public void put(@NotNull Account account) {
         cache.put(account.getUsername(), CompletableFuture.completedFuture(account));
+        NextEconomy.getInstance().getLogger().info("Adding " + account.getUsername() + " to cache");
     }
+
+    private static final ExecutorService executor = Executors.newFixedThreadPool(128);
 
     /**
      * Flush data from cache
      */
     public void flushData() {
-        val accountMap = cache.synchronous().asMap();
+        val loadTime = Stopwatch.createStarted();
+        val accountMap = cache.asMap();
+        val logger = NextEconomy.getInstance().getLogger();
         for (val entry : accountMap.entrySet()) {
-            accountRepository.saveOne(entry.getValue());
+            logger.log(Level.INFO, "Tempo para criar o executor: ({0})", loadTime);
+            executor.execute(() -> {
+                logger.log(Level.INFO, "Tempo que se passou: ({0})", loadTime);
+                entry.getValue().thenAccept(accountRepository::saveOne);
+                logger.log(Level.INFO, "Tempo depois de salvar: ({0})", loadTime);
+            });
+            logger.log(Level.INFO, "Tempo depois de criar o executor: ({0})", loadTime);
         }
+
+        logger.log(Level.INFO, "Tempo fora do for: ({0})", loadTime);
     }
 
 }

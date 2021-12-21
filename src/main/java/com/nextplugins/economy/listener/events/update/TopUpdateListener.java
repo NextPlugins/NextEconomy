@@ -33,16 +33,18 @@ public class TopUpdateListener implements Listener {
                 message.add(line.replace("$player", username).replace("$coins", event.getMoneyTop().getBalanceFormated()));
             }
 
-            val titlePackets = TitleUtils.buildTitlePackets(title, 20, 20, 20);
-            for (val onlinePlayer : Bukkit.getOnlinePlayers()) {
-                if (titlePackets == null) {
-                    TitleUtils.sendTitle(onlinePlayer, title, 20, 20, 20);
-                } else {
-                    TitleUtils.sendPacketsToPlayer(onlinePlayer, titlePackets);
-                }
+            if (title.contains("<nl>")) {
+                val titlePackets = TitleUtils.buildTitlePackets(title, 20, 20, 20);
+                for (val onlinePlayer : Bukkit.getOnlinePlayers()) {
+                    if (titlePackets == null) {
+                        TitleUtils.sendTitle(onlinePlayer, title, 20, 20, 20);
+                    } else {
+                        TitleUtils.sendPacketsToPlayer(onlinePlayer, titlePackets);
+                    }
 
-                for (val s : message) {
-                    onlinePlayer.sendMessage(s);
+                    for (val s : message) {
+                        onlinePlayer.sendMessage(s);
+                    }
                 }
             }
         }
