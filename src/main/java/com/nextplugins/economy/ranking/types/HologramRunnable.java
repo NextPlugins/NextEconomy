@@ -53,10 +53,8 @@ public final class HologramRunnable implements Runnable {
         val accounts = rankingStorage.getRankByCoin();
         val location = locationManager.getLocation(1);
         if (location == null || location.getWorld() == null) {
-
             plugin.getLogger().warning("A localização 1 do ranking é inválida.");
             return;
-
         }
 
         val chunk = location.getChunk();
@@ -90,7 +88,6 @@ public final class HologramRunnable implements Runnable {
     }
 
     public List<String> playersLines(Collection<SimpleAccount> accounts) {
-
         val lines = new ArrayList<String>();
         val line = RankingValue.get(RankingValue::hologramDefaultLine);
 
@@ -111,6 +108,5 @@ public final class HologramRunnable implements Runnable {
         }
 
         return lines;
-
     }
 }

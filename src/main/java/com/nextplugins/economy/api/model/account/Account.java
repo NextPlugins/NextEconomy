@@ -140,7 +140,6 @@ public class Account {
 
             movimentedBalance += amount;
             this.balance -= amount;
-
         } else this.balance += amount;
         if (this.balance < 0) this.balance = 0;
 
@@ -182,7 +181,6 @@ public class Account {
         }
 
         return new EconomyResponse(amount, balance, EconomyResponse.ResponseType.SUCCESS, "Operação realizada com sucesso.");
-
     }
 
     public synchronized boolean hasAmount(double amount) {

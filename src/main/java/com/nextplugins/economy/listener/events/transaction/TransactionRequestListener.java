@@ -32,53 +32,49 @@ public final class TransactionRequestListener implements Listener {
 
         val account = accountStorage.findAccount(player);
         if (NumberUtils.isInvalid(amount)) {
-
             player.sendMessage(MessageValue.get(MessageValue::invalidMoney));
             return;
-
         }
 
         val minValue = FeatureValue.get(FeatureValue::minTransactionValue);
         if (amount < minValue) {
-
             player.sendMessage(MessageValue.get(MessageValue::minValueNecessary)
                     .replace("$amount", NumberUtils.format(minValue))
             );
             return;
-
         }
 
-        if (account.hasAmount(amount)) {
+        if (!account.hasAmount(amount)) {
+            player.sendMessage(MessageValue.get(MessageValue::insufficientAmount));
+            return;
+        }
 
-            targetAccount.createTransaction(
-                    target.isOnline() ? target.getPlayer() : null,
-                    player.getName(),
-                    amount,
-                    0,
-                    TransactionType.DEPOSIT
-            );
+        targetAccount.createTransaction(
+                target.isOnline() ? target.getPlayer() : null,
+                player.getName(),
+                amount,
+                0,
+                TransactionType.DEPOSIT
+        );
 
-            account.createTransaction(
-                    player,
-                    target.getName(),
-                    amount,
-                    0,
-                    TransactionType.WITHDRAW
-            );
+        account.createTransaction(
+                player,
+                target.getName(),
+                amount,
+                0,
+                TransactionType.WITHDRAW
+        );
 
-            player.sendMessage(
-                    MessageValue.get(MessageValue::paid).replace("$player", target.getName())
+        player.sendMessage(
+                MessageValue.get(MessageValue::paid).replace("$player", target.getName())
+                        .replace("$amount", NumberUtils.format(amount))
+        );
+
+        if (target.isOnline()) {
+            target.getPlayer().sendMessage(
+                    MessageValue.get(MessageValue::received).replace("$player", player.getName())
                             .replace("$amount", NumberUtils.format(amount))
             );
-
-            if (target.isOnline()) {
-                target.getPlayer().sendMessage(
-                        MessageValue.get(MessageValue::received).replace("$player", player.getName())
-                                .replace("$amount", NumberUtils.format(amount))
-                );
-            }
-        } else {
-            player.sendMessage(MessageValue.get(MessageValue::insufficientAmount));
         }
     }
 

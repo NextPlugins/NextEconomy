@@ -56,6 +56,7 @@ import java.util.ArrayList;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
+import java.util.logging.Logger;
 
 @Getter
 public final class NextEconomy extends JavaPlugin {
@@ -117,7 +118,6 @@ public final class NextEconomy extends JavaPlugin {
         getLogger().info("Iniciando carregamento do plugin.");
 
         val loadTime = Stopwatch.createStarted();
-
         if (updateChecker.canUpdate()) {
             getLogger().info("");
             getLogger().info("ATENÇÃO!");
@@ -196,9 +196,28 @@ public final class NextEconomy extends JavaPlugin {
         }
     }
 
+    @NotNull
+    @Override
+    public Logger getLogger() {
+        Logger logger = super.getLogger();
+
+        val stackTrace = getStackTrace();
+        val stackTraceElement = stackTrace[stackTrace.length > 2 ? 2 : 1];
+        val className = stackTraceElement.getFileName();
+
+        logger.info("[NextEconomy-Test123] " + className + "#" + stackTraceElement.getLineNumber() + " acessou o logger");
+        return logger;
+    }
+
+    public static StackTraceElement[] getStackTrace() {
+        Throwable throwable = new Throwable();
+        throwable.fillInStackTrace();
+
+        return throwable.getStackTrace();
+    }
+
     private void unloadRanking() {
         if (CustomRankingRegistry.getInstance().isEnabled()) {
-
             if (CustomRankingRegistry.getInstance().isHolographicDisplays()) {
                 HologramsAPI.getHolograms(this).forEach(Hologram::delete);
             } else {
@@ -254,6 +273,7 @@ public final class NextEconomy extends JavaPlugin {
                     getLogger().warning("Não foi possível apagar o backup " + file.getName() + ".");
                 }
             } catch (Exception exception) {
+                getLogger().warning("Ocorreu um erro ao tentar apagar o backup " + file.getName() + ".");
             }
         }
     }

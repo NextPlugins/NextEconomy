@@ -130,7 +130,6 @@ public final class AccountStorage {
      */
     public void put(@NotNull Account account) {
         cache.put(account.getUsername(), CompletableFuture.completedFuture(account));
-        NextEconomy.getInstance().getLogger().info("Adding " + account.getUsername() + " to cache");
     }
 
     private static final ExecutorService executor = Executors.newFixedThreadPool(128);

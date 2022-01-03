@@ -109,9 +109,9 @@ public final class RankingView extends PagedInventory {
                     );
                 }
 
-                val skinName = skinsRestorerManager.getSkinName(account.getUsername());
+                //val skinName = skinsRestorerManager.getSkinName(account.getUsername());
                 return InventoryItem.of(
-                        new ItemBuilder(skinName)
+                        new ItemBuilder(account.getUsername())
                                 .name(replacedDisplayName)
                                 .setLore(replacedLore)
                                 .wrap()

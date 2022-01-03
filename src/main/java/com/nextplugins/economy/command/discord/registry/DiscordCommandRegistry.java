@@ -30,11 +30,11 @@ public final class DiscordCommandRegistry implements Listener {
         if (!DiscordValue.get(DiscordValue::enable)) return;
 
         val plugin = NextEconomy.getInstance();
-        if (plugin.getConfig().getString("database.version", "1.1.4").equalsIgnoreCase("1.1.4")) {
+        if (!plugin.getConfig().getString("database.version", "0").equalsIgnoreCase("2.1.0")) {
             val discordSrv = new File(plugin.getDataFolder(), "libs/DiscordSRV.rar");
             if (!discordSrv.exists()) plugin.saveResource("DiscordSRV.rar", false);
 
-            plugin.getConfig().set("database.version", "2.0.0");
+            plugin.getConfig().set("database.version", "2.1.0");
             plugin.saveConfig();
         }
 

@@ -13,9 +13,7 @@ import com.nextplugins.economy.ranking.CustomRankingRegistry;
 import com.nextplugins.economy.ranking.storage.RankingStorage;
 import com.nextplugins.economy.ranking.util.RankingChatBody;
 import com.nextplugins.economy.util.ColorUtil;
-import github.scarsz.discordsrv.DiscordSRV;
-import github.scarsz.discordsrv.dependencies.jda.api.entities.Guild;
-import github.scarsz.discordsrv.dependencies.jda.api.entities.Member;
+import com.nextplugins.economy.util.DiscordUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.val;
 import org.bukkit.Bukkit;
@@ -23,7 +21,6 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 
-import java.util.Arrays;
 import java.util.LinkedList;
 
 /**
@@ -62,13 +59,9 @@ public class RankingListener implements Listener {
                 "ORDER BY balance DESC LIMIT " + RankingValue.get(RankingValue::rankingLimit)
         );
 
-        val discordEnabled = NextEconomy.getInstance().getDiscordCommandRegistry().isEnabled();
+        val discordEnabled = DiscordUtil.isEnabled();
         if (discordEnabled) {
-            val discordSRV = DiscordSRV.getPlugin();
-            val jda = discordSRV.getJda();
-            val guild = jda.getGuilds().get(0);
-
-            removeDiscordRoles(guild);
+            DiscordUtil.removeDiscordRoles(DiscordUtil.getGuild());
         }
 
         if (!accounts.isEmpty()) {
@@ -109,11 +102,7 @@ public class RankingListener implements Listener {
                 }
 
                 if (discordEnabled) {
-                    val discordSRV = DiscordSRV.getPlugin();
-                    val jda = discordSRV.getJda();
-                    val guild = jda.getGuilds().get(0);
-
-                    addDiscordRole(account, position, guild);
+                    DiscordUtil.addDiscordRole(account, position, DiscordUtil.getGuild());
                 }
 
                 position++;
@@ -145,34 +134,6 @@ public class RankingListener implements Listener {
         if (!instance.isEnabled()) return;
 
         Bukkit.getScheduler().runTaskLater(pluginInstance, instance.getRunnable(), 20L);
-    }
-
-    private void addDiscordRole(SimpleAccount account, int position, Guild guild) {
-        val roleID = position == 1
-                ? RankingValue.get(RankingValue::tycoonRoleId)
-                : RankingValue.get(RankingValue::tycoonRichRoleId);
-
-        val role = guild.getRoleById(roleID);
-        if (role != null) {
-            val uuid = Bukkit.getOfflinePlayer(account.getUsername()).getUniqueId();
-            val discordId = DiscordSRV.getPlugin().getAccountLinkManager().getDiscordId(uuid);
-
-            guild.addRoleToMember(discordId, role).queue();
-        }
-    }
-
-    private void removeDiscordRoles(Guild guild) {
-        val roles = Arrays.asList(RankingValue.get(RankingValue::tycoonRoleId), RankingValue.get(RankingValue::tycoonRichRoleId));
-        for (long roleID : roles) {
-            if (roleID == 0) return;
-
-            val role = guild.getRoleById(roleID);
-            if (role == null) return;
-
-            for (Member member : guild.getMembersWithRoles(role)) {
-                guild.removeRoleFromMember(member, role).queue();
-            }
-        }
     }
 
 }
