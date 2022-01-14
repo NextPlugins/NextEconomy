@@ -196,26 +196,6 @@ public final class NextEconomy extends JavaPlugin {
         }
     }
 
-    @NotNull
-    @Override
-    public Logger getLogger() {
-        Logger logger = super.getLogger();
-
-        val stackTrace = getStackTrace();
-        val stackTraceElement = stackTrace[stackTrace.length > 2 ? 2 : 1];
-        val className = stackTraceElement.getFileName();
-
-        logger.info("[NextEconomy-Test123] " + className + "#" + stackTraceElement.getLineNumber() + " acessou o logger");
-        return logger;
-    }
-
-    public static StackTraceElement[] getStackTrace() {
-        Throwable throwable = new Throwable();
-        throwable.fillInStackTrace();
-
-        return throwable.getStackTrace();
-    }
-
     private void unloadRanking() {
         if (CustomRankingRegistry.getInstance().isEnabled()) {
             if (CustomRankingRegistry.getInstance().isHolographicDisplays()) {

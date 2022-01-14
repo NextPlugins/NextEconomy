@@ -16,7 +16,7 @@ public final class TypeUtil {
     public static Material swapLegacy(String material, String legacy) {
         try {
             return Material.valueOf(material);
-        }catch (Exception exception) {
+        } catch (Exception exception) {
             return Material.valueOf(legacy);
         }
     }
