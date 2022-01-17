@@ -160,7 +160,7 @@ public final class ArmorStandRunnable implements Runnable {
             val sword = SWORDS[swordNumber - 1];
             stand.setItemInHand(new ItemStack(sword));
 
-            val skinName = account == null ? "Yuhtin" : plugin.getSkinsRestorerManager().getSkinName(account.getUsername());
+            val skinName = account == null ? "Yuhtin" : account.getUsername();
             stand.setHelmet(new ItemBuilder(skinName).wrap());
 
             stand.setChestplate(new ItemBuilder(

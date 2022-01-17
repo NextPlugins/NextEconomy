@@ -17,7 +17,6 @@ import com.nextplugins.economy.api.metric.MetricProvider;
 import com.nextplugins.economy.api.model.account.storage.AccountStorage;
 import com.nextplugins.economy.api.model.discord.manager.PayActionDiscordManager;
 import com.nextplugins.economy.api.model.interactions.registry.InteractionRegistry;
-import com.nextplugins.economy.api.skins.SkinsRestorerManager;
 import com.nextplugins.economy.api.title.InternalAPIMapping;
 import com.nextplugins.economy.api.title.InternalTitleAPI;
 import com.nextplugins.economy.command.bukkit.registry.CommandRegistry;
@@ -56,7 +55,6 @@ import java.util.ArrayList;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
-import java.util.logging.Logger;
 
 @Getter
 public final class NextEconomy extends JavaPlugin {
@@ -75,7 +73,6 @@ public final class NextEconomy extends JavaPlugin {
     private LocationManager locationManager;
     private ConversorManager conversorManager;
     private GroupWrapperManager groupWrapperManager;
-    private SkinsRestorerManager skinsRestorerManager;
     private PayActionDiscordManager payActionDiscordManager;
 
     private InteractionRegistry interactionRegistry;
@@ -138,7 +135,6 @@ public final class NextEconomy extends JavaPlugin {
         backupManager = new BackupManager();
         locationManager = new LocationManager();
         groupWrapperManager = new GroupWrapperManager();
-        skinsRestorerManager = new SkinsRestorerManager();
         interactionRegistry = new InteractionRegistry();
         discordCommandRegistry = new DiscordCommandRegistry();
         rankingChatBody = new RankingChatBody();
@@ -176,7 +172,6 @@ public final class NextEconomy extends JavaPlugin {
             registerPayDiscordManager();
             discordCommandRegistry.init();
 
-            skinsRestorerManager.init();
             purgeBackups();
         }, 150L);
 

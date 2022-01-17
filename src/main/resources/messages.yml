@@ -51,13 +51,13 @@ messages:
         minus: '&3&LBOLSA &fVocê deixou de gastar &a$value &fnesta transação.' # Bolsa emnor que 100% = diminuição de preço = menos gasto para comprar algo
     equals:
       icon: '&b➫'
-      message: '&bmanteve'
+      message: '&bManteve'
     devalued:
       icon: '&c➘'
-      message: '&cdesvalorizou'
+      message: '&cDesvalorizou'
     valued:
       icon: '&a➚'
-      message: '&avalorizou'
+      message: '&aValorizou'
     updated:
       # Antes de mudar aqui, confira a lista de sons da versão do servidor
       # 1.8x : https://helpch.at/docs/1.8.8/index.html?org/bukkit/Sound.html
@@ -66,8 +66,14 @@ messages:
       sound: NOTE_PLING
       message:
         - ''
-        - ' &3&lBOLSA DE VALORES'
-        - ' &fA &bbolsa de valores &ffoi atualizada. &7$lastvalue $operationIcon &7$newvalue &7($operationMessage&7)'
+        - ' &2&lBOLSA DE VALORES'
+        - ''
+        - ' &7A Bolsa de valores sofreu'
+        - ' &7alterações $operationMessage'
+        - ''
+        - '   │ &fCotação anterior &8➟ &c$lastvalue'
+        - '   │ &fCotação Atual &8➟ &a$newvalue'
+        - '   │ &fPróxima Atualização em &710 Minutos'
         - ''
   new-money-top:
     # Habilitar mensagem e título de top,
@@ -149,9 +155,9 @@ messages:
       - '&a/bolsa &8- &7Informações sobre a bolsa.'
       - '&a/cheque &8- &7Informações sobre o cheque.'
       - ''
-      
+
     # mensagem que será enviada se o player tiver a permissão: 'nexteconomy.command.help.staff'
-    help-command-staff: 
+    help-command-staff:
       - ''
       - '&a&lNextEconomy &8&l➡&f Ajuda'
       - ''

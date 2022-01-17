@@ -115,7 +115,7 @@ public final class NPCRunnable implements Runnable {
             val npcRegistry = CitizensAPI.getNPCRegistry();
 
             val npc = npcRegistry.createNPC(EntityType.PLAYER, "");
-            val skinName = account == null ? "Yuhtin" : plugin.getSkinsRestorerManager().getSkinName(account.getUsername());
+            val skinName = account == null ? "Yuhtin" : account.getUsername();
             npc.data().set("player-skin-name", skinName);
             npc.data().set("nexteconomy", true);
             npc.setProtected(true);
