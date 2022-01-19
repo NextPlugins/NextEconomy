@@ -49,7 +49,7 @@ dependencies {
     compileOnly 'com.nickuc.chat:nchat-api:4.2'
     compileOnly fileTree('libs')
 
-    implementation 'com.github.Yuhtin:update-checker:60104e14e4'
+    implementation 'com.github.Yuhtin:update-checker:1.1'
     implementation 'com.github.HenryFabio.configuration-injector:bukkit:1.0.2'
     implementation 'com.github.HenryFabio:inventory-api:main-SNAPSHOT'
     implementation 'com.github.HenryFabio:sql-provider:9561f20fd2'

@@ -3,7 +3,6 @@ package com.nextplugins.economy.api.model.account.storage;
 import com.github.benmanes.caffeine.cache.AsyncLoadingCache;
 import com.github.benmanes.caffeine.cache.Caffeine;
 import com.github.benmanes.caffeine.cache.RemovalListener;
-import com.google.common.base.Stopwatch;
 import com.nextplugins.economy.NextEconomy;
 import com.nextplugins.economy.api.model.account.Account;
 import com.nextplugins.economy.dao.repository.AccountRepository;
@@ -16,13 +15,12 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.concurrent.*;
-import java.util.logging.Level;
 
 @Getter
 @RequiredArgsConstructor
 public final class AccountStorage {
 
-    private boolean nickMode;
+    private static final ExecutorService executor = Executors.newFixedThreadPool(128);
     private final AccountRepository accountRepository;
 
     private final AsyncLoadingCache<String, Account> cache = Caffeine.newBuilder()
@@ -37,6 +35,7 @@ public final class AccountStorage {
                 saveOne(value);
             })
             .buildAsync((key, executor) -> CompletableFuture.completedFuture(selectOne(key)));
+    private boolean nickMode;
 
     public void init(boolean nickMode) {
         this.nickMode = nickMode;
@@ -132,26 +131,12 @@ public final class AccountStorage {
         cache.put(account.getUsername(), CompletableFuture.completedFuture(account));
     }
 
-    private static final ExecutorService executor = Executors.newFixedThreadPool(128);
-
     /**
      * Flush data from cache
      */
     public void flushData() {
-        val loadTime = Stopwatch.createStarted();
         val accountMap = cache.asMap();
-        val logger = NextEconomy.getInstance().getLogger();
-        for (val entry : accountMap.entrySet()) {
-            logger.log(Level.INFO, "Tempo para criar o executor: ({0})", loadTime);
-            executor.execute(() -> {
-                logger.log(Level.INFO, "Tempo que se passou: ({0})", loadTime);
-                entry.getValue().thenAccept(accountRepository::saveOne);
-                logger.log(Level.INFO, "Tempo depois de salvar: ({0})", loadTime);
-            });
-            logger.log(Level.INFO, "Tempo depois de criar o executor: ({0})", loadTime);
-        }
-
-        logger.log(Level.INFO, "Tempo fora do for: ({0})", loadTime);
+        accountMap.values().forEach(future -> future.thenAcceptAsync(accountRepository::saveOne));
     }
 
 }

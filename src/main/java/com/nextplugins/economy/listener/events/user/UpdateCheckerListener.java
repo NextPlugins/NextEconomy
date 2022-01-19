@@ -21,19 +21,22 @@ public class UpdateCheckerListener implements Listener {
         val updateChecker = NextEconomy.getInstance().getUpdateChecker();
         if (!updateChecker.canUpdate()) return;
 
+        val lastRelease = updateChecker.getLastRelease();
+        if (lastRelease == null) return;
+
         val newVersionComponent = new TextComponent(String.format(
                 " Uma nova versão do NextEconomy está disponível (%s » %s)",
                 updateChecker.getCurrentVersion(),
-                updateChecker.getMoreRecentVersion()
+                lastRelease.getVersion()
         ));
 
         val downloadComponent = new TextComponent(" Clique aqui para ir até o local de download.");
         val channelComponent = new TextComponent(TextComponent.fromLegacyText(ColorUtil.colored(
-                " &7Canal de atualização: " + getChannel(updateChecker.getMoreRecentVersion()))
+                " &7Canal de atualização: " + getChannel(lastRelease.isPreRelease() || lastRelease.isDraft()))
         ));
 
         val hoverText = new HoverEvent(HoverEvent.Action.SHOW_TEXT, TextComponent.fromLegacyText(ColorUtil.colored("&7Este link irá levar até o github do plugin")));
-        val clickEvent = new ClickEvent(ClickEvent.Action.OPEN_URL, updateChecker.getDownloadLink());
+        val clickEvent = new ClickEvent(ClickEvent.Action.OPEN_URL, lastRelease.getDownloadURL());
 
         newVersionComponent.setColor(ChatColor.GREEN);
         downloadComponent.setColor(ChatColor.GRAY);
@@ -59,8 +62,8 @@ public class UpdateCheckerListener implements Listener {
         }, 5 * 20L);
     }
 
-    private String getChannel(String moreRecentVersion) {
-        return moreRecentVersion.contains("-") ? "&6Beta" : "&aEstável";
+    private String getChannel(boolean betaChannel) {
+        return betaChannel ? "&6Beta" : "&aEstável";
     }
 
 }

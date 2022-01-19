@@ -36,6 +36,11 @@ public class PayMoneyCommand implements Command {
             return;
         }
 
+        if (args.length < 2 || args[1].equalsIgnoreCase("")) {
+            message.reply(DiscordValue.get(DiscordValue::errorEmoji) + " Você precisa inserir o valor que quer enviar.").queue();
+            return;
+        }
+
         OfflinePlayer player = null;
         User user = null;
 
@@ -75,7 +80,7 @@ public class PayMoneyCommand implements Command {
                 player = Bukkit.getOfflinePlayer(memberName);
                 if (player != null && player.hasPlayedBefore()) {
                     val discordId = DiscordSRV.getPlugin().getAccountLinkManager().getDiscordId(player.getUniqueId());
-                    user = message.getJDA().getUserById(discordId);
+                    if (discordId != null) user = message.getJDA().getUserById(discordId);
                 }
             }
         }
@@ -84,11 +89,6 @@ public class PayMoneyCommand implements Command {
             message.reply(DiscordValue.get(DiscordValue::invalidEmoji) +
                     " Você precisa mencionar um usuário, ou inserir um nick válido."
             ).queue();
-            return;
-        }
-
-        if (args.length < 2 || args[1].equalsIgnoreCase("")) {
-            message.reply(DiscordValue.get(DiscordValue::errorEmoji) + " Você precisa inserir o valor que quer enviar.").queue();
             return;
         }
 
