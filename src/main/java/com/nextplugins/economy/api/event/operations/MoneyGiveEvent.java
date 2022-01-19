@@ -13,13 +13,24 @@ public final class MoneyGiveEvent extends EconomyEvent implements Cancellable {
 
     private final CommandSender sender;
     private final OfflinePlayer target;
+    private final double amountBeforePurse; // amount not affected by purse multiplier
     private final double amount;
     private boolean cancelled;
 
+    @Deprecated
     public MoneyGiveEvent(CommandSender sender, OfflinePlayer target, double amount) {
         super(false);
         this.sender = sender;
         this.target = target;
         this.amount = amount;
+        this.amountBeforePurse = amount;
+    }
+
+    public MoneyGiveEvent(CommandSender sender, OfflinePlayer target, double amount, double amountBeforePurse) {
+        super(false);
+        this.sender = sender;
+        this.target = target;
+        this.amount = amount;
+        this.amountBeforePurse = amountBeforePurse;
     }
 }

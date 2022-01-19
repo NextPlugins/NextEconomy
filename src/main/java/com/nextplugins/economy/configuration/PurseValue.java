@@ -29,8 +29,6 @@ public final class PurseValue implements ConfigurationInjectable {
     @Getter private static final PurseValue instance = new PurseValue();
 
     @ConfigField("enable") private boolean enable;
-    @ConfigField("useInAll") private boolean applyInAll;
-    @ConfigField("useInWithdraw") private boolean withdrawEnabled;
     @ConfigField("messageDisabledWorlds") private List<String> worlds;
     @ConfigField("method") private String messageMethod;
 

@@ -177,6 +177,7 @@ messages:
       - '&a/money reset (jogador)&8 -&7 Resete a conta do jogador.'
       - '&a/money npc&8 -&7 Veja a ajuda para o sistema de NPC.'
       - '&a/setbolsa (valor) &8- &7Altere o valor da bolsa.'
+      - '&a/bolsa give (player) (valor) &8- &7Adicione uma quantia a um jogador baseado na bolsa.'
       - ''
       - '&a/nexteconomy &8- &7Operações administrativas'
       - ''

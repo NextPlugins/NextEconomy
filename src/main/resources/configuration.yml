@@ -40,15 +40,16 @@ plugin:
     # Sistema de bolsa de valores
     purse:
       # Habilitar o sistema de bolsa
+      # Para você usar a bolsa de valores, você precisa usar o comando
+      # /bolsa give <jogador> <valor> - Assim o valor usado será alterado pela bolsa de valores
+      # antes de ser enviado para o jogador
+      #
+      # Coloque para executar esse comando no plugin desejado, por exemplo de mineração
+      # caso não tenha opção de usar comando para da o dinheiro no plugin que deseja, peça para
+      # o desenvolvedor do mesmo, disponibilizar um campo para executar o comando desejado
+      # Caso um plugin já tenha um campo para trocar o /money give troque por /bolsa give
+      # como citado logo acima!
       enable: true
-      # Atenção!
-      # Caso ative esta opção, a bolsa irá afetar em todas as operações de venda! (quando o jogador recebe dinheiro)
-      # Vender itens por placa, vender drops, etc.
-      # Isso não afetará o /money pay (evita dup)
-      useInAll: true
-      # Ativar para alterar valores de compra (quando o jogador gasta dinheiro)
-      # ATENÇÃO Pode causar conflito com alguns plugins que não utilizam corretamente a api do vault
-      useInWithdraw: false
       # Serve para desativar a mensagem de "BOLSA Você deixou de ganhar x ..."
       # em algum mundo específico, podendo desativar na mineração
       # para não ficar flodando

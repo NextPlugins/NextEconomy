@@ -238,7 +238,7 @@ public final class MoneyCommand {
             return;
         }
 
-        val moneyGiveEvent = new MoneyGiveEvent(sender, target, parse);
+        val moneyGiveEvent = new MoneyGiveEvent(sender, target, parse, 0);
         Bukkit.getPluginManager().callEvent(moneyGiveEvent);
     }
 

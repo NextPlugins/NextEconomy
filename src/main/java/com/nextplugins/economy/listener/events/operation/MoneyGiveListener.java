@@ -21,7 +21,7 @@ public final class MoneyGiveListener implements Listener {
 
         val sender = event.getSender();
         val target = event.getTarget();
-        val amount = event.getAmount();
+        val amount = event.getAmountBeforePurse();
 
         val targetAccount = accountStorage.findAccount(target);
         if (targetAccount == null) {
@@ -32,8 +32,8 @@ public final class MoneyGiveListener implements Listener {
         val response = targetAccount.createTransaction(
                 target.isOnline() ? target.getPlayer() : null,
                 null,
-                amount,
-                0,
+                event.getAmount(),
+                event.getAmountBeforePurse(),
                 TransactionType.DEPOSIT
         );
 

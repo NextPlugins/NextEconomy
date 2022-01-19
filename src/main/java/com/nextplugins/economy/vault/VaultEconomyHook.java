@@ -65,10 +65,7 @@ public class VaultEconomyHook extends EconomyWrapper {
         val account = ACCOUNT_STORAGE.findAccount(player);
         if (account == null) return false;
 
-        val purseEnabled = PurseValue.get(PurseValue::enable) && PurseValue.get(PurseValue::withdrawEnabled);
-        val purse = purseEnabled ? PurseAPI.getInstance().getPurseMultiplier() : 1;
-
-        return account.hasAmount(amount * purse);
+        return account.hasAmount(amount);
     }
 
     @Override
@@ -79,15 +76,11 @@ public class VaultEconomyHook extends EconomyWrapper {
 
         val account = ACCOUNT_STORAGE.findAccount(player);
         if (account != null) {
-            val purseEnabled = PurseValue.get(PurseValue::enable) && PurseValue.get(PurseValue::withdrawEnabled);
-            val purse = purseEnabled ? PurseAPI.getInstance().getPurseMultiplier() : 1;
-
-            val amontWithdraw = initialAmount * purse;
             return account.createTransaction(
                     player.isOnline() ? player.getPlayer() : null,
                     null,
-                    amontWithdraw,
                     initialAmount,
+                    0,
                     TransactionType.WITHDRAW
             );
         }
@@ -108,15 +101,11 @@ public class VaultEconomyHook extends EconomyWrapper {
 
         val account = ACCOUNT_STORAGE.findAccount(player);
         if (account != null) {
-            val purseEnabled = PurseValue.get(PurseValue::enable) && PurseValue.get(PurseValue::applyInAll);
-            val purse = purseEnabled ? PurseAPI.getInstance().getPurseMultiplier() : 1;
-
-            val amountDeposit = initialAmount * purse;
             return account.createTransaction(
                     player.isOnline() ? player.getPlayer() : null,
                     null,
-                    amountDeposit,
                     initialAmount,
+                    0,
                     TransactionType.DEPOSIT
             );
         }
