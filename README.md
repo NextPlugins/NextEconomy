@@ -2,11 +2,16 @@
 
 [![Codacy Badge](https://app.codacy.com/project/badge/Grade/41ceccfd3fa241f3a9741f6996f44ccd)](https://www.codacy.com/gh/NextPlugins/NextEconomy/dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=NextPlugins/NextEconomy&amp;utm_campaign=Badge_Grade)
 
-Um sistema completo de economia para servidores de Minecraft, com várias opções configuráveis, com pódio em chat/menu, NPCs, ArmorStands e Hologramas. Informações salvas em MySQL ou SQLite (opção a escolha do usuário), além de haver uma robusta [API](https://github.com/NextPlugins/NextEconomy/tree/main/src/main/java/com/nextplugins/economy/api) para desenvolvedores. Veja mais [aqui](https://imgur.com/gallery/xDfx9pp).
+Um sistema completo de economia para servidores de Minecraft, com várias opções configuráveis, com pódio em chat/menu,
+NPCs, ArmorStands e Hologramas. Informações salvas em MySQL ou SQLite (opção a escolha do utilizador), além de haver uma
+robusta [API](https://github.com/NextPlugins/NextEconomy/tree/main/src/main/java/com/nextplugins/economy/api) para
+programadores. Veja mais [aqui](https://imgur.com/gallery/xDfx9pp).
 
-Veja a reação da comunidade sobre o plugin [aqui](https://gamersboard.com.br/topic/75000-nexteconomy-o-mais-completo-plugin-de-economia-da-comunidade/)
+Veja a reação da comunidade sobre o
+plugin [aqui](https://gamersboard.com.br/topic/75000-nexteconomy-o-mais-completo-plugin-de-economia-da-comunidade/)
 
 ## Comandos
+
 |Comando         |Descrição                      |Permissão                    |
 |----------------|-------------------------------|-----------------------------|
 |/coins ou /money |Abrir o menu do sistema ou mostrar a mensagem de ajuda.|Nenhuma    |
@@ -31,49 +36,65 @@ Veja a reação da comunidade sobre o plugin [aqui](https://gamersboard.com.br/t
 
 ## Download
 
-Você pode encontrar o plugin pronto para baixar [**aqui**](https://github.com/NextPlugins/NextEconomy/releases), ou se você quiser, pode optar por clonar o repositório e dar build no plugin com suas alterações.
+Você pode encontrar o plugin pronto para baixar [**aqui**](https://github.com/NextPlugins/NextEconomy/releases), ou se
+você quiser, pode optar por clonar o repositório e dar build no plugin com suas alterações.
 
 ## Configuração
 
-O plugin conta com vários arquivos de configuração, que pode ser facilmente manipulado por qualquer pessoa, além de você poder moldar ao seu modo.
+O plugin conta com vários arquivos de configuração, que pode ser facilmente manipulado por qualquer pessoa, além de você
+poder moldar ao seu modo.
 
 ## Permissões adicionais
 
--   nexteconomy.bypass ~ Poder enviar dinheiro a um jogador que desativou o recebimento de coins.
+- nexteconomy.bypass ~ Poder enviar dinheiro a um jogador que desativou o recebimento de coins.
 
 ## Placeholders
 
 ### PlaceholderAPI
--   "%nexteconomy_amount%" ~ quantia de dinheiro;
--   "%nexteconomy_purse%" ~ valor da bolsa -> Ex.: (28%);
--   "%nexteconomy_purse_only_value%" ~ valor da bolsa apenas numero -> Ex.: (28);
--   "%nexteconomy_purse_with_icon%" ~ valor da bolsa -> Ex.: (48% ↗ em alta);
--   "%nexteconomy_tycoon%" ~ retornará tag rico ou magnata caso o jogador esteja no top ranking.
 
-OBS: Caso utilize FeatherBoard, as placeholders serão {placeholderapi_nexteconomy_...}, exemplo: {placeholderapi_nexteconomy_amount}
+- "%nexteconomy_amount%" ~ quantia de dinheiro;
+- "%nexteconomy_purse%" ~ valor da bolsa -> Ex.: (28%);
+- "%nexteconomy_purse_only_value%" ~ valor da bolsa apenas numero -> Ex.: (28);
+- "%nexteconomy_purse_with_icon%" ~ valor da bolsa -> Ex.: (48% ↗ em alta);
+- "%nexteconomy_tycoon%" ~ retornará tag rico ou magnata caso o jogador esteja no top ranking.
+- "%nexteconomy_tycoon_name%" ~ retornará o nome do jogador magnata (o primeiro no ranking).
+
+OBS: Caso utilize FeatherBoard, as placeholders serão {placeholderapi_nexteconomy_...}, exemplo:
+{placeholderapi_nexteconomy_amount}
 
 ### LegendChat, nChat ou UltimateChat
--   "{tycoon}" ~ tag magnata ou rico.
+
+- "{tycoon}" ~ tag magnata ou rico.
 
 ## Dependências
 
 ### Obrigatórias
--   [Vault](https://github.com/MilkBowl/VaultAPI) - para suporte a todos os plugins que exigem uma economia (Spawners, Maquinas, Lojas, etc...).
+
+- [Vault](https://github.com/MilkBowl/VaultAPI) - para suporte a todos os plugins que exigem uma economia (Spawners,
+  Maquinas, Lojas, etc.).
 
 ### Opcionais
--   [Citizens](https://dev.bukkit.org/projects/citizens) - para o sistema de NPCs;
--   [PlaceholderAPI](https://www.spigotmc.org/resources/placeholderapi.6245/) - para ter suporte a placeholders;
--   [HolographicDisplays](https://dev.bukkit.org/projects/holographic-displays) - para hologramas (utilizado no sistema de ranking por NPC).
+
+- [Citizens](https://dev.bukkit.org/projects/citizens) - para o sistema de NPCs;
+- [PlaceholderAPI](https://www.spigotmc.org/resources/placeholderapi.6245/) - para ter suporte a placeholders;
+- [HolographicDisplays](https://dev.bukkit.org/projects/holographic-displays) - para hologramas (utilizado no sistema de
+  ranking por NPC).
 
 ## Informações de desenvolvimento
 
 ### Tecnologias usadas
--   [caffeine](https://github.com/ben-manes/caffeine) - Uma biblioteca de cache de alto desempenho (Async & Sync);
--   [Lombok](https://projectlombok.org/) - Gera getters, setters e outros métodos útils durante a compilação por meio de anotações.
+
+- [caffeine](https://github.com/ben-manes/caffeine) - Uma biblioteca de cache de alto desempenho (Async & Sync);
+- [Lombok](https://projectlombok.org/) - Gera getters, setters e outros métodos útils durante a compilação por
+  anotações.
 
 ### APIs e Frameworks
--   [command-framework](https://github.com/SaiintBrisson/command-framework) - Framework para criação e gerenciamento de comandos;
--   [inventory-api](https://github.com/HenryFabio/inventory-api) - API para criação e o gerenciamento de inventários customizados;
--   [sql-provider](https://github.com/henryfabio/sql-provider) - Provê a conexão com o banco de dados;
--   [configuration-injector](https://github.com/HenryFabio/configuration-injector) - Injetar valores de configurações automaticamente;
--   [Item-NBT-API](https://github.com/tr7zw/Item-NBT-API) - Adicione tags NBT customizadas para itens/tiles/entities sem NMS.
+
+- [command-framework](https://github.com/SaiintBrisson/command-framework) - Framework para criação e gestão de comandos;
+- [inventory-api](https://github.com/HenryFabio/inventory-api) - API para criação e a gestão de inventários
+  customizados;
+- [sql-provider](https://github.com/henryfabio/sql-provider) - Provê a conexão com o banco de dados;
+- [configuration-injector](https://github.com/HenryFabio/configuration-injector) - Injetar valores de configurações
+  automaticamente;
+- [Item-NBT-API](https://github.com/tr7zw/Item-NBT-API) - Adicione tags NBT customizadas para itens/tiles/entities sem
+  NMS.

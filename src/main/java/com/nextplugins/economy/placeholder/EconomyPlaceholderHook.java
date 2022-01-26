@@ -44,9 +44,14 @@ public final class EconomyPlaceholderHook extends PlaceholderExpansion {
             return account.getBalanceFormated();
         }
 
+        val rankingStorage = plugin.getRankingStorage();
+
         if (params.equalsIgnoreCase("tycoon")) {
-            val rankingStorage = plugin.getRankingStorage();
             return rankingStorage.getTycoonTag(player.getName());
+        }
+
+        if (params.equalsIgnoreCase("tycoon_name")) {
+            return rankingStorage.getTopPlayer();
         }
 
         return "Placeholder inválida";
