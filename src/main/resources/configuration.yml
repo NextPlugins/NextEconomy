@@ -41,8 +41,8 @@ plugin:
     purse:
       # Habilitar o sistema de bolsa
       # Para você usar a bolsa de valores, você precisa usar o comando
-      # /bolsa give <jogador> <valor> - Assim o valor usado será alterado pela bolsa de valores
-      # antes de ser enviado para o jogador
+      # /bolsa give <jogador> <valor> - Assim o valor usado será alterado pela bolsa de valores antes de ser enviado para o jogador
+      # o <jogador> <valor> devem ser trocados para a variável que o plugin que quer vincular pede
       #
       # Coloque para executar esse comando no plugin desejado, por exemplo de mineração
       # caso não tenha opção de usar comando para da o dinheiro no plugin que deseja, peça para

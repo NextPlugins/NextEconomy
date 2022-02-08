@@ -20,7 +20,6 @@ import java.util.concurrent.*;
 @RequiredArgsConstructor
 public final class AccountStorage {
 
-    private static final ExecutorService executor = Executors.newFixedThreadPool(128);
     private final AccountRepository accountRepository;
 
     private final AsyncLoadingCache<String, Account> cache = Caffeine.newBuilder()
