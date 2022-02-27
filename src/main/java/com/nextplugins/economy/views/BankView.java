@@ -5,9 +5,9 @@ import com.henryfabio.minecraft.inventoryapi.inventory.impl.simple.SimpleInvento
 import com.henryfabio.minecraft.inventoryapi.item.InventoryItem;
 import com.henryfabio.minecraft.inventoryapi.viewer.Viewer;
 import com.nextplugins.economy.api.PurseAPI;
-import com.nextplugins.economy.api.model.account.storage.AccountStorage;
 import com.nextplugins.economy.configuration.InventoryValue;
 import com.nextplugins.economy.configuration.MessageValue;
+import com.nextplugins.economy.model.account.storage.AccountStorage;
 import com.nextplugins.economy.util.ColorUtil;
 import com.nextplugins.economy.util.ItemBuilder;
 import com.nextplugins.economy.util.NumberUtils;

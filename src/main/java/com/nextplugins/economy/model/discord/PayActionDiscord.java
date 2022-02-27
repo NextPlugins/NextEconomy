@@ -1,4 +1,4 @@
-package com.nextplugins.economy.api.model.discord;
+package com.nextplugins.economy.model.discord;
 
 import github.scarsz.discordsrv.DiscordSRV;
 import github.scarsz.discordsrv.dependencies.jda.api.entities.Message;

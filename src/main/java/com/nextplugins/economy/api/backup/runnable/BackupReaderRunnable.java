@@ -8,7 +8,7 @@ import com.nextplugins.economy.NextEconomy;
 import com.nextplugins.economy.api.backup.BackupManager;
 import com.nextplugins.economy.api.backup.response.ResponseType;
 import com.nextplugins.economy.api.conversor.ConversorManager;
-import com.nextplugins.economy.api.model.account.Account;
+import com.nextplugins.economy.model.account.Account;
 import com.nextplugins.economy.util.ColorUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.val;

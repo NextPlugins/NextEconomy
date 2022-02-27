@@ -1,12 +1,11 @@
 package com.nextplugins.economy.vault;
 
 import com.nextplugins.economy.api.NextEconomyAPI;
-import com.nextplugins.economy.api.PurseAPI;
-import com.nextplugins.economy.api.model.account.Account;
-import com.nextplugins.economy.api.model.account.storage.AccountStorage;
-import com.nextplugins.economy.api.model.account.transaction.TransactionType;
 import com.nextplugins.economy.configuration.MessageValue;
-import com.nextplugins.economy.configuration.PurseValue;
+import com.nextplugins.economy.model.account.Account;
+import com.nextplugins.economy.model.account.storage.AccountStorage;
+import com.nextplugins.economy.model.account.transaction.Transaction;
+import com.nextplugins.economy.model.account.transaction.TransactionType;
 import com.nextplugins.economy.util.NumberUtils;
 import lombok.val;
 import lombok.var;
@@ -77,11 +76,11 @@ public class VaultEconomyHook extends EconomyWrapper {
         val account = ACCOUNT_STORAGE.findAccount(player);
         if (account != null) {
             return account.createTransaction(
-                    player.isOnline() ? player.getPlayer() : null,
-                    null,
-                    initialAmount,
-                    0,
-                    TransactionType.WITHDRAW
+                    Transaction.builder()
+                            .player(player.isOnline() ? player.getPlayer() : null)
+                            .amount(initialAmount)
+                            .transactionType(TransactionType.WITHDRAW)
+                            .build()
             );
         }
 
@@ -102,11 +101,11 @@ public class VaultEconomyHook extends EconomyWrapper {
         val account = ACCOUNT_STORAGE.findAccount(player);
         if (account != null) {
             return account.createTransaction(
-                    player.isOnline() ? player.getPlayer() : null,
-                    null,
-                    initialAmount,
-                    0,
-                    TransactionType.DEPOSIT
+                    Transaction.builder()
+                            .player(player.isOnline() ? player.getPlayer() : null)
+                            .amount(initialAmount)
+                            .transactionType(TransactionType.WITHDRAW)
+                            .build()
             );
         }
 

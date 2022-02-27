@@ -1,10 +1,10 @@
 package com.nextplugins.economy.dao.repository;
 
 import com.henryfabio.sqlprovider.executor.SQLExecutor;
-import com.nextplugins.economy.api.model.account.Account;
-import com.nextplugins.economy.api.model.account.SimpleAccount;
 import com.nextplugins.economy.dao.repository.adapter.AccountAdapter;
 import com.nextplugins.economy.dao.repository.adapter.SimpleAccountAdapter;
+import com.nextplugins.economy.model.account.Account;
+import com.nextplugins.economy.model.account.SimpleAccount;
 import com.nextplugins.economy.util.BankHistoricParserUtil;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -71,7 +71,7 @@ public final class AccountRepository {
         this.sqlExecutor.updateQuery(
                 String.format("REPLACE INTO %s VALUES(?,?,?,?,?,?)", TABLE),
                 statement -> {
-                    statement.set(1, account.getUuid() == null ? account.getUsername() : account.getUuid());
+                    statement.set(1, account.getIdentifier());
                     statement.set(2, account.getBalance());
                     statement.set(3, account.getMovimentedBalance());
                     statement.set(4, account.getTransactionsQuantity());
@@ -81,12 +81,12 @@ public final class AccountRepository {
         );
     }
 
-    public void updateOne(Account account) {
+    public void updateOne(String accountIdentifier, double balance) {
         this.sqlExecutor.updateQuery(
                 String.format("UPDATE %s SET balance=? WHERE owner=?", TABLE),
                 statement -> {
-                    statement.set(1, account.getBalance());
-                    statement.set(2, account.getUuid() == null ? account.getUsername() : account.getUuid());
+                    statement.set(1, balance);
+                    statement.set(2, accountIdentifier);
                 });
     }
 

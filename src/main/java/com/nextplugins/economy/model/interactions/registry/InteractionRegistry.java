@@ -1,8 +1,8 @@
-package com.nextplugins.economy.api.model.interactions.registry;
+package com.nextplugins.economy.model.interactions.registry;
 
 import com.nextplugins.economy.NextEconomy;
-import com.nextplugins.economy.api.model.interactions.manager.LookupInteractionManager;
-import com.nextplugins.economy.api.model.interactions.manager.PayInteractionManager;
+import com.nextplugins.economy.model.interactions.manager.LookupInteractionManager;
+import com.nextplugins.economy.model.interactions.manager.PayInteractionManager;
 import lombok.Getter;
 
 import java.util.ArrayList;

@@ -1,11 +1,11 @@
 package com.nextplugins.economy.command.discord.impl;
 
-import com.nextplugins.economy.api.model.account.storage.AccountStorage;
-import com.nextplugins.economy.api.model.discord.PayActionDiscord;
-import com.nextplugins.economy.api.model.discord.manager.PayActionDiscordManager;
 import com.nextplugins.economy.command.discord.Command;
 import com.nextplugins.economy.configuration.DiscordValue;
 import com.nextplugins.economy.configuration.MessageValue;
+import com.nextplugins.economy.model.account.storage.AccountStorage;
+import com.nextplugins.economy.model.discord.PayActionDiscord;
+import com.nextplugins.economy.model.discord.manager.PayActionDiscordManager;
 import com.nextplugins.economy.util.NumberUtils;
 import github.scarsz.discordsrv.DiscordSRV;
 import github.scarsz.discordsrv.dependencies.jda.api.entities.Message;

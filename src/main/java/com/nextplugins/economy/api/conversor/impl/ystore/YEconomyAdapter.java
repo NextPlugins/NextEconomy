@@ -3,7 +3,7 @@ package com.nextplugins.economy.api.conversor.impl.ystore;
 import com.google.gson.Gson;
 import com.henryfabio.sqlprovider.executor.adapter.SQLResultAdapter;
 import com.henryfabio.sqlprovider.executor.result.SimpleResultSet;
-import com.nextplugins.economy.api.model.account.Account;
+import com.nextplugins.economy.model.account.Account;
 import lombok.val;
 
 /**

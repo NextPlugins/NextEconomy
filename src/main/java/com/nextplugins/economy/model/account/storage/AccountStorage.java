@@ -1,11 +1,12 @@
-package com.nextplugins.economy.api.model.account.storage;
+package com.nextplugins.economy.model.account.storage;
 
 import com.github.benmanes.caffeine.cache.AsyncLoadingCache;
 import com.github.benmanes.caffeine.cache.Caffeine;
 import com.github.benmanes.caffeine.cache.RemovalListener;
 import com.nextplugins.economy.NextEconomy;
-import com.nextplugins.economy.api.model.account.Account;
 import com.nextplugins.economy.dao.repository.AccountRepository;
+import com.nextplugins.economy.model.account.Account;
+import com.nextplugins.economy.model.account.transaction.TransactionType;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.val;
@@ -14,13 +15,18 @@ import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.concurrent.*;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.TimeUnit;
 
 @Getter
 @RequiredArgsConstructor
 public final class AccountStorage {
 
     private final AccountRepository accountRepository;
+    private boolean nickMode;
+    private int depositCount;
+    private int withdrawCount;
 
     private final AsyncLoadingCache<String, Account> cache = Caffeine.newBuilder()
             .maximumSize(1000)
@@ -34,13 +40,17 @@ public final class AccountStorage {
                 saveOne(value);
             })
             .buildAsync((key, executor) -> CompletableFuture.completedFuture(selectOne(key)));
-    private boolean nickMode;
 
     public void init(boolean nickMode) {
         this.nickMode = nickMode;
         accountRepository.createTable();
 
         NextEconomy.getInstance().getLogger().info("DAO do plugin iniciado com sucesso.");
+    }
+
+    public void increaseTransactionCount(TransactionType transactionType) {
+        if (transactionType == TransactionType.DEPOSIT) depositCount++;
+        else withdrawCount++;
     }
 
     /**
@@ -50,6 +60,10 @@ public final class AccountStorage {
      */
     public void saveOne(@NotNull Account account) {
         accountRepository.saveOne(account);
+    }
+
+    public void fastSaveOne(@NotNull String identifier, double balance) {
+        accountRepository.updateOne(identifier, balance);
     }
 
     /**
@@ -130,12 +144,23 @@ public final class AccountStorage {
         cache.put(account.getUsername(), CompletableFuture.completedFuture(account));
     }
 
+    public void fastFlushData() {
+        val accountMap = cache.asMap();
+
+        for (val futureAccount : accountMap.values()) {
+            futureAccount.thenAcceptAsync(Account::fastSave);
+        }
+    }
+
     /**
      * Flush data from cache
      */
     public void flushData() {
         val accountMap = cache.asMap();
-        accountMap.values().forEach(future -> future.thenAcceptAsync(accountRepository::saveOne));
+
+        for (val futureAccount : accountMap.values()) {
+            futureAccount.thenAcceptAsync(accountRepository::saveOne);
+        }
     }
 
 }

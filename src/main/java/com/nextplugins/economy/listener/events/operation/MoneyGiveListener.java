@@ -2,9 +2,10 @@ package com.nextplugins.economy.listener.events.operation;
 
 import com.nextplugins.economy.NextEconomy;
 import com.nextplugins.economy.api.event.operations.MoneyGiveEvent;
-import com.nextplugins.economy.api.model.account.storage.AccountStorage;
-import com.nextplugins.economy.api.model.account.transaction.TransactionType;
 import com.nextplugins.economy.configuration.MessageValue;
+import com.nextplugins.economy.model.account.storage.AccountStorage;
+import com.nextplugins.economy.model.account.transaction.Transaction;
+import com.nextplugins.economy.model.account.transaction.TransactionType;
 import com.nextplugins.economy.util.NumberUtils;
 import lombok.val;
 import org.bukkit.event.EventHandler;
@@ -30,11 +31,12 @@ public final class MoneyGiveListener implements Listener {
         }
 
         val response = targetAccount.createTransaction(
-                target.isOnline() ? target.getPlayer() : null,
-                null,
-                event.getAmount(),
-                event.getAmountBeforePurse(),
-                TransactionType.DEPOSIT
+                Transaction.builder()
+                        .player(target.isOnline() ? target.getPlayer() : null)
+                        .amount(event.getAmount())
+                        .amountWithoutPurse(event.getAmountBeforePurse())
+                        .transactionType(TransactionType.DEPOSIT)
+                        .build()
         );
 
         if (!response.transactionSuccess()) {

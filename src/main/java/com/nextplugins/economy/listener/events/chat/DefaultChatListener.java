@@ -1,6 +1,6 @@
 package com.nextplugins.economy.listener.events.chat;
 
-import com.nextplugins.economy.api.model.interactions.registry.InteractionRegistry;
+import com.nextplugins.economy.model.interactions.registry.InteractionRegistry;
 import lombok.AllArgsConstructor;
 import lombok.val;
 import org.bukkit.event.EventHandler;

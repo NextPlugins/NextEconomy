@@ -2,7 +2,7 @@ package com.nextplugins.economy.dao.repository.adapter;
 
 import com.henryfabio.sqlprovider.executor.adapter.SQLResultAdapter;
 import com.henryfabio.sqlprovider.executor.result.SimpleResultSet;
-import com.nextplugins.economy.api.model.account.SimpleAccount;
+import com.nextplugins.economy.model.account.SimpleAccount;
 import com.nextplugins.economy.util.NumberUtils;
 
 public final class SimpleAccountAdapter implements SQLResultAdapter<SimpleAccount> {

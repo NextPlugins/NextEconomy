@@ -1,8 +1,8 @@
 package com.nextplugins.economy.util;
 
 import com.nextplugins.economy.NextEconomy;
-import com.nextplugins.economy.api.model.account.SimpleAccount;
 import com.nextplugins.economy.configuration.RankingValue;
+import com.nextplugins.economy.model.account.SimpleAccount;
 import github.scarsz.discordsrv.DiscordSRV;
 import github.scarsz.discordsrv.dependencies.jda.api.entities.Guild;
 import github.scarsz.discordsrv.dependencies.jda.api.entities.Member;

@@ -2,7 +2,7 @@ package com.nextplugins.economy.api.conversor;
 
 import com.google.common.collect.Sets;
 import com.henryfabio.sqlprovider.executor.SQLExecutor;
-import com.nextplugins.economy.api.model.account.Account;
+import com.nextplugins.economy.model.account.Account;
 import lombok.Data;
 
 import java.util.Set;

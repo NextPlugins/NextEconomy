@@ -1,7 +1,7 @@
 package com.nextplugins.economy.api.conversor.impl.essentials;
 
 import com.nextplugins.economy.api.conversor.Conversor;
-import com.nextplugins.economy.api.model.account.Account;
+import com.nextplugins.economy.model.account.Account;
 import com.nextplugins.economy.util.NumberUtils;
 import lombok.val;
 

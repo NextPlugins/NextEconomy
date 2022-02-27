@@ -1,4 +1,4 @@
-package com.nextplugins.economy.api.model.account.transaction;
+package com.nextplugins.economy.model.account.transaction;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

@@ -1,4 +1,4 @@
-package com.nextplugins.economy.api.model.account.historic;
+package com.nextplugins.economy.model.account.historic;
 
 import java.util.Comparator;
 

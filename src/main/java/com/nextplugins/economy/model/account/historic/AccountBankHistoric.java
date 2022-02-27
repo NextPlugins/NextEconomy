@@ -1,6 +1,6 @@
-package com.nextplugins.economy.api.model.account.historic;
+package com.nextplugins.economy.model.account.historic;
 
-import com.nextplugins.economy.api.model.account.transaction.TransactionType;
+import com.nextplugins.economy.model.account.transaction.TransactionType;
 import lombok.Builder;
 import lombok.Data;
 

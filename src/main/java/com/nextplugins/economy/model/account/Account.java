@@ -1,25 +1,23 @@
-package com.nextplugins.economy.api.model.account;
+package com.nextplugins.economy.model.account;
 
 import com.google.common.collect.Lists;
 import com.nextplugins.economy.NextEconomy;
 import com.nextplugins.economy.api.event.operations.MoneyChangeEvent;
-import com.nextplugins.economy.api.model.account.historic.AccountBankHistoric;
-import com.nextplugins.economy.api.model.account.historic.BankHistoricComparator;
-import com.nextplugins.economy.api.model.account.transaction.TransactionType;
 import com.nextplugins.economy.configuration.FeatureValue;
-import com.nextplugins.economy.configuration.MessageValue;
 import com.nextplugins.economy.configuration.PurseValue;
-import com.nextplugins.economy.util.ActionBarUtils;
+import com.nextplugins.economy.model.account.historic.AccountBankHistoric;
+import com.nextplugins.economy.model.account.historic.BankHistoricComparator;
+import com.nextplugins.economy.model.account.transaction.Transaction;
+import com.nextplugins.economy.model.account.transaction.TransactionType;
 import com.nextplugins.economy.util.BankHistoricParserUtil;
 import com.nextplugins.economy.util.DiscordSyncUtil;
+import com.nextplugins.economy.util.MessageUtil;
 import com.nextplugins.economy.util.NumberUtils;
 import lombok.*;
 import net.milkbowl.vault.economy.EconomyResponse;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
-import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.LinkedList;
 
@@ -37,12 +35,10 @@ public class Account {
 
     private int transactionsQuantity;
 
-    @Builder.Default
-    private LinkedList<AccountBankHistoric> transactions = Lists.newLinkedList();
+    @Builder.Default private LinkedList<AccountBankHistoric> transactions = Lists.newLinkedList();
     private String transactionsJson;
 
-    @Builder.Default
-    private boolean receiveCoins = true;
+    @Builder.Default private boolean receiveCoins = true;
 
     public static Account createDefault(OfflinePlayer player) {
         val accountBuilder = Account.generate()
@@ -86,6 +82,14 @@ public class Account {
         );
     }
 
+    public void saveTransactions() {
+        transactionsJson = BankHistoricParserUtil.parse(transactions);
+    }
+
+    public String getIdentifier() {
+        return uuid == null ? username : uuid;
+    }
+
     public String getDiscordName() {
         if (discordName == null) {
             discordName = DiscordSyncUtil.getUserTag(Bukkit.getOfflinePlayer(username));
@@ -102,10 +106,6 @@ public class Account {
         return NumberUtils.format(getBalance());
     }
 
-    public void saveTransactions() {
-        transactionsJson = BankHistoricParserUtil.parse(transactions);
-    }
-
     public synchronized void setBalance(double quantity) {
         if (NumberUtils.isInvalid(quantity)) return;
         this.balance = quantity;
@@ -116,11 +116,8 @@ public class Account {
         this.balance += quantity;
     }
 
-    public synchronized EconomyResponse createTransaction(@Nullable Player player,
-                                                          @Nullable String owner,
-                                                          double amount,
-                                                          double amountBeforePurse,
-                                                          @NotNull TransactionType transactionType) {
+    public synchronized EconomyResponse createTransaction(@NotNull Transaction transaction) {
+        val amount = transaction.amount();
         if (NumberUtils.isInvalid(amount)) {
             return new EconomyResponse(
                     amount, balance,
@@ -129,6 +126,7 @@ public class Account {
             );
         }
 
+        val transactionType = transaction.transactionType();
         if (transactionType == TransactionType.WITHDRAW) {
             if (!hasAmount(amount)) {
                 return new EconomyResponse(
@@ -143,11 +141,11 @@ public class Account {
         } else this.balance += amount;
         if (this.balance < 0) this.balance = 0;
 
-        if (owner != null) {
+        if (transaction.owner() != null) {
             ++transactionsQuantity;
 
             val historic = AccountBankHistoric.builder()
-                    .target(owner)
+                    .target(transaction.owner())
                     .amount(amount)
                     .type(transactionType)
                     .build();
@@ -155,32 +153,45 @@ public class Account {
             if (transactions.size() >= 56) transactions.remove(0);
             transactions.add(historic);
             transactions.sort(new BankHistoricComparator());
+
+            save();
+        } else {
+            fastSave();
         }
 
+        increaseData(transactionType);
+
+        val player = transaction.player();
         if (player != null) {
             val moneyChangeEvent = new MoneyChangeEvent(player, this, balance, NumberUtils.format(balance));
             Bukkit.getScheduler().runTask(NextEconomy.getInstance(), () -> Bukkit.getPluginManager().callEvent(moneyChangeEvent));
 
-            if (amountBeforePurse > 0 && amount != amountBeforePurse && !PurseValue.get(PurseValue::worlds).contains(player.getWorld().getName())) {
-                String message;
-                if (transactionType == TransactionType.WITHDRAW) {
-                    if (amount > amountBeforePurse) message = MessageValue.get(MessageValue::purseSpendMore);
-                    else message = MessageValue.get(MessageValue::purseSpendLess);
-                } else {
-                    if (amount > amountBeforePurse) message = MessageValue.get(MessageValue::purseReceiveMore);
-                    else message = MessageValue.get(MessageValue::purseReceiveLess);
-                }
-
-                val value = amount > amountBeforePurse ? amount - amountBeforePurse : amountBeforePurse - amount;
-                val purseMessage = message.replace("$value", NumberUtils.format(value));
-
-                val isMessageMethod = PurseValue.get(PurseValue::messageMethod).equalsIgnoreCase("message");
-                if (isMessageMethod) player.sendMessage(purseMessage);
-                else ActionBarUtils.sendActionBar(player, purseMessage);
+            val isInBlockedWorld = PurseValue.get(PurseValue::worlds).contains(player.getWorld().getName());
+            val amountWithoutPurse = transaction.amountWithoutPurse();
+            if (amountWithoutPurse > 0 && amount != amountWithoutPurse && !isInBlockedWorld) {
+                MessageUtil.sendPurseAffectMessage(transaction);
             }
         }
 
         return new EconomyResponse(amount, balance, EconomyResponse.ResponseType.SUCCESS, "Operação realizada com sucesso.");
+    }
+
+    private void increaseData(TransactionType transactionType) {
+        val accountStorage = NextEconomy.getInstance().getAccountStorage();
+        accountStorage.increaseTransactionCount(transactionType);
+    }
+
+    public void save() {
+        val accountStorage = NextEconomy.getInstance().getAccountStorage();
+        accountStorage.saveOne(this);
+    }
+
+    /**
+     * Only saves the account balance
+     */
+    public void fastSave() {
+        val accountStorage = NextEconomy.getInstance().getAccountStorage();
+        accountStorage.fastSaveOne(getIdentifier(), getBalance());
     }
 
     public synchronized boolean hasAmount(double amount) {

@@ -1,7 +1,7 @@
 package com.nextplugins.economy.api.conversor.impl.storm;
 
 import com.google.common.collect.Lists;
-import com.nextplugins.economy.api.model.account.historic.AccountBankHistoric;
+import com.nextplugins.economy.model.account.historic.AccountBankHistoric;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 

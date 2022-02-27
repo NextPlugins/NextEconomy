@@ -5,17 +5,8 @@ plugins {
     id 'net.minecrell.plugin-yml.bukkit' version '0.3.0'
 }
 
-def getGitHash = { ->
-    def stdout = new ByteArrayOutputStream()
-    exec {
-        commandLine 'git', 'rev-parse', '--short', 'HEAD'
-        standardOutput = stdout
-    }
-    return stdout.toString().trim()
-}
-
 group 'com.nextplugins'
-version "2.1.0-${getGitHash}"
+version "2.1.0"
 
 tasks.build.dependsOn('shadowJar')
 

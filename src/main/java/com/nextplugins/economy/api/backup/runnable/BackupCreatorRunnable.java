@@ -3,7 +3,7 @@ package com.nextplugins.economy.api.backup.runnable;
 import com.google.common.base.Stopwatch;
 import com.nextplugins.economy.NextEconomy;
 import com.nextplugins.economy.api.backup.BackupManager;
-import com.nextplugins.economy.api.model.account.Account;
+import com.nextplugins.economy.model.account.Account;
 import com.nextplugins.economy.util.ColorUtil;
 import com.nextplugins.economy.util.SetSerializerHelper;
 import lombok.RequiredArgsConstructor;

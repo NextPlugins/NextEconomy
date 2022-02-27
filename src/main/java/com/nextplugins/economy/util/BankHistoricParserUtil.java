@@ -1,7 +1,7 @@
 package com.nextplugins.economy.util;
 
-import com.nextplugins.economy.api.model.account.historic.AccountBankHistoric;
-import com.nextplugins.economy.api.model.account.transaction.TransactionType;
+import com.nextplugins.economy.model.account.historic.AccountBankHistoric;
+import com.nextplugins.economy.model.account.transaction.TransactionType;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import lombok.val;

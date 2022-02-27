@@ -6,8 +6,8 @@ import com.nextplugins.economy.api.backup.response.BackupResponse;
 import com.nextplugins.economy.api.backup.response.ResponseType;
 import com.nextplugins.economy.api.backup.runnable.BackupCreatorRunnable;
 import com.nextplugins.economy.api.backup.runnable.BackupReaderRunnable;
-import com.nextplugins.economy.api.model.account.Account;
 import com.nextplugins.economy.dao.repository.AccountRepository;
+import com.nextplugins.economy.model.account.Account;
 import com.nextplugins.economy.util.DateFormatUtil;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
@@ -68,10 +68,10 @@ public final class BackupManager {
 
         FileUtils.createFileIfNotExists(file);
 
-        val accountStorage = NextEconomy.getInstance().getAccountStorage();
-        accountStorage.flushData();
-
         if (async) {
+            val accountStorage = NextEconomy.getInstance().getAccountStorage();
+            accountStorage.flushData();
+
             scheduler.runTaskAsynchronously(plugin, () -> {
                 Set<Account> accounts = new HashSet<>();
                 accountRepository.selectAll("").forEach(account -> {

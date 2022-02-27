@@ -2,10 +2,11 @@ package com.nextplugins.economy.listener.events.transaction;
 
 import com.nextplugins.economy.NextEconomy;
 import com.nextplugins.economy.api.event.transaction.TransactionRequestEvent;
-import com.nextplugins.economy.api.model.account.storage.AccountStorage;
-import com.nextplugins.economy.api.model.account.transaction.TransactionType;
 import com.nextplugins.economy.configuration.FeatureValue;
 import com.nextplugins.economy.configuration.MessageValue;
+import com.nextplugins.economy.model.account.storage.AccountStorage;
+import com.nextplugins.economy.model.account.transaction.Transaction;
+import com.nextplugins.economy.model.account.transaction.TransactionType;
 import com.nextplugins.economy.util.NumberUtils;
 import lombok.val;
 import org.bukkit.event.EventHandler;
@@ -50,19 +51,21 @@ public final class TransactionRequestListener implements Listener {
         }
 
         targetAccount.createTransaction(
-                target.isOnline() ? target.getPlayer() : null,
-                player.getName(),
-                amount,
-                0,
-                TransactionType.DEPOSIT
+                Transaction.builder()
+                        .player(target.isOnline() ? target.getPlayer() : null)
+                        .owner(player.getName())
+                        .amount(event.getAmount())
+                        .transactionType(TransactionType.DEPOSIT)
+                        .build()
         );
 
         account.createTransaction(
-                player,
-                target.getName(),
-                amount,
-                0,
-                TransactionType.WITHDRAW
+                Transaction.builder()
+                        .player(player)
+                        .owner(target.getName())
+                        .amount(event.getAmount())
+                        .transactionType(TransactionType.WITHDRAW)
+                        .build()
         );
 
         player.sendMessage(

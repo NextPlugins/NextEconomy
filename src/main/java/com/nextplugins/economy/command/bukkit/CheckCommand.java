@@ -1,9 +1,10 @@
 package com.nextplugins.economy.command.bukkit;
 
-import com.nextplugins.economy.api.model.account.storage.AccountStorage;
-import com.nextplugins.economy.api.model.account.transaction.TransactionType;
 import com.nextplugins.economy.configuration.FeatureValue;
 import com.nextplugins.economy.configuration.MessageValue;
+import com.nextplugins.economy.model.account.storage.AccountStorage;
+import com.nextplugins.economy.model.account.transaction.Transaction;
+import com.nextplugins.economy.model.account.transaction.TransactionType;
 import com.nextplugins.economy.util.CheckUtil;
 import com.nextplugins.economy.util.NumberUtils;
 import lombok.RequiredArgsConstructor;
@@ -64,11 +65,13 @@ public final class CheckCommand {
         }
 
         val response = account.createTransaction(
-                player,
-                "Cheque",
-                amount,
-                0,
-                TransactionType.WITHDRAW
+                Transaction.builder()
+                        .player(player)
+                        .owner("Cheque")
+                        .amount(amount)
+                        .amountWithoutPurse(0)
+                        .transactionType(TransactionType.WITHDRAW)
+                        .build()
         );
 
         if (!response.transactionSuccess()) {

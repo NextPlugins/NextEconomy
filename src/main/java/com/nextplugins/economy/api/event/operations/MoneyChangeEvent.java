@@ -1,7 +1,7 @@
 package com.nextplugins.economy.api.event.operations;
 
 import com.nextplugins.economy.api.event.EconomyEvent;
-import com.nextplugins.economy.api.model.account.Account;
+import com.nextplugins.economy.model.account.Account;
 import lombok.Getter;
 import lombok.Setter;
 import org.bukkit.entity.Player;

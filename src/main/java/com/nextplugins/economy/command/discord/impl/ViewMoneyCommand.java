@@ -1,12 +1,12 @@
 package com.nextplugins.economy.command.discord.impl;
 
 import com.nextplugins.economy.NextEconomy;
-import com.nextplugins.economy.api.model.account.historic.AccountBankHistoric;
-import com.nextplugins.economy.api.model.account.storage.AccountStorage;
-import com.nextplugins.economy.api.model.account.transaction.TransactionType;
 import com.nextplugins.economy.command.discord.Command;
 import com.nextplugins.economy.configuration.DiscordValue;
 import com.nextplugins.economy.configuration.MessageValue;
+import com.nextplugins.economy.model.account.historic.AccountBankHistoric;
+import com.nextplugins.economy.model.account.storage.AccountStorage;
+import com.nextplugins.economy.model.account.transaction.TransactionType;
 import com.nextplugins.economy.util.ColorUtil;
 import com.nextplugins.economy.util.DateFormatUtil;
 import com.nextplugins.economy.util.NumberUtils;

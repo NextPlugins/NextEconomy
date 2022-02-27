@@ -1,8 +1,8 @@
 package com.nextplugins.economy.command.discord.impl;
 
-import com.nextplugins.economy.api.model.discord.manager.PayActionDiscordManager;
 import com.nextplugins.economy.command.discord.Command;
 import com.nextplugins.economy.configuration.DiscordValue;
+import com.nextplugins.economy.model.discord.manager.PayActionDiscordManager;
 import github.scarsz.discordsrv.dependencies.jda.api.entities.Message;
 import lombok.AllArgsConstructor;
 import lombok.val;

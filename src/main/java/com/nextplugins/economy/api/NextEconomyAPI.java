@@ -2,10 +2,10 @@ package com.nextplugins.economy.api;
 
 import com.google.common.collect.Sets;
 import com.nextplugins.economy.NextEconomy;
-import com.nextplugins.economy.api.model.account.Account;
-import com.nextplugins.economy.api.model.account.SimpleAccount;
-import com.nextplugins.economy.api.model.account.storage.AccountStorage;
 import com.nextplugins.economy.dao.repository.AccountRepository;
+import com.nextplugins.economy.model.account.Account;
+import com.nextplugins.economy.model.account.SimpleAccount;
+import com.nextplugins.economy.model.account.storage.AccountStorage;
 import com.nextplugins.economy.ranking.storage.RankingStorage;
 import lombok.AccessLevel;
 import lombok.Getter;

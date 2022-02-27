@@ -4,8 +4,8 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.nextplugins.economy.NextEconomy;
 import com.nextplugins.economy.api.event.operations.AsyncRankingUpdateEvent;
-import com.nextplugins.economy.api.model.account.SimpleAccount;
 import com.nextplugins.economy.configuration.RankingValue;
+import com.nextplugins.economy.model.account.SimpleAccount;
 import lombok.Data;
 import lombok.val;
 import org.bukkit.Bukkit;
@@ -36,9 +36,10 @@ public final class RankingStorage {
         val accountStorage = plugin.getAccountStorage();
         accountStorage.flushData();
 
-        Bukkit.getScheduler().runTaskAsynchronously(
+        Bukkit.getScheduler().runTaskLaterAsynchronously(
                 plugin,
-                () -> pluginManager.callEvent(new AsyncRankingUpdateEvent())
+                () -> pluginManager.callEvent(new AsyncRankingUpdateEvent()),
+                30L
         );
 
         return true;

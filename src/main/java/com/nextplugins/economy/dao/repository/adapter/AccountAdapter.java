@@ -2,7 +2,7 @@ package com.nextplugins.economy.dao.repository.adapter;
 
 import com.henryfabio.sqlprovider.executor.adapter.SQLResultAdapter;
 import com.henryfabio.sqlprovider.executor.result.SimpleResultSet;
-import com.nextplugins.economy.api.model.account.Account;
+import com.nextplugins.economy.model.account.Account;
 import com.nextplugins.economy.util.BankHistoricParserUtil;
 import lombok.val;
 

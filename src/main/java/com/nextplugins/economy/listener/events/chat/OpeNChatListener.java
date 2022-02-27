@@ -1,6 +1,6 @@
 package com.nextplugins.economy.listener.events.chat;
 
-import com.nextplugins.economy.api.model.interactions.registry.InteractionRegistry;
+import com.nextplugins.economy.model.interactions.registry.InteractionRegistry;
 import com.nextplugins.economy.ranking.storage.RankingStorage;
 import com.nextplugins.economy.util.ColorUtil;
 import com.nickuc.chat.api.events.PublicMessageEvent;

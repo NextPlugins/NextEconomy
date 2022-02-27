@@ -1,4 +1,4 @@
-package com.nextplugins.economy.api.model.interactions;
+package com.nextplugins.economy.model.interactions;
 
 public enum PayInteractionStep {
 

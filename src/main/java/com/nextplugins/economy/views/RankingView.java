@@ -11,10 +11,10 @@ import com.henryfabio.minecraft.inventoryapi.viewer.configuration.border.Border;
 import com.henryfabio.minecraft.inventoryapi.viewer.impl.paged.PagedViewer;
 import com.nextplugins.economy.NextEconomy;
 import com.nextplugins.economy.api.group.GroupWrapperManager;
-import com.nextplugins.economy.api.model.account.SimpleAccount;
 import com.nextplugins.economy.configuration.InventoryValue;
 import com.nextplugins.economy.configuration.MessageValue;
 import com.nextplugins.economy.configuration.RankingValue;
+import com.nextplugins.economy.model.account.SimpleAccount;
 import com.nextplugins.economy.ranking.storage.RankingStorage;
 import com.nextplugins.economy.util.ItemBuilder;
 import com.nextplugins.economy.util.TimeUtils;
@@ -42,12 +42,11 @@ public final class RankingView extends PagedInventory {
 
     @Override
     protected void configureViewer(PagedViewer viewer) {
-
         val configuration = viewer.getConfiguration();
+
         configuration.backInventory("nexteconomy.main");
         configuration.itemPageLimit(14);
         configuration.border(Border.of(1, 1, 2, 1));
-
     }
 
     @Override
@@ -107,7 +106,6 @@ public final class RankingView extends PagedInventory {
                     );
                 }
 
-                //val skinName = skinsRestorerManager.getSkinName(account.getUsername());
                 return InventoryItem.of(
                         new ItemBuilder(account.getUsername())
                                 .name(replacedDisplayName)
@@ -123,7 +121,6 @@ public final class RankingView extends PagedInventory {
     }
 
     private InventoryItem restTimeUpdate() {
-
         return InventoryItem.of(new ItemBuilder("MHF_QUESTION")
                 .name("&bPróxima atualização")
                 .setLore(
@@ -132,7 +129,6 @@ public final class RankingView extends PagedInventory {
                 )
                 .wrap()
         );
-
     }
 
     private InventoryItem sortRankingItem(Viewer viewer) {

@@ -1,10 +1,10 @@
-package com.nextplugins.economy.api.model.interactions.manager;
+package com.nextplugins.economy.model.interactions.manager;
 
 import com.google.common.collect.Maps;
 import com.nextplugins.economy.NextEconomy;
-import com.nextplugins.economy.api.model.interactions.PayInteraction;
-import com.nextplugins.economy.api.model.interactions.PayInteractionStep;
 import com.nextplugins.economy.configuration.MessageValue;
+import com.nextplugins.economy.model.interactions.PayInteraction;
+import com.nextplugins.economy.model.interactions.PayInteractionStep;
 import com.nextplugins.economy.util.EventAwaiter;
 import com.nextplugins.economy.util.NumberUtils;
 import lombok.Getter;

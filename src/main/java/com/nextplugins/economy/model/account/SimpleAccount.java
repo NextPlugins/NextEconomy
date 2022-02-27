@@ -1,4 +1,4 @@
-package com.nextplugins.economy.api.model.account;
+package com.nextplugins.economy.model.account;
 
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;

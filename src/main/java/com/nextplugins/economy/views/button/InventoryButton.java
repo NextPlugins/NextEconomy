@@ -1,6 +1,5 @@
 package com.nextplugins.economy.views.button;
 
-import com.nextplugins.economy.NextEconomy;
 import com.nextplugins.economy.util.ItemBuilder;
 import com.nextplugins.economy.views.button.model.ButtonType;
 import lombok.Builder;

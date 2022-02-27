@@ -1,8 +1,9 @@
 package com.nextplugins.economy.listener.events.check;
 
-import com.nextplugins.economy.api.model.account.storage.AccountStorage;
-import com.nextplugins.economy.api.model.account.transaction.TransactionType;
 import com.nextplugins.economy.configuration.MessageValue;
+import com.nextplugins.economy.model.account.storage.AccountStorage;
+import com.nextplugins.economy.model.account.transaction.Transaction;
+import com.nextplugins.economy.model.account.transaction.TransactionType;
 import com.nextplugins.economy.util.NumberUtils;
 import de.tr7zw.changeme.nbtapi.NBTItem;
 import lombok.RequiredArgsConstructor;
@@ -57,11 +58,12 @@ public final class CheckInteractListener implements Listener {
         val account = accountStorage.findAccount(player);
 
         val response = account.createTransaction(
-                player,
-                "Cheque",
-                value,
-                0,
-                TransactionType.DEPOSIT
+                Transaction.builder()
+                        .player(player)
+                        .owner("Cheque")
+                        .amount(value)
+                        .transactionType(TransactionType.DEPOSIT)
+                        .build()
         );
 
         if (!response.transactionSuccess()) {

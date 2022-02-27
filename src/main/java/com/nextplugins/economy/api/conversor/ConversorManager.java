@@ -2,8 +2,8 @@ package com.nextplugins.economy.api.conversor;
 
 import com.google.common.base.Stopwatch;
 import com.nextplugins.economy.NextEconomy;
-import com.nextplugins.economy.api.model.account.Account;
 import com.nextplugins.economy.dao.repository.AccountRepository;
+import com.nextplugins.economy.model.account.Account;
 import com.nextplugins.economy.util.ActionBarUtils;
 import com.nextplugins.economy.util.ColorUtil;
 import lombok.Data;

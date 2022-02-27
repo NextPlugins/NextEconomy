@@ -1,14 +1,15 @@
-package com.nextplugins.economy.api.model.discord.manager;
+package com.nextplugins.economy.model.discord.manager;
 
 import com.github.benmanes.caffeine.cache.Cache;
 import com.github.benmanes.caffeine.cache.Caffeine;
 import com.github.benmanes.caffeine.cache.RemovalCause;
 import com.github.benmanes.caffeine.cache.RemovalListener;
-import com.nextplugins.economy.api.model.account.storage.AccountStorage;
-import com.nextplugins.economy.api.model.account.transaction.TransactionType;
-import com.nextplugins.economy.api.model.discord.PayActionDiscord;
 import com.nextplugins.economy.configuration.DiscordValue;
 import com.nextplugins.economy.configuration.MessageValue;
+import com.nextplugins.economy.model.account.storage.AccountStorage;
+import com.nextplugins.economy.model.account.transaction.Transaction;
+import com.nextplugins.economy.model.account.transaction.TransactionType;
+import com.nextplugins.economy.model.discord.PayActionDiscord;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.val;
@@ -57,19 +58,21 @@ public class PayActionDiscordManager {
             }
 
             account.createTransaction(
-                    payActionDiscord.player().isOnline() ? payActionDiscord.player().getPlayer() : null,
-                    target.getName(),
-                    amount,
-                    0,
-                    TransactionType.WITHDRAW
+                    Transaction.builder()
+                            .player(payActionDiscord.player().isOnline() ? payActionDiscord.player().getPlayer() : null)
+                            .owner(target.getName())
+                            .amount(amount)
+                            .transactionType(TransactionType.WITHDRAW)
+                            .build()
             );
 
             targetAccount.createTransaction(
-                    target.isOnline() ? target.getPlayer() : null,
-                    player.getName(),
-                    amount,
-                    0,
-                    TransactionType.DEPOSIT
+                    Transaction.builder()
+                            .player(target.isOnline() ? target.getPlayer() : null)
+                            .owner(player.getName())
+                            .amount(amount)
+                            .transactionType(TransactionType.WITHDRAW)
+                            .build()
             );
 
             message.reply(MessageValue.get(MessageValue::sendedMoneyDiscord)

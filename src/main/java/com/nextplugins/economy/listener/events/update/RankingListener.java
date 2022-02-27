@@ -5,10 +5,10 @@ import com.nextplugins.economy.api.event.operations.AsyncMoneyTopPlayerChangedEv
 import com.nextplugins.economy.api.event.operations.AsyncRankingUpdateEvent;
 import com.nextplugins.economy.api.group.Group;
 import com.nextplugins.economy.api.group.GroupWrapperManager;
-import com.nextplugins.economy.api.model.account.SimpleAccount;
 import com.nextplugins.economy.configuration.DiscordValue;
 import com.nextplugins.economy.configuration.RankingValue;
 import com.nextplugins.economy.dao.repository.AccountRepository;
+import com.nextplugins.economy.model.account.SimpleAccount;
 import com.nextplugins.economy.ranking.CustomRankingRegistry;
 import com.nextplugins.economy.ranking.storage.RankingStorage;
 import com.nextplugins.economy.ranking.util.RankingChatBody;
