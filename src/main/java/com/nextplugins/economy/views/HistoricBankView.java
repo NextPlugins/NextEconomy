@@ -63,20 +63,13 @@ public final class HistoricBankView extends PagedInventory {
         List<InventoryItemSupplier> items = new LinkedList<>();
         for (AccountBankHistoric transaction : account.getTransactions()) {
             items.add(() -> {
-                val name = transaction.getType() == TransactionType.WITHDRAW
-                        ? player.getName()
-                        : transaction.getTarget();
-
-                val targetName = transaction.getType() == TransactionType.WITHDRAW
-                        ? transaction.getTarget()
-                        : player.getName();
+                val targetName = transaction.getTarget();
 
                 val date = DateFormatUtil.of(transaction.getMilli());
                 val transactionMessage = (transaction.getType() == TransactionType.WITHDRAW
                         ? InventoryValue.get(InventoryValue::withdrawMessage)
                         : InventoryValue.get(InventoryValue::depositMessage))
-                        .replace("@target", targetName)
-                        .replace("@player", name);
+                        .replace("@target", targetName);
 
                 val item = InventoryButton.builder()
                         .materialData(new MaterialData(Material.AIR))
@@ -84,7 +77,6 @@ public final class HistoricBankView extends PagedInventory {
                         .nickname(InventoryValue.get(InventoryValue::historicSkullName))
                         .lore(InventoryValue.get(InventoryValue::historicLore).stream()
                                 .map(line -> line
-                                        .replace("@player", name)
                                         .replace("@target", targetName)
                                         .replace("@date", date)
                                         .replace("@action", transaction.getType().getMessage())

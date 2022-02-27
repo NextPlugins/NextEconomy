@@ -109,11 +109,13 @@ public class Account {
     public synchronized void setBalance(double quantity) {
         if (NumberUtils.isInvalid(quantity)) return;
         this.balance = quantity;
+        fastSave();
     }
 
     public synchronized void deposit(double quantity) {
         if (NumberUtils.isInvalid(quantity)) return;
         this.balance += quantity;
+        fastSave();
     }
 
     public synchronized EconomyResponse createTransaction(@NotNull Transaction transaction) {
