@@ -125,6 +125,7 @@ public final class AccountStorage {
         if (account == null) {
             account = Account.createDefault(player);
             put(account);
+            saveOne(account);
         }
 
         // update username if player change (original users)
