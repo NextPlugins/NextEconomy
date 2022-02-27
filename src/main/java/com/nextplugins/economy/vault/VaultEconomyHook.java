@@ -124,6 +124,7 @@ public class VaultEconomyHook extends EconomyWrapper {
 
         account = Account.createDefault(player);
         ACCOUNT_STORAGE.put(account);
+        ACCOUNT_STORAGE.saveOne(account);
 
         return true;
     }
