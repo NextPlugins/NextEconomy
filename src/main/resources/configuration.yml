@@ -38,9 +38,9 @@ plugin:
       # /bolsa give <jogador> <valor> - Assim o valor usado será alterado pela bolsa de valores antes de ser enviado para o jogador
       # o <jogador> <valor> devem ser trocados para a variável que o plugin que quer vincular pede
       #
-      # Coloque para executar esse comando no plugin desejado, por exemplo de mineração
-      # caso não tenha opção de usar comando para da o dinheiro no plugin que deseja, peça para
-      # o desenvolvedor do mesmo, disponibilizar um campo para executar o comando desejado
+      # Coloque para executar esse comando no plugin desejado, por exemplo de mineração.
+      # Caso não tenha opção de usar comando para dar o dinheiro no plugin que deseja, peça para
+      # o desenvolvedor do mesmo, disponibilizar um campo aonde você muda o comando a ser executado (ao invés de /money give use /bolsa give)
       # Caso um plugin já tenha um campo para trocar o /money give troque por /bolsa give
       # como citado logo acima!
       enable: true

@@ -1,7 +1,6 @@
 package com.nextplugins.economy.listener;
 
 import com.nextplugins.economy.NextEconomy;
-import com.nextplugins.economy.configuration.FeatureValue;
 import com.nextplugins.economy.listener.events.chat.DefaultChatListener;
 import com.nextplugins.economy.listener.events.chat.LegendChatListener;
 import com.nextplugins.economy.listener.events.chat.OpeNChatListener;
@@ -17,7 +16,6 @@ import com.nextplugins.economy.listener.events.update.RankingListener;
 import com.nextplugins.economy.listener.events.update.TopUpdateListener;
 import com.nextplugins.economy.listener.events.user.UpdateCheckerListener;
 import com.nextplugins.economy.listener.events.user.UpdateNickListener;
-import com.nextplugins.economy.listener.events.user.UserConnectionListener;
 import lombok.Data;
 import lombok.val;
 import org.bukkit.Bukkit;
@@ -57,10 +55,6 @@ public final class ListenerRegistry {
                     new DefaultChatListener(interactionRegistry),
                     new CheckInteractListener(plugin.getAccountStorage())
             );
-
-            if (FeatureValue.get(FeatureValue::quitUpdate)) {
-                pluginManager.registerEvents(new UserConnectionListener(plugin.getAccountStorage()), plugin);
-            }
 
             if (!accountStorage.isNickMode()) {
                 pluginManager.registerEvents(new UpdateNickListener(plugin.getAccountStorage()), plugin);

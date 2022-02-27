@@ -22,7 +22,7 @@ public final class MoneyGiveListener implements Listener {
 
         val sender = event.getSender();
         val target = event.getTarget();
-        val amount = event.getAmountBeforePurse();
+        val amount = event.getAmount();
 
         val targetAccount = accountStorage.findAccount(target);
         if (targetAccount == null) {

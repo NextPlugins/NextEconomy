@@ -71,9 +71,9 @@ messages:
         - ' &7A Bolsa de valores sofreu'
         - ' &7alterações $operationMessage'
         - ''
-        - '   │ &fCotação anterior &8➟ &c$lastvalue'
-        - '   │ &fCotação Atual &8➟ &a$newvalue'
-        - '   │ &fPróxima Atualização em &710 Minutos'
+        - '   &7│ &fCotação anterior &8➟ &c$lastvalue'
+        - '   &7│ &fCotação Atual &8➟ &a$newvalue'
+        - '   &7│ &fPróxima Atualização em &710 Minutos'
         - ''
   new-money-top:
     # Habilitar mensagem e título de top,
