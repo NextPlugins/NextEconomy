@@ -104,7 +104,7 @@ public class VaultEconomyHook extends EconomyWrapper {
                     Transaction.builder()
                             .player(player.isOnline() ? player.getPlayer() : null)
                             .amount(initialAmount)
-                            .transactionType(TransactionType.WITHDRAW)
+                            .transactionType(TransactionType.DEPOSIT)
                             .build()
             );
         }
