@@ -1,15 +1,11 @@
 package com.nextplugins.economy.listener.events.others;
 
 import com.nextplugins.economy.ranking.types.ArmorStandRunnable;
-import com.nextplugins.economy.util.TypeUtil;
 import lombok.val;
 import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.EntityType;
-import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
-import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
-import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.event.player.PlayerInteractAtEntityEvent;
 

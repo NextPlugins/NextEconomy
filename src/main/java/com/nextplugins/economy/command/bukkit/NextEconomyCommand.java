@@ -1,6 +1,6 @@
 package com.nextplugins.economy.command.bukkit;
 
-import com.github.juliarn.npc.NPC;
+import com.github.juliarn.npc.modifier.LabyModModifier;
 import com.gmail.filoghost.holographicdisplays.api.Hologram;
 import com.gmail.filoghost.holographicdisplays.api.HologramsAPI;
 import com.google.common.base.Stopwatch;
@@ -82,6 +82,38 @@ public final class NextEconomyCommand {
         if (backup.getResponseType() == ResponseType.BACKUP_IN_PROGRESS) {
             context.sendMessage(ColorUtil.colored("&cJá existe um backup em andamento."));
         }
+    }
+
+    @Command(
+            name = "nexteconomy.playanimation",
+            permission = "nexteconomy.admin",
+            usage = "/ne playanimation <option> <animationId>",
+            async = true
+    )
+    public void onPlayAnimationCommand(Context<CommandSender> context, String option, int animationId) {
+        val runnable = CustomRankingRegistry.getInstance().getRunnable();
+        if (!(runnable instanceof NPCRunnable)) {
+            context.sendMessage(ColorUtil.colored("&cO modo de ranking deve ser npc."));
+            return;
+        }
+
+        var action = LabyModModifier.LabyModAction.EMOTE;
+        try {
+            action = LabyModModifier.LabyModAction.valueOf(option.toUpperCase());
+        } catch (Exception exception) {
+            context.sendMessage(ColorUtil.colored("&cTipos de animação: sticker ou emote"));
+            return;
+        }
+
+        val npcPool = ((NPCRunnable) runnable).getNpcPool();
+        int index = 1;
+        for (val npc : npcPool.getNPCs()) {
+            LabyModModifier.LabyModAction finalAction = action;
+            Bukkit.getScheduler().runTaskLaterAsynchronously(NextEconomy.getInstance(), () -> npc.labymod().queue(finalAction, animationId).send(Bukkit.getOnlinePlayers()), 20L * index);
+            index++;
+        }
+
+        context.sendMessage(ColorUtil.colored("&aAnimação executada em todos os npcs para jogadores com labymod!"));
     }
 
     @Command(

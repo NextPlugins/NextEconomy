@@ -1,6 +1,5 @@
 package com.nextplugins.economy.ranking;
 
-import com.github.juliarn.npc.NPCPool;
 import com.nextplugins.economy.NextEconomy;
 import com.nextplugins.economy.configuration.RankingValue;
 import com.nextplugins.economy.ranking.loader.LocationLoader;

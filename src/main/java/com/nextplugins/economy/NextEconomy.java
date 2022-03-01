@@ -33,7 +33,6 @@ import com.nextplugins.economy.ranking.CustomRankingRegistry;
 import com.nextplugins.economy.ranking.manager.LocationManager;
 import com.nextplugins.economy.ranking.storage.RankingStorage;
 import com.nextplugins.economy.ranking.types.ArmorStandRunnable;
-import com.nextplugins.economy.ranking.types.NPCRunnable;
 import com.nextplugins.economy.ranking.util.RankingChatBody;
 import com.nextplugins.economy.vault.registry.VaultHookRegistry;
 import com.nextplugins.economy.views.registry.InventoryRegistry;

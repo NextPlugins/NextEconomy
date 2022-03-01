@@ -121,17 +121,15 @@ public final class NPCRunnable implements Runnable, Listener {
             }
 
             val skinName = account == null ? "Yuhtin" : account.getUsername();
-            val profile = new Profile(UUID.fromString("fdef0011-1c58-40c8-bfef-0bdcb1495938"));
+            val profile = new Profile(skinName);
             profile.complete();
 
-            profile.setName(skinName);
+            profile.setName("");
             profile.setUniqueId(new UUID(RANDOM.nextLong(), 0));
 
             val npc = NPC.builder().profile(profile).location(location).imitatePlayer(false).lookAtPlayer(false).build(npcPool);
 
             npc.visibility().queueSpawn();
-            npc.getProfile().setName("");
-
         }
     }
 
