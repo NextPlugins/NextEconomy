@@ -1,5 +1,6 @@
 package com.nextplugins.economy.command.bukkit;
 
+import com.github.juliarn.npc.NPC;
 import com.gmail.filoghost.holographicdisplays.api.Hologram;
 import com.gmail.filoghost.holographicdisplays.api.HologramsAPI;
 import com.google.common.base.Stopwatch;
@@ -12,6 +13,7 @@ import com.nextplugins.economy.configuration.MessageValue;
 import com.nextplugins.economy.dao.SQLProvider;
 import com.nextplugins.economy.dao.repository.AccountRepository;
 import com.nextplugins.economy.model.account.storage.AccountStorage;
+import com.nextplugins.economy.ranking.CustomRankingRegistry;
 import com.nextplugins.economy.ranking.storage.RankingStorage;
 import com.nextplugins.economy.ranking.types.NPCRunnable;
 import com.nextplugins.economy.util.ColorUtil;
@@ -21,7 +23,6 @@ import lombok.var;
 import me.saiintbrisson.minecraft.command.annotation.Command;
 import me.saiintbrisson.minecraft.command.annotation.Optional;
 import me.saiintbrisson.minecraft.command.command.Context;
-import net.citizensnpcs.api.CitizensAPI;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 
@@ -111,44 +112,22 @@ public final class NextEconomyCommand {
             return;
         }
 
-        val citizensEnabled = pluginManager.isPluginEnabled("Citizens");
         for (val world : Bukkit.getWorlds()) {
             for (val entity : world.getEntities()) {
-
                 if (!entity.hasMetadata("nexteconomy")) continue;
-                if (citizensEnabled) {
-                    val npc = CitizensAPI.getNPCRegistry().getNPC(entity);
-                    if (npc != null) {
-                        CitizensAPI.getNPCRegistry().deregister(npc);
-                        continue;
-                    }
-                }
-
                 entity.remove();
-
             }
         }
 
         HologramsAPI.getHolograms(NextEconomy.getInstance()).forEach(Hologram::delete);
+        val runnable = CustomRankingRegistry.getInstance().getRunnable();
+        if (runnable instanceof NPCRunnable) {
+            val npcRunnable = (NPCRunnable) runnable;
+            val npcPool = npcRunnable.getNpcPool();
 
-        if (citizensEnabled) {
-            try {
-                for (val npc : CitizensAPI.getNPCRegistry()) {
-                    if (!npc.data().has("nexteconomy")) continue;
-                    npc.despawn();
-                    npc.destroy();
-                }
-
-            } catch (Exception exception) {
-                for (val id : NPCRunnable.NPCS) {
-                    val npc = CitizensAPI.getNPCRegistry().getById(id);
-                    if (npc == null) continue;
-
-                    CitizensAPI.getNPCRegistry().deregister(npc);
-                }
+            for (val npc : npcPool.getNPCs()) {
+                npcPool.removeNPC(npc.getEntityId());
             }
-
-            NPCRunnable.NPCS.clear();
         }
 
         context.sendMessage(ColorUtil.colored("&aTodos os NPCs, ArmorStands e Hologramas foram limpos com sucesso."));

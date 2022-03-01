@@ -51,7 +51,7 @@ ranking:
         - ''
   visual:
     # ARMORSTAND - Armorstands com cabeça de cada jogador [Recomendado para multi-posições]
-    # NPC - Boneco da altura e mesma skin do jogador
+    # NPC - Boneco da altura e mesma skin do jogador [Recomendado com LabyMod]
     # HOLOGRAM - Apenas um holograma com todos os jogadores (suporta apenas 1 posição) [Melhor opção]
     # NOTHING - Desativar todos os formatos de ranking (mesmo que não sete nenhuma posição do ranking, desative aqui para reduzir o tempo de startup)
     type: ARMORSTAND

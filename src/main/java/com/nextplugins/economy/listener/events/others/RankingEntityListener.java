@@ -19,21 +19,6 @@ import org.bukkit.event.player.PlayerInteractAtEntityEvent;
  */
 public class RankingEntityListener implements Listener {
 
-    @EventHandler(priority = EventPriority.HIGHEST)
-    public void onDeath(EntityDamageByEntityEvent event) {
-        if (event.getEntityType() != EntityType.ARMOR_STAND || !event.getEntity().hasMetadata("nexteconomy")) return;
-
-        if (event.getDamager() instanceof Player) {
-
-            val damager = (Player) event.getDamager();
-            val itemInHand = damager.getItemInHand();
-            if (itemInHand != null && itemInHand.getType() == TypeUtil.swapLegacy("GOLDEN_SWORD", "GOLD_SWORD")) return;
-
-        }
-
-        event.setCancelled(true);
-    }
-
     @EventHandler
     public void onKill(EntityDeathEvent event) {
         if (event.getEntityType() != EntityType.ARMOR_STAND || !event.getEntity().hasMetadata("nexteconomy")) return;

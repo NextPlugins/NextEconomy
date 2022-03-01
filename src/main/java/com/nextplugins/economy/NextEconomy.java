@@ -40,7 +40,6 @@ import com.nextplugins.economy.views.registry.InventoryRegistry;
 import com.yuhtin.updatechecker.UpdateChecker;
 import lombok.Getter;
 import lombok.val;
-import net.citizensnpcs.api.CitizensAPI;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -211,17 +210,6 @@ public final class NextEconomy extends JavaPlugin {
             }
 
             String type = RankingValue.get(RankingValue::npcType);
-            if (type.equalsIgnoreCase("npc")) {
-
-                for (val id : NPCRunnable.NPCS) {
-                    val npc = CitizensAPI.getNPCRegistry().getById(id);
-                    if (npc == null) continue;
-
-                    CitizensAPI.getNPCRegistry().deregister(npc);
-                }
-
-            }
-
             if (type.equalsIgnoreCase("armorstand")) {
                 for (val stand : ArmorStandRunnable.STANDS) {
                     stand.remove();
