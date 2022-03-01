@@ -49,7 +49,7 @@ public final class NumberUtils {
         if (MessageValue.get(MessageValue::formatType).equalsIgnoreCase("DECIMAL")) return 0;
 
         Matcher matcher = PATTERN.matcher(string);
-        if (!matcher.find()) return -1;
+        if (!matcher.find()) return 0;
 
         double amount = Double.parseDouble(matcher.group(1));
         String suffix = matcher.group(2);
