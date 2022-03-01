@@ -21,6 +21,7 @@ import com.nextplugins.economy.views.registry.InventoryRegistry;
 import lombok.RequiredArgsConstructor;
 import lombok.val;
 import me.saiintbrisson.minecraft.command.annotation.Command;
+import me.saiintbrisson.minecraft.command.annotation.Optional;
 import me.saiintbrisson.minecraft.command.command.Context;
 import me.saiintbrisson.minecraft.command.target.CommandTarget;
 import org.bukkit.Bukkit;
@@ -51,7 +52,7 @@ public final class MoneyCommand {
 
         val player = (Player) context.getSender();
         if (!InventoryValue.get(InventoryValue::enable)) {
-            player.performCommand("money help");
+            player.performCommand("money ver");
             return;
         }
 
@@ -62,13 +63,17 @@ public final class MoneyCommand {
     @Command(
             name = "coins.ver",
             description = "Ver o dinheiro de outro jogador",
-            usage = "/coins ver {jogador}",
+            usage = "/coins ver [jogador]",
             async = true
     )
-    public void moneyViewCommand(Context<CommandSender> context, OfflinePlayer target) {
+    public void moneyViewCommand(Context<CommandSender> context, @Optional OfflinePlayer target) {
         if (target == null) {
-            context.sendMessage(MessageValue.get(MessageValue::invalidTarget));
-            return;
+            if (context.getSender() instanceof ConsoleCommandSender) {
+                context.sendMessage(MessageValue.get(MessageValue::invalidTarget));
+                return;
+            }
+
+            target = (OfflinePlayer) context.getSender();
         }
 
         val offlineAccount = accountStorage.findAccount(target);
