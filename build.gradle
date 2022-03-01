@@ -67,7 +67,6 @@ bukkit {
             'ProtocolLib',
             'NextTestServer',
             'CMI',
-            'SkinsRestorer',
             'HolographicDisplays',
             'PlaceholderAPI',
             'Legendchat',
