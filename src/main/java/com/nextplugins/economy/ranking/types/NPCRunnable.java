@@ -143,6 +143,37 @@ public final class NPCRunnable implements Runnable, Listener {
                 .build(npcPool);
 
             npc.visibility().queueSpawn();
+
+            if (animation) {
+                if (position == 1) {
+                    final List<String> emotes = AnimationValue.get(AnimationValue::magnataEmotes);
+
+                    final String emote = emotes.get(random.nextInt(emotes.size()));
+
+                    executeAnimation(npc, emote);
+                }
+
+                if (position == 2) {
+                    final String rageDanceRaw = AnimationValue.get(AnimationValue::rageDance);
+
+                    executeAnimation(npc, rageDanceRaw);
+                }
+            }
+        }
+    }
+
+    private void executeAnimation(NPC npc, String rawValue) {
+        final Pair<LabyModModifier.LabyModAction, Integer> rageDance = this.animationValue(rawValue);
+
+        if (rageDance != null) {
+            Bukkit.getScheduler().runTaskAsynchronously(NextEconomy.getInstance(), () -> {
+                for (val player : npc.getSeeingPlayers()) {
+                    npc.labymod().queue(
+                        rageDance.getLeft(),
+                        rageDance.getRight()
+                    ).send(player);
+                }
+            });
         }
     }
 
@@ -179,8 +210,8 @@ public final class NPCRunnable implements Runnable, Listener {
                 event.send(event.getNPC()
                     .labymod()
                     .queue(
-                        actionData.getKey(),
-                        actionData.getValue()
+                        actionData.getLeft(),
+                        actionData.getRight()
                     )
                 );
             }
