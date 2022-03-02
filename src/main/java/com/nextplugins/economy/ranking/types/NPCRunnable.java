@@ -6,6 +6,7 @@ import com.github.juliarn.npc.NPC;
 import com.github.juliarn.npc.NPCPool;
 import com.github.juliarn.npc.event.PlayerNPCInteractEvent;
 import com.github.juliarn.npc.event.PlayerNPCShowEvent;
+import com.github.juliarn.npc.modifier.AnimationModifier;
 import com.github.juliarn.npc.modifier.LabyModModifier;
 import com.github.juliarn.npc.profile.Profile;
 import com.gmail.filoghost.holographicdisplays.api.Hologram;
@@ -17,10 +18,11 @@ import com.nextplugins.economy.configuration.RankingValue;
 import com.nextplugins.economy.model.account.SimpleAccount;
 import com.nextplugins.economy.ranking.manager.LocationManager;
 import com.nextplugins.economy.ranking.storage.RankingStorage;
-import github.scarsz.discordsrv.dependencies.commons.lang3.tuple.Pair;
 import lombok.Getter;
 import lombok.val;
+import org.apache.commons.lang3.tuple.Pair;
 import org.bukkit.Bukkit;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 
@@ -150,13 +152,15 @@ public final class NPCRunnable implements Runnable, Listener {
 
                     final String emote = emotes.get(random.nextInt(emotes.size()));
 
-                    executeAnimation(npc, emote);
-                }
-
-                if (position == 2) {
+                    this.executeAnimation(npc, emote);
+                } else if (position == 2) {
                     final String rageDanceRaw = AnimationValue.get(AnimationValue::rageDance);
 
-                    executeAnimation(npc, rageDanceRaw);
+                    this.executeAnimation(npc, rageDanceRaw);
+                } else {
+                    final String spawnAnimationRaw = AnimationValue.get(AnimationValue::spawnEmote);
+
+                    this.executeAnimation(npc, spawnAnimationRaw);
                 }
             }
         }
@@ -194,7 +198,23 @@ public final class NPCRunnable implements Runnable, Listener {
 
     @EventHandler
     public void onInteractNPC(PlayerNPCInteractEvent event) {
-        event.getPlayer().performCommand("money top");
+        final Player player = event.getPlayer();
+
+        if (event.getUseAction() == PlayerNPCInteractEvent.EntityUseAction.ATTACK) {
+            if (animation) {
+                final NPC npc = event.getNPC();
+
+                npc.rotation()
+                    .queueLookAt(player.getEyeLocation())
+                    .send(player);
+
+                npc.animation()
+                    .queue(AnimationModifier.EntityAnimation.SWING_MAIN_ARM)
+                    .send(player);
+            }
+        } else {
+            player.performCommand("money top");
+        }
     }
 
     @EventHandler
@@ -222,7 +242,9 @@ public final class NPCRunnable implements Runnable, Listener {
         try {
             final String[] splittedValue = rawValue.split(":");
 
-            final LabyModModifier.LabyModAction labyModAction = LabyModModifier.LabyModAction.valueOf(splittedValue[0]);
+            final LabyModModifier.LabyModAction labyModAction = LabyModModifier.LabyModAction.valueOf(
+                splittedValue[0].toUpperCase()
+            );
             final int actionId = Integer.parseInt(splittedValue[1]);
 
             return Pair.of(labyModAction, actionId);

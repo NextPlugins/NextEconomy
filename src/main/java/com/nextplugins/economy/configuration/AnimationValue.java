@@ -4,6 +4,7 @@ import com.henryfabio.minecraft.configinjector.common.annotations.ConfigField;
 import com.henryfabio.minecraft.configinjector.common.annotations.ConfigFile;
 import com.henryfabio.minecraft.configinjector.common.annotations.ConfigSection;
 import com.henryfabio.minecraft.configinjector.common.annotations.TranslateColors;
+import com.henryfabio.minecraft.configinjector.common.injector.ConfigurationInjectable;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -18,7 +19,7 @@ import java.util.function.Function;
 @ConfigSection("ranking.visual.animations")
 @ConfigFile("ranking.yml")
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
-public class AnimationValue {
+public final class AnimationValue implements ConfigurationInjectable {
 
     @Getter private static final AnimationValue instance = new AnimationValue();
 

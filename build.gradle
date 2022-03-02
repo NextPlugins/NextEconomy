@@ -49,6 +49,7 @@ dependencies {
     implementation 'com.github.tr7zw.Item-NBT-API:item-nbt-api:2.9.0'
 
     implementation 'com.github.ben-manes.caffeine:caffeine:2.9.0' // 3.0.0 or higher is for java 11+
+    implementation 'org.apache.commons:commons-lang3:3.12.0'
 
     def lombok = 'org.projectlombok:lombok:1.18.22'
     compileOnly lombok
