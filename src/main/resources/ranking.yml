@@ -94,7 +94,7 @@ ranking:
           - '&a$$amount de coins'
     animations:
       # ATENÇÃO
-      # Essa feature só funciona para jogadores que usam labymod
+      # Essa feature só funciona para jogadores que usam LabyMod
       #
       # Faz com que o npc dance ou exiba emojis (animações)
       #
@@ -116,7 +116,7 @@ ranking:
 
       # Animações que o npc pode executar quando aparecer no campo de visão do player
       # (irá selecionar uma animação aleatória)
-      shownpc:
+      show-npc:
         - 'emote:141'
         - 'emote:161'
         - 'emote:191'

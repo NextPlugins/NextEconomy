@@ -134,7 +134,8 @@ public final class NextEconomyCommand {
         } catch (Exception exception) {
             val stringBuilder = new StringBuilder();
             int index = 0;
-            for (val npc : npcs) {
+
+            for (int i = 0; i < npcs.size(); i++) {
                 if (index != 0) stringBuilder.append(", ");
                 stringBuilder.append(index);
                 index++;

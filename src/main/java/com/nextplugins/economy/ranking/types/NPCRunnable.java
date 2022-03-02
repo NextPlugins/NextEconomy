@@ -12,10 +12,12 @@ import com.gmail.filoghost.holographicdisplays.api.Hologram;
 import com.gmail.filoghost.holographicdisplays.api.HologramsAPI;
 import com.google.common.collect.Lists;
 import com.nextplugins.economy.NextEconomy;
+import com.nextplugins.economy.configuration.AnimationValue;
 import com.nextplugins.economy.configuration.RankingValue;
 import com.nextplugins.economy.model.account.SimpleAccount;
 import com.nextplugins.economy.ranking.manager.LocationManager;
 import com.nextplugins.economy.ranking.storage.RankingStorage;
+import github.scarsz.discordsrv.dependencies.commons.lang3.tuple.Pair;
 import lombok.Getter;
 import lombok.val;
 import org.bukkit.Bukkit;
@@ -26,6 +28,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 import java.util.UUID;
+import java.util.logging.Level;
 
 @Getter
 public final class NPCRunnable implements Runnable, Listener {
@@ -39,6 +42,9 @@ public final class NPCRunnable implements Runnable, Listener {
     private final RankingStorage rankingStorage;
 
     private final boolean holographicDisplays;
+    private final boolean animation;
+
+    private final Random random = new Random();
 
     public NPCRunnable(NextEconomy plugin, boolean holographicDisplays) {
         this.plugin = plugin;
@@ -47,6 +53,8 @@ public final class NPCRunnable implements Runnable, Listener {
         locationManager = plugin.getLocationManager();
         rankingStorage = plugin.getRankingStorage();
         npcPool = NPCPool.builder(plugin).spawnDistance(60).actionDistance(30).tabListRemoveTicks(20).build();
+
+        this.animation = AnimationValue.get(AnimationValue::enable);
 
         Bukkit.getPluginManager().registerEvents(this, plugin);
     }
@@ -127,7 +135,12 @@ public final class NPCRunnable implements Runnable, Listener {
             profile.setName("");
             profile.setUniqueId(new UUID(RANDOM.nextLong(), 0));
 
-            val npc = NPC.builder().profile(profile).location(location).imitatePlayer(false).lookAtPlayer(false).build(npcPool);
+            val npc = NPC.builder()
+                .profile(profile)
+                .location(location)
+                .imitatePlayer(false)
+                .lookAtPlayer(false)
+                .build(npcPool);
 
             npc.visibility().queueSpawn();
         }
@@ -155,8 +168,42 @@ public final class NPCRunnable implements Runnable, Listener {
 
     @EventHandler
     public void onShowNPC(PlayerNPCShowEvent event) {
-        NextEconomy.getInstance().getLogger().info("Throwing emote 101 to npc " + event.getNPC().getProfile().getName());
-        event.send(event.getNPC().labymod().queue(LabyModModifier.LabyModAction.EMOTE, 101));
+        if (animation) {
+            final List<String> emotes = AnimationValue.get(AnimationValue::showNpcEmotes);
+
+            final String randomEmote = emotes.get(random.nextInt(emotes.size()));
+
+            final Pair<LabyModModifier.LabyModAction, Integer> actionData = this.animationValue(randomEmote);
+
+            if (actionData != null) {
+                event.send(event.getNPC()
+                    .labymod()
+                    .queue(
+                        actionData.getKey(),
+                        actionData.getValue()
+                    )
+                );
+            }
+        }
+    }
+
+    private Pair<LabyModModifier.LabyModAction, Integer> animationValue(String rawValue) {
+        try {
+            final String[] splittedValue = rawValue.split(":");
+
+            final LabyModModifier.LabyModAction labyModAction = LabyModModifier.LabyModAction.valueOf(splittedValue[0]);
+            final int actionId = Integer.parseInt(splittedValue[1]);
+
+            return Pair.of(labyModAction, actionId);
+        } catch (Throwable t) {
+            NextEconomy.getInstance().getLogger().log(
+                Level.SEVERE,
+                "Animation value pattern malformed. (should be: \"sticker/emote:ID\")",
+                t
+            );
+
+            return null;
+        }
     }
 
 }
