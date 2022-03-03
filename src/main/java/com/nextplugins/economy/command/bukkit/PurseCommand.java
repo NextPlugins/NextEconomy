@@ -14,6 +14,7 @@ import me.saiintbrisson.minecraft.command.target.CommandTarget;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.CommandSender;
+import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.Player;
 
 /**
@@ -25,10 +26,12 @@ public class PurseCommand {
     @Command(
             name = "bolsa",
             aliases = { "bolsadevalores", "purse", "bag", "acoes" },
-            target = CommandTarget.PLAYER,
+            target = CommandTarget.ALL,
             async = true
     )
-    public void onPurseCommand(Context<Player> context) {
+    public void onPurseCommand(Context<CommandSender> context) {
+        if (context.getSender() instanceof ConsoleCommandSender) return;
+
         val purseAPI = PurseAPI.getInstance();
         if (purseAPI == null) {
             context.sendMessage(ColorUtil.colored("&cSistema desativado."));
@@ -40,7 +43,7 @@ public class PurseCommand {
             return;
         }
 
-        context.getSender().performCommand("money");
+        ((Player) context.getSender()).performCommand("money");
     }
 
     @Command(
