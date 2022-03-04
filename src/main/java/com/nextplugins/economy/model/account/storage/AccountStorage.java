@@ -149,7 +149,7 @@ public final class AccountStorage {
         val accountMap = cache.asMap();
 
         for (val futureAccount : accountMap.values()) {
-            futureAccount.thenAcceptAsync(Account::fastSave);
+            futureAccount.whenCompleteAsync((account, t) -> account.fastSave());
         }
     }
 
@@ -160,7 +160,7 @@ public final class AccountStorage {
         val accountMap = cache.asMap();
 
         for (val futureAccount : accountMap.values()) {
-            futureAccount.thenAcceptAsync(accountRepository::saveOne);
+            futureAccount.whenCompleteAsync((account, t) -> account.save());
         }
     }
 

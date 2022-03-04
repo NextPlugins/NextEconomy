@@ -40,100 +40,104 @@ public class RankingListener implements Listener {
     public void onRankingUpdate(AsyncRankingUpdateEvent event) {
         if (event.isCancelled()) return;
 
-        val pluginInstance = NextEconomy.getInstance();
-        val pluginManager = Bukkit.getPluginManager();
+        Bukkit.getScheduler().runTaskAsynchronously(NextEconomy.getInstance(), () -> {
+            val pluginInstance = NextEconomy.getInstance();
+            val pluginManager = Bukkit.getPluginManager();
 
-        SimpleAccount lastAccount = null;
-        if (!rankingStorage.getRankByCoin().isEmpty()) {
-            lastAccount = rankingStorage.getTopPlayer(false);
-        }
-
-        rankingStorage.getRankByCoin().clear();
-        rankingStorage.getRankByMovimentation().clear();
-
-        rankingStorage.getRankByMovimentation().addAll(accountRepository.selectSimpleAll(
-                "ORDER BY movimentedBalance DESC LIMIT " + RankingValue.get(RankingValue::rankingLimit)
-        ));
-
-        val accounts = accountRepository.selectSimpleAll(
-                "ORDER BY balance DESC LIMIT " + RankingValue.get(RankingValue::rankingLimit)
-        );
-
-        val discordEnabled = DiscordUtil.isEnabled();
-        if (discordEnabled) {
-            DiscordUtil.removeDiscordRoles(DiscordUtil.getGuild());
-        }
-
-        if (!accounts.isEmpty()) {
-            val rankingType = RankingValue.get(RankingValue::rankingType);
-            val tycoonTag = RankingValue.get(RankingValue::tycoonTagValue);
-            val chatRanking = rankingType.equals("CHAT");
-
-            val bodyLines = new LinkedList<String>();
-            val stringBuilder = DiscordValue.get(DiscordValue::enable) ? new StringBuilder() : null;
-            int position = 1;
-            for (SimpleAccount account : accounts) {
-                if (position == 1) rankingStorage.setTopPlayer(account.getUsername());
-                rankingStorage.getRankByCoin().put(account.getUsername(), account);
-
-                Group group = chatRanking || stringBuilder != null ? groupManager.getGroup(account.getUsername()) : null;
-                if (chatRanking) {
-                    val body = RankingValue.get(RankingValue::chatModelBody);
-                    bodyLines.add(body
-                            .replace("$position", String.valueOf(position))
-                            .replace("$prefix", group.getPrefix())
-                            .replace("$suffix", group.getSuffix())
-                            .replace("$player", account.getUsername())
-                            .replace("$tycoon", position == 1 ? tycoonTag : "")
-                            .replace("$amount", account.getBalanceFormated()));
-                }
-
-                if (stringBuilder != null) {
-                    if (position == 1) stringBuilder.append(DiscordValue.get(DiscordValue::topEmoji));
-
-                    val line = DiscordValue.get(DiscordValue::topLine);
-                    stringBuilder.append(line
-                            .replace("$position", String.valueOf(position))
-                            .replace("$username", account.getUsername())
-                            .replace("$prefix", group.getPrefix())
-                            .replace("$suffix", group.getSuffix())
-                            .replace("$amount", account.getBalanceFormated())
-                    ).append("\n");
-                }
-
-                if (discordEnabled) {
-                    DiscordUtil.addDiscordRole(account, position, DiscordUtil.getGuild());
-                }
-
-                position++;
+            SimpleAccount lastAccount = null;
+            if (!rankingStorage.getRankByCoin().isEmpty()) {
+                lastAccount = rankingStorage.getTopPlayer(false);
             }
 
-            rankingChatBody.setMinecraftBodyLines(bodyLines.toArray(new String[]{}));
-            rankingChatBody.setDiscordBodyLines(stringBuilder == null ? "" : stringBuilder.toString());
+            NextEconomy.getInstance().getAccountStorage().flushData();
 
-            if (lastAccount != null) {
+            rankingStorage.getRankByCoin().clear();
+            rankingStorage.getRankByMovimentation().clear();
 
-                val topAccount = rankingStorage.getTopPlayer();
-                if (!lastAccount.getUsername().equals(topAccount))
-                    pluginManager.callEvent(new AsyncMoneyTopPlayerChangedEvent(
-                            lastAccount,
-                            rankingStorage.getTopPlayer(false))
-                    );
+            rankingStorage.getRankByMovimentation().addAll(accountRepository.selectSimpleAll(
+                    "ORDER BY movimentedBalance DESC LIMIT " + RankingValue.get(RankingValue::rankingLimit)
+            ));
 
+            val accounts = accountRepository.selectSimpleAll(
+                    "ORDER BY balance DESC LIMIT " + RankingValue.get(RankingValue::rankingLimit)
+            );
+
+            val discordEnabled = DiscordUtil.isEnabled();
+            if (discordEnabled) {
+                DiscordUtil.removeDiscordRoles(DiscordUtil.getGuild());
             }
 
-        } else {
-            rankingChatBody.setMinecraftBodyLines(new String[]{ColorUtil.colored(
-                    "  &cNenhum jogador está no ranking!"
-            )});
+            if (!accounts.isEmpty()) {
+                val rankingType = RankingValue.get(RankingValue::rankingType);
+                val tycoonTag = RankingValue.get(RankingValue::tycoonTagValue);
+                val chatRanking = rankingType.equals("CHAT");
 
-            rankingChatBody.setDiscordBodyLines(":x: Nenhum jogador está no ranking!");
-        }
+                val bodyLines = new LinkedList<String>();
+                val stringBuilder = DiscordValue.get(DiscordValue::enable) ? new StringBuilder() : null;
+                int position = 1;
+                for (val account : accounts) {
+                    if (position == 1) rankingStorage.setTopPlayer(account.getUsername());
+                    rankingStorage.getRankByCoin().put(account.getUsername(), account);
 
-        val instance = CustomRankingRegistry.getInstance();
-        if (!instance.isEnabled()) return;
+                    Group group = chatRanking || stringBuilder != null ? groupManager.getGroup(account.getUsername()) : null;
+                    if (chatRanking) {
+                        val body = RankingValue.get(RankingValue::chatModelBody);
+                        bodyLines.add(body
+                                .replace("$position", String.valueOf(position))
+                                .replace("$prefix", group.getPrefix())
+                                .replace("$suffix", group.getSuffix())
+                                .replace("$player", account.getUsername())
+                                .replace("$tycoon", position == 1 ? tycoonTag : "")
+                                .replace("$amount", account.getBalanceFormated()));
+                    }
 
-        Bukkit.getScheduler().runTaskLater(pluginInstance, instance.getRunnable(), 20L);
+                    if (stringBuilder != null) {
+                        if (position == 1) stringBuilder.append(DiscordValue.get(DiscordValue::topEmoji));
+
+                        val line = DiscordValue.get(DiscordValue::topLine);
+                        stringBuilder.append(line
+                                .replace("$position", String.valueOf(position))
+                                .replace("$username", account.getUsername())
+                                .replace("$prefix", group.getPrefix())
+                                .replace("$suffix", group.getSuffix())
+                                .replace("$amount", account.getBalanceFormated())
+                        ).append("\n");
+                    }
+
+                    if (discordEnabled) {
+                        DiscordUtil.addDiscordRole(account, position, DiscordUtil.getGuild());
+                    }
+
+                    position++;
+                }
+
+                rankingChatBody.setMinecraftBodyLines(bodyLines.toArray(new String[]{}));
+                rankingChatBody.setDiscordBodyLines(stringBuilder == null ? "" : stringBuilder.toString());
+
+                if (lastAccount != null) {
+
+                    val topAccount = rankingStorage.getTopPlayer();
+                    if (!lastAccount.getUsername().equals(topAccount))
+                        pluginManager.callEvent(new AsyncMoneyTopPlayerChangedEvent(
+                                lastAccount,
+                                rankingStorage.getTopPlayer(false))
+                        );
+
+                }
+
+            } else {
+                rankingChatBody.setMinecraftBodyLines(new String[]{ColorUtil.colored(
+                        "  &cNenhum jogador está no ranking!"
+                )});
+
+                rankingChatBody.setDiscordBodyLines(":x: Nenhum jogador está no ranking!");
+            }
+
+            val instance = CustomRankingRegistry.getInstance();
+            if (!instance.isEnabled()) return;
+
+            Bukkit.getScheduler().runTaskLater(pluginInstance, instance.getRunnable(), 20L);
+        });
     }
 
 }
