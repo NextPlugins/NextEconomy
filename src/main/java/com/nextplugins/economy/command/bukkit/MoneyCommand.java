@@ -39,7 +39,6 @@ public final class MoneyCommand {
     private final NextEconomy plugin;
     private final AccountStorage accountStorage;
     private final LocationManager locationManager;
-    private final GroupWrapperManager groupWrapperManager;
 
     @Command(
             name = "coins",

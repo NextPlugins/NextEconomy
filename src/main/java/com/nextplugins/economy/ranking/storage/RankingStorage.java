@@ -34,9 +34,6 @@ public final class RankingStorage {
 
         nextUpdateMillis = System.currentTimeMillis() + updateDelayMillis;
 
-        val accountStorage = plugin.getAccountStorage();
-        accountStorage.flushData();
-
         Bukkit.getScheduler().runTaskLaterAsynchronously(
                 plugin,
                 () -> pluginManager.callEvent(new AsyncRankingUpdateEvent()),

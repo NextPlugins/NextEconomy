@@ -6,7 +6,6 @@ import com.github.juliarn.npc.NPC;
 import com.github.juliarn.npc.NPCPool;
 import com.github.juliarn.npc.event.PlayerNPCInteractEvent;
 import com.github.juliarn.npc.event.PlayerNPCShowEvent;
-import com.github.juliarn.npc.modifier.AnimationModifier;
 import com.github.juliarn.npc.modifier.LabyModModifier;
 import com.github.juliarn.npc.profile.Profile;
 import com.gmail.filoghost.holographicdisplays.api.Hologram;
@@ -22,9 +21,9 @@ import lombok.Getter;
 import lombok.val;
 import org.apache.commons.lang3.tuple.Pair;
 import org.bukkit.Bukkit;
-import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -144,37 +143,24 @@ public final class NPCRunnable implements Runnable, Listener {
                 .lookAtPlayer(false)
                 .build(npcPool);
 
-            npc.visibility().queueSpawn();
+            //npc.visibility().queueSpawn();
 
             if (animation) {
-                if (position == 1) {
-                    final List<String> emotes = AnimationValue.get(AnimationValue::magnataEmotes);
-
-                    final String emote = emotes.get(random.nextInt(emotes.size()));
-
-                    this.executeAnimation(npc, emote);
-                } else if (position == 2) {
-                    final String rageDanceRaw = AnimationValue.get(AnimationValue::rageDance);
-
-                    this.executeAnimation(npc, rageDanceRaw);
-                } else {
-                    final String spawnAnimationRaw = AnimationValue.get(AnimationValue::spawnEmote);
-
-                    this.executeAnimation(npc, spawnAnimationRaw);
-                }
+                val spawnAnimationRaw = AnimationValue.get(AnimationValue::spawnEmote);
+                executeAnimation(npc, spawnAnimationRaw);
             }
         }
     }
 
     private void executeAnimation(NPC npc, String rawValue) {
-        final Pair<LabyModModifier.LabyModAction, Integer> rageDance = this.animationValue(rawValue);
+        val animation = this.animationValue(rawValue);
 
-        if (rageDance != null) {
+        if (animation != null) {
             Bukkit.getScheduler().runTaskAsynchronously(NextEconomy.getInstance(), () -> {
                 for (val player : npc.getSeeingPlayers()) {
                     npc.labymod().queue(
-                        rageDance.getLeft(),
-                        rageDance.getRight()
+                        animation.getLeft(),
+                        animation.getRight()
                     ).send(player);
                 }
             });
@@ -198,33 +184,15 @@ public final class NPCRunnable implements Runnable, Listener {
 
     @EventHandler
     public void onInteractNPC(PlayerNPCInteractEvent event) {
-        final Player player = event.getPlayer();
-
-        if (event.getUseAction() == PlayerNPCInteractEvent.EntityUseAction.ATTACK) {
-            if (animation) {
-                final NPC npc = event.getNPC();
-
-                npc.rotation()
-                    .queueLookAt(player.getEyeLocation())
-                    .send(player);
-
-                npc.animation()
-                    .queue(AnimationModifier.EntityAnimation.SWING_MAIN_ARM)
-                    .send(player);
-            }
-        } else {
-            player.performCommand("money top");
-        }
+        event.getPlayer().performCommand("money top");
     }
 
     @EventHandler
     public void onShowNPC(PlayerNPCShowEvent event) {
         if (animation) {
-            final List<String> emotes = AnimationValue.get(AnimationValue::showNpcEmotes);
-
-            final String randomEmote = emotes.get(random.nextInt(emotes.size()));
-
-            final Pair<LabyModModifier.LabyModAction, Integer> actionData = this.animationValue(randomEmote);
+            val emotes = AnimationValue.get(AnimationValue::showNpcEmotes);
+            val randomEmote = emotes.get(random.nextInt(emotes.size()));
+            val actionData = animationValue(randomEmote);
 
             if (actionData != null) {
                 event.send(event.getNPC()
@@ -238,21 +206,19 @@ public final class NPCRunnable implements Runnable, Listener {
         }
     }
 
+    @Nullable
     private Pair<LabyModModifier.LabyModAction, Integer> animationValue(String rawValue) {
         try {
-            final String[] splittedValue = rawValue.split(":");
-
-            final LabyModModifier.LabyModAction labyModAction = LabyModModifier.LabyModAction.valueOf(
-                splittedValue[0].toUpperCase()
-            );
-            final int actionId = Integer.parseInt(splittedValue[1]);
+            val splittedValue = rawValue.split(":");
+            val labyModAction = LabyModModifier.LabyModAction.valueOf(splittedValue[0].toUpperCase());
+            val actionId = Integer.parseInt(splittedValue[1]);
 
             return Pair.of(labyModAction, actionId);
-        } catch (Throwable t) {
+        } catch (Throwable throwable) {
             NextEconomy.getInstance().getLogger().log(
                 Level.SEVERE,
                 "Animation value pattern malformed. (should be: \"sticker/emote:ID\")",
-                t
+                throwable
             );
 
             return null;
