@@ -63,7 +63,7 @@ public class RankingListener implements Listener {
             );
 
             val discordEnabled = DiscordUtil.isEnabled();
-            if (discordEnabled) {
+            if (discordEnabled && DiscordUtil.getGuild() != null) {
                 DiscordUtil.removeDiscordRoles(DiscordUtil.getGuild());
             }
 
@@ -104,7 +104,7 @@ public class RankingListener implements Listener {
                         ).append("\n");
                     }
 
-                    if (discordEnabled) {
+                    if (discordEnabled && DiscordUtil.getGuild() != null) {
                         DiscordUtil.addDiscordRole(account, position, DiscordUtil.getGuild());
                     }
 
