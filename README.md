@@ -10,6 +10,15 @@ programadores. Veja mais [aqui](https://imgur.com/gallery/xDfx9pp).
 Veja a reação da comunidade sobre o
 plugin [aqui](https://gamersboard.com.br/topic/75000-nexteconomy-o-mais-completo-plugin-de-economia-da-comunidade/)
 
+# Estatísticas de uso
+
+<p align="center">
+    <a href="https://bstats.org/plugin/bukkit/NextEconomy" title="Estatísticas do NextEconomy">
+        <img src="https://bstats.org/signatures/bukkit/NextEconomy.svg"  alt=""/>
+    </a>
+</p>
+
+
 ## Comandos
 
 |Comando         |Descrição                      |Permissão                    |
