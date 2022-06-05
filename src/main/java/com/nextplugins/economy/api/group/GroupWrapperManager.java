@@ -25,6 +25,8 @@ public final class GroupWrapperManager {
     }
 
     public Group getGroup(String playerName) {
+        if (wrapper == null) return new Group();
+
         return wrapper.getGroup(playerName);
     }
 
