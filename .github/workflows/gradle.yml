@@ -20,15 +20,13 @@ jobs:
 
     steps:
     - uses: actions/checkout@v3
-    - name: Set up JDK 8
-      uses: actions/setup-java@v3
+    - uses: actions/setup-java@v3
       with:
         distribution: 'temurin'
-        java-version: '8'
+        java-version: '11'
+        cache: 'gradle'
     - name: Build with Gradle
-      uses: gradle/gradle-build-action@937999e9cc2425eddc7fd62d1053baf041147db7
-      with:
-        arguments: build
+    - run: ./gradlew build --no-daemon
     - name: Upload artifact
       uses: actions/upload-artifact@v3
       with:
