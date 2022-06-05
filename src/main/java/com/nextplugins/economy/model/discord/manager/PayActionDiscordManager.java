@@ -71,7 +71,7 @@ public class PayActionDiscordManager {
                             .player(target.isOnline() ? target.getPlayer() : null)
                             .owner(player.getName())
                             .amount(amount)
-                            .transactionType(TransactionType.WITHDRAW)
+                            .transactionType(TransactionType.DEPOSIT)
                             .build()
             );
 

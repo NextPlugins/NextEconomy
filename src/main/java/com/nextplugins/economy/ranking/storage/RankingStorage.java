@@ -23,6 +23,7 @@ public final class RankingStorage {
 
     private String topPlayer;
     private long nextUpdateMillis;
+    private boolean updating;
 
     public boolean updateRanking(boolean force) {
         if (!force && nextUpdateMillis > System.currentTimeMillis()) return false;

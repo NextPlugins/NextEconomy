@@ -14,20 +14,21 @@ public final class ConfigurationRegistry {
         BukkitConfigurationInjector configurationInjector = new BukkitConfigurationInjector(plugin);
 
         configurationInjector.saveDefaultConfiguration(
-                plugin,
-                "messages.yml",
-                "ranking.yml",
-                "inventories.yml",
-                "discord.yml"
+            plugin,
+            "messages.yml",
+            "ranking.yml",
+            "inventories.yml",
+            "discord.yml"
         );
 
         configurationInjector.injectConfiguration(
-                FeatureValue.instance(),
-                DiscordValue.instance(),
-                MessageValue.instance(),
-                RankingValue.instance(),
-                InventoryValue.instance(),
-                PurseValue.instance()
+            FeatureValue.instance(),
+            DiscordValue.instance(),
+            MessageValue.instance(),
+            RankingValue.instance(),
+            InventoryValue.instance(),
+            PurseValue.instance(),
+            AnimationValue.instance()
         );
 
         getPlugin().getLogger().info("Configurações registradas e injetadas com sucesso.");

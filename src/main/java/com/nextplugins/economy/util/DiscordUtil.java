@@ -37,10 +37,14 @@ public class DiscordUtil {
                 ? RankingValue.get(RankingValue::tycoonRoleId)
                 : RankingValue.get(RankingValue::tycoonRichRoleId);
 
+        if (roleID == null || roleID == 0) return false;
+
         val role = guild.getRoleById(roleID);
         if (role != null) {
             val uuid = Bukkit.getOfflinePlayer(account.getUsername()).getUniqueId();
+
             val discordId = DiscordSRV.getPlugin().getAccountLinkManager().getDiscordId(uuid);
+            if (discordId == null) return false;
 
             guild.addRoleToMember(discordId, role).queue();
             return true;
@@ -54,10 +58,10 @@ public class DiscordUtil {
 
         val roles = Arrays.asList(RankingValue.get(RankingValue::tycoonRoleId), RankingValue.get(RankingValue::tycoonRichRoleId));
         for (long roleID : roles) {
-            if (roleID == 0) return false;
+            if (roleID == 0) continue;
 
             val role = guild.getRoleById(roleID);
-            if (role == null) return false;
+            if (role == null) continue;
 
             for (Member member : guild.getMembersWithRoles(role)) {
                 guild.removeRoleFromMember(member, role).queue();

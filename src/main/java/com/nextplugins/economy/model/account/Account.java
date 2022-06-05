@@ -185,7 +185,7 @@ public class Account {
 
     public void save() {
         val accountStorage = NextEconomy.getInstance().getAccountStorage();
-        accountStorage.saveOne(this);
+        Bukkit.getScheduler().runTaskAsynchronously(NextEconomy.getInstance(), () -> accountStorage.saveOne(this));
     }
 
     /**
@@ -193,7 +193,7 @@ public class Account {
      */
     public void fastSave() {
         val accountStorage = NextEconomy.getInstance().getAccountStorage();
-        accountStorage.fastSaveOne(getIdentifier(), getBalance());
+        Bukkit.getScheduler().runTaskAsynchronously(NextEconomy.getInstance(), () -> accountStorage.fastSaveOne(getIdentifier(), getBalance()));
     }
 
     public synchronized boolean hasAmount(double amount) {

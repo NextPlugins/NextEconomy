@@ -6,7 +6,7 @@ plugins {
 }
 
 group 'com.nextplugins'
-version "2.1.1"
+version "2.2.0"
 
 tasks.build.dependsOn('shadowJar')
 
@@ -35,11 +35,11 @@ dependencies {
 
     compileOnly 'com.github.PlaceholderAPI:PlaceholderAPI:2.10.9'
     compileOnly 'com.gmail.filoghost.holographicdisplays:holographicdisplays-api:2.4.0'
-    compileOnly 'net.citizensnpcs:citizensapi:2.0.27-SNAPSHOT'
     compileOnly 'com.github.MilkBowl:VaultAPI:1.7'
     compileOnly 'com.nickuc.chat:nchat-api:4.2'
     compileOnly fileTree('libs')
 
+    implementation 'com.github.juliarn:npc-lib:2.6-RELEASE'
     implementation 'com.github.Yuhtin:update-checker:1.2'
     implementation 'com.github.HenryFabio.configuration-injector:bukkit:1.0.2'
     implementation 'com.github.HenryFabio:inventory-api:main-SNAPSHOT'
@@ -49,6 +49,7 @@ dependencies {
     implementation 'de.tr7zw:item-nbt-api:2.9.2'
 
     implementation 'com.github.ben-manes.caffeine:caffeine:2.9.0' // 3.0.0 or higher is for java 11+
+    implementation 'org.apache.commons:commons-lang3:3.12.0'
 
     def lombok = 'org.projectlombok:lombok:1.18.22'
     compileOnly lombok
@@ -64,7 +65,7 @@ bukkit {
     apiVersion = '1.13'
     load = 'STARTUP'
     softDepend = [
-            'Citizens',
+            'ProtocolLib',
             'NextTestServer',
             'CMI',
             'SkinsRestorer',
@@ -80,6 +81,7 @@ bukkit {
 shadowJar {
     archiveName("${project.name}-${project.version}.jar")
 
+    relocate 'com.github.juliarn.npc', 'com.nextplugins.economy.libs.npclib'
     relocate 'com.yuhtin.updatechecker', 'com.nextplugins.economy.libs.updatechecker'
 
     relocate 'com.henryfabio.minecraft.configinjector', 'com.nextplugins.economy.libs.configinjector'

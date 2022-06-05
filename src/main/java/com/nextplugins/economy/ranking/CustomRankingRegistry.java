@@ -34,7 +34,6 @@ public class CustomRankingRegistry {
 
         String type = RankingValue.get(RankingValue::npcType);
         if (type.equalsIgnoreCase("nothing")) {
-
             plugin.getLogger().info(
                     "Cancelando registro de ranking por NPC, Holograma e ArmorStand, você desativou na ranking.yml."
             );
@@ -57,11 +56,11 @@ public class CustomRankingRegistry {
         holographicDisplays = pluginManager.isPluginEnabled("HolographicDisplays");
 
         boolean isNpc = type.equalsIgnoreCase("npc");
-        if (isNpc && !pluginManager.isPluginEnabled("Citizens")) {
+        if (isNpc && !pluginManager.isPluginEnabled("ProtocolLib")) {
 
             plugin.getLogger().log(Level.WARNING,
                     "Dependência não encontrada ({0}) O ranking em NPC não será usado.",
-                    "Citizens"
+                    "ProtocolLib"
             );
 
             return;
@@ -70,7 +69,7 @@ public class CustomRankingRegistry {
 
         LocationLoader.of(plugin, plugin.getLocationManager()).loadLocations();
 
-        if (isNpc) runnable = new NPCRunnable(plugin, plugin.getLocationManager(), plugin.getRankingStorage(), holographicDisplays);
+        if (isNpc) runnable = new NPCRunnable(plugin, holographicDisplays);
         else if (type.equalsIgnoreCase("armorstand")) runnable = new ArmorStandRunnable(plugin, plugin.getLocationManager(), plugin.getRankingStorage(), holographicDisplays);
         else runnable = new HologramRunnable(plugin, plugin.getLocationManager(), plugin.getRankingStorage(), holographicDisplays);
 

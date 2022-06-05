@@ -3,7 +3,7 @@ ranking:
   limit: 10 # limite de contas que serão puxadas da database
   tycoon: # Placeholder: {tycoon} ou %tycoon%
     # Tag dada para o jogador mais rico
-    # Para desativar, apenas deixe o campo entre as '' vazio.
+    # Para desativar, apenas deixe o campo entre as ' vazio.
     top:
       tag: '&2[$] '
       # ID do cargo magnata no discord
@@ -34,7 +34,7 @@ ranking:
         - ''
         - ' &a&lMONEY TOP &8&l➡ &fJogadores mais ricos'
         - ''
-      body: ' &f$positionº &8- $tycoon&a$prefix$player$suffix &7(&2$ &f$amount&7)'
+      body: '&f$positionº &8- $tycoon&a$prefix$player$suffix &7(&2$ &f$amount&7)'
       footer:
         - ''
         - ' &7Atualizado a cada 30 minutos.'
@@ -51,7 +51,7 @@ ranking:
         - ''
   visual:
     # ARMORSTAND - Armorstands com cabeça de cada jogador [Recomendado para multi-posições]
-    # NPC - Boneco da altura e mesma skin do jogador
+    # NPC - Boneco da altura e mesma skin do jogador [Recomendado com LabyMod]
     # HOLOGRAM - Apenas um holograma com todos os jogadores (suporta apenas 1 posição) [Melhor opção]
     # NOTHING - Desativar todos os formatos de ranking (mesmo que não sete nenhuma posição do ranking, desative aqui para reduzir o tempo de startup)
     type: ARMORSTAND
@@ -92,3 +92,49 @@ ranking:
           - '&b$positionº Lugar'
           - '&e$prefix$player$suffix'
           - '&a$$amount de coins'
+    animations:
+      # ATENÇÃO
+      # Essa feature só funciona para jogadores que usam LabyMod
+      #
+      # Faz com que o npc dance ou exiba emojis (animações)
+      #
+      # Você pode encontrar uma lista de IDs de emotes aqui:
+      # https://docs.labymod.net/pages/server/labymod/emote_api/
+      #
+      # Você pode encontrar uma lista de IDS de stickers aqui:
+      # https://dl.labymod.net/stickers.json
+      #
+      # Habilite a função aqui
+      enable: true
+
+      # Caso queira que o npc dance coisas aleatórias de tempo em tempo
+      # recomendamos o uso do NextTask
+      # com o comando /ne playanimation
+
+      # Animação executada quando o npc é gerado
+      spawn: 'emote:178'
+
+      # Animações que o npc pode executar quando aparecer no campo de visão do player
+      # (irá selecionar uma animação aleatória)
+      show-npc:
+        - 'emote:141'
+        - 'emote:161'
+        - 'emote:191'
+        - 'emote:192'
+        - 'emote:215'
+
+      # Animações que o npc do money top (1º lugar) ter um jogador alterado
+      # ou seja, um novo magnata
+      # (irá selecionar uma animação aleatória)
+      magnata-annimations-id-list:
+        - 'emote:180' # corrida naruto
+        - 'emote:6' # dancinha do fortnite
+        - 'emote:33'
+        - 'emote:14'
+        - 'emote:62' # solo de guitarra kkkkk
+        - 'emote:202' # solo de guitarra kkkkk
+
+      # Dança de rage
+      # quando um jogador se tornar magnata
+      # o npc do 2º lugar irá executar essa animação abaixo
+      rage-dance: 'emote:180'

@@ -2,34 +2,63 @@ package com.nextplugins.economy.ranking.types;
 
 import com.Zrips.CMI.CMI;
 import com.Zrips.CMI.Modules.Holograms.CMIHologram;
+import com.github.juliarn.npc.NPC;
+import com.github.juliarn.npc.NPCPool;
+import com.github.juliarn.npc.event.PlayerNPCInteractEvent;
+import com.github.juliarn.npc.event.PlayerNPCShowEvent;
+import com.github.juliarn.npc.modifier.LabyModModifier;
+import com.github.juliarn.npc.profile.Profile;
 import com.gmail.filoghost.holographicdisplays.api.Hologram;
 import com.gmail.filoghost.holographicdisplays.api.HologramsAPI;
 import com.google.common.collect.Lists;
 import com.nextplugins.economy.NextEconomy;
+import com.nextplugins.economy.configuration.AnimationValue;
 import com.nextplugins.economy.configuration.RankingValue;
 import com.nextplugins.economy.model.account.SimpleAccount;
 import com.nextplugins.economy.ranking.manager.LocationManager;
 import com.nextplugins.economy.ranking.storage.RankingStorage;
-import lombok.RequiredArgsConstructor;
+import lombok.Getter;
 import lombok.val;
-import net.citizensnpcs.api.CitizensAPI;
-import org.bukkit.entity.EntityType;
-import org.bukkit.metadata.FixedMetadataValue;
+import org.apache.commons.lang3.tuple.Pair;
+import org.bukkit.Bukkit;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
+import java.util.UUID;
+import java.util.logging.Level;
 
-@RequiredArgsConstructor
-public final class NPCRunnable implements Runnable {
+@Getter
+public final class NPCRunnable implements Runnable, Listener {
 
-    public static final List<Integer> NPCS = Lists.newLinkedList();
     public static final List<String> HOLOGRAMS = Lists.newLinkedList();
+    private static final Random RANDOM = new Random();
 
     private final NextEconomy plugin;
+    private final NPCPool npcPool;
     private final LocationManager locationManager;
     private final RankingStorage rankingStorage;
 
     private final boolean holographicDisplays;
+    private final boolean animation;
+
+    private final Random random = new Random();
+
+    public NPCRunnable(NextEconomy plugin, boolean holographicDisplays) {
+        this.plugin = plugin;
+        this.holographicDisplays = holographicDisplays;
+
+        locationManager = plugin.getLocationManager();
+        rankingStorage = plugin.getRankingStorage();
+        npcPool = NPCPool.builder(plugin).spawnDistance(60).actionDistance(30).tabListRemoveTicks(20).build();
+
+        this.animation = AnimationValue.get(AnimationValue::enable);
+
+        Bukkit.getPluginManager().registerEvents(this, plugin);
+    }
 
     @Override
     public void run() {
@@ -83,25 +112,13 @@ public final class NPCRunnable implements Runnable {
                         val hologram = HologramsAPI.createHologram(plugin, hologramLocation);
 
                         for (val hologramLine : hologramLines) {
-                            hologram.appendTextLine(hologramLine
-                                    .replace("$position", String.valueOf(position))
-                                    .replace("$player", account.getUsername())
-                                    .replace("$prefix", group.getPrefix())
-                                    .replace("$suffix", group.getSuffix())
-                                    .replace("$amount", format)
-                            );
+                            hologram.appendTextLine(hologramLine.replace("$position", String.valueOf(position)).replace("$player", account.getUsername()).replace("$prefix", group.getPrefix()).replace("$suffix", group.getSuffix()).replace("$amount", format));
                         }
                     } else {
                         val cmiHologram = new CMIHologram("NextEconomy" + position, hologramLocation);
 
                         for (val hologramLine : hologramLines) {
-                            cmiHologram.addLine(hologramLine
-                                    .replace("$position", String.valueOf(position))
-                                    .replace("$player", account.getUsername())
-                                    .replace("$prefix", group.getPrefix())
-                                    .replace("$suffix", group.getSuffix())
-                                    .replace("$amount", format)
-                            );
+                            cmiHologram.addLine(hologramLine.replace("$position", String.valueOf(position)).replace("$player", account.getUsername()).replace("$prefix", group.getPrefix()).replace("$suffix", group.getSuffix()).replace("$amount", format));
                         }
 
                         CMI.getInstance().getHologramManager().addHologram(cmiHologram);
@@ -112,38 +129,46 @@ public final class NPCRunnable implements Runnable {
                 }
             }
 
-            val npcRegistry = CitizensAPI.getNPCRegistry();
-
-            val npc = npcRegistry.createNPC(EntityType.PLAYER, "");
             val skinName = account == null ? "Yuhtin" : account.getUsername();
-            npc.data().set("player-skin-name", skinName);
-            npc.data().set("nexteconomy", true);
-            npc.setProtected(true);
-            npc.spawn(location);
-            npc.getEntity().setMetadata("nexteconomy", new FixedMetadataValue(NextEconomy.getInstance(), true));
+            val profile = new Profile(skinName);
+            profile.complete();
 
-            NPCS.add(npc.getId());
+            profile.setName("");
+            profile.setUniqueId(new UUID(RANDOM.nextLong(), 0));
+
+            val npc = NPC.builder()
+                .profile(profile)
+                .location(location)
+                .imitatePlayer(false)
+                .lookAtPlayer(false)
+                .build(npcPool);
+
+            //npc.visibility().queueSpawn();
+
+            if (animation) {
+                val spawnAnimationRaw = AnimationValue.get(AnimationValue::spawnEmote);
+                executeAnimation(npc, spawnAnimationRaw);
+            }
+        }
+    }
+
+    private void executeAnimation(NPC npc, String rawValue) {
+        val animation = this.animationValue(rawValue);
+
+        if (animation != null) {
+            Bukkit.getScheduler().runTaskAsynchronously(NextEconomy.getInstance(), () -> {
+                for (val player : npc.getSeeingPlayers()) {
+                    npc.labymod().queue(
+                        animation.getLeft(),
+                        animation.getRight()
+                    ).send(player);
+                }
+            });
         }
     }
 
     private void clearPositions() {
-        try {
-            for (val npc : CitizensAPI.getNPCRegistry()) {
-                if (!npc.data().has("nexteconomy")) continue;
-
-                npc.despawn();
-                npc.destroy();
-            }
-
-        } catch (Exception exception) {
-            for (val id : NPCRunnable.NPCS) {
-                val npc = CitizensAPI.getNPCRegistry().getById(id);
-                if (npc == null) continue;
-
-                npc.despawn();
-                npc.destroy();
-            }
-        }
+        npcPool.getNPCs().forEach(npc -> npcPool.removeNPC(npc.getEntityId()));
 
         if (holographicDisplays) HologramsAPI.getHolograms(plugin).forEach(Hologram::delete);
         else {
@@ -155,7 +180,49 @@ public final class NPCRunnable implements Runnable {
         }
 
         HOLOGRAMS.clear();
-        NPCS.clear();
+    }
+
+    @EventHandler
+    public void onInteractNPC(PlayerNPCInteractEvent event) {
+        event.getPlayer().performCommand("money top");
+    }
+
+    @EventHandler
+    public void onShowNPC(PlayerNPCShowEvent event) {
+        if (animation) {
+            val emotes = AnimationValue.get(AnimationValue::showNpcEmotes);
+            val randomEmote = emotes.get(random.nextInt(emotes.size()));
+            val actionData = animationValue(randomEmote);
+
+            if (actionData != null) {
+                event.send(event.getNPC()
+                    .labymod()
+                    .queue(
+                        actionData.getLeft(),
+                        actionData.getRight()
+                    )
+                );
+            }
+        }
+    }
+
+    @Nullable
+    private Pair<LabyModModifier.LabyModAction, Integer> animationValue(String rawValue) {
+        try {
+            val splittedValue = rawValue.split(":");
+            val labyModAction = LabyModModifier.LabyModAction.valueOf(splittedValue[0].toUpperCase());
+            val actionId = Integer.parseInt(splittedValue[1]);
+
+            return Pair.of(labyModAction, actionId);
+        } catch (Throwable throwable) {
+            NextEconomy.getInstance().getLogger().log(
+                Level.SEVERE,
+                "Animation value pattern malformed. (should be: \"sticker/emote:ID\")",
+                throwable
+            );
+
+            return null;
+        }
     }
 
 }
