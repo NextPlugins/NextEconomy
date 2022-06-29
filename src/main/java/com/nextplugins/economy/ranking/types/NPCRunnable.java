@@ -136,12 +136,16 @@ public final class NPCRunnable implements Runnable, Listener {
             profile.setName("");
             profile.setUniqueId(new UUID(RANDOM.nextLong(), 0));
 
+            val yaw = location.getYaw();
+            val pitch = location.getPitch();
+
             val npc = NPC.builder()
-                .profile(profile)
-                .location(location)
-                .imitatePlayer(false)
-                .lookAtPlayer(false)
-                .build(npcPool);
+                  .profile(profile)
+                  .location(location)
+                  .imitatePlayer(false)
+                  .lookAtPlayer(false)
+                  .spawnCustomizer((spawnedNpc, player) -> spawnedNpc.rotation().queueRotate(yaw, pitch).send(player))
+                  .build(npcPool);
 
             //npc.visibility().queueSpawn();
 
@@ -159,8 +163,8 @@ public final class NPCRunnable implements Runnable, Listener {
             Bukkit.getScheduler().runTaskAsynchronously(NextEconomy.getInstance(), () -> {
                 for (val player : npc.getSeeingPlayers()) {
                     npc.labymod().queue(
-                        animation.getLeft(),
-                        animation.getRight()
+                          animation.getLeft(),
+                          animation.getRight()
                     ).send(player);
                 }
             });
@@ -196,11 +200,11 @@ public final class NPCRunnable implements Runnable, Listener {
 
             if (actionData != null) {
                 event.send(event.getNPC()
-                    .labymod()
-                    .queue(
-                        actionData.getLeft(),
-                        actionData.getRight()
-                    )
+                      .labymod()
+                      .queue(
+                            actionData.getLeft(),
+                            actionData.getRight()
+                      )
                 );
             }
         }
@@ -216,9 +220,9 @@ public final class NPCRunnable implements Runnable, Listener {
             return Pair.of(labyModAction, actionId);
         } catch (Throwable throwable) {
             NextEconomy.getInstance().getLogger().log(
-                Level.SEVERE,
-                "Animation value pattern malformed. (should be: \"sticker/emote:ID\")",
-                throwable
+                  Level.SEVERE,
+                  "Animation value pattern malformed. (should be: \"sticker/emote:ID\")",
+                  throwable
             );
 
             return null;
