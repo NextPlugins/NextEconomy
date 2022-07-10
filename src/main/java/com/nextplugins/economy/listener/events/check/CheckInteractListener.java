@@ -1,59 +1,80 @@
 package com.nextplugins.economy.listener.events.check;
 
-import com.nextplugins.economy.api.model.account.Account;
-import com.nextplugins.economy.api.model.account.storage.AccountStorage;
-import com.nextplugins.economy.api.model.account.transaction.TransactionType;
 import com.nextplugins.economy.configuration.MessageValue;
+import com.nextplugins.economy.model.account.storage.AccountStorage;
+import com.nextplugins.economy.model.account.transaction.Transaction;
+import com.nextplugins.economy.model.account.transaction.TransactionType;
 import com.nextplugins.economy.util.NumberUtils;
 import de.tr7zw.changeme.nbtapi.NBTItem;
 import lombok.RequiredArgsConstructor;
+import lombok.val;
+import lombok.var;
 import org.bukkit.Material;
-import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
+import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
-import org.bukkit.inventory.ItemStack;
 
 @RequiredArgsConstructor
 public final class CheckInteractListener implements Listener {
 
     private final AccountStorage accountStorage;
 
-    @EventHandler
+    @EventHandler(ignoreCancelled = true, priority = EventPriority.HIGHEST)
     public void onCheckInteract(PlayerInteractEvent event) {
-        final Player player = event.getPlayer();
-        final ItemStack item = event.getItem();
+        val player = event.getPlayer();
 
-        if (item == null || item.getType() == Material.AIR) return;
+        val item = player.getItemInHand();
+        if (event.getAction() != Action.RIGHT_CLICK_AIR
+                && event.getAction() != Action.RIGHT_CLICK_BLOCK
+                || item.getType() == Material.AIR) return;
 
-        final NBTItem nbtItem = new NBTItem(item);
-        if (!nbtItem.hasKey("value")) return;
+        val checkField = "value";
 
-        final double checkValue = nbtItem.getDouble("value");
+        val nbtItem = new NBTItem(item);
+        if (!nbtItem.hasKey(checkField)) return;
 
-        final Account account = accountStorage.findOnlineAccount(player);
+        event.setCancelled(true);
+        player.setItemInHand(null);
 
-        double totalValue = 0;
-        int totalChecks = 0;
+        var value = nbtItem.getDouble(checkField) * item.getAmount();
+        if (player.isSneaking()) {
+            val contents = player.getInventory().getContents();
+            for (int i = 0; i < contents.length; i++) {
+                val content = contents[i];
+                if (content == null || content.getType() == Material.AIR) continue;
 
-        for (int i = 0; i < item.getAmount(); i++) {
-            account.createTransaction(
-                    null,
-                    checkValue,
-                    TransactionType.DEPOSIT
-            );
+                val contentNbt = new NBTItem(content);
+                if (!contentNbt.hasKey(checkField)) continue;
 
-            totalValue = totalValue + checkValue;
+                value += contentNbt.getDouble(checkField) * content.getAmount();
+                contents[i] = null;
+            }
 
-            player.setItemInHand(null);
-            totalChecks++;
+            player.getInventory().setContents(contents);
+        }
+
+        val account = accountStorage.findAccount(player);
+
+        val response = account.createTransaction(
+                Transaction.builder()
+                        .player(player)
+                        .owner("Cheque")
+                        .amount(value)
+                        .transactionType(TransactionType.DEPOSIT)
+                        .build()
+        );
+
+        if (!response.transactionSuccess()) {
+            player.sendMessage(MessageValue.get(MessageValue::invalidMoney));
+            return;
         }
 
         player.sendMessage(
                 MessageValue.get(MessageValue::checkUsed)
-                        .replace("$checkAmount", NumberUtils.format(totalChecks))
-                        .replace("$checkValue", NumberUtils.format(checkValue))
-                        .replace("$checkTotalValue", NumberUtils.format(totalValue))
+                        .replace("$checkAmount", NumberUtils.format(item.getAmount()))
+                        .replace("$checkTotalValue", NumberUtils.format(value))
         );
     }
 

@@ -15,7 +15,7 @@ public final class LocationManager {
     }
 
     public Location getLocation(int position) {
-        return locationMap.get(position);
+        return locationMap.getOrDefault(position, null);
     }
 
 }

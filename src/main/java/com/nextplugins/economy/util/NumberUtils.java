@@ -1,12 +1,11 @@
 package com.nextplugins.economy.util;
 
-import com.nextplugins.economy.configuration.FeatureValue;
+import com.nextplugins.economy.configuration.MessageValue;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
+import lombok.val;
 
 import java.text.DecimalFormat;
-import java.util.Arrays;
-import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -15,50 +14,55 @@ public final class NumberUtils {
 
     private static final Pattern PATTERN = Pattern.compile("^(\\d+\\.?\\d*)(\\D+)");
 
-    private final static DecimalFormat DECIMAL_FORMAT = new DecimalFormat("#.##");
-    private static final List<String> CHARS = Arrays.asList("", "K", "M", "B", "T", "Q", "QQ", "S", "SS", "O", "N", "D",
-            "UN", "DD", "TR", "QT", "QN", "SD", "SPD", "OD", "ND", "VG", "UVG", "DVG", "TVG", "QTV");
+    private static final DecimalFormat DECIMAL_FORMAT = new DecimalFormat("#,###.#");
+    private static final DecimalFormat NUMBER_FORMAT = new DecimalFormat("#.##");
 
-    public static String format(double number) {
-        return isLetterFormat() ? letterFormat(number) : decimalFormat(number);
-    }
+    public static String format(double value) {
+        if (isInvalid(value)) return "0";
 
-    private static String decimalFormat(double number) {
-        return DECIMAL_FORMAT.format(number);
-    }
-
-    private static boolean isLetterFormat() {
-        return FeatureValue.get(FeatureValue::formatType).equalsIgnoreCase("letter");
-    }
-
-    private static String letterFormat(double value) {
+        if (MessageValue.get(MessageValue::formatType).equalsIgnoreCase("DECIMAL")) {
+            return DECIMAL_FORMAT.format(value);
+        }
 
         int index = 0;
+        val format = MessageValue.get(MessageValue::currencyFormat);
 
         double tmp;
         while ((tmp = value / 1000) >= 1) {
+            if (index + 1 == format.size()) break;
             value = tmp;
             ++index;
         }
 
-        return DECIMAL_FORMAT.format(value) + CHARS.get(index);
-
+        return NUMBER_FORMAT.format(value) + format.get(index);
     }
 
     public static double parse(String string) {
         try {
-            return Double.parseDouble(string);
-        } catch (Exception ignored) {}
+
+            val value = Double.parseDouble(string);
+            return isInvalid(value) ? 0 : value;
+
+        } catch (Exception ignored) {
+        }
+
+        if (MessageValue.get(MessageValue::formatType).equalsIgnoreCase("DECIMAL")) return 0;
 
         Matcher matcher = PATTERN.matcher(string);
-        if (!matcher.find()) return -1;
+        if (!matcher.find()) return 0;
 
         double amount = Double.parseDouble(matcher.group(1));
         String suffix = matcher.group(2);
+        String fixedSuffix = suffix.equalsIgnoreCase("k") ? suffix.toLowerCase() : suffix.toUpperCase();
 
-        int index = CHARS.indexOf(suffix.toUpperCase());
+        int index = MessageValue.get(MessageValue::currencyFormat).indexOf(fixedSuffix);
 
-        return amount * Math.pow(1000, index);
+        val value = amount * Math.pow(1000, index);
+        return isInvalid(value) ? 0 : value;
+    }
+
+    public static boolean isInvalid(double value) {
+        return value < 0 || Double.isNaN(value) || Double.isInfinite(value);
     }
 
 }

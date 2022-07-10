@@ -31,7 +31,10 @@ public class InventoryValue implements ConfigurationInjectable {
 
     // main inventory
 
+    @ConfigField("enable") private boolean enable;
+
     @ConfigField("historic.config.name") private String historicInventoryName;
+    @ConfigField("historic.config.size") private int historicInventorySize;
 
     @ConfigField("historic.depositMessage") private String depositMessage;
     @ConfigField("historic.withdrawMessage") private String withdrawMessage;
@@ -43,6 +46,8 @@ public class InventoryValue implements ConfigurationInjectable {
     @ConfigField("main.config.name") private String mainInventoryName;
     @ConfigField("main.config.size") private int mainInventorySize;
 
+    @ConfigField("main.buttons.toggle") private ConfigurationSection toggleButton;
+    @ConfigField("main.buttons.help") private ConfigurationSection helpButton;
     @ConfigField("main.buttons.yourMoney") private ConfigurationSection yourMoneyButton;
     @ConfigField("main.buttons.viewPlayerMoney") private ConfigurationSection viewPlayerMoneyButton;
     @ConfigField("main.buttons.sendMoney") private ConfigurationSection sendMoneyButton;

@@ -23,6 +23,12 @@ public final class MessageValue implements ConfigurationInjectable {
 
     @Getter private static final MessageValue instance = new MessageValue();
 
+    @ConfigField("others.receiveCoinsOn") private String receiveCoinsOn;
+    @ConfigField("others.receiveCoinsOff") private String receiveCoinsOff;
+
+    @ConfigField("format-type") private String formatType;
+    @ConfigField("currency-format") private List<String> currencyFormat;
+
     // currency
 
     @ConfigField("currency.one") private String coinCurrency;
@@ -32,7 +38,17 @@ public final class MessageValue implements ConfigurationInjectable {
 
     @ConfigField("requests.invalid-target") private String invalidTarget;
     @ConfigField("requests.invalid-money") private String invalidMoney;
-    @ConfigField("request.no-time") private String noTime;
+    @ConfigField("requests.no-time") private String noTime;
+    @ConfigField("requests.link-error") private String linkError;
+    @ConfigField("requests.link-discord") private String linkDiscord;
+    @ConfigField("requests.same") private String samePersonDiscord;
+
+    // receive coins
+
+    @ConfigField("receiveCoins.toggleOff") private String disabledCoins;
+    @ConfigField("receiveCoins.message") private String receiveCoinsToggled;
+    @ConfigField("receiveCoins.enabled") private String enabledReceiveCoins;
+    @ConfigField("receiveCoins.disabled") private String disabledReceiveCoins;
 
     // operations
 
@@ -42,6 +58,12 @@ public final class MessageValue implements ConfigurationInjectable {
     @ConfigField("operations.reset") private String resetBalance;
     @ConfigField("operations.see") private String seeBalance;
     @ConfigField("operations.see-other") private String seeOtherBalance;
+
+    @ConfigField("operations.discord.disabled") private String disabledDiscord;
+    @ConfigField("operations.discord.sendMoneyRequest") private String sendMoneyRequestDiscord;
+    @ConfigField("operations.discord.sended") private String sendedMoneyDiscord;
+    @ConfigField("operations.discord.nocoins") private String noCoinsDiscord;
+    @ConfigField("operations.discord.invalidAccount") private String invalidAccountDiscord;
 
     // transactions
 
@@ -63,6 +85,8 @@ public final class MessageValue implements ConfigurationInjectable {
 
     // purse system
 
+    @ConfigField("purse.chatMessage") private String purseChatMessage;
+
     @ConfigField("purse.devalued.icon") private String devaluedIcon;
     @ConfigField("purse.devalued.message") private String devaluedMessage;
 
@@ -77,6 +101,11 @@ public final class MessageValue implements ConfigurationInjectable {
 
     @ConfigField("purse.high-status") private String purseHigh;
     @ConfigField("purse.down-status") private String purseDown;
+
+    @ConfigField("purse.changed-value.add.more") private String purseReceiveMore;
+    @ConfigField("purse.changed-value.add.minus") private String purseReceiveLess;
+    @ConfigField("purse.changed-value.withdraw.more") private String purseSpendMore;
+    @ConfigField("purse.changed-value.withdraw.minus") private String purseSpendLess;
 
     // new money top
 
@@ -102,6 +131,7 @@ public final class MessageValue implements ConfigurationInjectable {
     @ConfigField("commands.no-permission") private String noPermission;
     @ConfigField("commands.help-command") private List<String> helpCommand;
     @ConfigField("commands.help-command-staff") private List<String> helpCommandStaff;
+    @ConfigField("commands.admin-command") private List<String> adminCommand;
     @ConfigField("commands.check-help-command") private List<String> checkHelpCommand;
 
     // check system

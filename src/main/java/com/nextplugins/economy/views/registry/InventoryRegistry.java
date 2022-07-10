@@ -18,18 +18,16 @@ public final class InventoryRegistry {
     @Setter private NextEconomy plugin;
 
     public static InventoryRegistry of(NextEconomy plugin) {
-
         instance.setPlugin(plugin);
         return instance;
-
     }
 
     public void register() {
-
         this.historicBankView = new HistoricBankView(plugin.getAccountStorage()).init();
         this.bankView = new BankView(plugin.getAccountStorage()).init();
         this.rankingView = new RankingView().init();
 
+        getPlugin().getLogger().info("Inventários registrados com sucesso");
     }
 
 }

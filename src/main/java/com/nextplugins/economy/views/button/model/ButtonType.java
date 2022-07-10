@@ -13,16 +13,25 @@ import java.util.function.Consumer;
 @RequiredArgsConstructor
 public enum ButtonType {
 
-    PURSE(callback -> {}),
-    YOUR_MONEY(callback -> {
+    PURSE(callback -> {
+    }),
 
+    HELP(callback -> {
+        callback.getPlayer().closeInventory();
+        callback.getPlayer().performCommand("money help");
+    }),
+
+    TOGGLE(callback -> {
+        callback.getPlayer().performCommand("money toggle");
+        callback.updateInventory();
+    }),
+
+    YOUR_MONEY(callback -> {
         val historicBankView = InventoryRegistry.getInstance().getHistoricBankView();
         historicBankView.openInventory(callback.getPlayer());
-
     }),
 
     SEND_MONEY(callback -> {
-
         val player = callback.getPlayer();
         player.closeInventory();
 
@@ -33,11 +42,9 @@ public enum ButtonType {
         }
 
         interaction.sendRequisition(player, false);
-
     }),
 
     VIEW_MONEY(callback -> {
-
         val player = callback.getPlayer();
         player.closeInventory();
 
@@ -51,16 +58,14 @@ public enum ButtonType {
         }
 
         interaction.sendRequisition(player);
-
     }),
 
     TOP_MONEY(callback -> {
-
-        val rankingInventory = InventoryRegistry.getInstance().getRankingView();
-        rankingInventory.openInventory(callback.getPlayer());
-
+        callback.getPlayer().closeInventory();
+        callback.getPlayer().performCommand("money top");
     });
 
-    @Getter private final Consumer<CustomInventoryClickEvent> action;
+    @Getter
+    private final Consumer<CustomInventoryClickEvent> action;
 
 }

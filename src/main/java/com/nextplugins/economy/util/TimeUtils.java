@@ -1,53 +1,45 @@
 package com.nextplugins.economy.util;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public enum TimeUtils {
 
-    WEEK(604800000, "weeks", "week", "w", "semana", "semanas"),
     DAY(86400000, "days", "day", "d", "dia", "dias"),
     HOUR(3600000, "hours", "hour", "h", "hora", "horas"),
     MINUTE(60000, "minutes", "minute", "m", "minuto", "minutos"),
     SECOND(1000, "seconds", "second", "s", "segundo", "segundos");
 
-    private static final Pattern PATTERN = Pattern.compile("(\\d+)([a-zA-Z]+)");
     private final long millis;
-    private final String[] formats;
+    private final List<String> formats;
+
+    private static final Pattern PATTERN = Pattern.compile("(\\d+)(\\s+)?([a-zA-Z]+)");
 
     TimeUtils(long millis, String... formats) {
         this.millis = millis;
-        this.formats = formats;
+        this.formats = Arrays.asList(formats);
     }
 
-    public static String format(long time) {
-        if (time == 0) return "0s";
-
-        long days = TimeUnit.MILLISECONDS.toDays(time);
-        long hours = TimeUnit.MILLISECONDS.toHours(time) - (days * 24);
-        long minutes = TimeUnit.MILLISECONDS.toMinutes(time) - (TimeUnit.MILLISECONDS.toHours(time) * 60);
-        long second = TimeUnit.MILLISECONDS.toSeconds(time) - (TimeUnit.MILLISECONDS.toMinutes(time) * 60);
-
-        StringBuilder sb = new StringBuilder();
-        if (days > 0) sb.append(plural(days, "dia"));
-        if (hours > 0) sb.append(plural(hours, "hora"));
-        if (minutes > 0) sb.append(plural(minutes, "minuto"));
-        if (second > 0) sb.append(plural(second, "segundo"));
-
-        String s = sb.toString();
-        return s.isEmpty() ? "alguns instantes" : s;
+    public long getMillis() {
+        return millis;
     }
 
-    public static Long getTime(String string) {
-        Matcher matcher = PATTERN.matcher(string);
+    public List<String> getFormats() {
+        return formats;
+    }
+
+    public static long unformat(String string) {
+        Matcher matcher = PATTERN.matcher(string.replaceAll(",| e", ""));
         long time = 0;
 
         while (matcher.find()) {
             try {
                 int value = Integer.parseInt(matcher.group(1));
-                TimeUtils type = fromFormats(matcher.group(2));
+                TimeUtils type = fromFormats(matcher.group(3));
                 if (type != null) {
                     time += (value * type.getMillis());
                 }
@@ -58,81 +50,41 @@ public enum TimeUtils {
         return time;
     }
 
-    public static String formatTime(long time) {
-        if (time == 0) return "alguns instantes";
+    public static String format(long value) {
+        if (value <= 0) return "Em instantes";
 
-        long days = TimeUnit.MILLISECONDS.toDays(time);
-        long hours = TimeUnit.MILLISECONDS.toHours(time) - (days * 24);
-        long minutes = TimeUnit.MILLISECONDS.toMinutes(time) - (TimeUnit.MILLISECONDS.toHours(time) * 60);
-        long second = TimeUnit.MILLISECONDS.toSeconds(time) - (TimeUnit.MILLISECONDS.toMinutes(time) * 60);
+        long days = TimeUnit.MILLISECONDS.toDays(value);
+        long hours = TimeUnit.MILLISECONDS.toHours(value) - (days * 24);
+        long minutes = TimeUnit.MILLISECONDS.toMinutes(value) - (TimeUnit.MILLISECONDS.toHours(value) * 60);
+        long second = TimeUnit.MILLISECONDS.toSeconds(value) - (TimeUnit.MILLISECONDS.toMinutes(value) * 60);
 
-        StringBuilder sb = new StringBuilder();
+        long[] times = {days, hours, minutes, second};
+        String[] names = {"dia", "hora", "minuto", "segundo"};
 
-        boolean hasDays = days > 0;
-        boolean hasHours = hours > 0;
-        boolean hasMinutes = minutes > 0;
-        boolean hasSeconds = second > 0;
-
-        if (hasDays) {
-
-            sb.append(plural(days, "dia"));
-            if (hasHours) sb.append(hasMinutes ? ", " : " e ");
-
+        List<String> values = new ArrayList<>();
+        for (int index = 0; index < times.length; index++) {
+            long time = times[index];
+            if (time > 0) {
+                String name = times[index] + " " + names[index] + (time > 1 ? "s" : "");
+                values.add(name);
+            }
         }
 
-        if (hasHours) {
-
-            sb.append(plural(hours, "hora"));
-            if (hasMinutes) sb.append(hasSeconds ? ", " : " e ");
-
+        if (values.isEmpty()) {
+            return "Em instantes";
         }
 
-        if (hasMinutes) {
-
-            sb.append(plural(minutes, "minuto"));
-            if (hasSeconds) sb.append(" e ");
-
+        if (values.size() == 1) {
+            return values.get(0);
         }
 
-        if (hasSeconds) sb.append(plural(second, "segundo"));
-
-        String s = sb.toString();
-        return s.isEmpty() ? "alguns instantes" : s;
-    }
-
-    public static String formatOne(long time) {
-
-        if (time == 0) return "0s";
-
-        long days = TimeUnit.MILLISECONDS.toDays(time);
-        long hours = TimeUnit.MILLISECONDS.toHours(time) - (days * 24);
-        long minutes = TimeUnit.MILLISECONDS.toMinutes(time) - (TimeUnit.MILLISECONDS.toHours(time) * 60);
-        long second = TimeUnit.MILLISECONDS.toSeconds(time) - (TimeUnit.MILLISECONDS.toMinutes(time) * 60);
-
-        if (days > 0) return plural(days, "dia");
-        if (hours > 0) return plural(hours, "hora");
-        if (minutes > 0) return plural(minutes, "minuto");
-        if (second > 0) return plural(second, "segundo");
-        return "0s";
-
+        return String.join(", ", values.subList(0, values.size() - 1)) + " e " + values.get(values.size() - 1);
     }
 
     public static TimeUtils fromFormats(String format) {
         return Arrays.stream(values())
-                .filter(type -> Arrays.asList(type.getFormats()).contains(format.toLowerCase()))
+                .filter(type -> type.getFormats().contains(format.toLowerCase()))
                 .findFirst()
                 .orElse(null);
-    }
-
-    public static String plural(long quantity, String message) {
-        return quantity + " " + message + (quantity == 1 ? "" : "s");
-    }
-
-    public long getMillis() {
-        return millis;
-    }
-
-    public String[] getFormats() {
-        return formats;
     }
 }

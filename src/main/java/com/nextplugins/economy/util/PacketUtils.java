@@ -19,7 +19,6 @@ public class PacketUtils {
             Object playerConnection = handle.getClass().getField("playerConnection").get(handle);
             playerConnection.getClass().getMethod("sendPacket", getNMSClass("Packet")).invoke(playerConnection, packet);
         } catch (Exception e) {
-            e.printStackTrace();
         }
     }
 

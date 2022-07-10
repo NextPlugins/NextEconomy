@@ -1,39 +1,140 @@
 ranking:
-  update-delay: 900 # delay de update do ranking (em segundos)
+  update-delay: 1800 # delay de update do ranking (em segundos)
   limit: 10 # limite de contas que serão puxadas da database
-  tycoon:
-    tag:
-      use: true
-      value: '&2[$] '
+  tycoon: # Placeholder: {tycoon} ou %tycoon%
+    # Tag dada para o jogador mais rico
+    # Para desativar, apenas deixe o campo entre as ' vazio.
+    top:
+      tag: '&2[$] '
+      # ID do cargo magnata no discord
+      # OBS: Caso a opção discord esteja ativa e o jogador top 1
+      # tenha vinculado sua conta no servidor, ele irá receber esse cargo
+      discordRoleId: 0
+    # Tag dada para os demais jogadores do money top (2 ao 10 ou o número configurado no limite)
+    # Para desativar apenas coloque o campo vazio
+    # Aparece apenas no chat e nas placeholders do PlaceholderAPI
+    rich:
+      tag: '&a[Rico] '
+      # ID do cargo rico no discord
+      # OBS: Caso a opção discord esteja ativa e o jogador top 1
+      # tenha vinculado sua conta no servidor, ele irá receber esse cargo
+      discordRoleId: 0
+    # Comando executado quando o magnata é alterado
+    # $currentTycoon - Atual jogador magnata
+    # $lastTycoon - Último jogador magnata
+    commands:
+      - 'lp user $currentTycoon parent add Tycoon'
+      - 'lp user $lastTycoon parent remove Tycoon'
+
   model:
+    # tipo do ranking, tipos válidos: 'CHAT' e 'INVENTORY'
+    type: 'INVENTORY' 
+    chat:
+      header:
+        - ''
+        - ' &a&lMONEY TOP &8&l➡ &fJogadores mais ricos'
+        - ''
+      body: '&f$positionº &8- $tycoon&a$prefix$player$suffix &7(&2$ &f$amount&7)'
+      footer:
+        - ''
+        - ' &7Atualizado a cada 30 minutos.'
+        - ''
     inventory:
-      title: 'Ranking - Money'
-      head-display-name-top: '$tycoonTag&e$positionº &8- &f$player'
-      head-display-name: '&e$positionº &8- &f$player'
+      title: 'Ranking de Jogadores (Coins)'
+      head-display-name-top: '&f$positionº, &7$tycoon$prefix$player$suffix'
+      head-display-name: '&f$positionº, &7$prefix$player$suffix'
       head-lore:
         - ''
         - ' &7Quantia: &e$amount'
         - ' &7Transações: &e$transactions'
         - ' &7Dinheiro movimentado: &e$movimentation'
         - ''
-  npc:
-    # ARMORSTAND - Mini bonecos com cabeça de cada jogador
-    # NPC - Boneco da altua e mesma skin do jogador
-    # NOTHING - Desativar ArmorStand e NPC
+  visual:
+    # ARMORSTAND - Armorstands com cabeça de cada jogador [Recomendado para multi-posições]
+    # NPC - Boneco da altura e mesma skin do jogador [Recomendado com LabyMod]
+    # HOLOGRAM - Apenas um holograma com todos os jogadores (suporta apenas 1 posição) [Melhor opção]
+    # NOTHING - Desativar todos os formatos de ranking (mesmo que não sete nenhuma posição do ranking, desative aqui para reduzir o tempo de startup)
     type: ARMORSTAND
+    # Esta opção só irá afetar caso o tipo de ranking
+    # seja ARMORSTAND. Isto afetará o tamanho do ArmorStand
+    # SMALL - Formato pequeno
+    # TALL - Formato grande
+    format: SMALL
     # Configuração das cores da armadura de couro (apenas top armorstand)
     # Todas as cores aqui são em HEX, procure no google para achar o código HEX da cor que quer colocar
     armor:
+      # caso não saiba coloração HEX, utilize o site abaixo
+      # https://www.hexcolortool.com/
+      #
       # Cor do peitoral de couro
       chestplate: '#17c8cf' # Azul claro
       # Cor da calça de couro
       leggings: '#31c456' # Verde claro
       # Cor da bota de couro
       boots: '#c43d31' # Vermelho
-    hologram:
-      # altura do holograma, em blocos (começando do chão)
-      height: 2.15 # Recomendado 3 para NPC e 2.15 para ArmorStand
-      lines:
-        - '&f$positionº'
-        - '&e$player'
-        - '&7(&2&f$amount&7)'
+    messages:
+      hologram:
+        limit: 10
+        line: '&e$positionº &7$prefix$player$suffix &8- &7$amount &2$'
+        modal:
+        - '&b&LTOP JOGADORES'
+        - '&7(Coins)'
+        - ''
+        - '@players'
+        - ''
+        - '&aAtualizado a cada 30 minutos.'
+      default:
+        nobody:
+          - '&b$positionº Lugar'
+          - '&cNenhum jogador elegível'
+          - ''
+        modal:
+          - '&b$positionº Lugar'
+          - '&e$prefix$player$suffix'
+          - '&a$$amount de coins'
+    animations:
+      # ATENÇÃO
+      # Essa feature só funciona para jogadores que usam LabyMod
+      #
+      # Faz com que o npc dance ou exiba emojis (animações)
+      #
+      # Você pode encontrar uma lista de IDs de emotes aqui:
+      # https://docs.labymod.net/pages/server/labymod/emote_api/
+      #
+      # Você pode encontrar uma lista de IDS de stickers aqui:
+      # https://dl.labymod.net/stickers.json
+      #
+      # Habilite a função aqui
+      enable: true
+
+      # Caso queira que o npc dance coisas aleatórias de tempo em tempo
+      # recomendamos o uso do NextTask
+      # com o comando /ne playanimation
+
+      # Animação executada quando o npc é gerado
+      spawn: 'emote:178'
+
+      # Animações que o npc pode executar quando aparecer no campo de visão do player
+      # (irá selecionar uma animação aleatória)
+      show-npc:
+        - 'emote:141'
+        - 'emote:161'
+        - 'emote:191'
+        - 'emote:192'
+        - 'emote:215'
+
+      # Animações que o npc do money top (1º lugar) ter um jogador alterado
+      # ou seja, um novo magnata
+      # (irá selecionar uma animação aleatória)
+      magnata-annimations-id-list:
+        - 'emote:180' # corrida naruto
+        - 'emote:6' # dancinha do fortnite
+        - 'emote:33'
+        - 'emote:14'
+        - 'emote:62' # solo de guitarra kkkkk
+        - 'emote:202' # solo de guitarra kkkkk
+
+      # Dança de rage
+      # quando um jogador se tornar magnata
+      # o npc do 2º lugar irá executar essa animação abaixo
+      rage-dance: 'emote:180'

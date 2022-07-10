@@ -96,7 +96,7 @@ public final class EventAwaiter<E extends Event> {
         this.listener = new RegisteredListener(
                 new EmptyListener(),
                 (listener, event) -> consumer.accept(event),
-                EventPriority.LOWEST,
+                EventPriority.HIGH,
                 plugin,
                 false
         );

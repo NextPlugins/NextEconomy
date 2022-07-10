@@ -1,0 +1,108 @@
+# Para você converter os dados de um sistema, você deverá configurar ele abaixo
+# Caso utilize SQLite no sistema desejado, só ativar a opção de conversão dele
+#
+# Após configuar e ativar a conversão, você precisa reiniciar o servidor
+# Depois de ligado, utilize o comando /nexteconomy converter <nome do plugin>
+# A conversão pode levar um tempo demorando do tanto de dados para ser convertido
+#
+# O yEconomy e SOEconomy normalmente demoram mais por salvar os dados em JSON,
+# e o plugin terá que deserializar cada dado e converter para seu sistema
+# Uma database do SOEconomy com 191 usuários (80 KB) levou +-10 segundos e 700 ms para ser convertido
+# e a tabela do NextEconomy (já havia 13 jogadores) com 204 jogadores e o peso 16KB (5x menos)
+#
+# Antes de converter, o plugin criará um ponto de restauração automaticamente para você,
+# você encontrará ele na pasta /plugins/NextEconomy/restauration
+# Em caso de interrupção no meio do processo, use /nexteconomy read <nome> restaurar
+AtlasEconomy:
+  # Para deixar a opção de conversão disponível, ative esta opção
+  use: false
+  connection:
+    table: "economia" # não mude caso não saiba o que está fazendo
+    mysql:
+      enable: true
+      address: "localhost:3306"
+      username: "root"
+      password: ""
+      database: "test"
+
+StormEconomy:
+  # Para deixar a opção de conversão disponível, ative esta opção
+  use: false
+  connection:
+    table: "storm_economy" # não mude caso não saiba o que está fazendo
+    mysql:
+      enable: false
+      address: "localhost:3306"
+      username: "root"
+      password: ""
+      database: "test"
+    sqlite:
+      file: "plugins/StormEconomy/dados.db" # cringe denovo
+
+JH_Economy:
+  # Para deixar a opção de conversão disponível, ative esta opção
+  use: false
+  connection:
+    table: "JH_Economy" # não mude caso não saiba o que está fazendo
+    mysql:
+      enable: false
+      address: "localhost:3306"
+      username: "root"
+      password: ""
+      database: "test"
+
+yEconomy:
+  # Para deixar a opção de conversão disponível, ative esta opção
+  use: false
+  connection:
+    table: "yeconomy.players" # não mude caso não saiba o que está fazendo
+    mysql:
+      enable: false
+      address: "localhost:3306"
+      username: "root"
+      password: ""
+      database: "test"
+    sqlite:
+      file: "plugins/yEconomy/database.db"
+
+TuskEconomy:
+  # Para deixar a opção de conversão disponível, ative esta opção
+  use: false
+  connection:
+    table: "money" # não mude caso não saiba o que está fazendo
+    mysql:
+      enable: false
+      address: "localhost:3306"
+      username: "root"
+      password: ""
+      database: "test"
+    sqlite:
+      file: "plugins/TuskEconomy/accounts.db"
+
+SOEconomy:
+  # Para deixar a opção de conversão disponível, ative esta opção
+  use: false
+  connection:
+    table: "soeconomy_players" # não mude caso não saiba o que está fazendo
+    mysql:
+      enable: false
+      address: "localhost:3306"
+      username: "root"
+      password: ""
+      database: "test"
+    sqlite:
+      file: "plugins/SOEconomy/database.db"
+
+SolaryEconomy:
+  # Para deixar a opção de conversão disponível, ative esta opção
+  use: false
+  connection:
+    table: "solaryeconomy" # não mude caso não saiba o que está fazendo
+    mysql:
+      enable: false
+      address: "localhost:3306"
+      username: "root"
+      password: ""
+      database: "test"
+    sqlite:
+      file: "plugins/SolaryEconomy/storage.db"

@@ -1,41 +1,38 @@
 package com.nextplugins.economy.listener.events.operation;
 
 import com.nextplugins.economy.NextEconomy;
+import com.nextplugins.economy.api.event.operations.MoneyChangeEvent;
 import com.nextplugins.economy.api.event.operations.MoneySetEvent;
-import com.nextplugins.economy.api.model.account.Account;
 import com.nextplugins.economy.configuration.MessageValue;
-import com.nextplugins.economy.api.model.account.storage.AccountStorage;
+import com.nextplugins.economy.model.account.storage.AccountStorage;
 import com.nextplugins.economy.util.NumberUtils;
-import org.bukkit.OfflinePlayer;
-import org.bukkit.command.CommandSender;
+import lombok.val;
+import org.bukkit.Bukkit;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 
 public final class MoneySetListener implements Listener {
 
-    protected final AccountStorage accountStorage = NextEconomy.getInstance().getAccountStorage();
+    private final AccountStorage accountStorage = NextEconomy.getInstance().getAccountStorage();
 
     @EventHandler(priority = EventPriority.MONITOR)
     public void onSet(MoneySetEvent event) {
+        if (event.isCancelled()) return;
 
-        CommandSender sender = event.getSender();
-        OfflinePlayer target = event.getTarget();
-        double amount = event.getAmount();
+        val sender = event.getSender();
+        val target = event.getTarget();
+        val amount = event.getAmount();
 
-        Account targetAccount = accountStorage.findOfflineAccount(target.getName());
+        val targetAccount = accountStorage.findAccount(target);
         if (targetAccount == null) {
-
             sender.sendMessage(MessageValue.get(MessageValue::invalidTarget));
             return;
-
         }
 
         if (Double.isNaN(amount) || amount < 1) {
-
             sender.sendMessage(MessageValue.get(MessageValue::invalidMoney));
             return;
-
         }
 
         targetAccount.setBalance(amount);
@@ -44,6 +41,19 @@ public final class MoneySetListener implements Listener {
                 .replace("$player", target.getName())
                 .replace("$amount", NumberUtils.format(amount))
         );
+
+        if (!target.isOnline()) return;
+
+        val player = target.getPlayer();
+        val moneyChangeEvent = new MoneyChangeEvent(
+                player,
+                targetAccount,
+                targetAccount.getBalance(),
+                targetAccount.getBalanceFormated()
+        );
+
+        Bukkit.getPluginManager().callEvent(moneyChangeEvent);
+
     }
 
 }

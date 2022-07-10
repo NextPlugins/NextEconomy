@@ -1,0 +1,86 @@
+#      _   _           _     _____  _             _                #
+#     | \ | |         | |   |  __ \| |           (_)               #
+#     |  \| | _____  _| |_  | |__) | |_   _  __ _ _ _ __  ___      #
+#     | . ` |/ _ \ \/ / __| |  ___/| | | | |/ _` | | '_ \/ __|     #
+#     | |\  |  __/>  <| |_  | |    | | |_| | (_| | | | | \__ \     #
+#     |_| \_|\___/_/\_\\__| |_|    |_|\__,_|\__, |_|_| |_|___/     #
+#                                           __/ |                  #
+#                                          |___/                   #
+#                       Servidor de Suporte                        #
+#               https://nextplugins.com.br/discord                 #
+
+database:
+  version: '2.1.0'
+  type: 'sqlite' # Opções válidas: 'sqlite' e 'mysql'
+  mysql:
+    address: 'localhost:3306'
+    username: 'root'
+    password: ''
+    database: 'test'
+  sqlite:
+    file: 'database/database.db'
+
+plugin:
+  configuration:
+    # Habilitar backups quando servidor reinicia
+    autobackup: false
+    # Método de salvamento de contas
+    # NICK - Salvar a conta pelo nick do jogador (Recomendado para servidores piratas)
+    # UUID - Salvar a conta pelo id único do jogador (Recomendado para servidores originais)
+    # Caso efetue a mudança:
+    # Se você utiliza SQLITE, apague o arquivo database.db da pasta database
+    # Se você utiliza MYSQL, utilize a função DROP na table nexteconomy_data
+    save-method: NICK
+    # Sistema de bolsa de valores
+    purse:
+      # Habilitar o sistema de bolsa
+      # Para você usar a bolsa de valores, você precisa usar o comando
+      # /bolsa give <jogador> <valor> - Assim o valor usado será alterado pela bolsa de valores antes de ser enviado para o jogador
+      # o <jogador> <valor> devem ser trocados para a variável que o plugin que quer vincular pede
+      #
+      # Coloque para executar esse comando no plugin desejado, por exemplo de mineração.
+      # Caso não tenha opção de usar comando para dar o dinheiro no plugin que deseja, peça para
+      # o desenvolvedor do mesmo, disponibilizar um campo aonde você muda o comando a ser executado (ao invés de /money give use /bolsa give)
+      # Caso um plugin já tenha um campo para trocar o /money give troque por /bolsa give
+      # como citado logo acima!
+      enable: true
+      # Serve para desativar a mensagem de "BOLSA Você deixou de ganhar x ..."
+      # em algum mundo específico, podendo desativar na mineração
+      # para não ficar flodando
+      messageDisabledWorlds:
+        - 'mina'
+      # Método que o jogador vai receber a mensagem "BOLSA Você deixou de ganhar x ..."
+      # ACTIONBAR - Aparecer na actionbar do usuário
+      # MESSAGE - Aparecer no chat do usuário
+      # NOTHING - Desabilitar a mensagem por completo
+      method: 'ACTIONBAR'
+      # Um valor maior que esse significa que a bolsa está em alta
+      media: 100
+      # Valor mínimo da bolsa
+      minValue: 75
+      # Valor máximo da bolsa
+      maxValue: 125
+      # Tempo para atualizar em segundos
+      nextUpdate: 600
+    # Valor inicial
+    # Quando um jogador entra no servidor, começa com essa quantia
+    initial-balance: 1500
+    # Dinheiro mínimo necessário para enviar a um jogador
+    # Evitar flodarem /money pay <jogador> 1
+    min-value: 1000000
+    # Sistema de cheques
+    check:
+      # ative ou desative o sistema de cheque
+      enable: true
+      # valor mínimo para criar um cheque
+      min-value: 1000000
+      # item que irá simbolizar um cheque
+      item:
+        display-name: '&aCheque de coins'
+        material: PAPER
+        data: 0
+        lore:
+          - ''
+          - '&7Quantia armazenada:&f $amount'
+          - ''
+          - '&aClique esquerdo para resgatar.'

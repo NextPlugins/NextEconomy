@@ -1,60 +1,59 @@
 plugins {
     id 'java'
 
-    id 'me.bristermitten.pdm' version '0.0.30'
-    id 'com.github.johnrengelman.shadow' version '5.0.0'
-
+    id 'com.github.johnrengelman.shadow' version '6.0.0'
     id 'net.minecrell.plugin-yml.bukkit' version '0.3.0'
 }
 
-group = 'com.nextplugins'
-version = '1.1.4'
+group 'com.nextplugins'
+version "2.1.2"
 
-tasks.build.dependsOn('pdm', 'shadowJar')
+tasks.build.dependsOn('shadowJar')
 
 repositories {
     mavenCentral()
-    mavenLocal()
-    jcenter()
 
     // spigot
 
-    maven { url = 'http://maven.elmakers.com/repository/' }
+    maven { url = 'https://hub.spigotmc.org/nexus/content/repositories/snapshots/' }
     maven { url = 'https://oss.sonatype.org/content/groups/public/' }
 
     // libs
 
-    maven { url = 'https://libraries.minecraft.net/' }
     maven { url = 'https://repo.codemc.org/repository/maven-public/' }
     maven { url = 'https://repo.citizensnpcs.co/' }
-
+    maven { url = 'https://m2.dv8tion.net/releases' }
     maven { url = 'https://jitpack.io/' }
+    maven { url = 'https://repo.nickuc.com/maven2/' }
+    maven { url = 'https://nexus.scarsz.me/content/groups/public/' }
+    maven { url = 'https://raw.githubusercontent.com/FabioZumbi12/UltimateChat/mvn-repo/' }
 }
 
+
 dependencies {
-
-    compileOnly 'org.spigotmc:spigot:1.8.8-R0.1-SNAPSHOT'
-
-    /*** local dependency (nChat) ***/
-    compileOnly 'com.nickuc:chat:1.0.0'
+    compileOnly "org.spigotmc:spigot-api:1.18-R0.1-SNAPSHOT"
 
     compileOnly 'com.github.PlaceholderAPI:PlaceholderAPI:2.10.9'
     compileOnly 'com.gmail.filoghost.holographicdisplays:holographicdisplays-api:2.4.0'
-    compileOnly 'net.citizensnpcs:citizens:2.0.27-SNAPSHOT'
     compileOnly 'com.github.MilkBowl:VaultAPI:1.7'
+    compileOnly 'com.nickuc.chat:nchat-api:4.2'
+    compileOnly fileTree('libs')
 
-    implementation 'de.tr7zw:item-nbt-api:2.7.1'
-    implementation 'com.github.HenryFabio:inventory-api:2.0.3'
+    implementation 'com.github.juliarn:npc-lib:2.6-RELEASE'
+    implementation 'com.github.Yuhtin:update-checker:1.2'
+    implementation 'com.github.HenryFabio.configuration-injector:bukkit:1.0.2'
+    implementation 'com.github.HenryFabio:inventory-api:main-SNAPSHOT'
     implementation 'com.github.HenryFabio:sql-provider:9561f20fd2'
-    implementation 'com.github.HenryFabio:configuration-injector:main-SNAPSHOT'
-    implementation 'org.bstats:bstats-bukkit:1.8'
 
-    pdm 'com.github.SaiintBrisson:command-framework:1.1.0'
+    implementation 'com.github.SaiintBrisson.command-framework:bukkit:1.2.0'
+    implementation 'de.tr7zw:item-nbt-api:2.10.0'
 
-    def lombok = 'org.projectlombok:lombok:1.18.16'
+    implementation 'com.github.ben-manes.caffeine:caffeine:2.9.0' // 3.0.0 or higher is for java 11+
+    implementation 'org.apache.commons:commons-lang3:3.12.0'
+
+    def lombok = 'org.projectlombok:lombok:1.18.22'
     compileOnly lombok
     annotationProcessor lombok
-
 }
 
 bukkit {
@@ -63,17 +62,44 @@ bukkit {
     website = 'https://nextplugins.com.br'
     version = "${project.version}"
     depend = ['Vault']
+    apiVersion = '1.13'
     load = 'STARTUP'
-    softDepend = ['Citizens', 'HolographicDisplays', 'PlaceholderAPI', 'Legendchat']
+    softDepend = [
+            'ProtocolLib',
+            'NextTestServer',
+            'CMI',
+            'SkinsRestorer',
+            'HolographicDisplays',
+            'PlaceholderAPI',
+            'Legendchat',
+            'UltimateChat',
+            'nChat',
+            'DiscordSRV'
+    ]
 }
 
 shadowJar {
-    archiveName("${project.name}.jar")
-    relocate 'com.henryfabio.minecraft.inventoryapi', 'com.nextplugins.economy.libs.inventoryapi'
-    relocate 'com.henryfabio.sqlprovider', 'com.nextplugins.economy.libs.sqlprovider'
+    archiveName("${project.name}-${project.version}.jar")
+
+    relocate 'com.github.juliarn.npc', 'com.nextplugins.economy.libs.npclib'
+    relocate 'com.yuhtin.updatechecker', 'com.nextplugins.economy.libs.updatechecker'
+
     relocate 'com.henryfabio.minecraft.configinjector', 'com.nextplugins.economy.libs.configinjector'
+    relocate 'com.henryfabio.minecraft.inventoryapi', 'com.nextplugins.economy.libs.inventoryapi'
+
+    relocate 'com.henryfabio.sqlprovider', 'com.nextplugins.economy.libs.sqlprovider'
+    relocate 'com.zaxxer.hikari', 'com.nextplugins.economy.libs.hikari'
+
+    relocate 'com.github.benmanes.caffeine', 'com.nextplugins.economy.libs.caffeine'
+
+    relocate 'me.saiintbrisson.minecraft.command', 'com.nextplugins.economy.libs.command.common'
+    relocate 'me.saiintbrisson.bukkit.command', 'com.nextplugins.economy.libs.command.bukkit'
+
     relocate 'de.tr7zw.changeme.nbtapi', 'com.nextplugins.economy.libs.nbtapi'
-    relocate 'org.bstats', 'com.nextplugins.economy.libs.bstats'
+    relocate 'de.tr7zw.annotations', 'com.nextplugins.economy.libs.annotations'
+
+    relocate 'com.google.errorprone.annotations', 'com.nextplugins.economy.libs.annotations'
+
 }
 
 compileJava {

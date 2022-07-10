@@ -17,7 +17,7 @@ import java.util.function.Function;
 @TranslateColors
 @Accessors(fluent = true)
 @ConfigSection("plugin.configuration")
-@ConfigFile("config.yml")
+@ConfigFile("configuration.yml")
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public final class FeatureValue implements ConfigurationInjectable {
 
@@ -25,10 +25,10 @@ public final class FeatureValue implements ConfigurationInjectable {
 
     // configuration
 
+    @ConfigField("autobackup") private boolean autoBackup;
+
     @ConfigField("initial-balance") private double initialBalance;
     @ConfigField("min-value") private double minTransactionValue;
-    @ConfigField("format-type") private String formatType;
-    @ConfigField("save-delay") private int saveDelay;
 
     // check
 

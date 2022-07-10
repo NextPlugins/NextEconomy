@@ -5,17 +5,17 @@ import com.henryfabio.minecraft.inventoryapi.inventory.impl.simple.SimpleInvento
 import com.henryfabio.minecraft.inventoryapi.item.InventoryItem;
 import com.henryfabio.minecraft.inventoryapi.viewer.Viewer;
 import com.nextplugins.economy.api.PurseAPI;
-import com.nextplugins.economy.api.model.account.Account;
 import com.nextplugins.economy.configuration.InventoryValue;
 import com.nextplugins.economy.configuration.MessageValue;
-import com.nextplugins.economy.views.button.registry.InventoryButtonRegistry;
-import com.nextplugins.economy.api.model.account.storage.AccountStorage;
+import com.nextplugins.economy.model.account.storage.AccountStorage;
+import com.nextplugins.economy.util.ColorUtil;
 import com.nextplugins.economy.util.ItemBuilder;
 import com.nextplugins.economy.util.NumberUtils;
 import com.nextplugins.economy.util.TimeUtils;
-import com.nextplugins.economy.views.button.InventoryButton;
-import org.bukkit.entity.Player;
-import org.bukkit.inventory.ItemStack;
+import com.nextplugins.economy.views.button.model.ButtonType;
+import com.nextplugins.economy.views.button.registry.InventoryButtonRegistry;
+import lombok.val;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.stream.Collectors;
 
@@ -23,7 +23,7 @@ import java.util.stream.Collectors;
  * @author Yuhtin
  * Github: https://github.com/Yuhtin
  */
-public class BankView extends SimpleInventory {
+public final class BankView extends SimpleInventory {
 
     private static final InventoryButtonRegistry BUTTONS = InventoryButtonRegistry.getInstance();
 
@@ -40,39 +40,43 @@ public class BankView extends SimpleInventory {
     }
 
     @Override
-    protected void configureInventory(Viewer viewer, InventoryEditor editor) {
+    protected void configureInventory(Viewer viewer, @NotNull InventoryEditor editor) {
+        val player = viewer.getPlayer();
+        val account = accountStorage.findAccount(player);
+        val instance = PurseAPI.getInstance();
+        val receiveType = ColorUtil.colored(account.isReceiveCoins() ? MessageValue.get(MessageValue::receiveCoinsOn) : MessageValue.get(MessageValue::receiveCoinsOff));
+        val discordName = ColorUtil.colored(
+                account.getDiscordName() == null
+                ? "&cNão vinculado"
+                : account.getDiscordName()
+        );
 
-        Player player = viewer.getPlayer();
-        Account account = accountStorage.findOnlineAccount(player);
+        val purse = instance != null ? instance.getPurseFormated() : "";
+        val isHigh = instance != null ? instance.getHighMessage() : "";
 
-        String purse = PurseAPI.getInstance() != null
-                ? PurseAPI.getInstance().getPurseFormated()
+        val nextUpdate = instance != null
+                ? TimeUtils.format(instance.getNextUpdate() - System.currentTimeMillis())
                 : "";
 
-        String isHigh = PurseAPI.getInstance() != null
-                ? PurseAPI.getInstance().isHigh()
-                : "";
-
-        String nextUpdate = PurseAPI.getInstance() != null
-                ? TimeUtils.formatTime(PurseAPI.getInstance().getNextUpdate() - System.currentTimeMillis())
-                : "";
-
-        String transactionName = account.getTransactionsQuantity() == 1
+        val transactionName = account.getTransactionsQuantity() == 1
                 ? MessageValue.get(MessageValue::singularTransaction)
                 : MessageValue.get(MessageValue::pluralTransaction);
 
-        for (InventoryButton value : BUTTONS.values()) {
+        val transactionsMessage = account.getTransactionsQuantity() + " " + transactionName;
 
-            int inventorySlot = value.getInventorySlot();
-            if (inventorySlot == -1) continue;
+        for (val value : BUTTONS.values()) {
+            val inventorySlot = value.getInventorySlot();
+            if (inventorySlot == -1 || (value.getButtonType() == ButtonType.PURSE && instance == null)) continue;
 
-            ItemStack valueItem = new ItemBuilder(value.getItemStack(player.getName()))
+            val valueItem = new ItemBuilder(value.getItemStack(player.getName()))
                     .setLore(value.getLore()
                             .stream()
                             .map(line -> line
-                                    .replace("$money", NumberUtils.format(account.getBalance()))
-                                    .replace("$transactions", account.getTransactionsQuantity() + " " + transactionName)
+                                    .replace("$money", account.getBalanceFormated())
+                                    .replace("$transactions", transactionsMessage)
                                     .replace("$movimentedMoney", NumberUtils.format(account.getMovimentedBalance()))
+                                    .replace("$toggleMessage", receiveType)
+                                    .replace("$discord", discordName)
                                     .replace("$value", purse)
                                     .replace("$status", isHigh)
                                     .replace("$time", nextUpdate)
@@ -84,10 +88,11 @@ public class BankView extends SimpleInventory {
                     inventorySlot,
                     InventoryItem.of(valueItem).defaultCallback(value.getButtonType().getAction())
             );
-
-
         }
-
     }
 
+    @Override
+    protected void update(@NotNull Viewer viewer, @NotNull InventoryEditor editor) {
+        configureInventory(viewer, editor);
+    }
 }

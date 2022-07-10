@@ -1,0 +1,101 @@
+######################################
+#                                    #
+#              ATENÇÃO               #
+#                                    #
+######################################
+
+# Esta integração utiliza um plugin à parte, o DiscordSRV
+# Resumidamente, é um plugin que simplifica a vinculação de contas com o seu servidor
+# Fazendo assim ter apenas um comando de vinculação para todos os plugins
+# A quantidade de pessoas pedindo suporte ao plugin foi gigantesca, então decidimos tornar obrigatório usar
+# Caso não queira usar a integração via discord, apenas desabilite logo abaixo
+# Não sabe como fazer? Veja este vídeo: TODO
+
+# Configuração geral do sistema
+config:
+  # Habilitar/desabilitar integração com o discord
+  enable: true
+  # Prefix dos comandos
+  prefix: "coins!"
+
+# Configuração dos emojis
+# Para colocar um emoji do seu servidor (pode ser até gif), envie uma mensagem em qualquer canal
+# com o seguinte conteúdo: '\:nomedoemoji:'
+# você terá enviado algo parecido com <:nomedoemoji:19128219219>
+# pegue esta mensagem e coloque no campo que deseja
+emojis:
+  # Emoji de erro
+  error: ":x:"
+  # Emoji de argumento inválido
+  invalid: ":exclamation:"
+  # Emoji de carregamento
+  loading: ":compass:"
+  # Emoji de sucesso
+  success: ":white_check_mark:"
+
+embed:
+  viewMoney:
+    # Título do embed (suporta o placeholder $player)
+    title: '<:beacon:863495850026467398> Banco de $player'
+    # Imagem do embed (suporta o placeholder $player)
+    image: 'https://minotar.net/avatar/$player'
+    # Imagem do footer (suporta o placeholder $player)
+    imagefooter: 'https://nextplugins.com.br/icons/next-logo.png'
+    # Mensagem do footer (suporta o placeholder $player)
+    footer: '© NextPlugins 2021, Todos os direitos reservados'
+    # Adicionar data no footer
+    date: true
+    # Cor do embed
+    # caso não saiba coloração HEX, utilize o site abaixo
+    # https://www.hexcolortool.com/
+    color: '#36bfa6'
+    # Corpo do texto
+    fields:
+      # Aqui você pode adicionar quantos campos quiser
+      # Placeholders para title $coinName e $player
+      # Placeholders para text $money $player $coinName $transactionsmoney $transactions $lastTransactionMessage
+      info:
+        inline: false
+        title: ':placard: Informações do jogador'
+        text: '$userTag'
+      money:
+        inline: true
+        title: '<:xp:863522094251245590> Dinheiro no banco'
+        text: '$money coins'
+      transactions:
+        inline: true
+        title: '<:sopa:863522094221885453> Dinheiro movimentado'
+        text: '$transactionsmoney coins ($transactions transações)'
+      receiveMoney:
+        inline: true
+        title: '<:recebimento:863522094524661800> Recebimento de $coinName'
+        text: '$ableToCoins'
+      blankLine:
+        inline: false
+        blank: true
+      lastTransaction:
+        inline: false
+        title: '<:info:863522094225817600> Última transação'
+        text: '$lastTransactionMessage'
+  top:
+    title: '<:beacon:863495850026467398> Jogadores mais ricos'
+    imagefooter: 'https://nextplugins.com.br/icons/next-logo.png'
+    footer: '© NextPlugins 2021, Todos os direitos reservados'
+    date: true
+    color: '#36bfa6'
+    topEmoji: '<:diamante:876855005871734784> '
+    line: '**$positionº** $prefix$username - $amount $ coins'
+    description: '<:livro:876809929430794240> Venha se tornar rico em nosso servidor!'
+  help:
+    title: ':placard: Precisando de ajuda?'
+    image: 'https://images.vexels.com/media/users/3/152347/isolated/preview/27304b9b14ce9bd8a28ca637ed92070e-icone-de-ponto-de-interrogacao-do-circulo-azul.png'
+    imagefooter: 'https://nextplugins.com.br/icons/next-logo.png'
+    footer: '© NextPlugins 2021, Todos os direitos reservados'
+    date: true
+    color: '#107373'
+    description:
+      - '<:info:863522094225817600> Veja todos os comandos de economia no discord'
+      - ''
+      - ' <:livro:876809929430794240> coins!ver [jogador] **|** Veja as moedas do jogador citado'
+      - ' <:recebimento:863522094524661800> coins!pay [jogador] [coins] **|** Enviar dinheiro ao jogador citado'
+      - ' <:beacon:863495850026467398> coins!top **|** Veja os jogadores mais ricos'

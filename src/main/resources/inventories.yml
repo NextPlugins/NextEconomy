@@ -1,83 +1,115 @@
+# O formato do menu foi idealizado pelo servidor: loja.redefastly.com.br
 inventory:
+  # Desabilite todos os menus do plugin (menos o de ranking)
+  # Para desabilitar o de ranking, acesse o arquivo ranking.yml
+  enable: true 
   historic:
     config:
       name: 'Histórico de Transações'
-    depositMessage: '&c@target &2➡ &a@player'
-    withdrawMessage: '&c@player &2➡ &a@target'
+      # Tamanho do inventário
+      size: 54
+    depositMessage: '&bTransação de @target'
+    withdrawMessage: '&bTransação para @target'
     item:
       skullName: '@player'
       displayName: '@message'
       lore:
+        # @player @target @amount (valor) @date (data) @message (Transação de/para ...) @action (Recebeu ou Enviou)
         - ''
-        - ' &eAção: &f@type'
-        - ' &eQuantia: &f@amount'
-        - ' &eData: &f@date'
+        - ' &fQuantia: &6@amount'
+        - ' &fData: &6@date'
         - ''
   main:
     config:
       name: 'Banco Central'
-      size: 27
+      #Tamanho do inventário
+      size: 45
     buttons:
+      help:
+        identifier: HELP
+        skullName: 'MHF_QUESTION'
+        displayName: '&bAjuda'
+        inventorySlot: 0
+        lore:
+          - '&fVeja todos os comandos de'
+          - '&fnosso sistema de economia'
       yourMoney:
         identifier: YOUR_MONEY
-        skullName: '@player' # ficar com a cabeça do jogador que está visualizando
-        displayName: '&6Seu perfil'
-        inventorySlot: 10
+        skullName: 'Wii' # use @player ficar com a cabeça do jogador que está visualizando
+        displayName: '&bSeu perfil'
+        inventorySlot: 4
         lore:
-          - '&8Aqui você pode ver o seu'
-          - '&8perfil no banco do servidor'
           - ''
-          - ' &7Coins: &e$money'
-          - ' &7Transações: &e$transactions'
-          - ' &7Dinheiro movimentado: &e$movimentedMoney'
+          - ' &fCoins: &a$$money'
+          - ' &fDinheiro movimentado: &a$$movimentedMoney'
+          - ' &fTransações: &b$transactions.'
           - ''
-          - '&eClique aqui para ver suas transações'
+          - ' &fRecebimento de coins: $toggleMessage'
+          - ' &fDiscord: &9$discord'
+          - ''
+          - '&aClique aqui para ver suas transações'
       topMoney:
         identifier: TOP_MONEY
-        material: GOLD_INGOT
+        material: ARMOR_STAND
         data: 0
-        inventorySlot: 11
-        displayName: '&6Mais ricos do servidor'
+        inventorySlot: 22
+        displayName: '&bMais ricos do servidor'
         lore:
-          - '&8Veja os jogadores mais'
-          - '&8ricos do servidor'
           - ''
-          - '&eClique aqui para ver'
+          - ' &8Veja os jogadores mais'
+          - ' &8ricos do servidor'
+          - ''
+          - '&aClique aqui para ver'
+      toggle:
+        identifier: TOGGLE
+        material: WATCH
+        data: 0
+        displayName: '&bRecebimento de coins'
+        inventorySlot: 20
+        lore:
+          - ''
+          - ' &8Desative ou ative o recebimento'
+          - ' &8de coins vindo de outros jogadores'
+          - ''
+          - ' &fStatus: $toggleMessage'
+          - ''
+          - '&aClique aqui para ativar ou desativar'
       purse:
         identifier: PURSE
-        historyLine: ' &6$position. &e$value% $status' # desativado temporariamente
+        # desativado temporariamente
+        historyLine: ' &6$position. &e$value% $status'
+        skullName: 'MrSnowDK'
         # Caso não utilize o sistema de bolsa de valores
         # Coloque o slot como -1 para desativar este item
-        skullName: 'MrSnowDK'
-        inventorySlot: 14
-        displayName: '&6Bolsa de valores'
+        inventorySlot: 29
+        displayName: '&bBolsa de valores'
         lore:
-          - '&8Veja a informação da'
-          - '&8bolsa de valores atualmente'
           - ''
-          - ' &7Valor atual: &e$value'
-          - ' &7Status: &e$status'
+          - ' &fValor atual: &3$value'
+          - ' &fStatus: &7$status'
           - ''
-          - '&ePróxima atualização em &6$time'
+          - '&aPróxima atualização em &2$time'
       sendMoney:
         identifier: SEND_MONEY
         material: PAPER
         data: 0
-        inventorySlot: 15
-        displayName: '&6Enviar dinheiro'
+        inventorySlot: 24
+        displayName: '&bEnviar dinheiro'
         lore:
-          - '&8Clique aqui para enviar'
-          - '&8dinheiro à um jogador'
           - ''
-          - '&cEsta ação é irreversível'
+          - ' &8Envie dinheiro para qualquer jogador'
+          - ' &8do servidor, mesmo com ele offline'
+          - ''
+          - '&aClique aqui para enviar'
       viewPlayerMoney:
         identifier: VIEW_MONEY
         material: SIGN
         data: 0
-        inventorySlot: 16
-        displayName: '&6Ver banco de outro jogador'
+        inventorySlot: 33
+        displayName: '&bVer dinheiro de outro jogador'
         lore:
-          - '&8Clique aqui para ver'
-          - '&8o money de outro jogador'
           - ''
-          - '&eClique aqui para ver'
+          - ' &8Clique aqui para ver'
+          - ' &8os coins de outro jogador'
+          - ''
+          - '&aClique aqui para ver'

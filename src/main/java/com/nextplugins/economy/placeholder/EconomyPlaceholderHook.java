@@ -1,11 +1,7 @@
 package com.nextplugins.economy.placeholder;
 
 import com.nextplugins.economy.NextEconomy;
-import com.nextplugins.economy.api.NextEconomyAPI;
 import com.nextplugins.economy.api.PurseAPI;
-import com.nextplugins.economy.api.model.account.Account;
-import com.nextplugins.economy.configuration.RankingValue;
-import com.nextplugins.economy.util.NumberUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.val;
 import me.clip.placeholderapi.expansion.PlaceholderExpansion;
@@ -16,8 +12,6 @@ import org.jetbrains.annotations.NotNull;
 public final class EconomyPlaceholderHook extends PlaceholderExpansion {
 
     private final NextEconomy plugin;
-    private final PurseAPI instance = PurseAPI.getInstance();
-    private final boolean useTycoon = RankingValue.get(RankingValue::useTycoonTag);
 
     @Override
     public @NotNull String getIdentifier() {
@@ -35,40 +29,29 @@ public final class EconomyPlaceholderHook extends PlaceholderExpansion {
     }
 
     @Override
-    public String onPlaceholderRequest(Player player, @NotNull String params) {
-        if (player == null) return "&cOcorreu um erro!";
+    public String onPlaceholderRequest(Player player, String params) {
+        if (params.startsWith("purse")) {
+            val purse = PurseAPI.getInstance();
+            if (purse == null) return "Bolsa Desativada";
 
-        final Account account = NextEconomyAPI.getInstance().findAccountByPlayer(player);
-        final String balance = account == null ? "&cOcorreu um erro!" : NumberUtils.format(account.getBalance());
+            if (params.equalsIgnoreCase("purse")) return purse.getPurseFormated();
+            else if (params.equalsIgnoreCase("purse_only_value")) return String.valueOf(purse.getPurse());
+            else return purse.getPurseFormatedWithIcon();
+        }
 
+        val account = plugin.getAccountStorage().findAccount(player);
         if (params.equalsIgnoreCase("amount")) {
-            return balance;
+            return account.getBalanceFormated();
         }
 
-        if (params.equalsIgnoreCase("tycoon") && useTycoon) {
+        val rankingStorage = plugin.getRankingStorage();
 
-            val rankByCoin = NextEconomyAPI.getInstance().getRankingStorage().getRankByCoin();
-            if (rankByCoin.isEmpty()) return "";
-
-            val topAccount = rankByCoin.get(0);
-            if (!topAccount.getUserName().equals(player.getName())) return "";
-
-            return RankingValue.get(RankingValue::tycoonTagValue);
-
+        if (params.equalsIgnoreCase("tycoon")) {
+            return rankingStorage.getTycoonTag(player.getName());
         }
 
-        if (instance != null) {
-            if (params.equalsIgnoreCase("purse")) {
-                return instance.getPurseFormated();
-            }
-
-            if (params.equalsIgnoreCase("purse_only_value")) {
-                return String.valueOf(instance.getPurse());
-            }
-
-            if (params.equalsIgnoreCase("purse_with_icon")) {
-                return instance.getPurseFormatedWithIcon();
-            }
+        if (params.equalsIgnoreCase("tycoon_name")) {
+            return rankingStorage.getTopPlayer();
         }
 
         return "Placeholder inválida";

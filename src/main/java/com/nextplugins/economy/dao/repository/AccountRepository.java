@@ -1,53 +1,52 @@
 package com.nextplugins.economy.dao.repository;
 
 import com.henryfabio.sqlprovider.executor.SQLExecutor;
-import com.nextplugins.economy.api.model.account.Account;
-import com.nextplugins.economy.api.model.account.old.OldAccount;
-import com.nextplugins.economy.api.model.account.old.adapter.OldAccountAdapter;
 import com.nextplugins.economy.dao.repository.adapter.AccountAdapter;
-import com.nextplugins.economy.util.LinkedListHelper;
+import com.nextplugins.economy.dao.repository.adapter.SimpleAccountAdapter;
+import com.nextplugins.economy.model.account.Account;
+import com.nextplugins.economy.model.account.SimpleAccount;
+import com.nextplugins.economy.util.BankHistoricParserUtil;
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
 import java.util.Set;
-import java.util.UUID;
 
 @RequiredArgsConstructor
 public final class AccountRepository {
 
     private static final String TABLE = "nexteconomy_data";
 
+    @Getter
     private final SQLExecutor sqlExecutor;
 
     public void createTable() {
         sqlExecutor.updateQuery("CREATE TABLE IF NOT EXISTS " + TABLE + "(" +
-                "owner CHAR(16) NOT NULL PRIMARY KEY," +
-                "balance DOUBLE NOT NULL," +
-                "movimentedBalance DOUBLE NOT NULL," +
-                "transactionsQuantity INTEGER NOT NULL," +
-                "transactions LONGTEXT NOT NULL" +
+                "owner CHAR(36) NOT NULL PRIMARY KEY," +
+                "balance DOUBLE NOT NULL DEFAULT 0," +
+                "movimentedBalance DOUBLE NOT NULL DEFAULT 0," +
+                "transactionsQuantity INTEGER NOT NULL DEFAULT 0," +
+                "transactions LONGTEXT NOT NULL," +
+                "receiveCoins INTEGER NOT NULL DEFAULT 1" +
                 ");"
         );
     }
 
-    public Account selectOne(String owner) {
+    public void recreateTable() {
+        sqlExecutor.updateQuery("DELETE FROM " + TABLE);
+        createTable();
+    }
+
+    private Account selectOneQuery(String query) {
         return sqlExecutor.resultOneQuery(
-                "SELECT * FROM " + TABLE + " WHERE owner = ?",
-                statement -> statement.set(1, owner),
+                "SELECT * FROM " + TABLE + " " + query,
+                statement -> {
+                },
                 AccountAdapter.class
         );
     }
 
-    public Set<OldAccount> selectAllOld() {
-        return sqlExecutor.resultManyQuery(
-                "SELECT * FROM economy_data",
-                k -> {
-                },
-                OldAccountAdapter.class
-        );
-    }
-
-    public Set<Account> selectAll() {
-        return selectAll("");
+    public Account selectOne(String owner) {
+        return selectOneQuery("WHERE owner = '" + owner + "'");
     }
 
     public Set<Account> selectAll(String query) {
@@ -59,33 +58,36 @@ public final class AccountRepository {
         );
     }
 
+    public Set<SimpleAccount> selectSimpleAll(String query) {
+        return sqlExecutor.resultManyQuery(
+                "SELECT * FROM " + TABLE + " " + query,
+                k -> {
+                },
+                SimpleAccountAdapter.class
+        );
+    }
+
     public void saveOne(Account account) {
-
         this.sqlExecutor.updateQuery(
-                String.format("REPLACE INTO %s VALUES(?,?,?,?,?)", TABLE),
+                String.format("REPLACE INTO %s VALUES(?,?,?,?,?,?)", TABLE),
                 statement -> {
-
-                    statement.set(1, account.getUserName());
+                    statement.set(1, account.getIdentifier());
                     statement.set(2, account.getBalance());
                     statement.set(3, account.getMovimentedBalance());
                     statement.set(4, account.getTransactionsQuantity());
-                    statement.set(5, LinkedListHelper.toJson(account.getTransactions()));
-
+                    statement.set(5, BankHistoricParserUtil.parse(account.getTransactions()));
+                    statement.set(6, account.isReceiveCoins() ? 1 : 0);
                 }
         );
-
     }
 
-    public void deleteOldByUUID(UUID uuid) {
-        sqlExecutor.updateQuery(
-                "DELETE FROM economy_data WHERE owner = '" + uuid.toString() + "'"
-        );
-    }
-
-    public void deleteOne(Account account) {
-        sqlExecutor.updateQuery(
-                "DELETE FROM " + TABLE + " WHERE owner = '" + account.getUserName() + "'"
-        );
+    public void updateOne(String accountIdentifier, double balance) {
+        this.sqlExecutor.updateQuery(
+                String.format("UPDATE %s SET balance=? WHERE owner=?", TABLE),
+                statement -> {
+                    statement.set(1, balance);
+                    statement.set(2, accountIdentifier);
+                });
     }
 
 }

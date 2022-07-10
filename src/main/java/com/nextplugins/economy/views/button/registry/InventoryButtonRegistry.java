@@ -2,8 +2,8 @@ package com.nextplugins.economy.views.button.registry;
 
 import com.google.common.collect.Sets;
 import com.nextplugins.economy.configuration.InventoryValue;
-import com.nextplugins.economy.views.button.parser.InventoryButtonParser;
 import com.nextplugins.economy.views.button.InventoryButton;
+import com.nextplugins.economy.views.button.parser.InventoryButtonParser;
 import lombok.Getter;
 
 import java.util.Set;
@@ -16,6 +16,13 @@ public final class InventoryButtonRegistry {
     private final InventoryButtonParser inventoryButtonParser = new InventoryButtonParser();
 
     public InventoryButtonRegistry init() {
+        register(inventoryButtonParser.parse(
+                InventoryValue.get(InventoryValue::helpButton)
+        ));
+
+        register(inventoryButtonParser.parse(
+                InventoryValue.get(InventoryValue::toggleButton)
+        ));
 
         register(inventoryButtonParser.parse(
                 InventoryValue.get(InventoryValue::yourMoneyButton)
@@ -38,7 +45,6 @@ public final class InventoryButtonRegistry {
         ));
 
         return this;
-
     }
 
     public void register(InventoryButton inventoryButton) {

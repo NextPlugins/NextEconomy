@@ -1,18 +1,20 @@
 package com.nextplugins.economy.vault;
 
-import com.nextplugins.economy.NextEconomy;
 import com.nextplugins.economy.api.NextEconomyAPI;
-import com.nextplugins.economy.api.model.account.Account;
-import com.nextplugins.economy.api.model.account.transaction.TransactionType;
 import com.nextplugins.economy.configuration.MessageValue;
+import com.nextplugins.economy.model.account.Account;
+import com.nextplugins.economy.model.account.storage.AccountStorage;
+import com.nextplugins.economy.model.account.transaction.Transaction;
+import com.nextplugins.economy.model.account.transaction.TransactionType;
 import com.nextplugins.economy.util.NumberUtils;
-import net.milkbowl.vault.economy.Economy;
+import lombok.val;
+import lombok.var;
 import net.milkbowl.vault.economy.EconomyResponse;
 import org.bukkit.OfflinePlayer;
 
-import java.util.List;
+public class VaultEconomyHook extends EconomyWrapper {
 
-public class VaultEconomyHook implements Economy {
+    private static final AccountStorage ACCOUNT_STORAGE = NextEconomyAPI.getInstance().getAccountStorage();
 
     @Override
     public boolean isEnabled() {
@@ -22,11 +24,6 @@ public class VaultEconomyHook implements Economy {
     @Override
     public String getName() {
         return "NextEconomy";
-    }
-
-    @Override
-    public boolean hasBankSupport() {
-        return false;
     }
 
     @Override
@@ -50,243 +47,86 @@ public class VaultEconomyHook implements Economy {
     }
 
     @Override
-    public boolean hasAccount(String playerName) {
-        return NextEconomyAPI.getInstance().findAccountByName(playerName) != null;
-    }
-
-    @Override
     public boolean hasAccount(OfflinePlayer player) {
-        return hasAccount(player.getName());
-    }
-
-    @Override
-    public boolean hasAccount(String playerName, String worldName) {
-        return hasAccount(playerName);
-    }
-
-    @Override
-    public boolean hasAccount(OfflinePlayer player, String worldName) {
-        return hasAccount(player.getName());
-    }
-
-    @Override
-    public double getBalance(String playerName) {
-
-        Account account = NextEconomyAPI.getInstance().findAccountByName(playerName);
-        if (account != null) return account.getBalance();
-
-        return 0;
-
+        return ACCOUNT_STORAGE.findAccount(player) != null;
     }
 
     @Override
     public double getBalance(OfflinePlayer player) {
-        return getBalance(player.getName());
-    }
-
-    @Override
-    public double getBalance(String playerName, String world) {
-        return getBalance(playerName);
-    }
-
-    @Override
-    public double getBalance(OfflinePlayer player, String world) {
-        return getBalance(player.getName());
-    }
-
-    @Override
-    public boolean has(String playerName, double amount) {
-
-        Account account = NextEconomyAPI.getInstance().findAccountByName(playerName);
-        if (account != null) return account.hasAmount(amount);
-
-        return false;
-
+        val account = ACCOUNT_STORAGE.findAccount(player);
+        return account == null ? 0 : account.getBalance();
     }
 
     @Override
     public boolean has(OfflinePlayer player, double amount) {
-        return has(player.getName(), amount);
+        if (NumberUtils.isInvalid(amount)) return false;
+
+        val account = ACCOUNT_STORAGE.findAccount(player);
+        if (account == null) return false;
+
+        return account.hasAmount(amount);
     }
 
     @Override
-    public boolean has(String playerName, String worldName, double amount) {
-        return has(playerName, amount);
-    }
-
-    @Override
-    public boolean has(OfflinePlayer player, String worldName, double amount) {
-        return has(player.getName(), amount);
-    }
-
-    @Override
-    public EconomyResponse withdrawPlayer(String playerName, double amount) {
-        Account account = NextEconomyAPI.getInstance().findAccountByName(playerName);
-
-        if (account != null) {
-            if (has(playerName, amount)) {
-
-                account.createTransaction(
-                        null,
-                        amount,
-                        TransactionType.WITHDRAW
-                );
-
-                return new EconomyResponse(amount,
-                        account.getBalance(),
-                        EconomyResponse.ResponseType.SUCCESS,
-                        "Operação realizada com sucesso."
-                );
-            } else {
-                return new EconomyResponse(amount,
-                        account.getBalance(),
-                        EconomyResponse.ResponseType.FAILURE,
-                        "Não foi possível terminar esta operação. " +
-                                "(A conta requisitada não possui quantia suficiente para completar esta transação)."
-                );
-            }
+    public EconomyResponse withdrawPlayer(OfflinePlayer player, double initialAmount) {
+        if (initialAmount == 0 || NumberUtils.isInvalid(initialAmount)) {
+            return new EconomyResponse(initialAmount, 0, EconomyResponse.ResponseType.FAILURE, "Valor inválido");
         }
 
-        return null;
-    }
-
-    @Override
-    public EconomyResponse withdrawPlayer(OfflinePlayer player, double amount) {
-        return withdrawPlayer(player.getName(), amount);
-    }
-
-    @Override
-    public EconomyResponse withdrawPlayer(String playerName, String worldName, double amount) {
-        return withdrawPlayer(playerName, amount);
-    }
-
-    @Override
-    public EconomyResponse withdrawPlayer(OfflinePlayer player, String worldName, double amount) {
-        return withdrawPlayer(player.getName(), amount);
-    }
-
-    @Override
-    public EconomyResponse depositPlayer(String playerName, double amount) {
-        Account account = NextEconomyAPI.getInstance().findAccountByName(playerName);
-
+        val account = ACCOUNT_STORAGE.findAccount(player);
         if (account != null) {
-
-            account.createTransaction(
-                    null,
-                    amount,
-                    TransactionType.DEPOSIT
-            );
-
-            return new EconomyResponse(amount,
-                    account.getBalance(),
-                    EconomyResponse.ResponseType.SUCCESS,
-                    "Operação realizada com sucesso."
+            return account.createTransaction(
+                    Transaction.builder()
+                            .player(player.isOnline() ? player.getPlayer() : null)
+                            .amount(initialAmount)
+                            .transactionType(TransactionType.WITHDRAW)
+                            .build()
             );
         }
 
-        return null;
+        return new EconomyResponse(
+                initialAmount,
+                0,
+                EconomyResponse.ResponseType.FAILURE,
+                "Conta inválida."
+        );
     }
 
     @Override
-    public EconomyResponse depositPlayer(OfflinePlayer player, double amount) {
-        return depositPlayer(player.getName(), amount);
-    }
+    public EconomyResponse depositPlayer(OfflinePlayer player, double initialAmount) {
+        if (initialAmount == 0 || NumberUtils.isInvalid(initialAmount)) {
+            return new EconomyResponse(initialAmount, 0, EconomyResponse.ResponseType.FAILURE, "Valor inválido");
+        }
 
-    @Override
-    public EconomyResponse depositPlayer(String playerName, String worldName, double amount) {
-        return depositPlayer(playerName, amount);
-    }
+        val account = ACCOUNT_STORAGE.findAccount(player);
+        if (account != null) {
+            return account.createTransaction(
+                    Transaction.builder()
+                            .player(player.isOnline() ? player.getPlayer() : null)
+                            .amount(initialAmount)
+                            .transactionType(TransactionType.DEPOSIT)
+                            .build()
+            );
+        }
 
-    @Override
-    public EconomyResponse depositPlayer(OfflinePlayer player, String worldName, double amount) {
-        return depositPlayer(player.getName(), amount);
-    }
-
-    @Override
-    public EconomyResponse createBank(String name, String player) {
-        throw new UnsupportedOperationException();
-    }
-
-    @Override
-    public EconomyResponse createBank(String name, OfflinePlayer player) {
-        throw new UnsupportedOperationException();
-    }
-
-    @Override
-    public EconomyResponse deleteBank(String name) {
-        throw new UnsupportedOperationException();
-    }
-
-    @Override
-    public EconomyResponse bankBalance(String name) {
-        throw new UnsupportedOperationException();
-    }
-
-    @Override
-    public EconomyResponse bankHas(String name, double amount) {
-        throw new UnsupportedOperationException();
-    }
-
-    @Override
-    public EconomyResponse bankWithdraw(String name, double amount) {
-        throw new UnsupportedOperationException();
-    }
-
-    @Override
-    public EconomyResponse bankDeposit(String name, double amount) {
-        throw new UnsupportedOperationException();
-    }
-
-    @Override
-    public EconomyResponse isBankOwner(String name, String playerName) {
-        throw new UnsupportedOperationException();
-    }
-
-    @Override
-    public EconomyResponse isBankOwner(String name, OfflinePlayer player) {
-        throw new UnsupportedOperationException();
-    }
-
-    @Override
-    public EconomyResponse isBankMember(String name, String playerName) {
-        throw new UnsupportedOperationException();
-    }
-
-    @Override
-    public EconomyResponse isBankMember(String name, OfflinePlayer player) {
-        throw new UnsupportedOperationException();
-    }
-
-    @Override
-    public List<String> getBanks() {
-        throw new UnsupportedOperationException();
-    }
-
-    @Override
-    public boolean createPlayerAccount(String playerName) {
-
-        Account account = NextEconomyAPI.getInstance().findAccountByName(playerName);
-        if (account != null) return false;
-
-        account = Account.createDefault(playerName);
-
-        NextEconomy.getInstance().getAccountRepository().saveOne(account);
-        return true;
+        return new EconomyResponse(
+                initialAmount,
+                0,
+                EconomyResponse.ResponseType.FAILURE,
+                "Conta inválida"
+        );
     }
 
     @Override
     public boolean createPlayerAccount(OfflinePlayer player) {
-        return createPlayerAccount(player.getName());
-    }
+        var account = ACCOUNT_STORAGE.findAccount(player);
+        if (account != null) return false;
 
-    @Override
-    public boolean createPlayerAccount(String playerName, String worldName) {
-        return createPlayerAccount(playerName);
-    }
+        account = Account.createDefault(player);
+        ACCOUNT_STORAGE.put(account);
+        ACCOUNT_STORAGE.saveOne(account);
 
-    @Override
-    public boolean createPlayerAccount(OfflinePlayer player, String worldName) {
-        return createPlayerAccount(player.getName());
+        return true;
     }
 
 }

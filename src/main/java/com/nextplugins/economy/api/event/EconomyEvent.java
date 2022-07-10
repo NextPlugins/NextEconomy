@@ -8,6 +8,10 @@ public abstract class EconomyEvent extends Event {
 
     @Getter private static final HandlerList handlerList = new HandlerList();
 
+    public EconomyEvent(boolean isAsync) {
+        super(isAsync);
+    }
+
     @Override
     public HandlerList getHandlers() {
         return handlerList;
