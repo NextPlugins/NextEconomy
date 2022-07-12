@@ -84,7 +84,6 @@ OBS: Caso utilize FeatherBoard, as placeholders serão {placeholderapi_nextecono
 
 ### Opcionais
 
-- [Citizens](https://dev.bukkit.org/projects/citizens) - para o sistema de NPCs;
 - [PlaceholderAPI](https://www.spigotmc.org/resources/placeholderapi.6245/) - para ter suporte a placeholders;
 - [HolographicDisplays](https://dev.bukkit.org/projects/holographic-displays) - para hologramas (utilizado no sistema de
   ranking por NPC).
