@@ -7,6 +7,7 @@ import com.github.juliarn.npc.NPCPool;
 import com.github.juliarn.npc.event.PlayerNPCInteractEvent;
 import com.github.juliarn.npc.event.PlayerNPCShowEvent;
 import com.github.juliarn.npc.modifier.LabyModModifier;
+import com.github.juliarn.npc.modifier.MetadataModifier;
 import com.github.juliarn.npc.profile.Profile;
 import com.gmail.filoghost.holographicdisplays.api.Hologram;
 import com.gmail.filoghost.holographicdisplays.api.HologramsAPI;
@@ -197,14 +198,19 @@ public final class NPCRunnable implements Runnable, Listener {
             val emotes = AnimationValue.get(AnimationValue::showNpcEmotes);
             val randomEmote = emotes.get(random.nextInt(emotes.size()));
             val actionData = animationValue(randomEmote);
+            val npc = event.getNPC();
 
             if (actionData != null) {
-                event.send(event.getNPC()
+                event.send(
+                      npc
                       .labymod()
                       .queue(
                             actionData.getLeft(),
                             actionData.getRight()
-                      )
+                      ),
+                      npc
+                      .metadata()
+                      .queue(MetadataModifier.EntityMetadata.SKIN_LAYERS, true)
                 );
             }
         }
