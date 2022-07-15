@@ -194,11 +194,12 @@ public final class NPCRunnable implements Runnable, Listener {
 
     @EventHandler
     public void onShowNPC(PlayerNPCShowEvent event) {
+        val npc = event.getNPC();
+
         if (animation) {
             val emotes = AnimationValue.get(AnimationValue::showNpcEmotes);
             val randomEmote = emotes.get(random.nextInt(emotes.size()));
             val actionData = animationValue(randomEmote);
-            val npc = event.getNPC();
 
             if (actionData != null) {
                 event.send(
@@ -207,13 +208,16 @@ public final class NPCRunnable implements Runnable, Listener {
                       .queue(
                             actionData.getLeft(),
                             actionData.getRight()
-                      ),
-                      npc
-                      .metadata()
-                      .queue(MetadataModifier.EntityMetadata.SKIN_LAYERS, true)
+                      )
                 );
             }
         }
+
+        event.send(
+                npc
+                .metadata()
+                .queue(MetadataModifier.EntityMetadata.SKIN_LAYERS, true)
+        );
     }
 
     @Nullable
