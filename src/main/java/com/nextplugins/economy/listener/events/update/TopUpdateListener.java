@@ -40,7 +40,13 @@ public class TopUpdateListener implements Listener {
 
                 val actionId = Integer.parseInt(splittedValue[1]);
 
-                Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "nexteconomy playanimation 1 " + actionName + " " + actionId);
+                Bukkit.getScheduler().runTask(
+                      NextEconomy.getInstance(),
+                      () -> Bukkit.dispatchCommand(
+                            Bukkit.getConsoleSender(),
+                            "nexteconomy playanimation 1 " + actionName + " " + actionId
+                      )
+                );
             } catch (Throwable throwable) {
                 NextEconomy.getInstance().getLogger().log(
                         Level.SEVERE,
