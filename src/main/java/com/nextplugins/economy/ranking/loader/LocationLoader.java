@@ -13,11 +13,14 @@ public final class LocationLoader {
     private final LocationManager locationManager;
 
     public void loadLocations() {
-        if (!plugin.getNpcConfig().contains("npc.locations")) return;
+        val logger = plugin.getLogger();
+        val configuration = plugin.getNpcConfig();
 
-        val locations = plugin.getNpcConfig().getStringList("npc.locations");
+        if (!configuration.contains("npc.locations")) return;
+
+        val locations = configuration.getStringList("npc.locations");
         if (locations.isEmpty()) {
-            plugin.getLogger().info("Não foi encontrado nenhuma localização para gerar os NPCs!");
+            logger.info("Não foi encontrado nenhuma localização para gerar os NPCs!");
             return;
         }
 
@@ -25,11 +28,17 @@ public final class LocationLoader {
             val position = Integer.parseInt(line.split(" ")[0]);
             val location = LocationUtil.byStringNoBlock(line.split(" ")[1].split(","));
 
+            if (location.getWorld() == null) {
+                logger.severe("A localização do NPC " + position + " está inválida!");
+
+                continue;
+            }
+
             locationManager.getLocationMap().put(position, location);
         }
 
-        plugin.getLogger().info(
-                "Foram carregados " + locationManager.getLocationMap().size() + " posições no ranking de npc!"
+        logger.info(
+                "Foram carregados " + locationManager.getLocationMap().size() + " posições no ranking de NPC!"
         );
     }
 
