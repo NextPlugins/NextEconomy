@@ -17,7 +17,7 @@ public final class TransactionRequestListener implements Listener {
 
     private final AccountStorage accountStorage = NextEconomy.getInstance().getAccountStorage();
 
-    @EventHandler(priority = EventPriority.MONITOR)
+    @EventHandler(priority = EventPriority.LOWEST)
     public void onRequest(TransactionRequestEvent event) {
         if (event.isCancelled()) return;
 
@@ -26,14 +26,20 @@ public final class TransactionRequestListener implements Listener {
         val targetAccount = event.getAccount();
         val amount = event.getAmount();
 
-        if (target.equals(player)) {
+        if (target.getUniqueId().compareTo(player.getUniqueId()) == 0) {
             player.sendMessage(MessageValue.get(MessageValue::isYourself));
+
+            event.setCancelled(true);
+
             return;
         }
 
         val account = accountStorage.findAccount(player);
         if (NumberUtils.isInvalid(amount)) {
             player.sendMessage(MessageValue.get(MessageValue::invalidMoney));
+
+            event.setCancelled(true);
+
             return;
         }
 
@@ -42,11 +48,17 @@ public final class TransactionRequestListener implements Listener {
             player.sendMessage(MessageValue.get(MessageValue::minValueNecessary)
                     .replace("$amount", NumberUtils.format(minValue))
             );
+
+            event.setCancelled(true);
+
             return;
         }
 
         if (!account.hasAmount(amount)) {
             player.sendMessage(MessageValue.get(MessageValue::insufficientAmount));
+
+            event.setCancelled(true);
+
             return;
         }
 
