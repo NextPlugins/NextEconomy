@@ -3,15 +3,14 @@ package com.nextplugins.economy.listener.events.update;
 import com.nextplugins.economy.NextEconomy;
 import com.nextplugins.economy.api.event.operations.AsyncMoneyTopPlayerChangedEvent;
 import com.nextplugins.economy.api.event.operations.AsyncRankingUpdateEvent;
-import com.nextplugins.economy.api.group.Group;
-import com.nextplugins.economy.api.group.GroupWrapperManager;
-import com.nextplugins.economy.configuration.DiscordValue;
+import com.nextplugins.economy.group.Group;
+import com.nextplugins.economy.group.GroupWrapperManager;
 import com.nextplugins.economy.configuration.RankingValue;
 import com.nextplugins.economy.dao.repository.AccountRepository;
 import com.nextplugins.economy.model.account.SimpleAccount;
 import com.nextplugins.economy.ranking.CustomRankingRegistry;
-import com.nextplugins.economy.ranking.storage.RankingStorage;
-import com.nextplugins.economy.ranking.util.RankingChatBody;
+import com.nextplugins.economy.ranking.RankingStorage;
+import com.nextplugins.economy.ranking.RankingChatBody;
 import com.nextplugins.economy.util.ColorUtil;
 import com.nextplugins.economy.util.DiscordUtil;
 import lombok.RequiredArgsConstructor;
@@ -88,7 +87,7 @@ public class RankingListener implements Listener {
                                 .replace("$suffix", group.getSuffix())
                                 .replace("$player", account.getUsername())
                                 .replace("$tycoon", position == 1 ? tycoonTag : "")
-                                .replace("$amount", account.getBalanceFormated()));
+                                .replace("$amount", account.getBalanceFormatted()));
                     }
 
                     if (stringBuilder != null) {
@@ -100,7 +99,7 @@ public class RankingListener implements Listener {
                                 .replace("$username", account.getUsername())
                                 .replace("$prefix", group.getPrefix())
                                 .replace("$suffix", group.getSuffix())
-                                .replace("$amount", account.getBalanceFormated())
+                                .replace("$amount", account.getBalanceFormatted())
                         ).append("\n");
                     }
 

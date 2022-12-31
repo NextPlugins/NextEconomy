@@ -49,7 +49,7 @@ public final class MoneySetListener implements Listener {
                 player,
                 targetAccount,
                 targetAccount.getBalance(),
-                targetAccount.getBalanceFormated()
+                targetAccount.getBalanceFormatted()
         );
 
         Bukkit.getPluginManager().callEvent(moneyChangeEvent);

@@ -3,7 +3,6 @@ package com.nextplugins.economy.listener.events.update;
 import com.github.juliarn.npc.modifier.LabyModModifier;
 import com.nextplugins.economy.NextEconomy;
 import com.nextplugins.economy.api.event.operations.AsyncMoneyTopPlayerChangedEvent;
-import com.nextplugins.economy.configuration.AnimationValue;
 import com.nextplugins.economy.configuration.MessageValue;
 import com.nextplugins.economy.configuration.RankingValue;
 import com.nextplugins.economy.util.TitleUtils;
@@ -80,7 +79,7 @@ public class TopUpdateListener implements Listener {
 
             val message = new ArrayList<String>();
             for (val line : MessageValue.get(MessageValue::moneyTopMessage)) {
-                message.add(line.replace("$player", username).replace("$coins", event.getMoneyTop().getBalanceFormated()));
+                message.add(line.replace("$player", username).replace("$coins", event.getMoneyTop().getBalanceFormatted()));
             }
 
             if (title.contains("<nl>")) {

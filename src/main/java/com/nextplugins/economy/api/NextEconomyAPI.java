@@ -6,7 +6,7 @@ import com.nextplugins.economy.dao.repository.AccountRepository;
 import com.nextplugins.economy.model.account.Account;
 import com.nextplugins.economy.model.account.SimpleAccount;
 import com.nextplugins.economy.model.account.storage.AccountStorage;
-import com.nextplugins.economy.ranking.storage.RankingStorage;
+import com.nextplugins.economy.ranking.RankingStorage;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

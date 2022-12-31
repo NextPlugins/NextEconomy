@@ -2,7 +2,7 @@ package com.nextplugins.economy.listener.events.chat;
 
 import br.net.fabiozumbi12.UltimateChat.Bukkit.API.SendChannelMessageEvent;
 import com.nextplugins.economy.model.interactions.registry.InteractionRegistry;
-import com.nextplugins.economy.ranking.storage.RankingStorage;
+import com.nextplugins.economy.ranking.RankingStorage;
 import lombok.RequiredArgsConstructor;
 import lombok.val;
 import org.bukkit.event.EventHandler;

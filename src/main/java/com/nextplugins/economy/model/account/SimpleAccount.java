@@ -15,8 +15,8 @@ import lombok.Data;
 public class SimpleAccount {
 
     private final String username;
-    private final String balanceFormated;
-    private final String movimentedBalanceFormated;
+    private final String balanceFormatted;
+    private final String movedBalanceFormatted;
     private final String tycoonTag;
 
     private final int transactionsQuantity;

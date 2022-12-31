@@ -25,14 +25,14 @@ plugin:
     # Habilitar backups quando servidor reinicia
     autobackup: false
     # Método de salvamento de contas
-    # NICK - Salvar a conta pelo nick do jogador (Recomendado para servidores piratas)
-    # UUID - Salvar a conta pelo id único do jogador (Recomendado para servidores originais)
+    # true - Modo de NICK - Salvar a conta pelo nick do jogador (Recomendado para servidores piratas)
+    # false - Modo de UUID - Salvar a conta pelo id único do jogador (Recomendado para servidores originais)
     # Caso efetue a mudança:
     # Se você utiliza SQLITE, apague o arquivo database.db da pasta database
     # Se você utiliza MYSQL, utilize a função DROP na table nexteconomy_data
-    save-method: NICK
+    nick-save-method: true
     # Sistema de bolsa de valores
-    purse:
+    stock-exchange:
       # Habilitar o sistema de bolsa
       # Para você usar a bolsa de valores, você precisa usar o comando
       # /bolsa give <jogador> <valor> - Assim o valor usado será alterado pela bolsa de valores antes de ser enviado para o jogador
@@ -47,7 +47,7 @@ plugin:
       # Serve para desativar a mensagem de "BOLSA Você deixou de ganhar x ..."
       # em algum mundo específico, podendo desativar na mineração
       # para não ficar flodando
-      messageDisabledWorlds:
+      message-disabled-worlds:
         - 'mina'
       # Método que o jogador vai receber a mensagem "BOLSA Você deixou de ganhar x ..."
       # ACTIONBAR - Aparecer na actionbar do usuário
@@ -55,13 +55,11 @@ plugin:
       # NOTHING - Desabilitar a mensagem por completo
       method: 'ACTIONBAR'
       # Um valor maior que esse significa que a bolsa está em alta
-      media: 100
+      average: 100
       # Valor mínimo da bolsa
       minValue: 75
       # Valor máximo da bolsa
       maxValue: 125
-      # Tempo para atualizar em segundos
-      nextUpdate: 600
     # Valor inicial
     # Quando um jogador entra no servidor, começa com essa quantia
     initial-balance: 1500
@@ -84,3 +82,5 @@ plugin:
           - '&7Quantia armazenada:&f $amount'
           - ''
           - '&aClique esquerdo para resgatar.'
+
+file-version: 1

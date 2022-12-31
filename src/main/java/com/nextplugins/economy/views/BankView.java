@@ -4,7 +4,7 @@ import com.henryfabio.minecraft.inventoryapi.editor.InventoryEditor;
 import com.henryfabio.minecraft.inventoryapi.inventory.impl.simple.SimpleInventory;
 import com.henryfabio.minecraft.inventoryapi.item.InventoryItem;
 import com.henryfabio.minecraft.inventoryapi.viewer.Viewer;
-import com.nextplugins.economy.api.PurseAPI;
+import com.nextplugins.economy.api.StockExchangeAPI;
 import com.nextplugins.economy.configuration.InventoryValue;
 import com.nextplugins.economy.configuration.MessageValue;
 import com.nextplugins.economy.model.account.storage.AccountStorage;
@@ -43,7 +43,7 @@ public final class BankView extends SimpleInventory {
     protected void configureInventory(Viewer viewer, @NotNull InventoryEditor editor) {
         val player = viewer.getPlayer();
         val account = accountStorage.findAccount(player);
-        val instance = PurseAPI.getInstance();
+        val instance = StockExchangeAPI.getInstance();
         val receiveType = ColorUtil.colored(account.isReceiveCoins() ? MessageValue.get(MessageValue::receiveCoinsOn) : MessageValue.get(MessageValue::receiveCoinsOff));
         val discordName = ColorUtil.colored(
                 account.getDiscordName() == null
@@ -72,7 +72,7 @@ public final class BankView extends SimpleInventory {
                     .setLore(value.getLore()
                             .stream()
                             .map(line -> line
-                                    .replace("$money", account.getBalanceFormated())
+                                    .replace("$money", account.getBalanceFormatted())
                                     .replace("$transactions", transactionsMessage)
                                     .replace("$movimentedMoney", NumberUtils.format(account.getMovimentedBalance()))
                                     .replace("$toggleMessage", receiveType)

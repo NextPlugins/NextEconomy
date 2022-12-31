@@ -10,12 +10,12 @@ import com.henryfabio.minecraft.inventoryapi.viewer.Viewer;
 import com.henryfabio.minecraft.inventoryapi.viewer.configuration.border.Border;
 import com.henryfabio.minecraft.inventoryapi.viewer.impl.paged.PagedViewer;
 import com.nextplugins.economy.NextEconomy;
-import com.nextplugins.economy.api.group.GroupWrapperManager;
+import com.nextplugins.economy.group.GroupWrapperManager;
 import com.nextplugins.economy.configuration.InventoryValue;
 import com.nextplugins.economy.configuration.MessageValue;
 import com.nextplugins.economy.configuration.RankingValue;
 import com.nextplugins.economy.model.account.SimpleAccount;
-import com.nextplugins.economy.ranking.storage.RankingStorage;
+import com.nextplugins.economy.ranking.RankingStorage;
 import com.nextplugins.economy.util.ItemBuilder;
 import com.nextplugins.economy.util.TimeUtils;
 import lombok.val;
@@ -99,9 +99,9 @@ public final class RankingView extends PagedInventory {
 
                 for (val lore : headLore) {
                     replacedLore.add(lore
-                            .replace("$amount", account.getBalanceFormated())
+                            .replace("$amount", account.getBalanceFormatted())
                             .replace("$transactions", account.getTransactionsQuantity() + " " + transactionName)
-                            .replace("$movimentation", account.getMovimentedBalanceFormated())
+                            .replace("$movimentation", account.getMovedBalanceFormatted())
                             .replace("$position", String.valueOf(finalPosition))
                     );
                 }

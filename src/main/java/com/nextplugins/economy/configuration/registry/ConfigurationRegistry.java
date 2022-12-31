@@ -27,7 +27,7 @@ public final class ConfigurationRegistry {
             MessageValue.instance(),
             RankingValue.instance(),
             InventoryValue.instance(),
-            PurseValue.instance(),
+            StockExchangeValue.instance(),
             AnimationValue.instance()
         );
 

@@ -1,42 +1,29 @@
 package com.nextplugins.economy;
 
-import com.Zrips.CMI.CMI;
-import com.Zrips.CMI.Modules.Holograms.CMIHologram;
-import com.gmail.filoghost.holographicdisplays.api.Hologram;
-import com.gmail.filoghost.holographicdisplays.api.HologramsAPI;
+import com.github.eikefab.libs.pluginupdater.BukkitUpdater;
+import com.github.eikefab.libs.pluginupdater.api.Release;
 import com.google.common.base.Stopwatch;
 import com.henryfabio.minecraft.inventoryapi.manager.InventoryManager;
 import com.henryfabio.sqlprovider.connector.SQLConnector;
 import com.henryfabio.sqlprovider.executor.SQLExecutor;
-import com.nextplugins.economy.api.PurseAPI;
-import com.nextplugins.economy.api.backup.BackupManager;
-import com.nextplugins.economy.api.conversor.ConversorManager;
-import com.nextplugins.economy.api.conversor.ConversorRegistry;
-import com.nextplugins.economy.api.group.GroupWrapperManager;
-import com.nextplugins.economy.api.metric.MetricProvider;
-import com.nextplugins.economy.api.title.InternalAPIMapping;
-import com.nextplugins.economy.api.title.InternalTitleAPI;
-import com.nextplugins.economy.command.bukkit.registry.CommandRegistry;
-import com.nextplugins.economy.command.discord.registry.DiscordCommandRegistry;
-import com.nextplugins.economy.configuration.DiscordValue;
+import com.nextplugins.economy.backup.BackupManager;
+import com.nextplugins.economy.convertor.ConvertorManager;
+import com.nextplugins.economy.convertor.Convertors;
+import com.nextplugins.economy.group.GroupWrapperManager;
+import com.nextplugins.economy.placeholder.Placeholders;
+import com.nextplugins.economy.ranking.RankingRunnable;
+import com.nextplugins.economy.util.title.InternalAPIMapping;
+import com.nextplugins.economy.util.title.InternalTitleAPI;
+import com.nextplugins.economy.command.CommandRegistry;
 import com.nextplugins.economy.configuration.FeatureValue;
-import com.nextplugins.economy.configuration.RankingValue;
 import com.nextplugins.economy.configuration.registry.ConfigurationRegistry;
 import com.nextplugins.economy.dao.SQLProvider;
 import com.nextplugins.economy.dao.repository.AccountRepository;
 import com.nextplugins.economy.listener.ListenerRegistry;
 import com.nextplugins.economy.model.account.storage.AccountStorage;
-import com.nextplugins.economy.model.discord.manager.PayActionDiscordManager;
 import com.nextplugins.economy.model.interactions.registry.InteractionRegistry;
-import com.nextplugins.economy.placeholder.registry.PlaceholderRegistry;
-import com.nextplugins.economy.ranking.CustomRankingRegistry;
-import com.nextplugins.economy.ranking.manager.LocationManager;
-import com.nextplugins.economy.ranking.storage.RankingStorage;
-import com.nextplugins.economy.ranking.types.ArmorStandRunnable;
-import com.nextplugins.economy.ranking.util.RankingChatBody;
-import com.nextplugins.economy.vault.registry.VaultHookRegistry;
-import com.nextplugins.economy.views.registry.InventoryRegistry;
-import com.yuhtin.updatechecker.UpdateChecker;
+import com.nextplugins.economy.ranking.RankingStorage;
+import com.nextplugins.economy.ranking.RankingChatBody;
 import lombok.Getter;
 import lombok.val;
 import org.bukkit.Bukkit;
@@ -49,131 +36,107 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.attribute.BasicFileAttributes;
-import java.util.ArrayList;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
+import java.util.logging.Logger;
 
 @Getter
 public final class NextEconomy extends JavaPlugin {
 
-    private InternalTitleAPI internalTitleAPI;
+    private final BukkitUpdater updater;
+    private final InternalTitleAPI internalTitleAPI;
+    private final EconomyMetrics economyMetrics;
 
-    private SQLConnector sqlConnector;
-    private SQLExecutor sqlExecutor;
+    private final SQLConnector sqlConnector;
+    private final SQLExecutor sqlExecutor;
 
-    private AccountRepository accountRepository;
+    private final File configFile;
+    private final File convertorsFile;
 
-    private AccountStorage accountStorage;
-    private RankingStorage rankingStorage;
+    private final FileConfiguration configuration;
+    private final FileConfiguration convertorsConfig;
 
-    private BackupManager backupManager;
-    private LocationManager locationManager;
-    private ConversorManager conversorManager;
-    private GroupWrapperManager groupWrapperManager;
-    private PayActionDiscordManager payActionDiscordManager;
+    private final AccountRepository accountRepository;
 
-    private InteractionRegistry interactionRegistry;
-    private DiscordCommandRegistry discordCommandRegistry;
+    private final AccountStorage accountStorage;
+    private final RankingStorage rankingStorage;
 
-    private UpdateChecker updateChecker;
-    private RankingChatBody rankingChatBody;
+    private final BackupManager backupManager;
+    private final ConvertorManager convertorManager;
+    private final GroupWrapperManager groupWrapperManager;
 
-    private File npcFile;
-    private File conversorsFile;
-    private File configFile;
+    private final InteractionRegistry interactionRegistry;
 
-    private FileConfiguration npcConfig;
-    private FileConfiguration conversorsConfig;
-    private FileConfiguration config;
+    private final RankingRunnable rankingRunnable;
+    private final RankingChatBody rankingChatBody;
+
+    public NextEconomy() {
+        final File dataFolder = getDataFolder();
+
+        dataFolder.mkdir();
+
+        saveResource("configuration.yml", false);
+        saveResource("convertors.yml", false);
+
+        this.updater = new BukkitUpdater(this, "NextPlugins/NextEconomy");
+        this.internalTitleAPI = InternalAPIMapping.create();
+        this.economyMetrics = new EconomyMetrics(this);
+
+        this.configFile = new File(dataFolder, "configuration.yml");
+        this.convertorsFile = new File(dataFolder, "convertors.yml");
+
+        this.configuration = YamlConfiguration.loadConfiguration(configFile);
+        this.convertorsConfig = YamlConfiguration.loadConfiguration(convertorsFile);
+
+        this.sqlConnector = SQLProvider.of(this).setup(null);
+        this.sqlExecutor = new SQLExecutor(sqlConnector);
+
+        this.accountRepository = new AccountRepository(sqlExecutor);
+        this.accountStorage = new AccountStorage(accountRepository);
+
+        this.convertorManager = new ConvertorManager(accountRepository);
+        this.rankingStorage = new RankingStorage();
+        this.backupManager = new BackupManager();
+        this.groupWrapperManager = new GroupWrapperManager();
+
+        this.interactionRegistry = new InteractionRegistry();
+        this.rankingChatBody = new RankingChatBody();
+
+        this.rankingRunnable = new RankingRunnable(this);
+    }
 
     @Override
     public void onLoad() {
-        updateChecker = new UpdateChecker(this, "NextPlugins");
-        updateChecker.check();
-
-        npcFile = new File(getDataFolder(), "npcs.yml");
-        if (!npcFile.exists()) saveResource("npcs.yml", false);
-
-        npcConfig = YamlConfiguration.loadConfiguration(npcFile);
-
-        configFile = new File(getDataFolder(), "configuration.yml");
-        if (!configFile.exists()) saveResource("configuration.yml", false);
-
-        config = YamlConfiguration.loadConfiguration(configFile);
-
-        conversorsFile = new File(getDataFolder(), "conversors.yml");
-        if (!conversorsFile.exists()) saveResource("conversors.yml", false);
-
-        conversorsConfig = YamlConfiguration.loadConfiguration(conversorsFile);
+        updater.query();
     }
 
     @Override
     public void onEnable() {
-        getLogger().info("Iniciando carregamento do plugin.");
+        getLogger().info("Iniciando carregamento do plugin...");
 
-        val loadTime = Stopwatch.createStarted();
-        if (updateChecker.canUpdate()) {
-            val lastRelease = updateChecker.getLastRelease();
+        final Stopwatch loadTime = Stopwatch.createStarted();
 
-            getLogger().info("");
-            getLogger().info("[NextUpdate] ATENÇÃO!");
-            getLogger().info("[NextUpdate] Você está usando uma versão antiga do NextEconomy!");
-            getLogger().info("[NextUpdate] Nova versão: " + lastRelease.getVersion());
-            getLogger().info("[NextUpdate] Baixe aqui: " + lastRelease.getDownloadURL());
-            getLogger().info("");
-        } else {
-            getLogger().info("[NextUpdate] Olá! Vim aqui revisar se a versão do NextEconomy está atualizada, e pelo visto sim! Obrigado por usar nossos plugins!");
-        }
+        checkUpdates();
 
-        sqlConnector = SQLProvider.of(this).setup(null);
-        sqlExecutor = new SQLExecutor(sqlConnector);
-
-        accountRepository = new AccountRepository(sqlExecutor);
-        accountStorage = new AccountStorage(accountRepository);
-
-        conversorManager = new ConversorManager(accountRepository);
-        rankingStorage = new RankingStorage();
-        backupManager = new BackupManager();
-        locationManager = new LocationManager();
-        groupWrapperManager = new GroupWrapperManager();
-        interactionRegistry = new InteractionRegistry();
-        discordCommandRegistry = new DiscordCommandRegistry();
-        rankingChatBody = new RankingChatBody();
-
-        internalTitleAPI = InternalAPIMapping.create();
-
-        val nickValue = getConfig().getString("plugin.configuration.save-method", "NICK");
-        val nickMode = nickValue.equalsIgnoreCase("NICK");
-
-        accountStorage.init(nickMode);
+        accountStorage.init(getConfig().getBoolean("plugin.configuration.nick-save-method", true));
         interactionRegistry.init();
+        economyMetrics.init();
 
         InventoryManager.enable(this);
 
+        EconomyServiceInjector.inject();
+
         ConfigurationRegistry.of(this).register();
         CommandRegistry.of(this).register();
-        VaultHookRegistry.of(this).register();
-        MetricProvider.of(this).register();
-        InventoryRegistry.of(this).register();
-        ConversorRegistry.of(this).register();
+        Convertors.of(this).register();
 
         Bukkit.getScheduler().runTaskLater(this, () -> {
-            PlaceholderRegistry.of(this).register();
-            CustomRankingRegistry.of(this).register();
+            Placeholders.register();
             ListenerRegistry.of(this).register();
 
-            if (!PurseAPI.init()) getLogger().info("Sistema de bolsa de valores desativado.");
-            else PurseAPI.getInstance(); // force purse update
-
             groupWrapperManager.init();
-
-            // bump money top one time and add, if enabled, stands/npcs
-            rankingStorage.updateRanking(true);
-
-            registerPayDiscordManager();
-            discordCommandRegistry.init();
-
+            rankingRunnable.register();
             purgeBackups();
         }, 150L);
 
@@ -184,39 +147,11 @@ public final class NextEconomy extends JavaPlugin {
     @Override
     public void onDisable() {
         accountStorage.flushData();
-        unloadRanking();
+        rankingRunnable.destroy();
 
-        if (FeatureValue.get(FeatureValue::autoBackup)) {
-            CompletableFuture.completedFuture(
-                    backupManager.createBackup(null, null, accountRepository, false, false)
-            ).join(); // freeze thread
-        }
-    }
+        if (updater.isUpdateAvailable()) updater.download().update();
 
-    private void unloadRanking() {
-        if (CustomRankingRegistry.getInstance().isEnabled()) {
-            if (CustomRankingRegistry.getInstance().isHolographicDisplays()) {
-                HologramsAPI.getHolograms(this).forEach(Hologram::delete);
-            } else {
-                // jump concurrentmodificationexception
-                val holograms = new ArrayList<CMIHologram>();
-                val hologramManager = CMI.getInstance().getHologramManager();
-                for (val entry : hologramManager.getHolograms().entrySet()) {
-                    if (entry.getKey().startsWith("NextEconomy")) holograms.add(entry.getValue());
-                }
-
-                holograms.forEach(hologramManager::removeHolo);
-            }
-
-            String type = RankingValue.get(RankingValue::npcType);
-            if (type.equalsIgnoreCase("armorstand")) {
-                for (val stand : ArmorStandRunnable.STANDS) {
-                    stand.remove();
-                }
-            }
-
-            getLogger().info("Sistema de ranking visual descarregado com sucesso");
-        }
+        createBackup();
     }
 
     private void purgeBackups() {
@@ -244,9 +179,35 @@ public final class NextEconomy extends JavaPlugin {
         }
     }
 
-    private void registerPayDiscordManager() {
-        if (!DiscordValue.get(DiscordValue::enable) || !Bukkit.getPluginManager().isPluginEnabled("DiscordSRV")) return;
-        payActionDiscordManager = new PayActionDiscordManager(accountStorage);
+    private void checkUpdates() {
+        if (!updater.isUpdateAvailable()) return;
+
+        final Release release = updater.getReleases().get(0);
+        final Logger logger = getLogger();
+
+        final String[] message = new String[] {
+                "Nova atualização disponível!",
+                "Sua versão: " + getDescription().getVersion(),
+                "Nova versão: " + release.getVersion(),
+                "Mudanças: " + release.getBody(),
+                "A nova versão será aplicada assim que o servidor for reiniciado.",
+        };
+
+        for (String line : message) logger.info(line);
+    }
+
+    private void createBackup() {
+        if (FeatureValue.get(FeatureValue::autoBackup)) {
+            CompletableFuture.completedFuture(
+                    backupManager.createBackup(
+                            null,
+                            null,
+                            accountRepository,
+                            false,
+                            false
+                    )
+            ).join(); // freeze thread
+        }
     }
 
     @Override
@@ -258,8 +219,9 @@ public final class NextEconomy extends JavaPlugin {
         }
     }
 
+    @Override
     public @NotNull FileConfiguration getConfig() {
-        return config;
+        return configuration;
     }
 
     public static NextEconomy getInstance() {

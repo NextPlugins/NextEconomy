@@ -4,7 +4,7 @@ import com.google.common.collect.Lists;
 import com.nextplugins.economy.NextEconomy;
 import com.nextplugins.economy.api.event.operations.MoneyChangeEvent;
 import com.nextplugins.economy.configuration.FeatureValue;
-import com.nextplugins.economy.configuration.PurseValue;
+import com.nextplugins.economy.configuration.StockExchangeValue;
 import com.nextplugins.economy.model.account.historic.AccountBankHistoric;
 import com.nextplugins.economy.model.account.historic.BankHistoricComparator;
 import com.nextplugins.economy.model.account.transaction.Transaction;
@@ -31,7 +31,7 @@ public class Account {
     private String discordName;
 
     private double balance;
-    private double movimentedBalance;
+    private double movedBalance;
 
     private int transactionsQuantity;
 
@@ -57,7 +57,7 @@ public class Account {
      *
      * @param name                 of player
      * @param balance              start balance
-     * @param movimentedBalance    balance used
+     * @param movedBalance    balance used
      * @param transactionsQuantity performed
      * @param transactions         info
      * @return a new {@link Account}
@@ -66,7 +66,7 @@ public class Account {
     @Deprecated
     public static Account create(@NotNull String name,
                                  double balance,
-                                 double movimentedBalance,
+                                 double movedBalance,
                                  int transactionsQuantity,
                                  @NotNull LinkedList<AccountBankHistoric> transactions) {
         return new Account(
@@ -74,7 +74,7 @@ public class Account {
                 "",
                 "Nenhum configurado",
                 balance,
-                movimentedBalance,
+                movedBalance,
                 transactionsQuantity,
                 transactions,
                 "",
@@ -102,7 +102,7 @@ public class Account {
         return this.balance;
     }
 
-    public synchronized String getBalanceFormated() {
+    public synchronized String getBalanceFormatted() {
         return NumberUtils.format(getBalance());
     }
 
@@ -138,7 +138,7 @@ public class Account {
                 );
             }
 
-            movimentedBalance += amount;
+            movedBalance += amount;
             this.balance -= amount;
         } else this.balance += amount;
         if (this.balance < 0) this.balance = 0;
@@ -168,7 +168,7 @@ public class Account {
             val moneyChangeEvent = new MoneyChangeEvent(player, this, balance, NumberUtils.format(balance));
             Bukkit.getScheduler().runTask(NextEconomy.getInstance(), () -> Bukkit.getPluginManager().callEvent(moneyChangeEvent));
 
-            val isInBlockedWorld = PurseValue.get(PurseValue::worlds).contains(player.getWorld().getName());
+            val isInBlockedWorld = StockExchangeValue.get(StockExchangeValue::worlds).contains(player.getWorld().getName());
             val amountWithoutPurse = transaction.amountWithoutPurse();
             if (amountWithoutPurse > 0 && amount != amountWithoutPurse && !isInBlockedWorld) {
                 MessageUtil.sendPurseAffectMessage(transaction);

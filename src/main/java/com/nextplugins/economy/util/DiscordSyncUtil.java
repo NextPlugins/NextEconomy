@@ -1,6 +1,5 @@
 package com.nextplugins.economy.util;
 
-import com.nextplugins.economy.configuration.DiscordValue;
 import github.scarsz.discordsrv.DiscordSRV;
 import github.scarsz.discordsrv.util.DiscordUtil;
 import lombok.AccessLevel;

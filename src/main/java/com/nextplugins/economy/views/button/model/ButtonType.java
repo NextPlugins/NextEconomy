@@ -3,7 +3,7 @@ package com.nextplugins.economy.views.button.model;
 import com.henryfabio.minecraft.inventoryapi.event.impl.CustomInventoryClickEvent;
 import com.nextplugins.economy.NextEconomy;
 import com.nextplugins.economy.configuration.MessageValue;
-import com.nextplugins.economy.views.registry.InventoryRegistry;
+import com.nextplugins.economy.views.Views;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.val;
@@ -27,7 +27,7 @@ public enum ButtonType {
     }),
 
     YOUR_MONEY(callback -> {
-        val historicBankView = InventoryRegistry.getInstance().getHistoricBankView();
+        val historicBankView = Views.getInstance().getHistoricBankView();
         historicBankView.openInventory(callback.getPlayer());
     }),
 

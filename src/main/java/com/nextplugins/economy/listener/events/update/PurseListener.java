@@ -1,7 +1,7 @@
 package com.nextplugins.economy.listener.events.update;
 
-import com.nextplugins.economy.api.PurseAPI;
-import com.nextplugins.economy.api.event.operations.AsyncPurseUpdateEvent;
+import com.nextplugins.economy.api.StockExchangeAPI;
+import com.nextplugins.economy.api.event.operations.StockExchangeUpdateEvent;
 import com.nextplugins.economy.configuration.MessageValue;
 import com.nextplugins.economy.util.ColorUtil;
 import com.nextplugins.economy.util.SoundUtils;
@@ -22,10 +22,10 @@ import java.util.stream.Collectors;
 public class PurseListener implements Listener {
 
     @EventHandler(priority = EventPriority.MONITOR)
-    public void onPurseUpdate(AsyncPurseUpdateEvent event) {
+    public void onPurseUpdate(StockExchangeUpdateEvent event) {
         if (event.isCancelled()) return;
 
-        val purseAPI = PurseAPI.getInstance();
+        val purseAPI = StockExchangeAPI.getInstance();
         purseAPI.setPurse(event.getNewValue());
 
         boolean equals = event.getNewValue() == event.getLastValue();
