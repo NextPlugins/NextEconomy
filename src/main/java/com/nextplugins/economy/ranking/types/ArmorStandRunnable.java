@@ -24,6 +24,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+import static com.nextplugins.economy.util.ColorUtil.colored;
+
 /**
  * @author Yuhtin
  * Github: https://github.com/Yuhtin
@@ -139,20 +141,20 @@ public final class ArmorStandRunnable implements Runnable {
 
         if (account == null) {
             for (String nobodyLine : nobodyLines) {
-                formatedHologramLines.add(nobodyLine.replace("$position", String.valueOf(position)));
+                formatedHologramLines.add(colored(nobodyLine.replace("$position", String.valueOf(position))));
             }
         } else {
             Group group = plugin.getGroupWrapperManager().getGroup(account.getUsername());
             String format = account.getBalanceFormated();
 
             for (String hologramLine : hologramLines) {
-                formatedHologramLines.add(hologramLine
+                formatedHologramLines.add(colored(hologramLine
                         .replace("$position", String.valueOf(position))
                         .replace("$player", account.getUsername())
                         .replace("$prefix", group.getPrefix())
                         .replace("$suffix", group.getSuffix())
                         .replace("$amount", format)
-                );
+                ));
             }
         }
 

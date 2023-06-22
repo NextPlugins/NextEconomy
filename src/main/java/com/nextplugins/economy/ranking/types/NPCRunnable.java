@@ -31,6 +31,8 @@ import java.util.List;
 import java.util.Random;
 import java.util.concurrent.CompletableFuture;
 
+import static com.nextplugins.economy.util.ColorUtil.colored;
+
 @Getter
 public final class NPCRunnable implements Runnable, Listener {
 
@@ -116,20 +118,20 @@ public final class NPCRunnable implements Runnable, Listener {
 
         if (account == null) {
             for (String nobodyLine : nobodyLines) {
-                formatedHologramLines.add(nobodyLine.replace("$position", String.valueOf(position)));
+                formatedHologramLines.add(colored(nobodyLine.replace("$position", String.valueOf(position))));
             }
         } else {
             Group group = plugin.getGroupWrapperManager().getGroup(account.getUsername());
             String format = account.getBalanceFormated();
 
             for (String hologramLine : hologramLines) {
-                formatedHologramLines.add(hologramLine
+                formatedHologramLines.add(colored(hologramLine
                         .replace("$position", String.valueOf(position))
                         .replace("$player", account.getUsername())
                         .replace("$prefix", group.getPrefix())
                         .replace("$suffix", group.getSuffix())
                         .replace("$amount", format)
-                );
+                ));
             }
         }
 

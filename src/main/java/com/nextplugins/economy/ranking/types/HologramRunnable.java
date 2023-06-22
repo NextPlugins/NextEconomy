@@ -15,6 +15,8 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import static com.nextplugins.economy.util.ColorUtil.colored;
+
 /**
  * @author <a href="https://github.com/Yuhtin">Yuhtin</a>
  */
@@ -54,7 +56,7 @@ public final class HologramRunnable implements Runnable {
             if (line.equalsIgnoreCase("@players")) {
                 hologramLines.addAll(playersLines(accounts));
             } else {
-                hologramLines.add(line);
+                hologramLines.add(colored(line));
             }
         }
 
@@ -70,13 +72,13 @@ public final class HologramRunnable implements Runnable {
             if (position > RankingValue.get(RankingValue::hologramDefaultLimit)) break;
 
             Group group = plugin.getGroupWrapperManager().getGroup(account.getUsername());
-            lines.add(line
+            lines.add(colored(line
                     .replace("$position", String.valueOf(position))
                     .replace("$player", account.getUsername())
                     .replace("$prefix", group.getPrefix())
                     .replace("$suffix", group.getSuffix())
                     .replace("$amount", account.getBalanceFormated())
-            );
+            ));
 
             ++position;
         }
