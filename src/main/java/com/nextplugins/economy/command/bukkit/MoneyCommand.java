@@ -349,8 +349,8 @@ public final class MoneyCommand {
     }
 
     @Command(
-            name = "coins.ranking",
-            usage = "/coins ranking",
+            name = "coins.npc",
+            usage = "/coins npc",
             description = "Utilize para ver a ajuda para os comandos do sistema de ranking.",
             permission = "nexteconomy.command.ranking.help",
             target = CommandTarget.PLAYER,
