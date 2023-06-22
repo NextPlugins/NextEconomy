@@ -84,10 +84,21 @@ ranking:
         - ''
         - '&aAtualizado a cada 30 minutos.'
       default:
+
+        # Você pode usar hex colors aqui também
+        # exemplo de uso:
+        # - '&#0dc7ab$positionº Lugar'
+        # - '&#0066ffNenhum jogador elegível'
         nobody:
           - '&b$positionº Lugar'
           - '&cNenhum jogador elegível'
           - ''
+
+        # Você pode usar hex colors aqui também
+        # exemplo de uso:
+        # - '&#0dc7ab$positionº Lugar'
+        # - '&#0066ff$player$suffix'
+        # - '&#00ff75$$amount de coins'
         modal:
           - '&b$positionº Lugar'
           - '&e$prefix$player$suffix'
