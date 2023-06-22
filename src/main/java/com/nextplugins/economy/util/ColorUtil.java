@@ -19,11 +19,11 @@ public final class ColorUtil {
     @NotNull public static String colored(@Nullable String message) {
         if (message == null) return "";
 
-        Pattern pattern = Pattern.compile("#[a-fA-F0-9]{6}");
+        Pattern pattern = Pattern.compile("&#[a-fA-F0-9]{6}");
         Matcher matcher = pattern.matcher(message);
         while (matcher.find()) {
             String hexCode = message.substring(matcher.start(), matcher.end());
-            String replaceSharp = hexCode.replace('#', 'x');
+            String replaceSharp = hexCode.replace("&#", "x");
 
             char[] ch = replaceSharp.toCharArray();
             StringBuilder builder = new StringBuilder();
