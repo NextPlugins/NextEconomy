@@ -1,9 +1,5 @@
 package com.nextplugins.economy;
 
-import com.Zrips.CMI.CMI;
-import com.Zrips.CMI.Modules.Holograms.CMIHologram;
-import com.gmail.filoghost.holographicdisplays.api.Hologram;
-import com.gmail.filoghost.holographicdisplays.api.HologramsAPI;
 import com.google.common.base.Stopwatch;
 import com.henryfabio.minecraft.inventoryapi.manager.InventoryManager;
 import com.henryfabio.sqlprovider.connector.SQLConnector;
@@ -20,7 +16,6 @@ import com.nextplugins.economy.command.bukkit.registry.CommandRegistry;
 import com.nextplugins.economy.command.discord.registry.DiscordCommandRegistry;
 import com.nextplugins.economy.configuration.DiscordValue;
 import com.nextplugins.economy.configuration.FeatureValue;
-import com.nextplugins.economy.configuration.RankingValue;
 import com.nextplugins.economy.configuration.registry.ConfigurationRegistry;
 import com.nextplugins.economy.dao.SQLProvider;
 import com.nextplugins.economy.dao.repository.AccountRepository;
@@ -32,7 +27,6 @@ import com.nextplugins.economy.placeholder.registry.PlaceholderRegistry;
 import com.nextplugins.economy.ranking.CustomRankingRegistry;
 import com.nextplugins.economy.ranking.manager.LocationManager;
 import com.nextplugins.economy.ranking.storage.RankingStorage;
-import com.nextplugins.economy.ranking.types.ArmorStandRunnable;
 import com.nextplugins.economy.ranking.util.RankingChatBody;
 import com.nextplugins.economy.vault.registry.VaultHookRegistry;
 import com.nextplugins.economy.views.registry.InventoryRegistry;
@@ -40,8 +34,10 @@ import com.yuhtin.updatechecker.UpdateChecker;
 import lombok.Getter;
 import lombok.val;
 import org.bukkit.Bukkit;
+import org.bukkit.Location;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.entity.Entity;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
 
@@ -49,7 +45,6 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.attribute.BasicFileAttributes;
-import java.util.ArrayList;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
@@ -123,7 +118,7 @@ public final class NextEconomy extends JavaPlugin {
             getLogger().info("[NextUpdate] Baixe aqui: " + lastRelease.getDownloadURL());
             getLogger().info("");
         } else {
-            getLogger().info("[NextUpdate] Olá! Vim aqui revisar se a versão do NextEconomy está atualizada, e pelo visto sim! Obrigado por usar nossos plugins!");
+            getLogger().info("[NextUpdate] Você está usando a ultima versão: " + updateChecker.getCurrentVersion());
         }
 
         sqlConnector = SQLProvider.of(this).setup(null);
@@ -194,24 +189,18 @@ public final class NextEconomy extends JavaPlugin {
     }
 
     private void unloadRanking() {
-        if (CustomRankingRegistry.getInstance().isEnabled()) {
-            if (CustomRankingRegistry.getInstance().isHolographicDisplays()) {
-                HologramsAPI.getHolograms(this).forEach(Hologram::delete);
-            } else {
-                // jump concurrentmodificationexception
-                val holograms = new ArrayList<CMIHologram>();
-                val hologramManager = CMI.getInstance().getHologramManager();
-                for (val entry : hologramManager.getHolograms().entrySet()) {
-                    if (entry.getKey().startsWith("NextEconomy")) holograms.add(entry.getValue());
-                }
-
-                holograms.forEach(hologramManager::removeHolo);
+        CustomRankingRegistry customRanking = CustomRankingRegistry.getInstance();
+        if (customRanking.isEnabled()) {
+            if (customRanking.getHologramAPI().isShutdownCompatible()) {
+                customRanking.getHologramAPI().getHolder().destroyHolograms(null);
             }
 
-            String type = RankingValue.get(RankingValue::npcType);
-            if (type.equalsIgnoreCase("armorstand")) {
-                for (val stand : ArmorStandRunnable.STANDS) {
-                    stand.remove();
+            Location location = locationManager.getLocation(1);
+            if (location != null) {
+                for (Entity entity : location.getWorld().getEntities()) {
+                    if (entity.hasMetadata("nexteconomy")) {
+                        entity.remove();
+                    }
                 }
             }
 

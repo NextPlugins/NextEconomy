@@ -1,7 +1,5 @@
 package com.nextplugins.economy.command.bukkit;
 
-import com.github.juliarn.npc.NPC;
-import com.github.juliarn.npc.modifier.LabyModModifier;
 import com.gmail.filoghost.holographicdisplays.api.Hologram;
 import com.gmail.filoghost.holographicdisplays.api.HologramsAPI;
 import com.google.common.base.Stopwatch;
@@ -28,7 +26,6 @@ import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 
 import java.io.File;
-import java.util.ArrayList;
 import java.util.Arrays;
 
 /**
@@ -87,65 +84,6 @@ public final class NextEconomyCommand {
     }
 
     @Command(
-            name = "nexteconomy.playanimation",
-            permission = "nexteconomy.admin",
-            usage = "/ne playanimation <id ou all> <sticker ou emote> <animationId>",
-            async = true
-    )
-    public void onPlayAnimationCommand(Context<CommandSender> context, String npcId, String option, int animationId) {
-        val runnable = CustomRankingRegistry.getInstance().getRunnable();
-        if (!(runnable instanceof NPCRunnable)) {
-            context.sendMessage(ColorUtil.colored("&cO modo de ranking deve ser npc."));
-            return;
-        }
-
-        var action = LabyModModifier.LabyModAction.EMOTE;
-        try {
-            action = LabyModModifier.LabyModAction.valueOf(option.toUpperCase());
-        } catch (Exception exception) {
-            context.sendMessage(ColorUtil.colored("&cTipos de animação: sticker ou emote"));
-            return;
-        }
-
-        val labyAction = action;
-
-        val npcPool = ((NPCRunnable) runnable).getNpcPool();
-        val npcs = new ArrayList<>(npcPool.getNPCs());
-        try {
-            if (npcId.equalsIgnoreCase("all")) {
-                Bukkit.getScheduler().runTaskAsynchronously(NextEconomy.getInstance(), () -> {
-                    for (val npc : npcs) {
-                        for (val player : npc.getSeeingPlayers()) {
-                            npc.labymod().queue(labyAction, animationId).send(player);
-                        }
-                    }
-                });
-                return;
-            }
-
-            val npc = npcs.get(Integer.parseInt(npcId));
-            Bukkit.getScheduler().runTaskAsynchronously(NextEconomy.getInstance(), () -> {
-                for (val player : npc.getSeeingPlayers()) {
-                    npc.labymod().queue(labyAction, animationId).send(player);
-                }
-            });
-
-            context.sendMessage(ColorUtil.colored("&aAnimação executada em todos os npcs para jogadores com labymod!"));
-        } catch (Exception exception) {
-            val stringBuilder = new StringBuilder();
-            int index = 0;
-
-            for (int i = 0; i < npcs.size(); i++) {
-                if (index != 0) stringBuilder.append(", ");
-                stringBuilder.append(index);
-                index++;
-            }
-
-            context.sendMessage(ColorUtil.colored("&cNão existe npc com esse id, ids válidos: [" + stringBuilder + "]"));
-        }
-    }
-
-    @Command(
             name = "nexteconomy.forceupdate",
             permission = "nexteconomy.admin",
             async = true
@@ -184,11 +122,7 @@ public final class NextEconomyCommand {
         val runnable = CustomRankingRegistry.getInstance().getRunnable();
         if (runnable instanceof NPCRunnable) {
             val npcRunnable = (NPCRunnable) runnable;
-            val npcPool = npcRunnable.getNpcPool();
-
-            for (val npc : npcPool.getNPCs()) {
-                npcPool.removeNPC(npc.getEntityId());
-            }
+            npcRunnable.clearPositions();
         }
 
         context.sendMessage(ColorUtil.colored("&aTodos os NPCs, ArmorStands e Hologramas foram limpos com sucesso."));

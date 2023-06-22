@@ -1,36 +1,35 @@
 package com.nextplugins.economy.ranking.types;
 
-import com.Zrips.CMI.CMI;
-import com.Zrips.CMI.Modules.Holograms.CMIHologram;
-import com.github.juliarn.npc.NPC;
-import com.github.juliarn.npc.NPCPool;
-import com.github.juliarn.npc.event.PlayerNPCInteractEvent;
-import com.github.juliarn.npc.event.PlayerNPCShowEvent;
-import com.github.juliarn.npc.modifier.LabyModModifier;
-import com.github.juliarn.npc.modifier.MetadataModifier;
-import com.github.juliarn.npc.profile.Profile;
-import com.gmail.filoghost.holographicdisplays.api.Hologram;
-import com.gmail.filoghost.holographicdisplays.api.HologramsAPI;
+import com.github.juliarn.npclib.api.Npc;
+import com.github.juliarn.npclib.api.NpcActionController;
+import com.github.juliarn.npclib.api.Platform;
+import com.github.juliarn.npclib.api.event.InteractNpcEvent;
+import com.github.juliarn.npclib.api.profile.Profile;
+import com.github.juliarn.npclib.bukkit.BukkitPlatform;
+import com.github.juliarn.npclib.bukkit.BukkitWorldAccessor;
+import com.github.juliarn.npclib.bukkit.util.BukkitPlatformUtil;
 import com.google.common.collect.Lists;
 import com.nextplugins.economy.NextEconomy;
-import com.nextplugins.economy.configuration.AnimationValue;
+import com.nextplugins.economy.api.group.Group;
 import com.nextplugins.economy.configuration.RankingValue;
 import com.nextplugins.economy.model.account.SimpleAccount;
+import com.nextplugins.economy.model.ranking.HologramSupportType;
 import com.nextplugins.economy.ranking.manager.LocationManager;
 import com.nextplugins.economy.ranking.storage.RankingStorage;
 import lombok.Getter;
 import lombok.val;
-import org.apache.commons.lang3.tuple.Pair;
 import org.bukkit.Bukkit;
-import org.bukkit.event.EventHandler;
+import org.bukkit.Location;
+import org.bukkit.World;
+import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
-import org.jetbrains.annotations.Nullable;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.plugin.Plugin;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
-import java.util.UUID;
-import java.util.logging.Level;
+import java.util.concurrent.CompletableFuture;
 
 @Getter
 public final class NPCRunnable implements Runnable, Listener {
@@ -39,26 +38,44 @@ public final class NPCRunnable implements Runnable, Listener {
     private static final Random RANDOM = new Random();
 
     private final NextEconomy plugin;
-    private final NPCPool npcPool;
+    private final Platform<World, Player, ItemStack, Plugin> platform;
     private final LocationManager locationManager;
     private final RankingStorage rankingStorage;
 
-    private final boolean holographicDisplays;
-    private final boolean animation;
+    private final HologramSupportType hologramAPI;
+
+    private final List<String> hologramLines;
+    private final List<String> nobodyLines;
 
     private final Random random = new Random();
 
-    public NPCRunnable(NextEconomy plugin, boolean holographicDisplays) {
+    public NPCRunnable(NextEconomy plugin, HologramSupportType hologramAPI) {
         this.plugin = plugin;
-        this.holographicDisplays = holographicDisplays;
 
-        locationManager = plugin.getLocationManager();
-        rankingStorage = plugin.getRankingStorage();
-        npcPool = NPCPool.builder(plugin).spawnDistance(60).actionDistance(30).tabListRemoveTicks(20).build();
+        this.locationManager = plugin.getLocationManager();
+        this.rankingStorage = plugin.getRankingStorage();
 
-        this.animation = AnimationValue.get(AnimationValue::enable);
+        this.platform = BukkitPlatform.bukkitNpcPlatformBuilder()
+                .extension(plugin)
+                .debug(false)
+                .actionController(builder -> builder
+                        .flag(NpcActionController.SPAWN_DISTANCE, 15)
+                        .flag(NpcActionController.IMITATE_DISTANCE, 10)
+                        .flag(NpcActionController.TAB_REMOVAL_TICKS, 20))
+                .worldAccessor(BukkitWorldAccessor.nameBasedAccessor())
+                .build();
+
+        this.hologramAPI = hologramAPI;
 
         Bukkit.getPluginManager().registerEvents(this, plugin);
+
+        this.hologramLines = RankingValue.get(RankingValue::hologramArmorStandLines);
+        this.nobodyLines = RankingValue.get(RankingValue::nobodyHologramLines);
+
+        platform.eventBus().subscribe(InteractNpcEvent.class, interact -> {
+            Player player = interact.player();
+            player.performCommand("money top");
+        });
     }
 
     @Override
@@ -67,10 +84,8 @@ public final class NPCRunnable implements Runnable, Listener {
         if (locationManager.getLocationMap().isEmpty()) return;
 
         ArrayList<SimpleAccount> accounts = new ArrayList<>(rankingStorage.getRankByCoin().values());
-        val hologramLines = RankingValue.get(RankingValue::hologramArmorStandLines);
-        val nobodyLines = RankingValue.get(RankingValue::nobodyHologramLines);
-        for (val entry : locationManager.getLocationMap().entrySet()) {
 
+        for (val entry : locationManager.getLocationMap().entrySet()) {
             val position = entry.getKey();
             val location = entry.getValue();
             if (location == null || location.getWorld() == null) continue;
@@ -79,164 +94,51 @@ public final class NPCRunnable implements Runnable, Listener {
             if (!chunk.isLoaded()) chunk.load(true);
 
             SimpleAccount account = position - 1 < accounts.size() ? accounts.get(position - 1) : null;
-            if (account == null) {
-                if (!nobodyLines.isEmpty()) {
-
-                    val hologramLocation = location.clone().add(0, 3, 0);
-                    if (holographicDisplays) {
-                        val hologram = HologramsAPI.createHologram(plugin, hologramLocation);
-
-                        for (val nobodyLine : nobodyLines) {
-                            hologram.appendTextLine(nobodyLine.replace("$position", String.valueOf(position)));
-                        }
-                    } else {
-
-                        val cmiHologram = new CMIHologram("NextEconomy" + position, hologramLocation);
-                        for (val nobodyLine : nobodyLines) {
-                            cmiHologram.addLine(nobodyLine.replace("$position", String.valueOf(position)));
-                        }
-
-                        CMI.getInstance().getHologramManager().addHologram(cmiHologram);
-                        cmiHologram.update();
-
-                        HOLOGRAMS.add("NextEconomy" + position);
-
-                    }
-
-                }
-            } else {
-                if (!hologramLines.isEmpty()) {
-                    val group = plugin.getGroupWrapperManager().getGroup(account.getUsername());
-                    val format = account.getBalanceFormated();
-                    val hologramLocation = location.clone().add(0, 3, 0);
-                    if (holographicDisplays) {
-                        val hologram = HologramsAPI.createHologram(plugin, hologramLocation);
-
-                        for (val hologramLine : hologramLines) {
-                            hologram.appendTextLine(hologramLine.replace("$position", String.valueOf(position)).replace("$player", account.getUsername()).replace("$prefix", group.getPrefix()).replace("$suffix", group.getSuffix()).replace("$amount", format));
-                        }
-                    } else {
-                        val cmiHologram = new CMIHologram("NextEconomy" + position, hologramLocation);
-
-                        for (val hologramLine : hologramLines) {
-                            cmiHologram.addLine(hologramLine.replace("$position", String.valueOf(position)).replace("$player", account.getUsername()).replace("$prefix", group.getPrefix()).replace("$suffix", group.getSuffix()).replace("$amount", format));
-                        }
-
-                        CMI.getInstance().getHologramManager().addHologram(cmiHologram);
-                        cmiHologram.update();
-
-                        HOLOGRAMS.add("NextEconomy" + position);
-                    }
-                }
-            }
+            spawnHologram(account, location, position);
 
             val skinName = account == null ? "Yuhtin" : account.getUsername();
-            val profile = new Profile(skinName);
-            profile.complete();
 
-            profile.setName("");
-            profile.setUniqueId(new UUID(RANDOM.nextLong(), 0));
+            platform.newNpcBuilder()
+                    .position(BukkitPlatformUtil.positionFromBukkitLegacy(location))
+                    .flag(Npc.HIT_WHEN_PLAYER_HITS, false)
+                    .flag(Npc.LOOK_AT_PLAYER, false)
+                    .flag(Npc.SNEAK_WHEN_PLAYER_SNEAKS, false)
+                    .npcSettings(builder -> builder.profileResolver((player, spawnedNpc) -> CompletableFuture.completedFuture(spawnedNpc.profile())))
+                    .profile(Profile.unresolved(skinName))
+                    .whenComplete((npc1, throwable) -> platform.npcTracker().trackNpc(npc1.buildAndTrack()));
 
-            val yaw = location.getYaw();
-            val pitch = location.getPitch();
+        }
+    }
 
-            val npc = NPC.builder()
-                  .profile(profile)
-                  .location(location)
-                  .imitatePlayer(false)
-                  .lookAtPlayer(false)
-                  .spawnCustomizer((spawnedNpc, player) -> spawnedNpc.rotation().queueRotate(yaw, pitch).send(player))
-                  .build(npcPool);
+    private void spawnHologram(SimpleAccount account, Location location, Integer position) {
+        Location hologramLocation = location.clone().add(0, 3, 0);
+        List<String> formatedHologramLines = new ArrayList<>();
 
-            //npc.visibility().queueSpawn();
-
-            if (animation) {
-                val spawnAnimationRaw = AnimationValue.get(AnimationValue::spawnEmote);
-                executeAnimation(npc, spawnAnimationRaw);
+        if (account == null) {
+            for (String nobodyLine : nobodyLines) {
+                formatedHologramLines.add(nobodyLine.replace("$position", String.valueOf(position)));
             }
-        }
-    }
+        } else {
+            Group group = plugin.getGroupWrapperManager().getGroup(account.getUsername());
+            String format = account.getBalanceFormated();
 
-    private void executeAnimation(NPC npc, String rawValue) {
-        val animation = this.animationValue(rawValue);
-
-        if (animation != null) {
-            Bukkit.getScheduler().runTaskAsynchronously(NextEconomy.getInstance(), () -> {
-                for (val player : npc.getSeeingPlayers()) {
-                    npc.labymod().queue(
-                          animation.getLeft(),
-                          animation.getRight()
-                    ).send(player);
-                }
-            });
-        }
-    }
-
-    private void clearPositions() {
-        npcPool.getNPCs().forEach(npc -> npcPool.removeNPC(npc.getEntityId()));
-
-        if (holographicDisplays) HologramsAPI.getHolograms(plugin).forEach(Hologram::delete);
-        else {
-            for (val entry : HOLOGRAMS) {
-                val cmiHologram = CMI.getInstance().getHologramManager().getHolograms().get(entry);
-                if (cmiHologram == null) continue;
-                CMI.getInstance().getHologramManager().removeHolo(cmiHologram);
-            }
-        }
-
-        HOLOGRAMS.clear();
-    }
-
-    @EventHandler
-    public void onInteractNPC(PlayerNPCInteractEvent event) {
-        event.getPlayer().performCommand("money top");
-    }
-
-    @EventHandler
-    public void onShowNPC(PlayerNPCShowEvent event) {
-        val npc = event.getNPC();
-
-        if (animation) {
-            val emotes = AnimationValue.get(AnimationValue::showNpcEmotes);
-            val randomEmote = emotes.get(random.nextInt(emotes.size()));
-            val actionData = animationValue(randomEmote);
-
-            if (actionData != null) {
-                event.send(
-                      npc
-                      .labymod()
-                      .queue(
-                            actionData.getLeft(),
-                            actionData.getRight()
-                      )
+            for (String hologramLine : hologramLines) {
+                formatedHologramLines.add(hologramLine
+                        .replace("$position", String.valueOf(position))
+                        .replace("$player", account.getUsername())
+                        .replace("$prefix", group.getPrefix())
+                        .replace("$suffix", group.getSuffix())
+                        .replace("$amount", format)
                 );
             }
         }
 
-        event.send(
-                npc
-                .metadata()
-                .queue(MetadataModifier.EntityMetadata.SKIN_LAYERS, true)
-        );
+        HOLOGRAMS.add(hologramAPI.getHolder().createHologram(hologramLocation, formatedHologramLines));
     }
 
-    @Nullable
-    private Pair<LabyModModifier.LabyModAction, Integer> animationValue(String rawValue) {
-        try {
-            val splittedValue = rawValue.split(":");
-            val labyModAction = LabyModModifier.LabyModAction.valueOf(splittedValue[0].toUpperCase());
-            val actionId = Integer.parseInt(splittedValue[1]);
-
-            return Pair.of(labyModAction, actionId);
-        } catch (Throwable throwable) {
-            NextEconomy.getInstance().getLogger().log(
-                  Level.SEVERE,
-                  "Animation value pattern malformed. (should be: \"sticker/emote:ID\")",
-                  throwable
-            );
-
-            return null;
-        }
+    public void clearPositions() {
+        platform.npcTracker().trackedNpcs().forEach(Npc::unlink);
+        hologramAPI.getHolder().destroyHolograms(HOLOGRAMS);
     }
 
 }

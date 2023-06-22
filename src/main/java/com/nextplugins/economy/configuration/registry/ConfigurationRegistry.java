@@ -27,8 +27,7 @@ public final class ConfigurationRegistry {
             MessageValue.instance(),
             RankingValue.instance(),
             InventoryValue.instance(),
-            PurseValue.instance(),
-            AnimationValue.instance()
+            PurseValue.instance()
         );
 
         getPlugin().getLogger().info("Configurações registradas e injetadas com sucesso.");

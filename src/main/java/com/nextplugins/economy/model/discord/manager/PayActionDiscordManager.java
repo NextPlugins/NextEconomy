@@ -47,7 +47,6 @@ public class PayActionDiscordManager {
 
         payActionDiscord.getMessage().queue(message -> {
             if (account == null || targetAccount == null) {
-                // 1.10^-11 chance
                 message.reply("⁉️ 404: Ocorreu um erro ao obter as contas dos jogadores envolvidos.").queue();
                 return;
             }
