@@ -32,6 +32,8 @@ import org.bukkit.entity.Player;
 
 import java.io.IOException;
 
+import static com.nextplugins.economy.util.ColorUtil.colored;
+
 @RequiredArgsConstructor
 public final class MoneyCommand {
 
@@ -321,23 +323,22 @@ public final class MoneyCommand {
         val sender = context.getSender();
 
         if (rankingStorage.updateRanking(false)) {
-            sender.sendMessage(ColorUtil.colored("&aAtualizando o ranking, aguarde alguns segundos."));
+            sender.sendMessage(colored("&aAtualizando o ranking, aguarde alguns segundos."));
             return;
         }
 
         val rankingType = RankingValue.get(RankingValue::rankingType);
 
         if (rankingType.equalsIgnoreCase("CHAT")) {
-            val header = RankingValue.get(RankingValue::chatModelHeader);
-            val body = plugin.getRankingChatBody();
-            val footer = RankingValue.get(RankingValue::chatModelFooter);
+            val header = colored(RankingValue.get(RankingValue::chatModelHeader));
+            val footer = colored(RankingValue.get(RankingValue::chatModelFooter));
 
             header.forEach(sender::sendMessage);
-            sender.sendMessage(body.getMinecraftBodyLines());
+            sender.sendMessage(colored(plugin.getRankingChatBody().getMinecraftBodyLines()));
             footer.forEach(sender::sendMessage);
         } else {
             if (!(sender instanceof Player)) {
-                sender.sendMessage(ColorUtil.colored("&cEste tipo de ranking não é suportado via console."));
+                sender.sendMessage(colored("&cEste tipo de ranking não é suportado via console."));
                 return;
             }
 
@@ -348,17 +349,17 @@ public final class MoneyCommand {
     }
 
     @Command(
-            name = "coins.npc",
-            usage = "/coins npc",
-            description = "Utilize para ver a ajuda para os comandos do sistema de NPC.",
-            permission = "nexteconomy.command.npc.help",
+            name = "coins.ranking",
+            usage = "/coins ranking",
+            description = "Utilize para ver a ajuda para os comandos do sistema de ranking.",
+            permission = "nexteconomy.command.ranking.help",
             target = CommandTarget.PLAYER,
             async = true
     )
     public void npcCommand(Context<Player> context) {
         val player = context.getSender();
 
-        for (String s : ColorUtil.colored(MessageValue.get(MessageValue::npcHelp))) {
+        for (String s : colored(MessageValue.get(MessageValue::npcHelp))) {
             player.sendMessage(s);
         }
     }
@@ -451,7 +452,7 @@ public final class MoneyCommand {
             player.sendMessage(MessageValue.get(MessageValue::positionSuccessfulRemoved).replace("$position", String.valueOf(position)));
             CustomRankingRegistry.getInstance().getRunnable().run();
         } catch (Exception exception) {
-            player.sendMessage(ColorUtil.colored("&cOcorreu um erro ao salvar o arquivo de localizações."));
+            player.sendMessage(colored("&cOcorreu um erro ao salvar o arquivo de localizações."));
         }
     }
 
