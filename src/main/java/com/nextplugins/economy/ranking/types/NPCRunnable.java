@@ -76,7 +76,7 @@ public final class NPCRunnable implements Runnable, Listener {
 
         platform.eventBus().subscribe(InteractNpcEvent.class, interact -> {
             Player player = interact.player();
-            player.performCommand("money top");
+            Bukkit.getScheduler().runTask(plugin, () -> player.performCommand("money top"));
         });
     }
 

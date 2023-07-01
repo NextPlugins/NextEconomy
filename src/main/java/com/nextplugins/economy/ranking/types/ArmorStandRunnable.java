@@ -33,7 +33,6 @@ import static com.nextplugins.economy.util.ColorUtil.colored;
 public final class ArmorStandRunnable implements Runnable {
 
     public static final List<UUID> STANDS = Lists.newLinkedList();
-    public static final List<String> HOLOGRAMS = Lists.newLinkedList();
 
     private static final Material[] SWORDS = new Material[]{
             Material.DIAMOND_SWORD, TypeUtil.swapLegacy("GOLDEN_SWORD", "GOLD_SWORD"),
@@ -123,7 +122,7 @@ public final class ArmorStandRunnable implements Runnable {
     }
 
     private void clearPositions() {
-        hologramAPI.getHolder().destroyHolograms(HOLOGRAMS);
+        hologramAPI.getHolder().destroyHolograms(null);
         STANDS.forEach(stand -> {
             Entity entity = Bukkit.getEntity(stand);
             if (entity == null) return;
@@ -131,7 +130,6 @@ public final class ArmorStandRunnable implements Runnable {
             entity.remove();
         });
 
-        HOLOGRAMS.clear();
         STANDS.clear();
     }
 
@@ -158,7 +156,7 @@ public final class ArmorStandRunnable implements Runnable {
             }
         }
 
-        HOLOGRAMS.add(hologramAPI.getHolder().createHologram(hologramLocation, formatedHologramLines));
+        hologramAPI.getHolder().createHologram(hologramLocation, formatedHologramLines);
     }
 
 }
