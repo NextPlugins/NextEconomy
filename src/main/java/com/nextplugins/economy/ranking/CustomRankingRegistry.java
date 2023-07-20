@@ -6,7 +6,6 @@ import com.nextplugins.economy.model.ranking.HologramSupportType;
 import com.nextplugins.economy.ranking.loader.LocationLoader;
 import com.nextplugins.economy.ranking.types.ArmorStandRunnable;
 import com.nextplugins.economy.ranking.types.HologramRunnable;
-import com.nextplugins.economy.ranking.types.NPCRunnable;
 import lombok.Data;
 import lombok.Getter;
 import lombok.val;
@@ -66,9 +65,7 @@ public class CustomRankingRegistry {
 
         LocationLoader.of(plugin, plugin.getLocationManager()).loadLocations();
 
-        if (isNpc) {
-            runnable = new NPCRunnable(plugin, hologramAPI);
-        } else if (type.equalsIgnoreCase("armorstand")) {
+        if (type.equalsIgnoreCase("armorstand")) {
             runnable = new ArmorStandRunnable(plugin, plugin.getLocationManager(), plugin.getRankingStorage(), hologramAPI);
         } else {
             runnable = new HologramRunnable(plugin, plugin.getLocationManager(), plugin.getRankingStorage(), hologramAPI);

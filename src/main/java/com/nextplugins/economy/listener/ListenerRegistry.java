@@ -15,7 +15,7 @@ import com.nextplugins.economy.listener.events.update.PurseListener;
 import com.nextplugins.economy.listener.events.update.RankingListener;
 import com.nextplugins.economy.listener.events.update.TopUpdateListener;
 import com.nextplugins.economy.listener.events.user.UpdateCheckerListener;
-import com.nextplugins.economy.listener.events.user.UpdateNickListener;
+import com.nextplugins.economy.listener.events.user.UserConnectionListener;
 import lombok.Data;
 import lombok.val;
 import org.bukkit.Bukkit;
@@ -57,7 +57,7 @@ public final class ListenerRegistry {
             );
 
             if (!accountStorage.isNickMode()) {
-                pluginManager.registerEvents(new UpdateNickListener(plugin.getAccountStorage()), plugin);
+                pluginManager.registerEvents(new UserConnectionListener(plugin.getAccountStorage()), plugin);
             }
 
             if (pluginManager.isPluginEnabled("nChat")) {

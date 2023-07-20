@@ -1,8 +1,5 @@
 package com.nextplugins.economy.model.account.storage;
 
-import com.github.benmanes.caffeine.cache.AsyncLoadingCache;
-import com.github.benmanes.caffeine.cache.Caffeine;
-import com.github.benmanes.caffeine.cache.RemovalListener;
 import com.nextplugins.economy.NextEconomy;
 import com.nextplugins.economy.dao.repository.AccountRepository;
 import com.nextplugins.economy.model.account.Account;
@@ -15,9 +12,9 @@ import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.TimeUnit;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
 @Getter
 @RequiredArgsConstructor
@@ -28,18 +25,7 @@ public final class AccountStorage {
     private int depositCount;
     private int withdrawCount;
 
-    private final AsyncLoadingCache<String, Account> cache = Caffeine.newBuilder()
-            .maximumSize(1000)
-            .expireAfterAccess(5, TimeUnit.MINUTES)
-            .evictionListener((RemovalListener<String, Account>) (key, value, cause) -> {
-                if (value == null) return;
-                saveOne(value);
-            })
-            .removalListener((key, value, cause) -> {
-                if (value == null) return;
-                saveOne(value);
-            })
-            .buildAsync((key, executor) -> CompletableFuture.completedFuture(selectOne(key)));
+    private final HashMap<String, Account> accounts = new HashMap<>();
 
     public void init(boolean nickMode) {
         this.nickMode = nickMode;
@@ -85,13 +71,13 @@ public final class AccountStorage {
      */
     @Nullable
     public Account findAccountByName(@NotNull String name) {
-        try {
-            return cache.get(name).get();
-        } catch (InterruptedException | ExecutionException exception) {
-            Thread.currentThread().interrupt();
-            exception.printStackTrace();
-            return null;
+        Account account = accounts.getOrDefault(name, null);
+        if (account == null)  {
+            account = selectOne(name);
+            if (account != null) put(account);
         }
+
+        return account;
     }
 
     /**
@@ -142,14 +128,13 @@ public final class AccountStorage {
      * @param account of player
      */
     public void put(@NotNull Account account) {
-        cache.put(account.getUsername(), CompletableFuture.completedFuture(account));
+        accounts.put(account.getUsername(), account);
     }
 
     public void fastFlushData() {
-        val accountMap = cache.asMap();
-
-        for (val futureAccount : accountMap.values()) {
-            futureAccount.whenCompleteAsync((account, t) -> account.fastSave());
+        List<Account> list = new ArrayList<>(accounts.values());
+        for (Account account : list) {
+            accountRepository.updateOne(account.getUsername(), account.getBalance());
         }
     }
 
@@ -157,11 +142,8 @@ public final class AccountStorage {
      * Flush data from cache
      */
     public void flushData() {
-        val accountMap = cache.asMap();
-
-        for (val futureAccount : accountMap.values()) {
-            futureAccount.whenCompleteAsync((account, t) -> account.save());
-        }
+        List<Account> list = new ArrayList<>(accounts.values());
+        list.forEach(accountRepository::saveOne);
     }
 
 }

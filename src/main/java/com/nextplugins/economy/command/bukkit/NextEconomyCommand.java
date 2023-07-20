@@ -14,7 +14,6 @@ import com.nextplugins.economy.dao.repository.AccountRepository;
 import com.nextplugins.economy.model.account.storage.AccountStorage;
 import com.nextplugins.economy.ranking.CustomRankingRegistry;
 import com.nextplugins.economy.ranking.storage.RankingStorage;
-import com.nextplugins.economy.ranking.types.NPCRunnable;
 import com.nextplugins.economy.util.ColorUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.val;
@@ -119,12 +118,6 @@ public final class NextEconomyCommand {
         }
 
         HologramsAPI.getHolograms(NextEconomy.getInstance()).forEach(Hologram::delete);
-        val runnable = CustomRankingRegistry.getInstance().getRunnable();
-        if (runnable instanceof NPCRunnable) {
-            val npcRunnable = (NPCRunnable) runnable;
-            npcRunnable.clearPositions();
-        }
-
         context.sendMessage(ColorUtil.colored("&aTodos os NPCs, ArmorStands e Hologramas foram limpos com sucesso."));
     }
 

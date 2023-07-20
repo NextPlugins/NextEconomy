@@ -70,21 +70,10 @@ public final class NextEconomyAPI {
     /**
      * Retrieve all accounts loaded in cache.
      *
-     * @return {@link Collection} with {@link CompletableFuture} accounts
-     */
-    public @NotNull Collection<CompletableFuture<Account>> retrieveCachedAccountsAsync() {
-        return accountStorage.getCache().asMap().values();
-    }
-
-    /**
-     * Retrieve all accounts loaded in cache.
-     *
      * @return {@link Collection} with accounts
-     * @deprecated Use {@link NextEconomyAPI#retrieveCachedAccountsAsync()}
      */
-    public @Deprecated
-    @NotNull Collection<Account> retrieveCachedAccountsSync() {
-        return accountStorage.getCache().synchronous().asMap().values();
+    public @NotNull Collection<Account> retrieveCachedAccountsSync() {
+        return accountStorage.getAccounts().values();
     }
 
     /**
@@ -96,17 +85,7 @@ public final class NextEconomyAPI {
      */
     public @Deprecated
     @NotNull Stream<Account> findAccountByFilter(@NotNull Predicate<Account> filter) {
-        return retrieveCachedAccountsAsync().stream()
-                .map(future -> {
-
-                    try {
-                        return future.get();
-                    } catch (InterruptedException | ExecutionException exception) {
-                        Thread.currentThread().interrupt();
-                        return null;
-                    }
-
-                })
+        return retrieveCachedAccountsSync().stream()
                 .filter(filter);
     }
 
@@ -118,7 +97,7 @@ public final class NextEconomyAPI {
      */
     public @Deprecated
     @NotNull Set<CompletableFuture<Account>> allAccounts() {
-        return Sets.newHashSet(retrieveCachedAccountsAsync());
+        return null;
     }
 
     /**
