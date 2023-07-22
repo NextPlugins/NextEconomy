@@ -21,7 +21,7 @@ public final class AccountRepository {
 
     public void createTable() {
         sqlExecutor.updateQuery("CREATE TABLE IF NOT EXISTS " + TABLE + "(" +
-                "owner CHAR(36) NOT NULL PRIMARY KEY," +
+                "owner CHAR(36) PRIMARY KEY," +
                 "balance DOUBLE NOT NULL DEFAULT 0," +
                 "movimentedBalance DOUBLE NOT NULL DEFAULT 0," +
                 "transactionsQuantity INTEGER NOT NULL DEFAULT 0," +
