@@ -16,6 +16,7 @@ import com.nextplugins.economy.configuration.MessageValue;
 import com.nextplugins.economy.configuration.RankingValue;
 import com.nextplugins.economy.model.account.SimpleAccount;
 import com.nextplugins.economy.ranking.storage.RankingStorage;
+import com.nextplugins.economy.util.ColorUtil;
 import com.nextplugins.economy.util.ItemBuilder;
 import com.nextplugins.economy.util.TimeUtils;
 import lombok.val;
@@ -82,7 +83,7 @@ public final class RankingView extends PagedInventory {
                 val name = account.getUsername();
 
                 val group = groupWrapperManager.getGroup(name);
-                val replacedDisplayName = (finalPosition == 1
+                val replacedDisplayName = ColorUtil.colored(finalPosition == 1
                         ? RankingValue.get(RankingValue::inventoryModelHeadDisplayNameTop)
                         : RankingValue.get(RankingValue::inventoryModelHeadDisplayName))
                         .replace("$tycoon", tycoonTag)
@@ -93,17 +94,17 @@ public final class RankingView extends PagedInventory {
 
                 List<String> replacedLore = Lists.newArrayList();
 
-                val transactionName = account.getTransactionsQuantity() == 1
+                val transactionName = ColorUtil.colored(account.getTransactionsQuantity() == 1
                         ? MessageValue.get(MessageValue::singularTransaction)
-                        : MessageValue.get(MessageValue::pluralTransaction);
+                        : MessageValue.get(MessageValue::pluralTransaction));
 
                 for (val lore : headLore) {
-                    replacedLore.add(lore
+                    replacedLore.add(ColorUtil.colored(lore
                             .replace("$amount", account.getBalanceFormated())
                             .replace("$transactions", account.getTransactionsQuantity() + " " + transactionName)
                             .replace("$movimentation", account.getMovimentedBalanceFormated())
                             .replace("$position", String.valueOf(finalPosition))
-                    );
+                    ));
                 }
 
                 return InventoryItem.of(
