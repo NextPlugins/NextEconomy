@@ -50,7 +50,7 @@ dependencies {
     implementation 'com.github.HenryFabio:sql-provider:9561f20fd2'
 
     implementation 'com.github.SaiintBrisson.command-framework:bukkit:1.2.0'
-    implementation 'de.tr7zw:item-nbt-api:2.11.3'
+    implementation 'de.tr7zw:item-nbt-api:2.12.2'
 
     implementation 'com.github.ben-manes.caffeine:caffeine:2.9.0' // 3.0.0 or higher is for java 11+
     implementation 'org.apache.commons:commons-lang3:3.12.0'
