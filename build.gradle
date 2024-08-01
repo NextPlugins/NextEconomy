@@ -6,7 +6,7 @@ plugins {
 }
 
 group 'com.nextplugins'
-version "2.2.0"
+version "2.3.0"
 
 tasks.build.dependsOn('shadowJar')
 
@@ -40,9 +40,9 @@ dependencies {
     compileOnly 'com.nickuc.chat:nchat-api:4.2'
     compileOnly fileTree('libs')
 
-    implementation 'com.github.juliarn.npc-lib:npc-lib-api:3.0.0-beta5'
-    implementation 'com.github.juliarn.npc-lib:npc-lib-bukkit:3.0.0-beta5'
-    implementation 'com.github.juliarn.npc-lib:npc-lib-common:3.0.0-beta5'
+    implementation 'io.github.juliarn:npc-lib-api:3.0.0-beta7'
+    implementation 'io.github.juliarn:npc-lib-bukkit:3.0.0-beta7'
+    implementation 'io.github.juliarn:npc-lib-common:3.0.0-beta7'
 
     implementation 'com.github.Yuhtin:update-checker:1.2'
     implementation 'com.github.HenryFabio.configuration-injector:bukkit:1.0.2'
@@ -50,7 +50,7 @@ dependencies {
     implementation 'com.github.HenryFabio:sql-provider:9561f20fd2'
 
     implementation 'com.github.SaiintBrisson.command-framework:bukkit:1.2.0'
-    implementation 'de.tr7zw:item-nbt-api:2.12.2'
+    implementation 'de.tr7zw:item-nbt-api:2.13.1'
 
     implementation 'com.github.ben-manes.caffeine:caffeine:2.9.0' // 3.0.0 or higher is for java 11+
     implementation 'org.apache.commons:commons-lang3:3.12.0'

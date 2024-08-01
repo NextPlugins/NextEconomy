@@ -74,7 +74,7 @@ public final class NPCRunnable implements Runnable, Listener {
         this.hologramLines = RankingValue.get(RankingValue::hologramArmorStandLines);
         this.nobodyLines = RankingValue.get(RankingValue::nobodyHologramLines);
 
-        platform.eventBus().subscribe(InteractNpcEvent.class, interact -> {
+        platform.eventManager().registerEventHandler(InteractNpcEvent.class, interact -> {
             Player player = interact.player();
             Bukkit.getScheduler().runTask(plugin, () -> player.performCommand("money top"));
         });
